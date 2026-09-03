@@ -20,7 +20,7 @@ export function Footer() {
               <BrandLogo className="h-12" />
             </Link>
             <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
-              Professional flooring installation for Canadian homes & businesses. From hardwood and luxury vinyl to tile and carpet, we deliver exceptional craftsmanship and lasting quality.
+              Professional flooring installation for Canadian homes & businesses. Specialized in Sheet Vinyl, PVC, LVP, LVT, VCT, Hardwood, Carpet, Tile & Floor Leveling.
             </p>
             <div className="flex items-center gap-4 text-xs text-sky-400 pt-2 font-manrope">
               <span className="flex items-center gap-1.5 bg-sky-500/10 px-3 py-1.5 rounded-lg border border-sky-500/20">
@@ -75,6 +75,11 @@ export function Footer() {
             </h3>
             <ul className="space-y-2 text-xs text-slate-400 font-manrope">
               <li>
+                <Link href="/services/luxury-vinyl-flooring" className="hover:text-sky-400 transition-colors">
+                  LVP / LVT / VCT Vinyl
+                </Link>
+              </li>
+              <li>
                 <Link href="/services/hardwood-flooring" className="hover:text-sky-400 transition-colors">
                   Hardwood Flooring
                 </Link>
@@ -82,11 +87,6 @@ export function Footer() {
               <li>
                 <Link href="/services/engineered-hardwood-flooring" className="hover:text-sky-400 transition-colors">
                   Engineered Hardwood
-                </Link>
-              </li>
-              <li>
-                <Link href="/services/luxury-vinyl-flooring" className="hover:text-sky-400 transition-colors">
-                  Luxury Vinyl
                 </Link>
               </li>
               <li>
@@ -101,34 +101,38 @@ export function Footer() {
               </li>
               <li>
                 <Link href="/services/tile-flooring" className="hover:text-sky-400 transition-colors">
-                  Tile Installation
+                  Tile & Porcelain
                 </Link>
               </li>
               <li>
-                <Link href="/services/flooring-replacement" className="hover:text-sky-400 transition-colors">
-                  Flooring Replacement
+                <Link href="/services/floor-preparation" className="hover:text-sky-400 transition-colors">
+                  Self Leveling & Prep
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Details & CTA */}
+          {/* Official Contact Details */}
           <div className="space-y-4">
             <h3 className="font-manrope font-bold text-slate-100 text-sm tracking-wider uppercase text-red-500">
-              Contact & Areas
+              Contact Us
             </h3>
             <ul className="space-y-3 text-xs text-slate-400 font-manrope">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <span>+1 (416) 555-0199</span>
+                <a href="tel:+13068808404" className="hover:text-red-400 transition-colors">
+                  +1 (306) 880-8404
+                </a>
               </li>
               <li className="flex items-start gap-2.5">
                 <Mail className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <span>info@hdflooringca.com</span>
+                <a href="mailto:hdflooring7@gmail.com" className="hover:text-red-400 transition-colors">
+                  hdflooring7@gmail.com
+                </a>
               </li>
               <li className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                <span>Serving Toronto, GTA & Surrounding Canadian Regions</span>
+                <span>211 47th St East, S7L 5H1, Saskatoon, SK, Canada</span>
               </li>
             </ul>
 
@@ -144,7 +148,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-manrope">
-          <p>© {new Date().getFullYear()} HD Flooring Canada. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} HD Flooring Canada. Managing Director: Habibur Rahman (Habib).</p>
           <div className="flex items-center gap-6">
             <Link href="#" className="hover:text-red-400 transition-colors">
               Privacy Policy

@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, CheckCircle2 } from 'lucide-react';
+import { Sparkles, CheckCircle2, UserCheck, Phone, Mail, MapPin } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
@@ -36,17 +36,42 @@ export default function AboutUsPage() {
             Flooring Expertise. Professional Workmanship.
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter leading-relaxed">
-            HD Flooring is a Canadian flooring service company specializing in professional installation for residential and commercial spaces.
+            HD Flooring is a Canadian flooring service company specializing in professional installation and repairs for residential and commercial spaces across Saskatchewan and Western Canada.
           </p>
         </div>
 
+        {/* Leadership Profile */}
+        <div className="p-8 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl flex flex-col sm:flex-row items-center gap-6 justify-between">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-red-600/20 border border-red-500/40 text-red-400 flex items-center justify-center shrink-0">
+              <UserCheck className="w-8 h-8" />
+            </div>
+            <div>
+              <span className="text-xs font-manrope font-bold text-sky-400 uppercase tracking-widest">
+                Company Leadership
+              </span>
+              <h3 className="font-playfair text-2xl font-extrabold text-white">
+                Habibur Rahman (Habib)
+              </h3>
+              <p className="text-xs text-slate-400 font-manrope">Managing Director, HD Flooring</p>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:items-end gap-1 text-xs text-slate-300 font-manrope">
+            <span className="flex items-center gap-1.5"><Phone className="w-3.5 h-3.5 text-red-500" /> +1 (306) 880-8404</span>
+            <span className="flex items-center gap-1.5"><Mail className="w-3.5 h-3.5 text-red-500" /> hdflooring7@gmail.com</span>
+            <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-sky-400" /> Saskatoon, SK</span>
+          </div>
+        </div>
+
+        {/* Mission & Vision */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl space-y-3">
             <span className="text-xs font-manrope font-bold text-red-500 uppercase tracking-widest">
               Our Mission
             </span>
             <p className="text-slate-700 dark:text-slate-300 text-sm leading-relaxed font-inter">
-              To provide dependable flooring installation services with professional workmanship, quality-focused service, and solutions tailored to every customer's needs.
+              To provide dependable flooring installation and repair services with professional workmanship, quality-focused service, and specialized vinyl/hardwood solutions tailored to every customer's needs.
             </p>
           </div>
 
@@ -60,6 +85,7 @@ export default function AboutUsPage() {
           </div>
         </div>
 
+        {/* Core Values */}
         <div className="space-y-6">
           <h2 className="font-playfair text-3xl font-bold text-center">Our Core Values</h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
@@ -75,6 +101,7 @@ export default function AboutUsPage() {
           </div>
         </div>
 
+        {/* Who We Serve */}
         <div className="space-y-6">
           <h2 className="font-playfair text-3xl font-bold text-center">Who We Serve</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Phone, Mail, MapPin, Clock, Send, CheckCircle2 } from 'lucide-react';
+import { Sparkles, Phone, Mail, MapPin, Clock, Send, CheckCircle2, UserCheck } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
@@ -34,29 +34,42 @@ export default function ContactUsPage() {
             Let's Discuss Your Flooring Project
           </h1>
           <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter">
-            Whether you're planning a residential renovation, commercial space upgrade, or exploring flooring materials, we are ready to help.
+            Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+          {/* Info Side */}
           <div className="lg:col-span-2 space-y-8 p-8 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl">
             <div className="space-y-2 font-manrope">
               <h3 className="font-playfair text-2xl font-bold text-slate-100">
                 Contact Information
               </h3>
               <p className="text-xs text-slate-400">
-                Reach out to our team directly via phone, email, or visit our office.
+                Reach out directly to HD Flooring management and technical team.
               </p>
             </div>
 
             <ul className="space-y-6 text-xs sm:text-sm font-manrope">
               <li className="flex items-start gap-4">
                 <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400">
+                  <UserCheck className="w-5 h-5" />
+                </div>
+                <div>
+                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Managing Director</span>
+                  <span className="font-bold text-slate-100">Habibur Rahman (Habib)</span>
+                </div>
+              </li>
+
+              <li className="flex items-start gap-4">
+                <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="block text-slate-400 text-xs uppercase tracking-wider">Phone</span>
-                  <span className="font-bold text-slate-100">+1 (416) 555-0199</span>
+                  <a href="tel:+13068808404" className="font-bold text-slate-100 hover:text-red-400 transition-colors">
+                    +1 (306) 880-8404
+                  </a>
                 </div>
               </li>
 
@@ -66,7 +79,9 @@ export default function ContactUsPage() {
                 </div>
                 <div>
                   <span className="block text-slate-400 text-xs uppercase tracking-wider">Email</span>
-                  <span className="font-bold text-slate-100">info@hdflooringca.com</span>
+                  <a href="mailto:hdflooring7@gmail.com" className="font-bold text-slate-100 hover:text-red-400 transition-colors">
+                    hdflooring7@gmail.com
+                  </a>
                 </div>
               </li>
 
@@ -75,8 +90,8 @@ export default function ContactUsPage() {
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Service Areas</span>
-                  <span className="font-bold text-slate-100">Toronto, Mississauga, Brampton, Vaughan, Oakville & GTA</span>
+                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Physical Address</span>
+                  <span className="font-bold text-slate-100">211 47th St East, S7L 5H1, Saskatoon, SK, Canada</span>
                 </div>
               </li>
 
@@ -92,6 +107,7 @@ export default function ContactUsPage() {
             </ul>
           </div>
 
+          {/* Form Side */}
           <div className="lg:col-span-3 p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl">
             {submitted ? (
               <div className="text-center py-12 space-y-4">
@@ -100,7 +116,7 @@ export default function ContactUsPage() {
                 </div>
                 <h3 className="font-playfair text-2xl font-bold">Request Submitted!</h3>
                 <p className="text-xs text-slate-400 max-w-sm mx-auto font-manrope">
-                  Thank you! An HD Flooring representative will review your message and reach out shortly.
+                  Thank you! Habibur Rahman & the HD Flooring team will review your project details and reach out shortly.
                 </p>
               </div>
             ) : (
@@ -129,7 +145,7 @@ export default function ContactUsPage() {
                     <input
                       type="tel"
                       required
-                      placeholder="(416) 555-0199"
+                      placeholder="+1 (306) 880-8404"
                       className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
                     />
                   </div>
@@ -143,7 +159,7 @@ export default function ContactUsPage() {
                     <input
                       type="email"
                       required
-                      placeholder="david@example.com"
+                      placeholder="hdflooring7@gmail.com"
                       className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
                     />
                   </div>
@@ -156,13 +172,15 @@ export default function ContactUsPage() {
                       required
                       className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
                     >
+                      <option>Sheet Vinyl Coving / PVC</option>
+                      <option>LVP / LVT / VCT Vinyl Planking</option>
+                      <option>Self Leveling Compound</option>
                       <option>Hardwood Flooring</option>
                       <option>Engineered Hardwood</option>
-                      <option>Luxury Vinyl</option>
                       <option>Laminate Flooring</option>
                       <option>Carpet Flooring</option>
-                      <option>Tile Flooring</option>
-                      <option>Flooring Replacement</option>
+                      <option>Tile & Porcelain</option>
+                      <option>Flooring Repairs & Replacement</option>
                     </select>
                   </div>
                 </div>
@@ -173,7 +191,7 @@ export default function ContactUsPage() {
                   </label>
                   <textarea
                     rows={4}
-                    placeholder="Describe your space, timeline, or flooring preferences..."
+                    placeholder="Describe your room sizes, flooring preferences, repairs, or timeline..."
                     className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none resize-none"
                   />
                 </div>

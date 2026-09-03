@@ -30,21 +30,22 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'HD Flooring | Professional Flooring Installation in Canada',
+  title: 'HD Flooring | Professional Flooring Installation in Saskatoon, SK Canada',
   description:
-    'Transform your residential or commercial space with HD Flooring. Hardwood, Engineered Wood, Luxury Vinyl, Laminate, Tile & Carpet Installation with expert craftsmanship.',
+    'HD Flooring by Habibur Rahman (Habib). Specialized in Sheet Vinyl coving, PVC, LVP, LVT, VCT, Hardwood, Laminate, Carpet, Tiles & Self Leveling in Saskatoon, SK. Call +1 (306) 880-8404.',
   keywords: [
-    'Flooring Installation Canada',
-    'Hardwood Flooring Installer',
-    'Luxury Vinyl Flooring',
-    'Tile & Laminate Flooring',
-    'Commercial Flooring Contractors',
+    'HD Flooring Saskatoon',
+    'Flooring Installation Saskatoon SK',
+    'Sheet Vinyl Coving',
+    'LVP LVT VCT Vinyl Planking',
+    'Commercial & Residential Flooring Repairs Canada',
+    'Self Leveling Compound Saskatoon',
   ],
-  authors: [{ name: 'HD Flooring' }],
+  authors: [{ name: 'HD Flooring - Habibur Rahman (Habib)' }],
   openGraph: {
-    title: 'HD Flooring | Professional Flooring Installation for Canadian Homes & Businesses',
+    title: 'HD Flooring | Professional Installation & Repairs in Saskatoon, SK',
     description:
-      'High quality flooring installation: Hardwood, Vinyl, Laminate, Carpet & Tile. Get a free quote today.',
+      'Installs & Repairs: Commercial & Residential Flooring. Sheet Vinyl coving, LVP, LVT, VCT, Hardwood, Carpet & Tiles. Call +1 (306) 880-8404.',
     url: 'https://hdflooringca.com',
     siteName: 'HD Flooring',
     locale: 'en_CA',
