@@ -9,6 +9,11 @@ import { Hero } from '@/components/sections/Hero';
 import { LiveBadge } from '@/components/animations/LiveBadge';
 import { BeforeAfterSlider } from '@/components/interactive/BeforeAfterSlider';
 import { StatsBanner } from '@/components/sections/StatsBanner';
+import { ServicesGrid } from '@/components/sections/ServicesGrid';
+import { WhyUs } from '@/components/sections/WhyUs';
+import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
+import { Testimonials } from '@/components/sections/Testimonials';
+import { FinalCTA } from '@/components/sections/FinalCTA';
 
 export default function Home() {
   return (
@@ -21,17 +26,15 @@ export default function Home() {
 
       {/* Main Content */}
       <main className="flex-1">
-        {/* Hero Section */}
         <Hero />
-
-        {/* Live Activity Ticker */}
         <LiveBadge />
-
-        {/* Before / After Transformation Slider */}
         <BeforeAfterSlider />
-
-        {/* Animated Statistics Banner */}
         <StatsBanner />
+        <ServicesGrid />
+        <WhyUs />
+        <ProcessTimeline />
+        <Testimonials />
+        <FinalCTA />
       </main>
 
       {/* Floating Controls */}
