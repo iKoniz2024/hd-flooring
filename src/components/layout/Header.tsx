@@ -4,8 +4,9 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Menu, X, PhoneCall, Sparkles, Layers } from 'lucide-react';
+import { ChevronDown, Menu, X, Sparkles, Layers } from 'lucide-react';
 import { DarkModeToggle } from '@/components/interactive/DarkModeToggle';
+import { useModal } from '@/lib/context/ModalContext';
 
 const serviceLinks = [
   { name: 'Hardwood Flooring', href: '/services/hardwood-flooring' },
@@ -19,11 +20,12 @@ const serviceLinks = [
   { name: 'Floor Preparation', href: '/services/floor-preparation' },
 ];
 
-export function Header({ onOpenBookModal }: { onOpenBookModal?: () => void }) {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const { openBookModal } = useModal();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -170,7 +172,7 @@ export function Header({ onOpenBookModal }: { onOpenBookModal?: () => void }) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={onOpenBookModal}
+              onClick={() => openBookModal()}
               className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-white font-manrope font-semibold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all duration-300"
             >
               <Sparkles className="w-4 h-4" />
@@ -257,7 +259,7 @@ export function Header({ onOpenBookModal }: { onOpenBookModal?: () => void }) {
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
-                  onOpenBookModal?.();
+                  openBookModal();
                 }}
                 className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-semibold text-sm uppercase tracking-wider shadow-lg shadow-amber-500/30 flex items-center justify-center gap-2"
               >

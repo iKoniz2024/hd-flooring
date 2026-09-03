@@ -1,9 +1,12 @@
 'use client';
 
 import Link from 'next/link';
-import { Layers, Phone, Mail, MapPin, ShieldCheck, HeartHandshake, Sparkles } from 'lucide-react';
+import { Layers, Phone, Mail, MapPin, ShieldCheck, Sparkles } from 'lucide-react';
+import { useModal } from '@/lib/context/ModalContext';
 
-export function Footer({ onOpenBookModal }: { onOpenBookModal?: () => void }) {
+export function Footer() {
+  const { openBookModal } = useModal();
+
   return (
     <footer className="bg-stone-950 text-stone-300 border-t border-amber-500/20 pt-16 pb-12 font-inter relative overflow-hidden">
       {/* Subtle Background Glow */}
@@ -135,7 +138,7 @@ export function Footer({ onOpenBookModal }: { onOpenBookModal?: () => void }) {
             </ul>
 
             <button
-              onClick={onOpenBookModal}
+              onClick={() => openBookModal()}
               className="mt-2 w-full py-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 hover:bg-amber-500/20 text-amber-400 font-manrope text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300"
             >
               <Sparkles className="w-3.5 h-3.5" />
