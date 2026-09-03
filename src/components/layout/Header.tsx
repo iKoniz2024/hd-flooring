@@ -10,16 +10,15 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
 
 const serviceLinks = [
-  { name: 'Sheet Vinyl Coving & PVC', href: '/services/sheet-vinyl-coving' },
-  { name: 'LVP / LVT / VCT Luxury Vinyl', href: '/services/lvp-lvt-vct-vinyl' },
   { name: 'Solid Hardwood Flooring', href: '/services/hardwood-flooring' },
   { name: 'Engineered Hardwood', href: '/services/engineered-hardwood-flooring' },
+  { name: 'Luxury Vinyl & Sheet Vinyl', href: '/services/luxury-vinyl-flooring' },
   { name: 'Laminate Flooring', href: '/services/laminate-flooring' },
   { name: 'Carpet Flooring', href: '/services/carpet-flooring' },
-  { name: 'Tile & Porcelain Tiling', href: '/services/tile-porcelain-flooring' },
+  { name: 'Tile & Porcelain Flooring', href: '/services/tile-flooring' },
   { name: 'Stair Flooring & Capping', href: '/services/stair-flooring' },
+  { name: 'Flooring Repairs & Replacement', href: '/services/flooring-replacement' },
   { name: 'Self Leveling & Floor Prep', href: '/services/floor-preparation' },
-  { name: 'Flooring Repairs & Replacement', href: '/services/flooring-repairs-replacement' },
 ];
 
 export function Header() {

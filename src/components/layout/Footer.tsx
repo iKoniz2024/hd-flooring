@@ -71,22 +71,22 @@ export function Footer() {
           {/* Services Links */}
           <div className="space-y-4">
             <h3 className="font-manrope font-bold text-slate-100 text-sm tracking-wider uppercase text-sky-400">
-              Services
+              Our Services
             </h3>
             <ul className="space-y-2 text-xs text-slate-400 font-manrope">
               <li>
-                <Link href="/services/luxury-vinyl-flooring" className="hover:text-sky-400 transition-colors">
-                  LVP / LVT / VCT Vinyl
-                </Link>
-              </li>
-              <li>
                 <Link href="/services/hardwood-flooring" className="hover:text-sky-400 transition-colors">
-                  Hardwood Flooring
+                  Solid Hardwood Flooring
                 </Link>
               </li>
               <li>
                 <Link href="/services/engineered-hardwood-flooring" className="hover:text-sky-400 transition-colors">
                   Engineered Hardwood
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/luxury-vinyl-flooring" className="hover:text-sky-400 transition-colors">
+                  Luxury Vinyl & Sheet Vinyl
                 </Link>
               </li>
               <li>
@@ -105,8 +105,18 @@ export function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/services/stair-flooring" className="hover:text-sky-400 transition-colors">
+                  Stair Flooring & Capping
+                </Link>
+              </li>
+              <li>
+                <Link href="/services/flooring-replacement" className="hover:text-sky-400 transition-colors">
+                  Flooring Repairs & Replacement
+                </Link>
+              </li>
+              <li>
                 <Link href="/services/floor-preparation" className="hover:text-sky-400 transition-colors">
-                  Self Leveling & Prep
+                  Self Leveling & Floor Prep
                 </Link>
               </li>
             </ul>
