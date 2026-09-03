@@ -1,6 +1,6 @@
 'use client';
 
-import { Sparkles, CheckCircle2 } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 
 const steps = [
   {
@@ -39,10 +39,10 @@ export function ProcessTimeline() {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter">
       <div className="text-center space-y-3 mb-16">
-        <span className="text-xs font-manrope font-semibold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/30">
+        <span className="text-xs font-manrope font-bold text-red-500 uppercase tracking-widest bg-red-500/10 px-3.5 py-1.5 rounded-full border border-red-500/30">
           Our Proven Process
         </span>
-        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
+        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
           From Your Idea to the Finished Floor
         </h2>
       </div>
@@ -51,18 +51,18 @@ export function ProcessTimeline() {
         {steps.map((step) => (
           <div
             key={step.num}
-            className="relative p-8 rounded-3xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-amber-500/50 shadow-xl transition-all duration-300 space-y-3 group"
+            className="relative p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl transition-all duration-300 space-y-3 group"
           >
             <div className="flex items-center justify-between">
-              <span className="font-playfair text-4xl font-extrabold gold-gradient-text">
+              <span className="font-playfair text-4xl font-extrabold brand-gradient-text">
                 {step.num}
               </span>
-              <CheckCircle2 className="w-5 h-5 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <CheckCircle2 className="w-5 h-5 text-red-500 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
-            <h3 className="font-playfair text-xl font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors">
+            <h3 className="font-playfair text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors">
               {step.title}
             </h3>
-            <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed font-inter">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
               {step.desc}
             </p>
           </div>

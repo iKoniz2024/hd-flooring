@@ -38,13 +38,13 @@ const whyUsItems = [
 
 export function WhyUs() {
   return (
-    <section className="py-20 bg-stone-900/60 dark:bg-stone-900/80 border-y border-amber-500/20 font-inter">
+    <section className="py-20 bg-slate-900/60 dark:bg-slate-900/80 border-y border-red-500/20 font-inter">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-3 mb-16">
-          <span className="text-xs font-manrope font-semibold text-amber-500 uppercase tracking-widest bg-amber-500/10 px-3.5 py-1.5 rounded-full border border-amber-500/30">
+          <span className="text-xs font-manrope font-bold text-red-400 uppercase tracking-widest bg-red-500/10 px-3.5 py-1.5 rounded-full border border-red-500/30">
             Why Choose HD Flooring
           </span>
-          <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-100">
+          <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-100">
             The Standard of Craftsmanship
           </h2>
         </div>
@@ -54,14 +54,14 @@ export function WhyUs() {
             const Icon = item.icon;
             return (
               <TiltCard key={idx}>
-                <div className="h-full p-8 rounded-3xl bg-stone-950/90 border border-stone-800 hover:border-amber-500/40 shadow-xl transition-all duration-300 space-y-4 group">
-                  <div className="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-stone-950 transition-all duration-300">
+                <div className="h-full p-8 rounded-3xl bg-slate-950/90 border border-slate-800 hover:border-red-500/40 shadow-xl transition-all duration-300 space-y-4 group">
+                  <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                     <Icon className="w-6 h-6" />
                   </div>
-                  <h3 className="font-playfair text-xl font-bold text-stone-100 group-hover:text-amber-400 transition-colors">
+                  <h3 className="font-playfair text-xl font-bold text-slate-100 group-hover:text-red-400 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="text-xs sm:text-sm text-stone-400 leading-relaxed font-inter">
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-inter">
                     {item.desc}
                   </p>
                 </div>

@@ -63,7 +63,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${playfair.variable} ${manrope.variable} ${dmSans.variable} ${inter.variable}`}
     >
-      <body className="font-inter min-h-screen flex flex-col antialiased selection:bg-amber-500 selection:text-white">
+      <body className="font-inter min-h-screen flex flex-col antialiased selection:bg-red-500 selection:text-white">
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
