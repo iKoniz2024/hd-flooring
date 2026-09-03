@@ -2,39 +2,41 @@
 
 @layer base {
   :root {
-    --background: #faf8f5;
-    --foreground: #1c1917;
+    --background: #f8fafc;
+    --foreground: #0f172a;
     --card: #ffffff;
-    --card-foreground: #1c1917;
-    --primary: #b8860b;
-    --primary-hover: #996515;
+    --card-foreground: #0f172a;
+    --primary: #dc2626;          /* Red from HD Flooring logo */
+    --primary-hover: #b91c1c;
     --primary-foreground: #ffffff;
-    --accent: #d4af37;
-    --accent-light: #fef08a;
-    --muted: #f3f0e6;
-    --muted-foreground: #78716c;
-    --border: #e7e5e4;
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(184, 134, 11, 0.2);
-    --shadow-luxury: 0 20px 40px -15px rgba(184, 134, 11, 0.15);
+    --secondary: #0284c7;        /* Cyan/Blue from HD Flooring logo */
+    --secondary-hover: #0369a1;
+    --accent: #ef4444;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --border: #e2e8f0;
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(220, 38, 38, 0.2);
+    --shadow-luxury: 0 20px 40px -15px rgba(220, 38, 38, 0.15);
   }
 
   .dark {
-    --background: #0b0f17;
-    --foreground: #f5f5f4;
-    --card: #131b2e;
-    --card-foreground: #f5f5f4;
-    --primary: #d4af37;
-    --primary-hover: #e5c158;
-    --primary-foreground: #0b0f17;
-    --accent: #f59e0b;
-    --accent-light: #451a03;
+    --background: #090d16;
+    --foreground: #f8fafc;
+    --card: #111827;
+    --card-foreground: #f8fafc;
+    --primary: #ef4444;          /* Crimson Red */
+    --primary-hover: #f87171;
+    --primary-foreground: #0f172a;
+    --secondary: #38bdf8;        /* Sky Blue */
+    --secondary-hover: #7dd3fc;
+    --accent: #f43f5e;
     --muted: #1e293b;
-    --muted-foreground: #a8a29e;
+    --muted-foreground: #94a3b8;
     --border: #334155;
-    --glass-bg: rgba(19, 27, 46, 0.85);
-    --glass-border: rgba(212, 175, 55, 0.25);
-    --shadow-luxury: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    --glass-bg: rgba(17, 24, 39, 0.85);
+    --glass-border: rgba(239, 68, 68, 0.25);
+    --shadow-luxury: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
   }
 }
 
@@ -63,6 +65,25 @@ body {
   font-family: var(--font-inter), sans-serif;
 }
 
+/* HD Flooring Brand Gradient Utilities */
+.brand-gradient-text {
+  background: linear-gradient(135deg, #ef4444 0%, #f87171 40%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-gradient-bg {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #0284c7 100%);
+}
+
+.brand-red-glow {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.35);
+}
+
+.brand-blue-glow {
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+}
+
 /* Luxury Glassmorphism Utilities */
 .glass-panel {
   background: var(--glass-bg);
@@ -71,26 +92,12 @@ body {
   border: 1px solid var(--glass-border);
 }
 
-.gold-gradient-text {
-  background: linear-gradient(135deg, #fef08a 0%, #d4af37 50%, #996515 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.gold-gradient-bg {
-  background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-}
-
-.gold-glow {
-  box-shadow: 0 0 25px rgba(212, 175, 55, 0.3);
-}
-
 /* Smooth Scrolling */
 html {
   scroll-behavior: smooth;
 }
 
-/* Custom Scrollbar */
+/* Custom Scrollbar matching Red & Blue theme */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -100,10 +107,10 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #d4af37;
+  background: #ef4444;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #b8860b;
+  background: #dc2626;
 }

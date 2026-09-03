@@ -57,8 +57,8 @@ export function HeroSearch() {
     <div className="w-full max-w-2xl mx-auto relative z-20 font-inter">
       {/* Main Search Input Form */}
       <form onSubmit={handleSearchSubmit} className="relative">
-        <div className="relative flex items-center p-2 rounded-2xl bg-stone-900/90 dark:bg-stone-900/95 bg-white/90 border border-amber-500/30 backdrop-blur-xl shadow-2xl shadow-amber-500/10 focus-within:border-amber-500 transition-all duration-300">
-          <Search className="w-5 h-5 text-amber-500 ml-4 shrink-0" />
+        <div className="relative flex items-center p-2 rounded-2xl bg-slate-900/90 dark:bg-slate-900/95 bg-white/90 border border-red-500/30 backdrop-blur-xl shadow-2xl shadow-red-950/20 focus-within:border-red-500 transition-all duration-300">
+          <Search className="w-5 h-5 text-red-500 ml-4 shrink-0" />
 
           <input
             type="text"
@@ -69,15 +69,15 @@ export function HeroSearch() {
             }}
             onFocus={() => setIsOpen(true)}
             placeholder="Search flooring type, e.g. Hardwood, Vinyl, Tile..."
-            className="w-full pl-3 pr-4 py-3 bg-transparent text-stone-100 placeholder:text-stone-400 text-sm font-manrope outline-none"
+            className="w-full pl-3 pr-4 py-3 bg-transparent text-slate-100 placeholder:text-slate-400 text-sm font-manrope outline-none"
           />
 
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-110 text-stone-950 font-manrope font-bold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 shadow-lg shadow-amber-500/20 transition-all"
+            className="px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 shadow-lg shadow-red-600/30 transition-all"
           >
             Search
-            <ArrowRight className="w-4 h-4" />
+            <ArrowRight className="w-4 h-4 text-sky-200" />
           </button>
         </div>
       </form>
@@ -89,7 +89,7 @@ export function HeroSearch() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 8 }}
-            className="absolute top-full left-0 right-0 mt-2 p-3 rounded-2xl bg-stone-900/95 border border-amber-500/30 backdrop-blur-2xl shadow-2xl shadow-black/80 z-30 space-y-1"
+            className="absolute top-full left-0 right-0 mt-2 p-3 rounded-2xl bg-slate-900/95 border border-red-500/30 backdrop-blur-2xl shadow-2xl shadow-black/80 z-30 space-y-1"
           >
             {filteredServices.length > 0 ? (
               filteredServices.slice(0, 4).map((service) => (
@@ -99,21 +99,21 @@ export function HeroSearch() {
                     setIsOpen(false);
                     router.push(`/services/${service.slug}`);
                   }}
-                  className="w-full text-left p-3 rounded-xl hover:bg-amber-500/10 transition-colors flex items-center justify-between group"
+                  className="w-full text-left p-3 rounded-xl hover:bg-red-500/10 transition-colors flex items-center justify-between group"
                 >
                   <div>
-                    <h4 className="text-sm font-manrope font-semibold text-stone-100 group-hover:text-amber-400">
+                    <h4 className="text-sm font-manrope font-semibold text-slate-100 group-hover:text-red-400">
                       {service.title}
                     </h4>
-                    <p className="text-xs text-stone-400 line-clamp-1 font-inter">
+                    <p className="text-xs text-slate-400 line-clamp-1 font-inter">
                       {service.shortDesc}
                     </p>
                   </div>
-                  <Sparkles className="w-4 h-4 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <Sparkles className="w-4 h-4 text-sky-400 opacity-0 group-hover:opacity-100 transition-opacity" />
                 </button>
               ))
             ) : (
-              <div className="p-3 text-xs text-stone-400 text-center font-manrope">
+              <div className="p-3 text-xs text-slate-400 text-center font-manrope">
                 No matching flooring category found. Press Enter to view all services.
               </div>
             )}
@@ -123,14 +123,14 @@ export function HeroSearch() {
 
       {/* Quick Suggestion Tags */}
       <div className="flex items-center justify-center flex-wrap gap-2 pt-3">
-        <span className="text-xs text-stone-400 font-manrope font-medium">
+        <span className="text-xs text-slate-400 font-manrope font-medium">
           Popular:
         </span>
         {quickTags.map((tag) => (
           <button
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className="text-xs px-3 py-1 rounded-full bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/20 text-amber-400 font-manrope transition-all"
+            className="text-xs px-3 py-1 rounded-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-manrope transition-all"
           >
             {tag}
           </button>
