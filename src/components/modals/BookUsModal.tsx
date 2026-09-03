@@ -6,15 +6,16 @@ import { X, Sparkles, CheckCircle2, Calendar, MapPin, User, Phone, Mail, FileTex
 import { useModal } from '@/lib/context/ModalContext';
 
 const serviceOptions = [
-  'Hardwood Flooring',
+  'Sheet Vinyl Coving & PVC',
+  'LVP / LVT / VCT Luxury Vinyl',
+  'Solid Hardwood Flooring',
   'Engineered Hardwood',
-  'Luxury Vinyl',
   'Laminate Flooring',
   'Carpet Flooring',
-  'Tile Flooring',
-  'Stair Flooring',
-  'Flooring Replacement',
-  'Floor Preparation',
+  'Tile & Porcelain Installation',
+  'Stair Flooring & Capping',
+  'Self Leveling & Floor Prep',
+  'Flooring Repairs & Replacement',
   'Other / Custom Project',
 ];
 
@@ -27,7 +28,7 @@ export function BookUsModal() {
     fullName: '',
     phone: '',
     email: '',
-    service: selectedService || 'Hardwood Flooring',
+    service: selectedService || 'LVP / LVT / VCT Luxury Vinyl',
     propertyType: 'Residential',
     location: '',
     preferredDate: '',
@@ -55,7 +56,7 @@ export function BookUsModal() {
       fullName: '',
       phone: '',
       email: '',
-      service: 'Hardwood Flooring',
+      service: 'LVP / LVT / VCT Luxury Vinyl',
       propertyType: 'Residential',
       location: '',
       preferredDate: '',
@@ -85,7 +86,7 @@ export function BookUsModal() {
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
             className="relative w-full max-w-2xl bg-slate-900/95 dark:bg-slate-950/95 bg-white/95 backdrop-blur-2xl border border-red-500/30 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden z-10"
           >
-            {/* Header Banner matching HD Flooring Logo Banner */}
+            {/* Header Banner */}
             <div className="bg-gradient-to-r from-red-600 via-red-500 to-sky-600 p-6 text-white flex items-center justify-between relative overflow-hidden">
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-manrope font-bold text-sky-200">
@@ -144,7 +145,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, fullName: e.target.value })
                           }
                           placeholder="e.g. David Miller"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none transition-all"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
@@ -162,8 +163,8 @@ export function BookUsModal() {
                           onChange={(e) =>
                             setFormData({ ...formData, phone: e.target.value })
                           }
-                          placeholder="e.g. (416) 555-0123"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none transition-all"
+                          placeholder="e.g. (306) 880-8404"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
@@ -182,8 +183,8 @@ export function BookUsModal() {
                           onChange={(e) =>
                             setFormData({ ...formData, email: e.target.value })
                           }
-                          placeholder="david@example.com"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 focus:ring-1 focus:ring-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none transition-all"
+                          placeholder="hdflooring7@gmail.com"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
@@ -198,7 +199,7 @@ export function BookUsModal() {
                         onChange={(e) =>
                           setFormData({ ...formData, service: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm outline-none transition-all"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm outline-none"
                       >
                         {serviceOptions.map((opt) => (
                           <option key={opt} value={opt} className="bg-slate-900 text-slate-100">
@@ -248,8 +249,8 @@ export function BookUsModal() {
                           onChange={(e) =>
                             setFormData({ ...formData, location: e.target.value })
                           }
-                          placeholder="City / Area"
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs placeholder:text-slate-500 outline-none"
+                          placeholder="Saskatoon / SK"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs outline-none"
                         />
                       </div>
                     </div>
@@ -284,7 +285,7 @@ export function BookUsModal() {
                         onChange={(e) =>
                           setFormData({ ...formData, details: e.target.value })
                         }
-                        placeholder="Tell us about room sizes, flooring preferences, or timeline..."
+                        placeholder="Tell us about room sizes, sheet vinyl coving, LVP/LVT, board repairs, or timeline..."
                         className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs outline-none resize-none"
                       />
                     </div>

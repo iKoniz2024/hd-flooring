@@ -10,15 +10,16 @@ import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
 
 const serviceLinks = [
-  { name: 'Hardwood Flooring', href: '/services/hardwood-flooring' },
+  { name: 'Sheet Vinyl Coving & PVC', href: '/services/sheet-vinyl-coving' },
+  { name: 'LVP / LVT / VCT Luxury Vinyl', href: '/services/lvp-lvt-vct-vinyl' },
+  { name: 'Solid Hardwood Flooring', href: '/services/hardwood-flooring' },
   { name: 'Engineered Hardwood', href: '/services/engineered-hardwood-flooring' },
-  { name: 'Luxury Vinyl Flooring', href: '/services/luxury-vinyl-flooring' },
   { name: 'Laminate Flooring', href: '/services/laminate-flooring' },
   { name: 'Carpet Flooring', href: '/services/carpet-flooring' },
-  { name: 'Tile Flooring', href: '/services/tile-flooring' },
-  { name: 'Stair Flooring', href: '/services/stair-flooring' },
-  { name: 'Flooring Replacement', href: '/services/flooring-replacement' },
-  { name: 'Floor Preparation', href: '/services/floor-preparation' },
+  { name: 'Tile & Porcelain Tiling', href: '/services/tile-porcelain-flooring' },
+  { name: 'Stair Flooring & Capping', href: '/services/stair-flooring' },
+  { name: 'Self Leveling & Floor Prep', href: '/services/floor-preparation' },
+  { name: 'Flooring Repairs & Replacement', href: '/services/flooring-repairs-replacement' },
 ];
 
 export function Header() {
@@ -101,7 +102,7 @@ export function Header() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute top-full left-0 w-64 pt-2"
+                    className="absolute top-full left-0 w-72 pt-2"
                   >
                     <div className="p-2 rounded-2xl bg-slate-900/95 dark:bg-slate-950/95 bg-white/95 backdrop-blur-xl border border-red-500/30 shadow-2xl shadow-black/40 grid gap-1">
                       {serviceLinks.map((service) => (
@@ -158,7 +159,7 @@ export function Header() {
           <div className="flex items-center gap-4">
             <DarkModeToggle />
 
-            {/* Book Us Red/Cyan CTA Button */}
+            {/* Book Us CTA Button */}
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
