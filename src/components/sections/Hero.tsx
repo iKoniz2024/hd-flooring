@@ -1,52 +1,149 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { Sparkles, ArrowRight, ShieldCheck, Award, Home } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, ArrowRight, ShieldCheck, Award, Home, Camera, ChevronLeft, ChevronRight } from 'lucide-react';
 import { HeroSearch } from '@/components/interactive/HeroSearch';
 import { useModal } from '@/lib/context/ModalContext';
 import Link from 'next/link';
 
+const categorySlides = [
+  {
+    name: 'Solid Hardwood Flooring',
+    tag: 'Hardwood',
+    image: '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
+  },
+  {
+    name: 'Engineered Hardwood',
+    tag: 'Engineered Wood',
+    image: '/assets/images/engineered-hardwood/engineered-hardwood-01.jpg',
+  },
+  {
+    name: 'Luxury Vinyl & Sheet Vinyl',
+    tag: 'LVP / LVT / VCT',
+    image: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
+  },
+  {
+    name: 'Laminate Flooring',
+    tag: 'Laminate',
+    image: '/assets/images/laminate-flooring/laminate-flooring-01.jpg',
+  },
+  {
+    name: 'Carpet Flooring',
+    tag: 'Carpet & Padding',
+    image: '/assets/images/carpet-flooring/carpet-flooring-01.jpg',
+  },
+  {
+    name: 'Tile & Porcelain Installation',
+    tag: 'Tile & Porcelain',
+    image: '/assets/images/tile-flooring/tile-flooring-01.jpg',
+  },
+  {
+    name: 'Stair Flooring & Capping',
+    tag: 'Stairwork',
+    image: '/assets/images/stair-flooring/stair-flooring-01.jpg',
+  },
+  {
+    name: 'Flooring Repairs & Replacement',
+    tag: 'Repairs & Restorations',
+    image: '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
+  },
+  {
+    name: 'Self Leveling & Floor Prep',
+    tag: 'Subfloor Prep',
+    image: '/assets/images/floor-preparation/floor-preparation-01.jpg',
+  },
+];
+
 export function Hero() {
   const { openBookModal } = useModal();
+  const [currentSlideIdx, setCurrentSlideIdx] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlideIdx((prev) => (prev + 1) % categorySlides.length);
+    }, 5500);
+    return () => clearInterval(timer);
+  }, []);
+
+  const nextSlide = () => {
+    setCurrentSlideIdx((prev) => (prev + 1) % categorySlides.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlideIdx((prev) => (prev - 1 + categorySlides.length) % categorySlides.length);
+  };
+
+  const currentSlide = categorySlides[currentSlideIdx];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      {/* Background Image Layer with Zoom Pulsing */}
-      <motion.div
-        animate={{ scale: [1.02, 1.08, 1.02] }}
-        transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-30 mix-blend-luminosity"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80')`,
-        }}
-      />
+    <section className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
+      {/* Background Animated Ken-Burns Image Slideshow */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={currentSlideIdx}
+          initial={{ opacity: 0, scale: 1.0 }}
+          animate={{ opacity: 0.3, scale: 1.18 }}
+          exit={{ opacity: 0, scale: 1.25 }}
+          transition={{
+            opacity: { duration: 1.2, ease: 'easeInOut' },
+            scale: { duration: 6, ease: 'easeOut' },
+          }}
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat mix-blend-luminosity pointer-events-none"
+          style={{
+            backgroundImage: `url('${currentSlide.image}')`,
+          }}
+        />
+      </AnimatePresence>
 
       {/* Brand Vignette & Radial Glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-slate-50/60 dark:from-slate-950 dark:via-slate-950/80 dark:to-slate-950/60 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-slate-50/60 dark:from-slate-950 dark:via-slate-950/80 dark:to-slate-950/60 pointer-events-none z-10" />
       <motion.div
         animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none z-10"
       />
       <motion.div
         animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.4, 0.7, 0.4] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/4 left-1/3 w-[400px] h-[250px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none"
+        className="absolute bottom-1/4 left-1/3 w-[400px] h-[250px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none z-10"
       />
 
-      <div className="max-w-5xl mx-auto text-center space-y-8 relative z-20">
-        {/* Top Floating Badge - Zoom In */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.7, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6, type: 'spring', stiffness: 200 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/10 border border-red-500/30 backdrop-blur-md shadow-lg shadow-red-600/10"
+      {/* Side Slide Navigators */}
+      <div className="hidden md:flex absolute inset-x-4 top-1/2 -translate-y-1/2 items-center justify-between z-30 pointer-events-none">
+        <button
+          onClick={prevSlide}
+          aria-label="Previous Category"
+          className="p-3 rounded-full bg-slate-950/40 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md transition-all duration-300 pointer-events-auto shadow-lg hover:scale-110"
         >
-          <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-          <span className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 uppercase tracking-widest">
-            Canadian Flooring Standards & Craftsmanship
-          </span>
-        </motion.div>
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+        <button
+          onClick={nextSlide}
+          aria-label="Next Category"
+          className="p-3 rounded-full bg-slate-950/40 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md transition-all duration-300 pointer-events-auto shadow-lg hover:scale-110"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      </div>
+
+      <div className="max-w-5xl mx-auto text-center space-y-7 relative z-20">
+        {/* Active Category Showcase Badge */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlideIdx}
+            initial={{ opacity: 0, y: -15, scale: 0.85 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 15, scale: 0.85 }}
+            transition={{ duration: 0.4 }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-red-500/40 text-slate-100 shadow-xl shadow-red-600/10 backdrop-blur-md"
+          >
+            <Camera className="w-4 h-4 text-red-500 animate-pulse shrink-0" />
+            <span className="text-xs font-manrope font-extrabold tracking-wider text-slate-200">
+              <span className="text-red-400 font-black">Featured {currentSlideIdx + 1}/9:</span> {currentSlide.name}
+            </span>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Main Headline - Slide Down */}
         <motion.h1
@@ -69,7 +166,7 @@ export function Hero() {
           Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
         </motion.p>
 
-        {/* Hero Interactive Search Bar - Zoom In Expansion */}
+        {/* Hero Interactive Search Bar */}
         <motion.div
           initial={{ opacity: 0, scale: 0.85 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -79,8 +176,8 @@ export function Hero() {
           <HeroSearch />
         </motion.div>
 
-        {/* CTA Buttons - Left and Right Slide */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-4 w-full max-w-md sm:max-w-none mx-auto">
+        {/* CTA Buttons */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 w-full max-w-md sm:max-w-none mx-auto">
           <motion.button
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -112,12 +209,28 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Supporting Trust Indicators - Staggered Zoom In */}
+        {/* Category Interactive Indicator Dots */}
+        <div className="pt-4 flex items-center justify-center gap-2">
+          {categorySlides.map((slide, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentSlideIdx(idx)}
+              title={slide.name}
+              className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+                currentSlideIdx === idx
+                  ? 'w-8 bg-red-500 shadow-md shadow-red-500/50'
+                  : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-500'
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Supporting Trust Indicators */}
         <motion.div
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="pt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800/80"
+          className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800/80"
         >
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }} className="flex items-center gap-2">
             <Home className="w-4 h-4 text-red-500" />
