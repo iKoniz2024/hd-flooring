@@ -41,9 +41,9 @@ export const blogPosts: BlogPost[] = [
     summary: 'Understand the key factors to consider when selecting flooring for different rooms in Canadian homes.',
     coverImage: '/assets/images/laminate-flooring/laminate-flooring-17.jpg',
     author: {
-      name: 'Hardeep Dhami',
-      role: 'Master Installer & Founder',
-      avatar: '/assets/images/team-company/team-company-07.jpg',
+      name: 'Habibur Rahman (Habib)',
+      role: 'Lead Installation Specialist & Founder',
+      avatar: '/assets/images/personal-photos/personal-photo-01.jpg',
     },
     keyTakeaways: [
       'Evaluate moisture exposure: Basements and bathrooms require 100% waterproof LVP or tile.',
@@ -92,9 +92,9 @@ export const blogPosts: BlogPost[] = [
     summary: 'Compare the characteristics, applications, maintenance, and practical considerations of two popular flooring options.',
     coverImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-46.jpg',
     author: {
-      name: 'Hardeep Dhami',
-      role: 'Master Installer & Founder',
-      avatar: '/assets/images/team-company/team-company-07.jpg',
+      name: 'Habibur Rahman (Habib)',
+      role: 'Lead Installation Specialist & Founder',
+      avatar: '/assets/images/personal-photos/personal-photo-01.jpg',
     },
     keyTakeaways: [
       'Hardwood offers authentic natural wood grain and refinishability for 50+ years of equity.',
@@ -143,9 +143,9 @@ export const blogPosts: BlogPost[] = [
     summary: 'Explore practical flooring considerations for households dealing with everyday traffic, pets, children, and changing seasonal conditions.',
     coverImage: '/assets/images/carpet-flooring/carpet-flooring-15.jpg',
     author: {
-      name: 'Hardeep Dhami',
-      role: 'Master Installer & Founder',
-      avatar: '/assets/images/team-company/team-company-07.jpg',
+      name: 'Habibur Rahman (Habib)',
+      role: 'Lead Installation Specialist & Founder',
+      avatar: '/assets/images/personal-photos/personal-photo-01.jpg',
     },
     keyTakeaways: [
       'Canadian winters track snow, slush, and corrosive de-icing salt into entryways.',
@@ -190,9 +190,9 @@ export const blogPosts: BlogPost[] = [
     summary: 'Learn what factors can influence the timeline of a flooring installation project.',
     coverImage: '/assets/images/floor-preparation/floor-preparation-01.jpg',
     author: {
-      name: 'Hardeep Dhami',
-      role: 'Master Installer & Founder',
-      avatar: '/assets/images/team-company/team-company-07.jpg',
+      name: 'Habibur Rahman (Habib)',
+      role: 'Lead Installation Specialist & Founder',
+      avatar: '/assets/images/personal-photos/personal-photo-01.jpg',
     },
     keyTakeaways: [
       'Standard 1,000 sq ft residential LVP installation takes 2 to 3 full working days.',
@@ -241,9 +241,9 @@ export const blogPosts: BlogPost[] = [
     summary: 'Simple maintenance routines to protect your hardwood investment against scratches, spills, and seasonal humidity shifts.',
     coverImage: '/assets/images/hardwood-flooring/hardwood-flooring-03.jpg',
     author: {
-      name: 'Hardeep Dhami',
-      role: 'Master Installer & Founder',
-      avatar: '/assets/images/team-company/team-company-07.jpg',
+      name: 'Habibur Rahman (Habib)',
+      role: 'Lead Installation Specialist & Founder',
+      avatar: '/assets/images/personal-photos/personal-photo-01.jpg',
     },
     keyTakeaways: [
       'Maintain indoor relative humidity between 35% and 55% using humidifiers in winter.',
