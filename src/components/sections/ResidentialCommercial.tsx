@@ -1,5 +1,6 @@
 'use client';
 
+import { motion } from 'framer-motion';
 import { Home, Building2, CheckCircle2, Sparkles } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -19,10 +20,17 @@ export function ResidentialCommercial() {
   const { openBookModal } = useModal();
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter">
+    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* Residential Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 flex flex-col justify-between group">
+        {/* Residential Card - Slide In From Left + Zoom */}
+        <motion.div
+          initial={{ opacity: 0, x: -70, scale: 0.9 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7 }}
+          whileHover={{ y: -6 }}
+          className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl space-y-6 flex flex-col justify-between group"
+        >
           <div className="space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500">
               <Home className="w-6 h-6" />
@@ -44,16 +52,23 @@ export function ResidentialCommercial() {
           <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
             <button
               onClick={() => openBookModal('Residential Flooring')}
-              className="w-full py-3.5 rounded-2xl bg-slate-950 dark:bg-slate-100 text-slate-100 dark:text-slate-950 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-red-600 dark:hover:bg-red-600 dark:hover:text-white transition-colors flex items-center justify-center gap-2 shadow-lg"
+              className="w-full py-3.5 px-4 rounded-2xl bg-slate-950 dark:bg-slate-100 text-slate-100 dark:text-slate-950 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-red-600 dark:hover:bg-red-600 dark:hover:text-white transition-colors flex items-center justify-center gap-2 shadow-lg"
             >
-              <Sparkles className="w-4 h-4 text-sky-400" />
-              Book Residential Consultation
+              <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />
+              <span>Book Free Consultation</span>
             </button>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Commercial Card */}
-        <div className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl space-y-6 flex flex-col justify-between group">
+        {/* Commercial Card - Slide In From Right + Zoom */}
+        <motion.div
+          initial={{ opacity: 0, x: 70, scale: 0.9 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.7 }}
+          whileHover={{ y: -6 }}
+          className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl space-y-6 flex flex-col justify-between group"
+        >
           <div className="space-y-4">
             <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
               <Building2 className="w-6 h-6" />
@@ -92,14 +107,16 @@ export function ResidentialCommercial() {
           <div className="pt-4 border-t border-slate-800">
             <button
               onClick={() => openBookModal('Commercial Flooring')}
-              className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-600/20"
+              className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-600/20"
             >
-              <Sparkles className="w-4 h-4 text-sky-200" />
-              Discuss Commercial Project
+              <Sparkles className="w-4 h-4 text-sky-200 shrink-0" />
+              <span>Book Commercial Measure</span>
             </button>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+
+

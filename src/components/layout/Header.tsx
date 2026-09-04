@@ -108,6 +108,10 @@ export function Header() {
                         <Link
                           key={service.href}
                           href={service.href}
+                          onClick={() => {
+                            setServicesOpen(false);
+                            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                          }}
                           className="px-3.5 py-2.5 rounded-xl text-xs font-medium text-slate-700 dark:text-slate-300 hover:text-red-400 hover:bg-red-500/10 transition-colors duration-150 flex items-center justify-between group"
                         >
                           {service.name}
@@ -163,10 +167,10 @@ export function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => openBookModal()}
-              className="hidden sm:flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transition-all duration-300"
+              className="flex items-center gap-1.5 sm:gap-2 px-3 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 text-white font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-wider shadow-lg shadow-red-600/30 hover:shadow-red-600/50 transition-all duration-300 shrink-0"
             >
-              <Sparkles className="w-4 h-4 text-sky-200" />
-              Book Us
+              <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-200" />
+              <span>Book Us</span>
             </motion.button>
 
             <button
@@ -187,25 +191,40 @@ export function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="lg:hidden bg-slate-950/95 backdrop-blur-2xl border-b border-red-500/20 overflow-hidden"
           >
-            <div className="px-6 py-6 space-y-4 font-manrope">
-              <Link
-                href="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-slate-200 hover:text-red-400 text-sm font-medium"
-              >
-                Home
-              </Link>
-              <Link
-                href="/about-us"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-slate-200 hover:text-red-400 text-sm font-medium"
-              >
-                About Us
-              </Link>
+            <motion.div
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
+                closed: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+              }}
+              className="px-6 py-6 space-y-4 font-manrope"
+            >
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }}>
+                <Link
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-slate-200 hover:text-red-400 text-sm font-medium"
+                >
+                  Home
+                </Link>
+              </motion.div>
 
-              <div className="space-y-2">
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }}>
+                <Link
+                  href="/about-us"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-slate-200 hover:text-red-400 text-sm font-medium"
+                >
+                  About Us
+                </Link>
+              </motion.div>
+
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }} className="space-y-2">
                 <span className="block text-red-500 text-xs font-bold uppercase tracking-wider">
                   Our Services
                 </span>
@@ -214,48 +233,61 @@ export function Header() {
                     <Link
                       key={service.href}
                       href={service.href}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block text-slate-400 hover:text-slate-100 text-xs"
+                      onClick={() => {
+                        setMobileMenuOpen(false);
+                        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+                      }}
+                      className="block text-slate-400 hover:text-slate-100 text-xs transition-colors"
                     >
                       {service.name}
                     </Link>
                   ))}
                 </div>
-              </div>
+              </motion.div>
 
-              <Link
-                href="/projects"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-slate-200 hover:text-red-400 text-sm font-medium"
-              >
-                Project Gallery
-              </Link>
-              <Link
-                href="/blog"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-slate-200 hover:text-red-400 text-sm font-medium"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/contact-us"
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-slate-200 hover:text-red-400 text-sm font-medium"
-              >
-                Contact Us
-              </Link>
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }}>
+                <Link
+                  href="/projects"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-slate-200 hover:text-red-400 text-sm font-medium"
+                >
+                  Project Gallery
+                </Link>
+              </motion.div>
 
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openBookModal();
-                }}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-sky-600 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 flex items-center justify-center gap-2"
-              >
-                <Sparkles className="w-4 h-4 text-sky-200" />
-                Book Us Now
-              </button>
-            </div>
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }}>
+                <Link
+                  href="/blog"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-slate-200 hover:text-red-400 text-sm font-medium"
+                >
+                  Blog
+                </Link>
+              </motion.div>
+
+              <motion.div variants={{ open: { opacity: 1, x: 0 }, closed: { opacity: 0, x: -15 } }}>
+                <Link
+                  href="/contact-us"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block text-slate-200 hover:text-red-400 text-sm font-medium"
+                >
+                  Contact Us
+                </Link>
+              </motion.div>
+
+              <motion.div variants={{ open: { opacity: 1, y: 0 }, closed: { opacity: 0, y: 10 } }}>
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openBookModal();
+                  }}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-sky-600 text-white font-bold text-sm uppercase tracking-wider shadow-lg shadow-red-600/30 flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] transition-transform"
+                >
+                  <Sparkles className="w-4 h-4 text-sky-200" />
+                  Book Us Now
+                </button>
+              </motion.div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

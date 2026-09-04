@@ -294,14 +294,14 @@ export function BookUsModal() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-widest shadow-xl shadow-red-600/20 transition-all duration-300 flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-widest shadow-xl shadow-red-600/20 transition-all duration-300 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
                   >
                     {loading ? (
                       <span className="animate-pulse">Submitting Request...</span>
                     ) : (
                       <>
-                        <Sparkles className="w-4 h-4 text-sky-200" />
-                        Request Free Consultation
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-200 shrink-0" />
+                        <span>Request Free Consultation</span>
                       </>
                     )}
                   </button>

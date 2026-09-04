@@ -10,6 +10,7 @@ import { IntroSection } from '@/components/sections/IntroSection';
 import { LiveBadge } from '@/components/animations/LiveBadge';
 import { BeforeAfterSlider } from '@/components/interactive/BeforeAfterSlider';
 import { StatsBanner } from '@/components/sections/StatsBanner';
+import { LiveCostCalculator } from '@/components/interactive/LiveCostCalculator';
 import { ServicesGrid } from '@/components/sections/ServicesGrid';
 import { WhyUs } from '@/components/sections/WhyUs';
 import { ResidentialCommercial } from '@/components/sections/ResidentialCommercial';
@@ -43,22 +44,25 @@ export default function Home() {
         {/* 5. Statistics Banner */}
         <StatsBanner />
 
-        {/* 6. Flooring Categories */}
+        {/* 6. Live Flooring Cost Estimator */}
+        <LiveCostCalculator />
+
+        {/* 7. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 7. Why HD Flooring */}
+        {/* 8. Why HD Flooring */}
         <WhyUs />
 
-        {/* 8. Residential & Commercial Solutions */}
+        {/* 9. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 9. Installation Process */}
+        {/* 10. Installation Process */}
         <ProcessTimeline />
 
-        {/* 10. Customer Testimonials */}
+        {/* 11. Customer Testimonials */}
         <Testimonials />
 
-        {/* 11. Final CTA */}
+        {/* 12. Final CTA */}
         <FinalCTA />
       </main>
 
@@ -71,3 +75,4 @@ export default function Home() {
     </div>
   );
 }
+

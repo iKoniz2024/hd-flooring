@@ -74,10 +74,10 @@ export function HeroSearch() {
 
           <button
             type="submit"
-            className="px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shrink-0 shadow-lg shadow-red-600/30 transition-all"
+            className="px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 shrink-0 shadow-lg shadow-red-600/30 transition-all"
           >
-            Search
-            <ArrowRight className="w-4 h-4 text-sky-200" />
+            <span>Search</span>
+            <ArrowRight className="w-3.5 h-3.5 text-sky-200 shrink-0" />
           </button>
         </div>
       </form>

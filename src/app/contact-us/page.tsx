@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Sparkles, Phone, Mail, MapPin, Clock, Send, CheckCircle2, UserCheck } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -24,8 +25,13 @@ export default function ContactUsPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-16">
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
+      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-16 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8, y: -20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-center space-y-4 max-w-3xl mx-auto"
+        >
           <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
             <Sparkles className="w-4 h-4 text-sky-400" />
             Get In Touch
@@ -36,11 +42,17 @@ export default function ContactUsPage() {
           <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter">
             Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help.
           </p>
-        </div>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
-          {/* Info Side */}
-          <div className="lg:col-span-2 space-y-8 p-8 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl">
+          {/* Info Side - Slide In From Left + Zoom */}
+          <motion.div
+            initial={{ opacity: 0, x: -70, scale: 0.9 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-2 space-y-8 p-8 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl"
+          >
             <div className="space-y-2 font-manrope">
               <h3 className="font-playfair text-2xl font-bold text-slate-100">
                 Contact Information
@@ -105,12 +117,18 @@ export default function ContactUsPage() {
                 </div>
               </li>
             </ul>
-          </div>
+          </motion.div>
 
-          {/* Form Side */}
-          <div className="lg:col-span-3 p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl">
+          {/* Form Side - Slide In From Right + Zoom */}
+          <motion.div
+            initial={{ opacity: 0, x: 70, scale: 0.9 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-3 p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl"
+          >
             {submitted ? (
-              <div className="text-center py-12 space-y-4">
+              <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center py-12 space-y-4">
                 <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
@@ -118,7 +136,7 @@ export default function ContactUsPage() {
                 <p className="text-xs text-slate-400 max-w-sm mx-auto font-manrope">
                   Thank you! Habibur Rahman & the HD Flooring team will review your project details and reach out shortly.
                 </p>
-              </div>
+              </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 font-inter">
                 <h3 className="font-playfair text-2xl font-bold text-slate-900 dark:text-slate-100">
@@ -196,17 +214,19 @@ export default function ContactUsPage() {
                   />
                 </div>
 
-                <button
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/20 flex items-center justify-center gap-2"
+                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/20 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
                 >
-                  <Send className="w-4 h-4 text-sky-200" />
-                  {loading ? 'Sending Request...' : 'Submit Request'}
-                </button>
+                  <Send className="w-4 h-4 text-sky-200 shrink-0" />
+                  <span>{loading ? 'Sending Request...' : 'Submit Request'}</span>
+                </motion.button>
               </form>
             )}
-          </div>
+          </motion.div>
         </div>
       </main>
 
@@ -216,3 +236,4 @@ export default function ContactUsPage() {
     </div>
   );
 }
+

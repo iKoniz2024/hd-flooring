@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import { SlidersHorizontal, Sparkles } from 'lucide-react';
 
 export function BeforeAfterSlider() {
@@ -28,8 +29,15 @@ export function BeforeAfterSlider() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-12 px-4 sm:px-6 font-inter">
-      <div className="text-center space-y-3 mb-8">
+    <div className="w-full max-w-5xl mx-auto py-12 px-4 sm:px-6 font-inter overflow-hidden">
+      {/* Header with Zoom-In */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85, y: -20 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.6 }}
+        className="text-center space-y-3 mb-8"
+      >
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5 text-sky-400" />
           Interactive Floor Transformation
@@ -40,10 +48,14 @@ export function BeforeAfterSlider() {
         <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-inter">
           Drag the slider to compare raw subfloor preparation with a flawlessly installed luxury hardwood finish.
         </p>
-      </div>
+      </motion.div>
 
-      {/* Slider Container */}
-      <div
+      {/* Slider Container with Zoom Expansion */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.7 }}
         ref={containerRef}
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
@@ -82,11 +94,16 @@ export function BeforeAfterSlider() {
           className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.8)]"
           style={{ left: `${sliderPos}%` }}
         >
-          <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-red-600 text-white border-2 border-slate-950 shadow-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+          <motion.div
+            animate={{ scale: [1, 1.15, 1] }}
+            transition={{ duration: 2.5, repeat: Infinity }}
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-red-600 text-white border-2 border-slate-950 shadow-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
+          >
             <SlidersHorizontal className="w-5 h-5 text-sky-200" />
-          </div>
+          </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }
+
