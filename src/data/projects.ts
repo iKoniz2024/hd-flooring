@@ -20,7 +20,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Sheet Vinyl',
     propertyType: 'Commercial',
     location: 'Saskatoon, SK',
-    coverImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
+    coverImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-03.jpg',
     galleryImages: [
       '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
       '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-02.jpg',

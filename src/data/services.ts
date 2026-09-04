@@ -72,7 +72,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Waterproof Luxury Vinyl Planks, Tiles, Sheet Vinyl & Commercial VCT',
     shortDesc: '100% waterproof LVP, realistic stone LVT, sheet vinyl with flash coving, and heavy-duty commercial VCT.',
     fullDesc: 'Luxury Vinyl Plank (LVP), Luxury Vinyl Tile (LVT), Sheet Vinyl Coving, and Vinyl Composition Tile (VCT) provide hyper-realistic textures with total moisture immunity.',
-    heroImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
+    heroImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-03.jpg',
     benefits: [
       '100% Waterproof construction',
       'Pet & child scratch resistance',
