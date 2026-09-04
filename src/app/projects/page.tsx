@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { projectsData } from '@/data/projects';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -37,24 +38,23 @@ export default function ProjectsPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-4 max-w-3xl mx-auto"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-sky-400" />
-            Our Flooring Portfolio
-          </span>
-          <h1 className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100">
-            See the Difference Craftsmanship Makes
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter">
-            Explore completed residential and commercial flooring installations across Saskatoon, SK, and Canadian communities.
-          </p>
-        </motion.div>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge="Our Flooring Portfolio"
+        title="See the Difference Craftsmanship Makes"
+        subtitle="Explore completed residential and commercial flooring installations across Saskatoon, SK, and Saskatchewan communities."
+        backgroundImage="/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Projects' },
+        ]}
+        primaryCta={{
+          label: 'Request Free Estimate',
+          onClick: openBookModal,
+        }}
+      />
+
+      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12 overflow-hidden">
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}

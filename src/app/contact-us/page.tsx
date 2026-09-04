@@ -8,9 +8,13 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 
+import { PageHero } from '@/components/sections/PageHero';
+import { useModal } from '@/lib/context/ModalContext';
+
 export default function ContactUsPage() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { openBookModal } = useModal();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,24 +29,27 @@ export default function ContactUsPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-16 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-4 max-w-3xl mx-auto"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-sky-400" />
-            Get In Touch
-          </span>
-          <h1 className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100">
-            Let's Discuss Your Flooring Project
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter">
-            Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help.
-          </p>
-        </motion.div>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge="Get In Touch"
+        title="Let's Discuss Your Flooring Project"
+        subtitle="Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help."
+        backgroundImage="/assets/images/floor-preparation/floor-preparation-01.jpg"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Contact Us' },
+        ]}
+        primaryCta={{
+          label: 'Call (304) 931-1555',
+          href: 'tel:3049311555',
+        }}
+        secondaryCta={{
+          label: 'Schedule Estimate',
+          onClick: openBookModal,
+        }}
+      />
+
+      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-16 overflow-hidden">
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
           {/* Info Side - Slide In From Left + Zoom */}

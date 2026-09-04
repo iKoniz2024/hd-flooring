@@ -25,6 +25,7 @@ import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { TiltCard } from '@/components/interactive/TiltCard';
+import { PageHero } from '@/components/sections/PageHero';
 import { TeamPhotoGallery } from '@/components/sections/TeamPhotoGallery';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -106,44 +107,23 @@ export default function AboutUsPage() {
       {/* Header */}
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20 relative z-10">
-        {/* Hero Section Header */}
-        <div className="text-center space-y-5 max-w-3xl mx-auto">
-          {/* Top Badge - Zoom In */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.7, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.6, type: 'spring', stiffness: 200 }}
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/10 border border-red-500/30 backdrop-blur-md shadow-lg shadow-red-600/10">
-              <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-              <span className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
-                About HD Flooring
-              </span>
-            </div>
-          </motion.div>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge="About HD Flooring"
+        title="Flooring Expertise. Built on Craftsmanship."
+        subtitle="HD Flooring is a Saskatoon-based flooring installation company specializing in high-grade vinyl, sheet vinyl coving, hardwood, laminate, tile, carpet, and self-leveling floor prep across Saskatchewan."
+        backgroundImage="/assets/images/team-company/team-company-01.jpg"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'About Us' },
+        ]}
+        primaryCta={{
+          label: 'Book Free Estimate',
+          onClick: openBookModal,
+        }}
+      />
 
-          {/* Heading - Slide Down */}
-          <motion.h1
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight"
-          >
-            Flooring Expertise. <br className="hidden sm:inline" />
-            <span className="brand-gradient-text">Built on Craftsmanship.</span>
-          </motion.h1>
-
-          {/* Subtitle - Slide Right */}
-          <motion.p
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-inter leading-relaxed max-w-2xl mx-auto"
-          >
-            HD Flooring is a Saskatoon-based flooring installation company specializing in high-grade vinyl, sheet vinyl coving, hardwood, laminate, tile, carpet, and self-leveling floor prep across Saskatchewan.
-          </motion.p>
-        </div>
+      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20 relative z-10">
 
         {/* Leadership Profile Card - 3D Tilt Card + Zoom Entrance */}
         <motion.div

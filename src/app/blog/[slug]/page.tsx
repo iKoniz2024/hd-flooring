@@ -8,6 +8,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { blogPosts } from '@/data/blogs';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -22,36 +23,20 @@ export default function BlogArticlePage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full space-y-12 overflow-hidden">
-        <Link
-          href="/blog"
-          className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 hover:text-red-400 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 text-sky-400" />
-          Back to Blog Articles
-        </Link>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge={`${post.category} • ${post.readTime}`}
+        title={post.title}
+        subtitle={post.summary}
+        backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-02.jpg"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Blog', href: '/blog' },
+          { label: post.title },
+        ]}
+      />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-4"
-        >
-          <div className="flex items-center gap-3 text-xs text-red-500 font-manrope font-semibold">
-            <span className="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 font-bold">
-              {post.category}
-            </span>
-            <span className="flex items-center gap-1 text-slate-500">
-              <Clock className="w-3.5 h-3.5" />
-              {post.readTime}
-            </span>
-            <span className="text-slate-500">• {post.publishDate}</span>
-          </div>
-
-          <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-            {post.title}
-          </h1>
-        </motion.div>
+      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto w-full space-y-12 overflow-hidden">
 
         <motion.div
           initial={{ opacity: 0, y: 30, scale: 0.95 }}

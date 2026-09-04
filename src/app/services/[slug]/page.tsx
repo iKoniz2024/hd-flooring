@@ -9,6 +9,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { servicesData } from '@/data/services';
 import { Accordion } from '@/components/ui/Accordion';
 import { useModal } from '@/lib/context/ModalContext';
@@ -122,7 +123,24 @@ export default function ServiceDetailPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-16">
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge={service.categoryTag || 'Specialized Service'}
+        title={service.title}
+        subtitle={service.tagline}
+        backgroundImage={service.heroImage}
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Services', href: '/services' },
+          { label: service.title },
+        ]}
+        primaryCta={{
+          label: `Book ${service.title.split(' ')[0]} Estimate`,
+          onClick: () => openBookModal(service.title),
+        }}
+      />
+
+      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-16">
         <Link
           href="/services"
           className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 hover:text-red-400 transition-colors"

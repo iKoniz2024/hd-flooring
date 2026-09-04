@@ -7,6 +7,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { blogPosts } from '@/data/blogs';
 
 export default function BlogPage() {
@@ -14,24 +15,19 @@ export default function BlogPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-12 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-4"
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-sky-400" />
-            Flooring Tips & Insights
-          </span>
-          <h1 className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100">
-            Expert Flooring Advice
-          </h1>
-          <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base font-inter max-w-2xl mx-auto">
-            Practical guides and expert advice to help Canadian homeowners and businesses make better flooring decisions.
-          </p>
-        </motion.div>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge="Flooring Insights & Advice"
+        title="Expert Flooring Guides & Tips"
+        subtitle="Practical guides and professional advice to help Canadian homeowners and businesses make informed flooring choices."
+        backgroundImage="/assets/images/laminate-flooring/laminate-flooring-01.jpg"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Blog' },
+        ]}
+      />
+
+      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-12 overflow-hidden">
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {blogPosts.map((post, idx) => {

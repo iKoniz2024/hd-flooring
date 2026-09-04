@@ -9,6 +9,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { projectsData } from '@/data/projects';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -50,38 +51,24 @@ export default function ProjectDetailPage() {
     <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
-      <main className="flex-1 pt-32 pb-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-12 overflow-hidden">
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 hover:text-red-400 transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 text-sky-400" />
-          Back to Project Gallery
-        </Link>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge={`${project.propertyType} • ${project.category}`}
+        title={project.title}
+        subtitle={`${project.location} • Installation Case Study`}
+        backgroundImage={project.coverImage}
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Projects', href: '/projects' },
+          { label: project.title },
+        ]}
+        primaryCta={{
+          label: 'Get Similar Flooring',
+          onClick: () => openBookModal(project.title),
+        }}
+      />
 
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-4"
-        >
-          <div className="flex flex-wrap items-center gap-3">
-            <span className="px-3 py-1 rounded-full bg-red-600 text-white text-xs font-manrope font-bold uppercase tracking-wider">
-              {project.category}
-            </span>
-            <span className="px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-manrope font-medium">
-              {project.propertyType}
-            </span>
-            <span className="text-xs text-red-500 font-manrope font-bold flex items-center gap-1">
-              <MapPin className="w-3.5 h-3.5 text-sky-400" />
-              {project.location}
-            </span>
-          </div>
-
-          <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-            {project.title}
-          </h1>
-        </motion.div>
+      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-12 overflow-hidden">
 
         {/* Featured Main Image Box - Zoom Expansion */}
         <motion.div
