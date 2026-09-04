@@ -27,7 +27,7 @@ const steps = [
     num: '04',
     title: 'Subfloor Prep & Tear-Out',
     desc: 'We tear out existing floors, level subfloors, and fix squeaks for a smooth foundation.',
-    image: '/assets/images/floor-preparation/floor-preparation-03.jpg',
+    image: '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
   },
   {
     num: '05',
@@ -74,18 +74,18 @@ export function ProcessTimeline() {
               whileHover={{ y: -6 }}
               className="relative rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl transition-all duration-300 overflow-hidden group flex flex-col justify-between"
             >
-              {/* Image Preview Banner */}
-              <div className="relative h-44 w-full bg-slate-950 overflow-hidden">
+              {/* Image Preview Banner - High Clarity in Light & Dark Mode */}
+              <div className="relative h-48 w-full bg-slate-950 overflow-hidden">
                 <Image
                   src={step.image}
                   alt={step.title}
                   fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-700 opacity-90"
+                  className="object-cover group-hover:scale-110 transition-transform duration-700"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-slate-900 via-transparent to-transparent" />
-                <div className="absolute top-3 left-3 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-full border border-slate-700/60">
-                  <span className="font-playfair text-sm font-extrabold text-red-400">
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent" />
+                <div className="absolute top-3 left-3 bg-slate-950/85 backdrop-blur-md px-3 py-1 rounded-full border border-slate-700/60 shadow-md">
+                  <span className="font-playfair text-xs font-extrabold text-red-400">
                     Step {step.num}
                   </span>
                 </div>

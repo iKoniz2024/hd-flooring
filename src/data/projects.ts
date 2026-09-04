@@ -174,9 +174,9 @@ export const projectsData: ProjectItem[] = [
     coverImage: '/assets/images/floor-preparation/floor-preparation-01.jpg',
     galleryImages: [
       '/assets/images/floor-preparation/floor-preparation-01.jpg',
-      '/assets/images/floor-preparation/floor-preparation-02.jpg',
-      '/assets/images/floor-preparation/floor-preparation-03.jpg',
-      '/assets/images/floor-preparation/floor-preparation-04.jpg',
+      '/assets/images/team-company/team-company-04.jpg',
+      '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
+      '/assets/images/flooring-replacement/flooring-replacement-02.jpg',
     ],
     challenge: 'Severely uneven concrete slab in commercial building causing plank joint stress and height variation.',
     solution: 'Poured high-flow polymer self-leveling cement compound, primed base, and laser-leveled floor surface.',
@@ -193,8 +193,8 @@ export const projectsData: ProjectItem[] = [
     galleryImages: [
       '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
       '/assets/images/flooring-replacement/flooring-replacement-02.jpg',
-      '/assets/images/flooring-replacement/flooring-replacement-03.jpg',
-      '/assets/images/flooring-replacement/flooring-replacement-04.jpg',
+      '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
+      '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg',
     ],
     challenge: 'Water damage degraded localized hardwood planks near kitchen sink area without affecting main living floor.',
     solution: 'Surgically extracted damaged planks, prepped subfloor, tongue-and-groove matched new oak boards, and seamlessly finished.',
