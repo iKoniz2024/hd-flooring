@@ -42,6 +42,15 @@ export const metadata: Metadata = {
     'Self Leveling Compound Saskatoon',
   ],
   authors: [{ name: 'HD Flooring - Habibur Rahman (Habib)' }],
+  icons: {
+    icon: [
+      { url: '/assets/images/light-logo.png', media: '(prefers-color-scheme: light)' },
+      { url: '/assets/images/dark-logo.png', media: '(prefers-color-scheme: dark)' },
+      { url: '/assets/images/light-logo.png' },
+    ],
+    shortcut: '/assets/images/light-logo.png',
+    apple: '/assets/images/light-logo.png',
+  },
   openGraph: {
     title: 'HD Flooring | Professional Installation & Repairs in Saskatoon, SK',
     description:
