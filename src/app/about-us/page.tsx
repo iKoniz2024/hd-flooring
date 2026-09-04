@@ -152,13 +152,13 @@ export default function AboutUsPage() {
           transition={{ duration: 0.7, type: 'spring', stiffness: 180 }}
         >
           <TiltCard className="w-full">
-            <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 border border-red-500/30 shadow-2xl shadow-red-500/10 flex flex-col lg:flex-row items-center gap-8 justify-between relative overflow-hidden group">
+            <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-red-500/30 shadow-2xl shadow-red-500/10 flex flex-col lg:flex-row items-center gap-8 justify-between relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
 
               <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left relative z-10">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-600 to-sky-500 p-0.5 shadow-xl shadow-red-600/20 shrink-0"
+                  className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-600 to-sky-500 p-0.5 shadow-xl shrink-0"
                 >
                   <div className="w-full h-full rounded-[14px] bg-slate-950 flex items-center justify-center text-red-400">
                     <UserCheck className="w-10 h-10 text-red-400" />
@@ -166,14 +166,14 @@ export default function AboutUsPage() {
                 </motion.div>
 
                 <div className="space-y-1.5">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[11px] font-bold uppercase tracking-wider">
-                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-[11px] font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                     Managing Director
                   </div>
-                  <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white">
+                  <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
                     Habibur Rahman (Habib)
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-400 font-manrope">
+                  <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-manrope">
                     Lead Installation Specialist & Founder, HD Flooring
                   </p>
                 </div>
@@ -195,9 +195,9 @@ export default function AboutUsPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href="mailto:hdflooring7@gmail.com"
-                  className="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold flex items-center gap-2 transition-all"
+                  className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center gap-2 transition-all"
                 >
-                  <Mail className="w-3.5 h-3.5 text-sky-400" />
+                  <Mail className="w-3.5 h-3.5 text-sky-500" />
                   <span>Email HD Flooring</span>
                 </motion.a>
               </div>
@@ -214,21 +214,21 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             whileHover={{ y: -6 }}
-            className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-red-500/40 shadow-2xl space-y-4 transition-all group"
+            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-2xl space-y-4 transition-all group"
           >
             <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
               <Sparkles className="w-6 h-6" />
             </div>
 
-            <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-400 text-[11px] font-bold uppercase tracking-wider">
+            <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold uppercase tracking-wider">
               Our Mission
             </div>
 
-            <h3 className="font-playfair text-2xl font-extrabold text-white group-hover:text-red-400 transition-colors">
+            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
               Delivering Dependable Perfection
             </h3>
 
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
               To provide dependable flooring installation and repair services with professional workmanship, quality-focused material advice, and specialized vinyl & hardwood solutions tailored to every client in Saskatoon and Saskatchewan.
             </p>
           </motion.div>
@@ -240,21 +240,21 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             whileHover={{ y: -6 }}
-            className="p-8 rounded-3xl bg-slate-900/90 border border-slate-800 hover:border-sky-500/40 shadow-2xl space-y-4 transition-all group"
+            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-sky-500/40 shadow-2xl space-y-4 transition-all group"
           >
-            <div className="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 group-hover:scale-110 transition-transform">
               <Award className="w-6 h-6" />
             </div>
 
-            <div className="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-400 text-[11px] font-bold uppercase tracking-wider">
+            <div className="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[11px] font-bold uppercase tracking-wider">
               Our Vision
             </div>
 
-            <h3 className="font-playfair text-2xl font-extrabold text-white group-hover:text-sky-400 transition-colors">
+            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
               Saskatchewan's Most Trusted Installer
             </h3>
 
-            <p className="text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
+            <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
               To become the standard for flooring installation excellence across Canada — recognized for zero-defect installation, flawless subfloor preparation, transparent customer service, and long-lasting durability.
             </p>
           </motion.div>
@@ -268,10 +268,10 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             className="text-center space-y-2"
           >
-            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
               What Drives Us
             </div>
-            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-100">
+            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
               Our Core Guiding Values
             </h2>
           </motion.div>
@@ -293,15 +293,15 @@ export default function AboutUsPage() {
               return (
                 <motion.div key={idx} variants={variant}>
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-red-500/40 shadow-xl space-y-3 h-full flex flex-col justify-between group">
+                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-xl space-y-3 h-full flex flex-col justify-between group">
                       <div className="space-y-3">
-                        <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
                           <IconComponent className="w-5 h-5" />
                         </div>
-                        <h3 className="font-playfair text-lg font-bold text-slate-100 group-hover:text-red-400 transition-colors">
+                        <h3 className="font-playfair text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                           {v.title}
                         </h3>
-                        <p className="text-xs text-slate-400 leading-relaxed font-inter">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
                           {v.desc}
                         </p>
                       </div>
@@ -321,10 +321,10 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             className="text-center space-y-2"
           >
-            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
               Our Clientele
             </div>
-            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-100">
+            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
               Who We Serve Across Saskatchewan
             </h2>
           </motion.div>
@@ -342,17 +342,17 @@ export default function AboutUsPage() {
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   whileHover={{ y: -4 }}
-                  className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 hover:border-sky-500/40 shadow-xl space-y-3 transition-all group"
+                  className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-sky-500/40 shadow-xl space-y-3 transition-all group"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 group-hover:rotate-6 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 group-hover:rotate-6 transition-transform">
                       <IconComp className="w-5 h-5" />
                     </div>
-                    <h3 className="font-playfair text-lg font-bold text-slate-100 group-hover:text-sky-400 transition-colors">
+                    <h3 className="font-playfair text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                       {item.title}
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-400 leading-relaxed font-inter pl-13">
+                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter pl-13">
                     {item.desc}
                   </p>
                 </motion.div>
