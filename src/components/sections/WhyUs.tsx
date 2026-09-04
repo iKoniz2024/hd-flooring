@@ -57,7 +57,7 @@ const getItemVariant = (idx: number) => {
 
 export function WhyUs() {
   return (
-    <section className="py-20 bg-slate-900/60 dark:bg-slate-900/80 border-y border-red-500/20 font-inter overflow-hidden">
+    <section className="py-20 bg-slate-100/80 dark:bg-slate-900/80 border-y border-slate-200 dark:border-red-500/20 font-inter overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.85, y: -20 }}
@@ -66,10 +66,10 @@ export function WhyUs() {
           transition={{ duration: 0.6 }}
           className="text-center space-y-3 mb-16"
         >
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center max-w-full">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center max-w-full">
             Why Choose HD Flooring
           </div>
-          <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-100">
+          <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
             The Standard of Craftsmanship
           </h2>
         </motion.div>
@@ -88,14 +88,14 @@ export function WhyUs() {
                 transition={{ duration: 0.6, delay: 0.05 }}
               >
                 <TiltCard>
-                  <div className="h-full p-8 rounded-3xl bg-slate-950/90 border border-slate-800 hover:border-red-500/40 shadow-xl transition-all duration-300 space-y-4 group">
+                  <div className="h-full p-8 rounded-3xl bg-white dark:bg-slate-950/90 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-xl transition-all duration-300 space-y-4 group">
                     <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all duration-300">
                       <Icon className="w-6 h-6" />
                     </div>
-                    <h3 className="font-playfair text-xl font-bold text-slate-100 group-hover:text-red-400 transition-colors">
+                    <h3 className="font-playfair text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                       {item.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-inter">
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
                       {item.desc}
                     </p>
                   </div>

@@ -10,7 +10,7 @@ export function Footer() {
   const { openBookModal } = useModal();
 
   return (
-    <footer className="bg-slate-950 text-slate-300 border-t border-red-500/20 pt-16 pb-12 font-inter relative overflow-hidden">
+    <footer className="bg-slate-100 dark:bg-slate-950 text-slate-700 dark:text-slate-300 border-t border-slate-200 dark:border-red-500/20 pt-16 pb-12 font-inter relative overflow-hidden">
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-red-600/5 blur-3xl rounded-full pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -25,7 +25,7 @@ export function Footer() {
               transition: { staggerChildren: 0.1 },
             },
           }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-800"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-slate-200 dark:border-slate-800"
         >
           {/* Brand Info - Slide Left */}
           <motion.div
@@ -38,10 +38,10 @@ export function Footer() {
             <Link href="/" className="flex items-center gap-2">
               <BrandLogo className="h-12" />
             </Link>
-            <p className="text-sm text-slate-400 max-w-sm leading-relaxed">
+            <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed">
               Professional flooring installation for Canadian homes & businesses. Specialized in Sheet Vinyl, PVC, LVP, LVT, VCT, Hardwood, Carpet, Tile & Floor Leveling.
             </p>
-            <div className="flex items-center gap-4 text-xs text-sky-400 pt-2 font-manrope">
+            <div className="flex items-center gap-4 text-xs text-sky-600 dark:text-sky-400 pt-2 font-manrope">
               <span className="flex items-center gap-1.5 bg-sky-500/10 px-3 py-1.5 rounded-lg border border-sky-500/20">
                 <ShieldCheck className="w-4 h-4 text-red-500" /> 100% Workmanship Guarantee
               </span>
@@ -56,37 +56,37 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-manrope font-bold text-slate-100 text-sm tracking-wider uppercase text-red-500">
+            <h3 className="font-manrope font-bold text-slate-900 dark:text-slate-100 text-sm tracking-wider uppercase text-red-600 dark:text-red-500">
               Quick Links
             </h3>
-            <ul className="space-y-2.5 text-sm text-slate-400 font-manrope">
+            <ul className="space-y-2.5 text-sm text-slate-600 dark:text-slate-400 font-manrope">
               <li>
-                <Link href="/" className="hover:text-red-400 transition-colors">
+                <Link href="/" className="hover:text-red-500 transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/about-us" className="hover:text-red-400 transition-colors">
+                <Link href="/about-us" className="hover:text-red-500 transition-colors">
                   About Us
                 </Link>
               </li>
               <li>
-                <Link href="/services" className="hover:text-red-400 transition-colors">
+                <Link href="/services" className="hover:text-red-500 transition-colors">
                   Services
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="hover:text-red-400 transition-colors">
+                <Link href="/projects" className="hover:text-red-500 transition-colors">
                   Project Gallery
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="hover:text-red-400 transition-colors">
+                <Link href="/blog" className="hover:text-red-500 transition-colors">
                   Blog & Insights
                 </Link>
               </li>
               <li>
-                <Link href="/contact-us" className="hover:text-red-400 transition-colors">
+                <Link href="/contact-us" className="hover:text-red-500 transition-colors">
                   Contact Us
                 </Link>
               </li>
@@ -101,15 +101,15 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-manrope font-bold text-slate-100 text-sm tracking-wider uppercase text-sky-400">
+            <h3 className="font-manrope font-bold text-slate-900 dark:text-slate-100 text-sm tracking-wider uppercase text-sky-600 dark:text-sky-400">
               Our Services
             </h3>
-            <ul className="space-y-2 text-xs text-slate-400 font-manrope">
+            <ul className="space-y-2 text-xs text-slate-600 dark:text-slate-400 font-manrope">
               <li>
                 <Link
                   href="/services/hardwood-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Solid Hardwood Flooring
                 </Link>
@@ -118,7 +118,7 @@ export function Footer() {
                 <Link
                   href="/services/engineered-hardwood-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Engineered Hardwood
                 </Link>
@@ -127,7 +127,7 @@ export function Footer() {
                 <Link
                   href="/services/luxury-vinyl-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Luxury Vinyl & Sheet Vinyl
                 </Link>
@@ -136,7 +136,7 @@ export function Footer() {
                 <Link
                   href="/services/laminate-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Laminate Flooring
                 </Link>
@@ -145,7 +145,7 @@ export function Footer() {
                 <Link
                   href="/services/carpet-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Carpet Flooring
                 </Link>
@@ -154,7 +154,7 @@ export function Footer() {
                 <Link
                   href="/services/tile-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Tile & Porcelain
                 </Link>
@@ -163,7 +163,7 @@ export function Footer() {
                 <Link
                   href="/services/stair-flooring"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Stair Flooring & Capping
                 </Link>
@@ -172,7 +172,7 @@ export function Footer() {
                 <Link
                   href="/services/flooring-replacement"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Flooring Repairs & Replacement
                 </Link>
@@ -181,7 +181,7 @@ export function Footer() {
                 <Link
                   href="/services/floor-preparation"
                   onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'smooth' })}
-                  className="hover:text-sky-400 transition-colors"
+                  className="hover:text-sky-500 transition-colors"
                 >
                   Self Leveling & Floor Prep
                 </Link>
@@ -197,33 +197,33 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-manrope font-bold text-slate-100 text-sm tracking-wider uppercase text-red-500">
+            <h3 className="font-manrope font-bold text-slate-900 dark:text-slate-100 text-sm tracking-wider uppercase text-red-600 dark:text-red-500">
               Contact Us
             </h3>
-            <ul className="space-y-3 text-xs text-slate-400 font-manrope">
+            <ul className="space-y-3 text-xs text-slate-600 dark:text-slate-400 font-manrope">
               <li className="flex items-start gap-2.5">
                 <Phone className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <a href="tel:+13068808404" className="hover:text-red-400 transition-colors">
+                <a href="tel:+13068808404" className="hover:text-red-500 transition-colors">
                   +1 (306) 880-8404
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
                 <Mail className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
-                <a href="mailto:hdflooring7@gmail.com" className="hover:text-red-400 transition-colors">
+                <a href="mailto:hdflooring7@gmail.com" className="hover:text-red-500 transition-colors">
                   hdflooring7@gmail.com
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
                 <span>211 47th St East, S7L 5H1, Saskatoon, SK, Canada</span>
               </li>
             </ul>
 
             <button
               onClick={() => openBookModal()}
-              className="mt-2 w-full py-2.5 rounded-xl bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 text-red-400 font-manrope text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300"
+              className="mt-2 w-full py-2.5 rounded-xl bg-red-600/10 border border-red-500/30 hover:bg-red-600/20 text-red-600 dark:text-red-400 font-manrope text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all duration-300"
             >
-              <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+              <Sparkles className="w-3.5 h-3.5 text-sky-500" />
               Request Consultation
             </button>
           </motion.div>
@@ -233,10 +233,10 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500 font-manrope">
           <p>© {new Date().getFullYear()} HD Flooring Canada. Managing Director: Habibur Rahman (Habib).</p>
           <div className="flex items-center gap-6">
-            <Link href="#" className="hover:text-red-400 transition-colors">
+            <Link href="#" className="hover:text-red-500 transition-colors">
               Privacy Policy
             </Link>
-            <Link href="#" className="hover:text-red-400 transition-colors">
+            <Link href="#" className="hover:text-red-500 transition-colors">
               Terms & Conditions
             </Link>
           </div>

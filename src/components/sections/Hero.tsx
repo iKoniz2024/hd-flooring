@@ -10,19 +10,19 @@ export function Hero() {
   const { openBookModal } = useModal();
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-950 text-slate-100">
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
       {/* Background Image Layer with Zoom Pulsing */}
       <motion.div
         animate={{ scale: [1.02, 1.08, 1.02] }}
         transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30 mix-blend-luminosity"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-30 mix-blend-luminosity"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=80')`,
         }}
       />
 
       {/* Brand Vignette & Radial Glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/80 to-slate-950/60 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-slate-50/60 dark:from-slate-950 dark:via-slate-950/80 dark:to-slate-950/60 pointer-events-none" />
       <motion.div
         animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
@@ -43,7 +43,7 @@ export function Hero() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-600/10 border border-red-500/30 backdrop-blur-md shadow-lg shadow-red-600/10"
         >
           <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-          <span className="text-xs font-manrope font-bold text-red-400 uppercase tracking-widest">
+          <span className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 uppercase tracking-widest">
             Canadian Flooring Standards & Craftsmanship
           </span>
         </motion.div>
@@ -53,7 +53,7 @@ export function Hero() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-100 leading-[1.1]"
+          className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 leading-[1.1]"
         >
           Professional Flooring Installation. <br className="hidden sm:inline" />
           <span className="brand-gradient-text">Built for Canadian Spaces.</span>
@@ -64,7 +64,7 @@ export function Hero() {
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-inter text-slate-300 max-w-3xl mx-auto text-base sm:text-xl leading-relaxed"
+          className="font-inter text-slate-600 dark:text-slate-300 max-w-3xl mx-auto text-base sm:text-xl leading-relaxed"
         >
           Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
         </motion.p>
@@ -104,10 +104,10 @@ export function Hero() {
           >
             <Link
               href="/services"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-slate-900/80 hover:bg-slate-800 border border-slate-700 text-slate-200 font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:border-red-500/50 transition-all duration-300 inline-flex items-center justify-center gap-1.5 text-center whitespace-nowrap"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:border-red-500/50 transition-all duration-300 inline-flex items-center justify-center gap-1.5 text-center whitespace-nowrap shadow-sm"
             >
               <span>Explore Services</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
             </Link>
           </motion.div>
         </div>
@@ -117,14 +117,14 @@ export function Hero() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="pt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-400 border-t border-slate-800/80"
+          className="pt-10 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800/80"
         >
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }} className="flex items-center gap-2">
             <Home className="w-4 h-4 text-red-500" />
             Residential & Commercial
           </motion.div>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }} className="flex items-center gap-2">
-            <Award className="w-4 h-4 text-sky-400" />
+            <Award className="w-4 h-4 text-sky-500" />
             Professional Installation
           </motion.div>
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.8 }} className="flex items-center gap-2">

@@ -98,7 +98,7 @@ export default function AboutUsPage() {
   const { openBookModal } = useModal();
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100 font-inter relative overflow-hidden">
+    <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-hidden">
       {/* Mouse & Ambient Spotlight */}
       <MouseSpotlight />
 
@@ -116,7 +116,7 @@ export default function AboutUsPage() {
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/10 border border-red-500/30 backdrop-blur-md shadow-lg shadow-red-600/10">
               <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-              <span className="text-xs font-manrope font-bold text-red-400 uppercase tracking-wider">
+              <span className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 uppercase tracking-wider">
                 About HD Flooring
               </span>
             </div>
@@ -127,7 +127,7 @@ export default function AboutUsPage() {
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-100 leading-tight"
+            className="font-playfair text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight"
           >
             Flooring Expertise. <br className="hidden sm:inline" />
             <span className="brand-gradient-text">Built on Craftsmanship.</span>
@@ -138,7 +138,7 @@ export default function AboutUsPage() {
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="text-slate-300 text-sm sm:text-base font-inter leading-relaxed max-w-2xl mx-auto"
+            className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-inter leading-relaxed max-w-2xl mx-auto"
           >
             HD Flooring is a Saskatoon-based flooring installation company specializing in high-grade vinyl, sheet vinyl coving, hardwood, laminate, tile, carpet, and self-leveling floor prep across Saskatchewan.
           </motion.p>

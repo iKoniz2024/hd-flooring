@@ -84,7 +84,7 @@ export function BookUsModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-slate-900/95 dark:bg-slate-950/95 bg-white/95 backdrop-blur-2xl border border-red-500/30 rounded-3xl shadow-2xl shadow-black/60 overflow-hidden z-10"
+            className="relative w-full max-w-2xl bg-white dark:bg-slate-950/95 text-slate-900 dark:text-slate-100 backdrop-blur-2xl border border-slate-200 dark:border-red-500/30 rounded-3xl shadow-2xl overflow-hidden z-10"
           >
             {/* Header Banner */}
             <div className="bg-gradient-to-r from-red-600 via-red-500 to-sky-600 p-6 text-white flex items-center justify-between relative overflow-hidden">
@@ -110,14 +110,14 @@ export function BookUsModal() {
             <div className="p-6 sm:p-8 font-inter">
               {submitted ? (
                 <div className="text-center py-10 space-y-6">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <CheckCircle2 className="w-12 h-12" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-playfair text-2xl font-bold text-slate-100">
+                    <h3 className="font-playfair text-2xl font-bold text-slate-900 dark:text-slate-100">
                       Thank You for Reaching Out!
                     </h3>
-                    <p className="text-sm text-slate-400 max-w-md mx-auto leading-relaxed font-manrope">
+                    <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mx-auto leading-relaxed font-manrope">
                       Your request has been received. A member of the HD Flooring team will contact you shortly to confirm your consultation details.
                     </p>
                   </div>
@@ -132,7 +132,7 @@ export function BookUsModal() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Full Name *
                       </label>
                       <div className="relative">
@@ -145,13 +145,13 @@ export function BookUsModal() {
                             setFormData({ ...formData, fullName: e.target.value })
                           }
                           placeholder="e.g. David Miller"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Phone Number *
                       </label>
                       <div className="relative">
@@ -164,7 +164,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, phone: e.target.value })
                           }
                           placeholder="e.g. (306) 880-8404"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
@@ -172,7 +172,7 @@ export function BookUsModal() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Email Address
                       </label>
                       <div className="relative">
@@ -184,13 +184,13 @@ export function BookUsModal() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           placeholder="hdflooring7@gmail.com"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm placeholder:text-slate-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-sm placeholder:text-slate-400 dark:placeholder:text-slate-500 outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Service Required *
                       </label>
                       <select
@@ -199,10 +199,10 @@ export function BookUsModal() {
                         onChange={(e) =>
                           setFormData({ ...formData, service: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-sm outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-sm outline-none"
                       >
                         {serviceOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-slate-900 text-slate-100">
+                          <option key={opt} value={opt} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
                             {opt}
                           </option>
                         ))}
@@ -212,14 +212,14 @@ export function BookUsModal() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Property Type
                       </label>
                       <div className="flex items-center gap-3 pt-1">
                         {['Residential', 'Commercial'].map((type) => (
                           <label
                             key={type}
-                            className="flex items-center gap-1.5 text-xs text-slate-300 cursor-pointer"
+                            className="flex items-center gap-1.5 text-xs text-slate-700 dark:text-slate-300 cursor-pointer font-manrope"
                           >
                             <input
                               type="radio"
@@ -238,11 +238,11 @@ export function BookUsModal() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Project Location
                       </label>
                       <div className="relative">
-                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-sky-400" />
+                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
                         <input
                           type="text"
                           value={formData.location}
@@ -250,31 +250,31 @@ export function BookUsModal() {
                             setFormData({ ...formData, location: e.target.value })
                           }
                           placeholder="Saskatoon / SK"
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-xs outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-manrope font-medium text-slate-300">
+                      <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                         Preferred Date
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3.5 top-3 w-4 h-4 text-sky-400" />
+                        <Calendar className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
                         <input
                           type="date"
                           value={formData.preferredDate}
                           onChange={(e) =>
                             setFormData({ ...formData, preferredDate: e.target.value })
                           }
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-xs outline-none"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-manrope font-medium text-slate-300">
+                    <label className="block text-xs font-manrope font-medium text-slate-700 dark:text-slate-300">
                       Message / Project Details
                     </label>
                     <div className="relative">
@@ -286,7 +286,7 @@ export function BookUsModal() {
                           setFormData({ ...formData, details: e.target.value })
                         }
                         placeholder="Tell us about room sizes, sheet vinyl coving, LVP/LVT, board repairs, or timeline..."
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 focus:border-red-500 text-slate-100 text-xs outline-none resize-none"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-red-500 text-slate-900 dark:text-slate-100 text-xs outline-none resize-none"
                       />
                     </div>
                   </div>

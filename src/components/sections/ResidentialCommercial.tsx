@@ -67,34 +67,34 @@ export function ResidentialCommercial() {
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7 }}
           whileHover={{ y: -6 }}
-          className="p-8 sm:p-10 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl space-y-6 flex flex-col justify-between group"
+          className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-red-500/20 shadow-2xl space-y-6 flex flex-col justify-between group"
         >
           <div className="space-y-4">
-            <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400">
+            <div className="w-12 h-12 rounded-2xl bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-500 dark:text-sky-400">
               <Building2 className="w-6 h-6" />
             </div>
 
-            <span className="text-xs font-manrope font-bold text-sky-400 uppercase tracking-widest">
+            <span className="text-xs font-manrope font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest">
               Commercial Flooring
             </span>
 
-            <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-100 group-hover:text-sky-400 transition-colors">
+            <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
               Flooring Designed for Busy Commercial Spaces
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-400 leading-relaxed font-inter">
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
               Commercial flooring needs to combine appearance, durability, functionality, and professional installation. HD Flooring works with businesses, property owners, contractors, and renovation teams to install flooring for a variety of commercial environments.
             </p>
 
             <div className="pt-2">
-              <span className="block text-xs font-manrope font-semibold text-sky-400 mb-2">
+              <span className="block text-xs font-manrope font-semibold text-sky-600 dark:text-sky-400 mb-2">
                 Suitable for:
               </span>
               <div className="flex flex-wrap gap-2">
                 {commercialSpaces.map((space) => (
                   <span
                     key={space}
-                    className="text-[11px] font-manrope px-3 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5"
+                    className="text-[11px] font-manrope px-3 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5"
                   >
                     <CheckCircle2 className="w-3 h-3 text-red-500" />
                     {space}
@@ -104,7 +104,7 @@ export function ResidentialCommercial() {
             </div>
           </div>
 
-          <div className="pt-4 border-t border-slate-800">
+          <div className="pt-4 border-t border-slate-200 dark:border-slate-800">
             <button
               onClick={() => openBookModal('Commercial Flooring')}
               className="w-full py-3.5 px-4 rounded-2xl bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-600/20"

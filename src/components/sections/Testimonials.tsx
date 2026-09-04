@@ -38,7 +38,7 @@ const getReviewVariant = (idx: number) => {
 
 export function Testimonials() {
   return (
-    <section className="py-20 bg-slate-900/40 dark:bg-slate-950/80 border-t border-red-500/20 font-inter overflow-hidden">
+    <section className="py-20 bg-slate-100/80 dark:bg-slate-950/80 border-t border-slate-200 dark:border-red-500/20 font-inter overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: -20 }}

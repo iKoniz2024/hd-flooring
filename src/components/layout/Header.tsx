@@ -40,7 +40,7 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'bg-slate-950/90 dark:bg-slate-950/90 bg-white/90 border-b border-red-500/20 backdrop-blur-md py-3 shadow-xl shadow-red-950/10'
+          ? 'bg-white/90 dark:bg-slate-950/90 border-b border-slate-200 dark:border-red-500/20 backdrop-blur-md py-3 shadow-xl shadow-slate-900/10'
           : 'bg-transparent py-5'
       }`}
     >
@@ -103,7 +103,7 @@ export function Header() {
                     transition={{ duration: 0.2 }}
                     className="absolute top-full left-0 w-72 pt-2"
                   >
-                    <div className="p-2 rounded-2xl bg-slate-900/95 dark:bg-slate-950/95 bg-white/95 backdrop-blur-xl border border-red-500/30 shadow-2xl shadow-black/40 grid gap-1">
+                    <div className="p-2 rounded-2xl bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border border-slate-200 dark:border-red-500/30 shadow-2xl shadow-black/40 grid gap-1">
                       {serviceLinks.map((service) => (
                         <Link
                           key={service.href}
@@ -192,7 +192,7 @@ export function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="lg:hidden bg-slate-950/95 backdrop-blur-2xl border-b border-red-500/20 overflow-hidden"
+            className="lg:hidden bg-white/95 dark:bg-slate-950/95 backdrop-blur-2xl border-b border-slate-200 dark:border-red-500/20 overflow-hidden"
           >
             <motion.div
               initial="closed"
