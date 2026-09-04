@@ -233,7 +233,7 @@ export function ProjectShowcaseTicker() {
       : galleryPhotos.filter((p) => p.category === activeTab);
 
   return (
-    <section className="py-24 bg-slate-900 text-white font-inter relative overflow-hidden">
+    <section className="py-24 bg-slate-100/80 dark:bg-slate-950 text-slate-900 dark:text-white font-inter relative overflow-hidden border-y border-slate-200 dark:border-slate-800">
       {/* Background Glow Effects */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-sky-600/10 rounded-full blur-[120px] pointer-events-none" />
@@ -245,9 +245,9 @@ export function ProjectShowcaseTicker() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-manrope font-bold uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider"
           >
-            <Camera className="w-4 h-4 text-red-400" />
+            <Camera className="w-4 h-4 text-red-500" />
             <span>HD Flooring Workmanship Gallery</span>
           </motion.div>
 
@@ -255,7 +255,7 @@ export function ProjectShowcaseTicker() {
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="font-playfair text-3xl sm:text-5xl font-extrabold text-white leading-tight"
+            className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight"
           >
             Real On-Site Projects & <span className="brand-gradient-text">Craftsmanship</span>
           </motion.h2>
@@ -264,7 +264,7 @@ export function ProjectShowcaseTicker() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-slate-300 text-sm sm:text-base font-inter max-w-2xl mx-auto leading-relaxed"
+            className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-inter max-w-2xl mx-auto leading-relaxed"
           >
             Browse high-definition photos of real installation sites, self-leveling floor preps, custom stair capping, and sheet vinyl coving completed across Saskatoon and Saskatchewan.
           </motion.p>
@@ -281,7 +281,7 @@ export function ProjectShowcaseTicker() {
                 className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-manrope font-semibold transition-all duration-300 ${
                   isActive
                     ? 'bg-gradient-to-r from-red-600 to-sky-600 text-white shadow-lg shadow-red-600/30 scale-105'
-                    : 'bg-slate-800/80 hover:bg-slate-800 text-slate-300 border border-slate-700/60'
+                    : 'bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-800'
                 }`}
               >
                 {cat.label}
