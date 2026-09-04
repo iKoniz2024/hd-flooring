@@ -82,7 +82,7 @@ export function PageHero({
       {/* 3. HERO CONTENT WRAPPER WITH TEXT SHADOWS & GLASSMORPHISM */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 max-w-5xl mx-auto text-center space-y-5 flex flex-col items-center justify-center pt-6"
+        className="relative z-10 w-full max-w-5xl mx-auto text-center space-y-4 sm:space-y-5 flex flex-col items-center justify-center pt-4 sm:pt-6 px-2 overflow-hidden"
       >
         {/* Breadcrumbs Navigation */}
         {breadcrumbs && breadcrumbs.length > 0 && (
@@ -91,22 +91,22 @@ export function PageHero({
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             aria-label="Breadcrumb"
-            className="mb-2"
+            className="mb-1 sm:mb-2 max-w-full overflow-hidden"
           >
-            <ol className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/60 backdrop-blur-md text-xs font-medium text-slate-300 shadow-lg">
+            <ol className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 rounded-xl sm:rounded-full bg-slate-900/90 border border-slate-700/60 backdrop-blur-md text-[11px] sm:text-xs font-medium text-slate-300 shadow-lg max-w-full">
               {breadcrumbs.map((item, idx) => {
                 const isLast = idx === breadcrumbs.length - 1;
                 return (
-                  <li key={idx} className="inline-flex items-center gap-1.5">
-                    {idx > 0 && <ChevronRight className="w-3.5 h-3.5 text-slate-500" />}
+                  <li key={idx} className="inline-flex items-center gap-1 sm:gap-1.5 max-w-full">
+                    {idx > 0 && <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 shrink-0" />}
                     {isLast || !item.href ? (
-                      <span className="text-red-400 font-semibold truncate max-w-[200px] sm:max-w-none">
+                      <span className="text-red-400 font-semibold truncate max-w-[130px] sm:max-w-[280px] lg:max-w-none">
                         {item.label}
                       </span>
                     ) : (
                       <Link
                         href={item.href}
-                        className="hover:text-white transition-colors duration-200"
+                        className="hover:text-white transition-colors duration-200 shrink-0"
                       >
                         {item.label}
                       </Link>
@@ -124,10 +124,11 @@ export function PageHero({
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.6, delay: 0.1, type: 'spring', stiffness: 200 }}
+            className="max-w-full"
           >
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-600/20 border border-red-500/40 backdrop-blur-md shadow-xl shadow-red-600/10">
-              <BadgeIcon className="w-4 h-4 text-red-500 animate-pulse" />
-              <span className="text-xs font-manrope font-bold text-red-300 uppercase tracking-widest">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-red-600/20 border border-red-500/40 backdrop-blur-md shadow-xl shadow-red-600/10 max-w-full">
+              <BadgeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 animate-pulse shrink-0" />
+              <span className="text-[10px] sm:text-xs font-manrope font-bold text-red-300 uppercase tracking-widest truncate">
                 {badge}
               </span>
             </div>
@@ -139,7 +140,7 @@ export function PageHero({
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl [text-shadow:_0_3px_14px_rgba(0,0,0,0.95)]"
+          className="font-playfair text-2xl sm:text-4xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight sm:leading-tight max-w-4xl [text-shadow:_0_3px_14px_rgba(0,0,0,0.95)] break-words w-full px-1"
         >
           {title}
         </motion.h1>
@@ -150,7 +151,7 @@ export function PageHero({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-slate-100 text-sm sm:text-base lg:text-lg font-inter font-medium leading-relaxed max-w-2xl [text-shadow:_0_2px_10px_rgba(0,0,0,0.95)]"
+            className="text-slate-100 text-xs sm:text-base lg:text-lg font-inter font-medium leading-relaxed max-w-2xl [text-shadow:_0_2px_10px_rgba(0,0,0,0.95)] px-2"
           >
             {subtitle}
           </motion.p>

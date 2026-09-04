@@ -61,13 +61,13 @@ export default function BlogArticlePage() {
       />
 
       {/* WIDE EXPANSIVE 2-COLUMN CONTAINER WITH RICH ANIMATIONS */}
-      <main className="flex-1 py-12 sm:py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12 overflow-hidden">
+      <main className="flex-1 py-8 sm:py-16 px-3 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8 sm:space-y-12 overflow-hidden">
         {/* Top Navigation & Share Bar */}
         <motion.div
           initial={{ opacity: 0, y: -15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800"
+          className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-slate-800 text-xs"
         >
           <Link
             href="/blog"
@@ -77,22 +77,22 @@ export default function BlogArticlePage() {
             Back to All Articles
           </Link>
 
-          <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 font-manrope">
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
-              <Calendar className="w-3.5 h-3.5 text-red-500" />
+          <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-manrope">
+            <span className="flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
+              <Calendar className="w-3 h-3 text-red-500 shrink-0" />
               Published {post.publishDate}
             </span>
-            <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
-              <Clock className="w-3.5 h-3.5 text-amber-500" />
+            <span className="flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
+              <Clock className="w-3 h-3 text-amber-500 shrink-0" />
               {post.readTime}
             </span>
           </div>
         </motion.div>
 
         {/* MAIN 2-COLUMN GRID (8 COLS ARTICLE + 4 COLS STICKY SIDEBAR) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start w-full">
           {/* LEFT 8 COLUMNS: MAIN ARTICLE CONTENT */}
-          <div className="lg:col-span-8 space-y-10">
+          <div className="lg:col-span-8 space-y-8 sm:space-y-10 w-full overflow-hidden">
             {/* 1. KEY TAKEAWAYS HIGHLIGHT BANNER */}
             {post.keyTakeaways && post.keyTakeaways.length > 0 && (
               <motion.div
@@ -298,7 +298,7 @@ export default function BlogArticlePage() {
             initial={{ opacity: 0, x: 40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-4 space-y-8 sticky top-28"
+            className="lg:col-span-4 space-y-6 sm:space-y-8 lg:sticky lg:top-28 w-full max-w-full overflow-hidden"
           >
             {/* AUTHOR CARD */}
             <motion.div
