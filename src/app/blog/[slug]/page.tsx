@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -29,6 +29,7 @@ import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { PageHero } from '@/components/sections/PageHero';
 import { blogPosts } from '@/data/blogs';
 import { useModal } from '@/lib/context/ModalContext';
+import { smoothScrollToTop } from '@/components/providers/ScrollToTop';
 
 export default function BlogArticlePage() {
   const params = useParams();
@@ -38,6 +39,10 @@ export default function BlogArticlePage() {
 
   const post = blogPosts.find((b) => b.slug === slug) || blogPosts[0];
   const relatedPosts = blogPosts.filter((b) => b.slug !== post.slug).slice(0, 3);
+
+  useEffect(() => {
+    smoothScrollToTop(750);
+  }, [slug]);
 
   const toggleFaq = (idx: number) => {
     setOpenFaqIdx(openFaqIdx === idx ? null : idx);
@@ -235,9 +240,8 @@ export default function BlogArticlePage() {
                             {faq.question}
                           </span>
                           <ChevronDown
-                            className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-300 ${
-                              isOpen ? 'rotate-180 text-red-500' : ''
-                            }`}
+                            className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-red-500' : ''
+                              }`}
                           />
                         </button>
 
@@ -386,6 +390,9 @@ export default function BlogArticlePage() {
                     >
                       <Link
                         href={`/blog/${rel.slug}`}
+                        onClick={() => {
+                          smoothScrollToTop(750);
+                        }}
                         className="group block space-y-1.5 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                       >
                         <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">

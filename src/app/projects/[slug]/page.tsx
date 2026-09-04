@@ -104,11 +104,10 @@ export default function ProjectDetailPage() {
                 <button
                   key={idx}
                   onClick={() => setActiveImageIndex(idx)}
-                  className={`relative shrink-0 w-24 h-20 rounded-2xl overflow-hidden border-2 transition-all ${
-                    activeImageIndex === idx
+                  className={`relative shrink-0 w-24 h-20 rounded-2xl overflow-hidden border-2 transition-all ${activeImageIndex === idx
                       ? 'border-red-500 scale-105 shadow-md shadow-red-500/30'
                       : 'border-slate-200 dark:border-slate-800 opacity-70 hover:opacity-100'
-                  }`}
+                    }`}
                 >
                   <img
                     src={imgUrl}

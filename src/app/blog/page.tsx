@@ -9,6 +9,7 @@ import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { PageHero } from '@/components/sections/PageHero';
 import { blogPosts } from '@/data/blogs';
+import { smoothScrollToTop } from '@/components/providers/ScrollToTop';
 
 export default function BlogPage() {
   return (
@@ -64,6 +65,9 @@ export default function BlogPage() {
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
                   <Link
                     href={`/blog/${post.slug}`}
+                    onClick={() => {
+                      smoothScrollToTop(750);
+                    }}
                     className="text-xs font-manrope font-bold text-red-500 hover:text-red-400 flex items-center gap-1.5 group/link"
                   >
                     Read Full Article

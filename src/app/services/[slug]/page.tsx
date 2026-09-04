@@ -262,7 +262,7 @@ export default function ServiceDetailPage() {
                 {service.title} Project Photos
               </h2>
             </div>
-            
+
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-red-500/30 text-slate-100 shadow-md shadow-red-500/10 shrink-0 whitespace-nowrap">
               <Camera className="w-3.5 h-3.5 text-red-500 animate-pulse" />
               <span className="text-xs font-manrope font-extrabold text-slate-200">
