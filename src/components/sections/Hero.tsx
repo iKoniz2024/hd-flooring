@@ -77,36 +77,41 @@ export function Hero() {
   const currentSlide = categorySlides[currentSlideIdx];
 
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100">
-      {/* Background Animated Ken-Burns Image Slideshow */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={currentSlideIdx}
-          initial={{ opacity: 0, scale: 1.0 }}
-          animate={{ opacity: 0.3, scale: 1.18 }}
-          exit={{ opacity: 0, scale: 1.25 }}
-          transition={{
-            opacity: { duration: 1.2, ease: 'easeInOut' },
-            scale: { duration: 6, ease: 'easeOut' },
-          }}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat mix-blend-luminosity pointer-events-none"
-          style={{
-            backgroundImage: `url('${currentSlide.image}')`,
-          }}
-        />
-      </AnimatePresence>
+    <section className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-950 text-slate-100">
+      {/* Seamless Stacked Crossfade Slideshow - 0% Black Gap / 0% Flicker */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        {categorySlides.map((slide, idx) => (
+          <motion.div
+            key={slide.image}
+            initial={false}
+            animate={{
+              opacity: currentSlideIdx === idx ? 1 : 0,
+              scale: currentSlideIdx === idx ? 1.15 : 1.0,
+            }}
+            transition={{
+              opacity: { duration: 1.2, ease: 'easeInOut' },
+              scale: { duration: currentSlideIdx === idx ? 6 : 0, ease: 'easeOut' },
+            }}
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+            style={{
+              backgroundImage: `url('${slide.image}')`,
+            }}
+          />
+        ))}
+      </div>
 
-      {/* Brand Vignette & Radial Glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-slate-50 via-slate-50/80 to-slate-50/60 dark:from-slate-950 dark:via-slate-950/80 dark:to-slate-950/60 pointer-events-none z-10" />
+      {/* Very Soft Light Tint to Keep Text Clean While Image Remains 100% Visible */}
+      <div className="absolute inset-0 bg-slate-950/30 pointer-events-none z-10" />
+      
       <motion.div
-        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.3, 0.6, 0.3] }}
+        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.15, 0.3, 0.15] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none z-10"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-red-600/15 rounded-full blur-[140px] pointer-events-none z-10"
       />
       <motion.div
-        animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.4, 0.7, 0.4] }}
+        animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.2, 0.4, 0.2] }}
         transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/4 left-1/3 w-[400px] h-[250px] bg-sky-500/10 rounded-full blur-[120px] pointer-events-none z-10"
+        className="absolute bottom-1/4 left-1/3 w-[400px] h-[250px] bg-sky-500/15 rounded-full blur-[120px] pointer-events-none z-10"
       />
 
       {/* Side Slide Navigators */}
@@ -150,7 +155,7 @@ export function Hero() {
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100 leading-[1.1]"
+          className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] drop-shadow-md"
         >
           Professional Flooring Installation. <br className="hidden sm:inline" />
           <span className="brand-gradient-text">Built for Canadian Spaces.</span>
@@ -161,7 +166,7 @@ export function Hero() {
           initial={{ opacity: 0, x: -40 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-inter text-slate-600 dark:text-slate-300 max-w-3xl mx-auto text-base sm:text-xl leading-relaxed"
+          className="font-inter text-slate-200 max-w-3xl mx-auto text-base sm:text-xl leading-relaxed drop-shadow-sm font-medium"
         >
           Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
         </motion.p>
@@ -201,10 +206,10 @@ export function Hero() {
           >
             <Link
               href="/services"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:border-red-500/50 transition-all duration-300 inline-flex items-center justify-center gap-1.5 text-center whitespace-nowrap shadow-sm"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-100 font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:border-red-500/50 transition-all duration-300 inline-flex items-center justify-center gap-1.5 text-center whitespace-nowrap shadow-lg backdrop-blur-md"
             >
               <span>Explore Services</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-500 shrink-0" />
+              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0" />
             </Link>
           </motion.div>
         </div>
@@ -216,10 +221,10 @@ export function Hero() {
               key={idx}
               onClick={() => setCurrentSlideIdx(idx)}
               title={slide.name}
-              className={`h-2 rounded-full transition-all duration-500 cursor-pointer ${
+              className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
                 currentSlideIdx === idx
-                  ? 'w-8 bg-red-500 shadow-md shadow-red-500/50'
-                  : 'w-2 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400 dark:hover:bg-slate-500'
+                  ? 'w-9 bg-red-500 shadow-md shadow-red-500/50'
+                  : 'w-2.5 bg-slate-500/60 hover:bg-white'
               }`}
             />
           ))}
@@ -230,7 +235,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800/80"
+          className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-300 border-t border-slate-700/60"
         >
           <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }} className="flex items-center gap-2">
             <Home className="w-4 h-4 text-red-500" />
