@@ -28,7 +28,7 @@ export default function BlogArticlePage() {
         badge={`${post.category} • ${post.readTime}`}
         title={post.title}
         subtitle={post.summary}
-        backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-02.jpg"
+        backgroundImage={post.coverImage || '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg'}
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Blog', href: '/blog' },
