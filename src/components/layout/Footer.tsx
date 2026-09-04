@@ -35,8 +35,8 @@ export function Footer() {
             }}
             className="lg:col-span-2 space-y-4"
           >
-            <Link href="/" className="flex items-center gap-2">
-              <BrandLogo className="h-12" />
+            <Link href="/" className="inline-block hover:scale-105 transition-transform duration-300">
+              <BrandLogo className="h-24 sm:h-28" />
             </Link>
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-sm leading-relaxed">
               Professional flooring installation for Canadian homes & businesses. Specialized in Sheet Vinyl, PVC, LVP, LVT, VCT, Hardwood, Carpet, Tile & Floor Leveling.
