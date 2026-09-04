@@ -12,6 +12,7 @@ import { BeforeAfterSlider } from '@/components/interactive/BeforeAfterSlider';
 import { StatsBanner } from '@/components/sections/StatsBanner';
 import { LiveCostCalculator } from '@/components/interactive/LiveCostCalculator';
 import { ServicesGrid } from '@/components/sections/ServicesGrid';
+import { ProjectShowcaseTicker } from '@/components/sections/ProjectShowcaseTicker';
 import { WhyUs } from '@/components/sections/WhyUs';
 import { ResidentialCommercial } from '@/components/sections/ResidentialCommercial';
 import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
@@ -50,19 +51,22 @@ export default function Home() {
         {/* 7. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 8. Why HD Flooring */}
+        {/* 8. On-Site Real Project Photo Gallery */}
+        <ProjectShowcaseTicker />
+
+        {/* 9. Why HD Flooring */}
         <WhyUs />
 
-        {/* 9. Residential & Commercial Solutions */}
+        {/* 10. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 10. Installation Process */}
+        {/* 11. Installation Process */}
         <ProcessTimeline />
 
-        {/* 11. Customer Testimonials */}
+        {/* 12. Customer Testimonials */}
         <Testimonials />
 
-        {/* 12. Final CTA */}
+        {/* 13. Final CTA */}
         <FinalCTA />
       </main>
 

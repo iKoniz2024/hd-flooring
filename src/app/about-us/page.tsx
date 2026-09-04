@@ -25,6 +25,7 @@ import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { TiltCard } from '@/components/interactive/TiltCard';
+import { TeamPhotoGallery } from '@/components/sections/TeamPhotoGallery';
 import { useModal } from '@/lib/context/ModalContext';
 
 const values = [
@@ -204,6 +205,9 @@ export default function AboutUsPage() {
             </div>
           </TiltCard>
         </motion.div>
+
+        {/* On-Site Team & Workmanship Photo Gallery */}
+        <TeamPhotoGallery />
 
         {/* Mission & Vision Section - Left & Right Directional Entrance */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
