@@ -305,20 +305,33 @@ export default function ServiceDetailPage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
-          className="p-8 rounded-3xl bg-slate-900/60 dark:bg-slate-900/80 border border-red-500/20 space-y-4"
+          className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 dark:bg-slate-900/90 border border-stone-800 space-y-6 text-center shadow-xl relative overflow-hidden"
         >
-          <h3 className="font-playfair text-xl font-bold text-slate-100">
+          {/* Subtle Ambient Brand Glow */}
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-36 bg-gradient-to-r from-red-500/20 via-amber-500/20 to-sky-500/20 blur-2xl pointer-events-none" />
+
+          <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white tracking-tight relative z-10">
             Ideal For Rooms & Spaces
           </h3>
-          <div className="flex flex-wrap gap-2.5">
-            {service.idealFor.map((room) => (
-              <span
-                key={room}
-                className="px-4 py-2 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-manrope font-bold"
-              >
-                {room}
-              </span>
-            ))}
+
+          <div className="flex flex-wrap justify-center items-center gap-3 relative z-10 max-w-3xl mx-auto">
+            {service.idealFor.map((room, idx) => {
+              const pillStyles = [
+                'bg-red-500/15 border-red-500/40 text-red-400 hover:border-red-400',
+                'bg-sky-500/15 border-sky-500/40 text-sky-400 hover:border-sky-400',
+                'bg-amber-500/15 border-amber-500/40 text-amber-400 hover:border-amber-400',
+              ];
+              const pillStyle = pillStyles[idx % pillStyles.length];
+
+              return (
+                <span
+                  key={room}
+                  className={`px-5 py-2.5 rounded-full border ${pillStyle} text-xs font-manrope font-bold tracking-wide shadow-sm transition-all duration-300 hover:scale-105`}
+                >
+                  {room}
+                </span>
+              );
+            })}
           </div>
         </motion.div>
 
@@ -335,24 +348,33 @@ export default function ServiceDetailPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {service.process.map((stepName, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 25, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-2"
-              >
-                <span className="font-playfair font-extrabold text-red-500 text-lg">
-                  0{idx + 1}
-                </span>
-                <p className="text-xs font-manrope font-bold text-slate-800 dark:text-slate-200">
-                  {stepName}
-                </p>
-              </motion.div>
-            ))}
+          <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+            {service.process.map((stepName, idx) => {
+              const stepColors = [
+                { num: 'text-red-500', border: 'hover:border-red-500/60 shadow-red-500/5' },
+                { num: 'text-sky-500', border: 'hover:border-sky-500/60 shadow-sky-500/5' },
+                { num: 'text-amber-500', border: 'hover:border-amber-500/60 shadow-amber-500/5' },
+              ];
+              const color = stepColors[idx % stepColors.length];
+
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 25, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                  className={`flex-1 min-w-[170px] max-w-[220px] p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${color.border} text-center space-y-2.5 shadow-lg transition-all duration-300 hover:-translate-y-1.5`}
+                >
+                  <span className={`font-playfair font-black ${color.num} text-xl block`}>
+                    0{idx + 1}
+                  </span>
+                  <p className="text-xs font-manrope font-bold text-slate-800 dark:text-slate-200 leading-snug">
+                    {stepName}
+                  </p>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.div>
 
