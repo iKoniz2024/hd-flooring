@@ -8,12 +8,12 @@ export function IntroSection() {
   return (
     <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
       <div className="text-center space-y-6 max-w-4xl mx-auto">
-        {/* Top Pill Badge */}
+        {/* Top Pill Badge - UPOR THEKE NAMBE (From Top) */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -90 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         >
           <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
             <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
@@ -21,12 +21,12 @@ export function IntroSection() {
           </span>
         </motion.div>
 
-        {/* Heading */}
+        {/* Heading - BAM THEKE ASBE (From Left) */}
         <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -140 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-[1.15] tracking-tight"
         >
           Dependable Craftsmanship for{' '}
@@ -35,12 +35,12 @@ export function IntroSection() {
           </span>
         </motion.h2>
 
-        {/* Description */}
+        {/* Description - DAN THEKE ASBE (From Right) */}
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: 140 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
           className="text-slate-600 dark:text-slate-300 text-base sm:text-xl leading-relaxed font-medium max-w-3xl mx-auto"
         >
           At HD Flooring, we make flooring installation simple, professional, and dependable. We partner with homeowners, business owners, contractors, and renovators across Canada to deliver long-lasting, flawless floors.
@@ -49,12 +49,12 @@ export function IntroSection() {
 
       {/* 3 Premium Feature Cards Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 pt-14">
-        {/* Card 1 */}
+        {/* Card 1 - BAM THEKE ASBE (From Left) */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -140 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ y: -8 }}
           className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-red-500/50 dark:hover:border-red-500/50 transition-all duration-300"
         >
@@ -72,12 +72,12 @@ export function IntroSection() {
           </p>
         </motion.div>
 
-        {/* Card 2 */}
+        {/* Card 2 - NIC THEKE UTHTE (From Bottom) */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 100 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ y: -8 }}
           className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/50 transition-all duration-300"
         >
@@ -95,12 +95,12 @@ export function IntroSection() {
           </p>
         </motion.div>
 
-        {/* Card 3 */}
+        {/* Card 3 - DAN THEKE ASBE (From Right) */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: 140 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ y: -8 }}
           className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-red-500/50 dark:hover:border-red-500/50 transition-all duration-300"
         >
@@ -119,12 +119,12 @@ export function IntroSection() {
         </motion.div>
       </div>
 
-      {/* CTA Button */}
+      {/* CTA Button - NIC THEKE UTHTE (From Bottom) */}
       <motion.div
-        initial={{ opacity: 0, y: 25 }}
+        initial={{ opacity: 0, y: 80 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, delay: 0.85, ease: [0.22, 1, 0.36, 1] }}
         className="pt-12 text-center"
       >
         <Link

@@ -63,12 +63,12 @@ export function BeforeAfterSlider() {
 
   return (
     <section className="w-full max-w-6xl mx-auto py-16 px-4 sm:px-6 font-inter overflow-hidden">
-      {/* Header */}
+      {/* Header - UPOR THEKE NAMBE (From Top) */}
       <motion.div
-        initial={{ opacity: 0, y: -30 }}
+        initial={{ opacity: 0, y: -90 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="text-center space-y-4 mb-8"
       >
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
@@ -83,8 +83,14 @@ export function BeforeAfterSlider() {
         </p>
       </motion.div>
 
-      {/* Category Tabs Switcher */}
-      <div className="flex items-center justify-center gap-2 sm:gap-4 mb-8 flex-wrap">
+      {/* Category Tabs Switcher - NIC THEKE UTHTE (From Bottom) */}
+      <motion.div
+        initial={{ opacity: 0, y: 80 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.2, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+        className="flex items-center justify-center gap-2 sm:gap-4 mb-8 flex-wrap"
+      >
         {transformations.map((item, idx) => (
           <button
             key={item.id}
@@ -102,14 +108,14 @@ export function BeforeAfterSlider() {
             <span>{item.label}</span>
           </button>
         ))}
-      </div>
+      </motion.div>
 
-      {/* Interactive App-Window Slider Container */}
+      {/* Interactive App-Window Slider Container - NIC THEKE UTHTE (From Bottom) */}
       <motion.div
-        initial={{ opacity: 0, y: 40 }}
+        initial={{ opacity: 0, y: 100 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
         className="rounded-3xl overflow-hidden bg-slate-900 border-2 border-red-500/30 shadow-2xl shadow-slate-900/50"
       >
         {/* Mock Window Top Bar */}
@@ -176,17 +182,37 @@ export function BeforeAfterSlider() {
         </div>
       </motion.div>
 
-      {/* Trust Metrics Bar Underneath */}
+      {/* Trust Metrics Bar Underneath - BAM THEKE (Left), NIC THEKE (Bottom), DAN THEKE (Right) */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 text-center text-xs font-manrope font-extrabold text-slate-700 dark:text-slate-300">
-        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
+        <motion.div
+          initial={{ opacity: 0, x: -100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
+        >
           ⚡ 100% Flat Subfloor Leveling Guarantee
-        </div>
-        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 80 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
+        >
           🔊 Soundproof Acoustic Underlayment
-        </div>
-        <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md">
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
+        >
           🛡️ 25-Year Manufacturer Installation Warranty
-        </div>
+        </motion.div>
       </div>
     </section>
   );

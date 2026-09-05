@@ -170,14 +170,14 @@ export function Hero() {
       </div>
 
       <div className="max-w-5xl mx-auto text-center space-y-7 relative z-20">
-        {/* Active Category Showcase Badge - Slow smooth top-down reveal & continuous float */}
+        {/* Active Category Showcase Badge - UPOR THEKE NAMBE (From Top) */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlideIdx}
-            initial={{ opacity: 0, y: -45, scale: 0.85 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 25, scale: 0.85 }}
-            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+            initial={{ opacity: 0, y: -90 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
             className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-slate-900/95 border-2 border-red-500/60 text-slate-100 shadow-2xl shadow-red-600/20 backdrop-blur-md"
           >
             <Camera className="w-4.5 h-4.5 text-red-500 animate-pulse shrink-0" />
@@ -187,22 +187,25 @@ export function Hero() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Main Headline - SLOW 1.8s smooth entrance & DYNAMIC TYPING ANIMATION */}
+        {/* Main Headline - Line 1 BAM THEKE (Left), Line 2 DAN THEKE (Right) */}
         <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] flex flex-col items-center gap-2 sm:gap-3">
+          {/* BAM THEKE ASBE (From Left) */}
           <motion.span
-            initial={{ opacity: 0, x: -100, scale: 0.95 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, x: -140 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="block font-black text-white"
           >
             Professional Flooring Installation.
           </motion.span>
+
+          {/* DAN THEKE ASBE (From Right) */}
           <motion.div
-            initial={{ opacity: 0, x: 100, scale: 0.95 }}
-            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, x: 140 }}
+            whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
             className="text-2xl sm:text-4xl lg:text-5xl font-manrope font-extrabold text-slate-200 flex flex-wrap items-center justify-center gap-2 pt-1"
           >
             <span>Specializing in</span>
@@ -213,35 +216,36 @@ export function Hero() {
           </motion.div>
         </h1>
 
-        {/* Subtitle - SLOW 1.8s smooth slide up from BOTTOM */}
+        {/* Subtitle - NIC THEKE UTHTE (From Bottom) */}
         <motion.p
-          initial={{ opacity: 0, y: 55, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: 90 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="font-inter text-slate-100 max-w-3xl mx-auto text-base sm:text-2xl leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] font-extrabold"
         >
           Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
         </motion.p>
 
-        {/* Hero Interactive Search Bar - SLOW 1.6s smooth reveal from TOP */}
+        {/* Hero Interactive Search Bar - UPOR THEKE NAMBE (From Top) */}
         <motion.div
-          initial={{ opacity: 0, y: -40, scale: 0.9 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: -80 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
           className="pt-2"
         >
           <HeroSearch />
         </motion.div>
 
-        {/* CTA Buttons - SLOW 1.6s smooth entrance from LEFT & RIGHT + continuous gentle float */}
+        {/* CTA Buttons - Left button BAM THEKE (Left), Right button DAN THEKE (Right) */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 pt-2 w-full max-w-md sm:max-w-none mx-auto">
+          {/* BAM THEKE ASBE (From Left) */}
           <motion.button
-            initial={{ opacity: 0, x: -80 }}
+            initial={{ opacity: 0, x: -120 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => openBookModal()}
@@ -257,11 +261,12 @@ export function Hero() {
             </motion.span>
           </motion.button>
 
+          {/* DAN THEKE ASBE (From Right) */}
           <motion.div
-            initial={{ opacity: 0, x: 80 }}
+            initial={{ opacity: 0, x: 120 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 1.15, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
             whileHover={{ scale: 1.07 }}
             whileTap={{ scale: 0.95 }}
             className="w-full sm:w-auto"
@@ -281,12 +286,12 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Category Interactive Indicator Dots - SLOW reveal */}
+        {/* Category Interactive Indicator Dots - NIC THEKE UTHTE (From Bottom) */}
         <motion.div
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.5, delay: 1.3 }}
+          transition={{ duration: 1.0, delay: 0.9 }}
           className="pt-4 flex items-center justify-center gap-2.5"
         >
           {categorySlides.map((slide, idx) => (
@@ -303,13 +308,14 @@ export function Hero() {
           ))}
         </motion.div>
 
-        {/* Supporting Trust Indicators - SLOW 1.6s staggered entrance with continuous gentle floating */}
+        {/* Supporting Trust Indicators - BAM THEKE (Left), NIC THEKE (Bottom), DAN THEKE (Right) */}
         <div className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-sm sm:text-base font-manrope font-black text-white border-t border-slate-700/80 drop-shadow-md">
+          {/* BAM THEKE ASBE (From Left) */}
           <motion.div
-            initial={{ opacity: 0, x: -60 }}
+            initial={{ opacity: 0, x: -100 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 1.4, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-2.5"
           >
             <motion.div
@@ -321,11 +327,12 @@ export function Hero() {
             <span>Residential & Commercial</span>
           </motion.div>
 
+          {/* NIC THEKE UTHTE (From Bottom) */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 80 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 1.55, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-2.5"
           >
             <motion.div
@@ -337,11 +344,12 @@ export function Hero() {
             <span>Professional Installation</span>
           </motion.div>
 
+          {/* DAN THEKE ASBE (From Right) */}
           <motion.div
-            initial={{ opacity: 0, x: 60 }}
+            initial={{ opacity: 0, x: 100 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 1.6, delay: 1.7, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 1.2, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
             className="flex items-center gap-2.5"
           >
             <motion.div
