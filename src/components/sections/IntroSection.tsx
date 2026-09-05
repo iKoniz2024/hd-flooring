@@ -2,128 +2,139 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Layers, ShieldCheck, CheckCircle2 } from 'lucide-react';
 
 export function IntroSection() {
   return (
-    <section className="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto font-inter overflow-hidden">
-      {/* Premium Glassmorphic Card Container */}
-      <div className="relative rounded-3xl bg-slate-900/90 dark:bg-slate-900/95 border border-slate-800 shadow-2xl p-8 sm:p-14 overflow-hidden text-center text-slate-100 backdrop-blur-xl">
-        {/* Background Ambient Glows */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-80 h-80 bg-sky-500/10 rounded-full blur-3xl pointer-events-none" />
+    <section className="py-20 sm:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
+      <div className="text-center space-y-6 max-w-4xl mx-auto">
+        {/* Top Pill Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
+            <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
+            Flooring Installation You Can Count On
+          </span>
+        </motion.div>
 
-        <div className="relative z-10 space-y-8 max-w-4xl mx-auto">
-          {/* Top Badge - SLOW reveal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8, y: -30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-lg shadow-red-500/10">
-              <Sparkles className="w-4 h-4 text-sky-300 animate-pulse" />
-              Flooring Installation You Can Count On
-            </span>
-          </motion.div>
+        {/* Heading */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-[1.15] tracking-tight"
+        >
+          Dependable Craftsmanship for{' '}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-red-500 to-sky-600 block sm:inline">
+            Canadian Spaces
+          </span>
+        </motion.h2>
 
-          {/* Heading - SLOW reveal from TOP */}
-          <motion.h2
-            initial={{ opacity: 0, y: -40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-white leading-tight drop-shadow-md"
-          >
-            Dependable Craftsmanship for{' '}
-            <span className="brand-gradient-text block sm:inline">Canadian Spaces</span>
-          </motion.h2>
-
-          {/* Intro Description - SLOW reveal from BOTTOM */}
-          <motion.p
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="text-slate-300 text-base sm:text-xl leading-relaxed max-w-3xl mx-auto font-medium"
-          >
-            At HD Flooring, we make flooring installation simple, professional, and dependable. We partner with homeowners, business owners, contractors, and renovators across Canada to deliver long-lasting, flawless floors.
-          </motion.p>
-
-          {/* Feature Highlights Grid - SLOW staggered entrances from LEFT, BOTTOM, and RIGHT */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 text-left">
-            <motion.div
-              initial={{ opacity: 0, x: -70 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1.6, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 transition-all duration-300 shadow-md"
-            >
-              <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-lg mb-3">
-                01
-              </div>
-              <h3 className="font-manrope font-extrabold text-white text-base mb-1">Subfloor Leveling</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Precision self-leveling and moisture testing ensure a squeak-free, flat foundation.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1.6, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-sky-500/50 transition-all duration-300 shadow-md"
-            >
-              <div className="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-lg mb-3">
-                02
-              </div>
-              <h3 className="font-manrope font-extrabold text-white text-base mb-1">Master Installation</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Expert solid wood, engineered, LVP, laminate, carpet & tile setters with zero shortcuts.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 70 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ duration: 1.6, delay: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              whileHover={{ y: -6, transition: { duration: 0.3 } }}
-              className="p-5 rounded-2xl bg-slate-800/80 border border-slate-700/60 hover:border-red-500/50 transition-all duration-300 shadow-md"
-            >
-              <div className="w-10 h-10 rounded-xl bg-red-500/20 text-red-400 flex items-center justify-center font-bold text-lg mb-3">
-                03
-              </div>
-              <h3 className="font-manrope font-extrabold text-white text-base mb-1">Clean & Reliable</h3>
-              <p className="text-xs text-slate-400 leading-relaxed">
-                Dust-controlled tear-out, complete site cleanup, and on-time project delivery guaranteed.
-              </p>
-            </motion.div>
-          </div>
-
-          {/* CTA Link Button - SLOW reveal */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 25 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 1.5, delay: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="pt-4"
-          >
-            <Link
-              href="/about-us"
-              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-gradient-to-r from-red-600 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-widest shadow-xl shadow-red-600/30 transition-all duration-300 group"
-            >
-              <span>Learn More About Us</span>
-              <ArrowRight className="w-4 h-4 text-sky-200 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
-        </div>
+        {/* Description */}
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="text-slate-600 dark:text-slate-300 text-base sm:text-xl leading-relaxed font-medium max-w-3xl mx-auto"
+        >
+          At HD Flooring, we make flooring installation simple, professional, and dependable. We partner with homeowners, business owners, contractors, and renovators across Canada to deliver long-lasting, flawless floors.
+        </motion.p>
       </div>
+
+      {/* 3 Premium Feature Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 pt-14">
+        {/* Card 1 */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ y: -8 }}
+          className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-red-500/50 dark:hover:border-red-500/50 transition-all duration-300"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 shadow-md">
+            <Layers className="w-7 h-7" />
+          </div>
+          <div className="text-xs font-manrope font-black uppercase tracking-widest text-red-500 mb-2">
+            Foundation First
+          </div>
+          <h3 className="font-manrope font-extrabold text-xl text-slate-900 dark:text-white mb-3">
+            Subfloor Leveling & Prep
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Precision self-leveling compound, moisture testing, and plywood boarding ensure a 100% squeak-free, flat foundation.
+          </p>
+        </motion.div>
+
+        {/* Card 2 */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.55, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ y: -8 }}
+          className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-sky-500/50 dark:hover:border-sky-500/50 transition-all duration-300"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-sky-50 dark:bg-sky-950/50 text-sky-600 dark:text-sky-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-sky-600 group-hover:text-white transition-all duration-300 shadow-md">
+            <ShieldCheck className="w-7 h-7" />
+          </div>
+          <div className="text-xs font-manrope font-black uppercase tracking-widest text-sky-500 mb-2">
+            15+ Years Experience
+          </div>
+          <h3 className="font-manrope font-extrabold text-xl text-slate-900 dark:text-white mb-3">
+            Master Craftsmanship
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Expert solid wood, engineered, LVP, laminate, carpet, and tile setters with exact expansion spacing and clean trims.
+          </p>
+        </motion.div>
+
+        {/* Card 3 */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          whileHover={{ y: -8 }}
+          className="group relative p-8 rounded-3xl bg-white dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none hover:border-red-500/50 dark:hover:border-red-500/50 transition-all duration-300"
+        >
+          <div className="w-14 h-14 rounded-2xl bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-red-600 group-hover:text-white transition-all duration-300 shadow-md">
+            <CheckCircle2 className="w-7 h-7" />
+          </div>
+          <div className="text-xs font-manrope font-black uppercase tracking-widest text-red-500 mb-2">
+            Turnkey Service
+          </div>
+          <h3 className="font-manrope font-extrabold text-xl text-slate-900 dark:text-white mb-3">
+            Clean & Dust-Controlled
+          </h3>
+          <p className="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Old floor tear-out, complete dust containment, furniture care, and waste haul-away — delivered on schedule.
+          </p>
+        </motion.div>
+      </div>
+
+      {/* CTA Button */}
+      <motion.div
+        initial={{ opacity: 0, y: 25 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
+        className="pt-12 text-center"
+      >
+        <Link
+          href="/about-us"
+          className="inline-flex items-center gap-3 px-9 py-4 rounded-full bg-slate-900 hover:bg-red-600 text-white font-manrope font-black text-xs uppercase tracking-widest shadow-xl hover:shadow-red-600/30 transition-all duration-300 group"
+        >
+          <span>Learn More About Us</span>
+          <ArrowRight className="w-4 h-4 text-sky-400 group-hover:text-white group-hover:translate-x-1.5 transition-all" />
+        </Link>
+      </motion.div>
     </section>
   );
 }
-
-
