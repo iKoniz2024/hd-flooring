@@ -11,47 +11,47 @@ const categorySlides = [
   {
     name: 'Solid Hardwood Flooring',
     tag: 'Hardwood',
-    image: '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Engineered Hardwood',
     tag: 'Engineered Wood',
-    image: '/assets/images/engineered-hardwood/engineered-hardwood-01.jpg',
+    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Luxury Vinyl & Sheet Vinyl',
     tag: 'LVP / LVT / VCT',
-    image: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Laminate Flooring',
     tag: 'Laminate',
-    image: '/assets/images/laminate-flooring/laminate-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Carpet Flooring',
     tag: 'Carpet & Padding',
-    image: '/assets/images/carpet-flooring/carpet-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Tile & Porcelain Installation',
     tag: 'Tile & Porcelain',
-    image: '/assets/images/tile-flooring/tile-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Stair Flooring & Capping',
     tag: 'Stairwork',
-    image: '/assets/images/stair-flooring/stair-flooring-01.jpg',
+    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Flooring Repairs & Replacement',
     tag: 'Repairs & Restorations',
-    image: '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
+    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
   {
     name: 'Self Leveling & Floor Prep',
     tag: 'Subfloor Prep',
-    image: '/assets/images/floor-preparation/floor-preparation-01.jpg',
+    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=960&q=55&fm=webp',
   },
 ];
 
@@ -133,123 +133,159 @@ export function Hero() {
       </div>
 
       <div className="max-w-5xl mx-auto text-center space-y-7 relative z-20">
-        {/* Active Category Showcase Badge */}
+        {/* Active Category Showcase Badge - Slide down from TOP with BOLD spring animation */}
         <AnimatePresence mode="wait">
           <motion.div
             key={currentSlideIdx}
-            initial={{ opacity: 0, y: -15, scale: 0.85 }}
+            initial={{ opacity: 0, y: -35, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 15, scale: 0.85 }}
-            transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-red-500/40 text-slate-100 shadow-xl shadow-red-600/10 backdrop-blur-md"
+            exit={{ opacity: 0, y: 20, scale: 0.85 }}
+            transition={{ type: 'spring', stiffness: 180, damping: 14 }}
+            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-slate-900/95 border-2 border-red-500/60 text-slate-100 shadow-2xl shadow-red-600/20 backdrop-blur-md"
           >
-            <Camera className="w-4 h-4 text-red-500 animate-pulse shrink-0" />
-            <span className="text-xs font-manrope font-extrabold tracking-wider text-slate-200">
+            <Camera className="w-4.5 h-4.5 text-red-500 animate-pulse shrink-0" />
+            <span className="text-xs sm:text-sm font-manrope font-extrabold tracking-wider text-slate-100">
               <span className="text-red-400 font-black">Featured {currentSlideIdx + 1}/9:</span> {currentSlide.name}
             </span>
           </motion.div>
         </AnimatePresence>
 
-        {/* Main Headline - Slide Down */}
-        <motion.h1
-          initial={{ opacity: 0, y: -30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1 }}
-          className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white leading-[1.1] drop-shadow-md"
-        >
-          Professional Flooring Installation. <br className="hidden sm:inline" />
-          <span className="brand-gradient-text">Built for Canadian Spaces.</span>
-        </motion.h1>
+        {/* Main Headline - Extra BOLD typography & BOLD spring animations */}
+        <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] flex flex-col items-center gap-2 sm:gap-3">
+          <motion.span
+            initial={{ opacity: 0, x: -70, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 130, damping: 14, delay: 0.1 }}
+            className="block font-black text-white"
+          >
+            Professional Flooring Installation.
+          </motion.span>
+          <motion.span
+            initial={{ opacity: 0, x: 70, scale: 0.95 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 130, damping: 14, delay: 0.2 }}
+            className="brand-gradient-text block font-black"
+          >
+            Built for Canadian Spaces.
+          </motion.span>
+        </h1>
 
-        {/* Subtitle - Slide from Left */}
+        {/* Subtitle - Extra BOLD font weight & spring slide up */}
         <motion.p
-          initial={{ opacity: 0, x: -40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="font-inter text-slate-200 max-w-3xl mx-auto text-base sm:text-xl leading-relaxed drop-shadow-sm font-medium"
+          initial={{ opacity: 0, y: 40, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ type: 'spring', stiffness: 120, damping: 15, delay: 0.25 }}
+          className="font-inter text-slate-100 max-w-3xl mx-auto text-base sm:text-2xl leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] font-extrabold"
         >
           Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
         </motion.p>
 
-        {/* Hero Interactive Search Bar */}
+        {/* Hero Interactive Search Bar - Slide down from TOP */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
+          initial={{ opacity: 0, y: -30, scale: 0.9 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ type: 'spring', stiffness: 140, damping: 15, delay: 0.3 }}
           className="pt-2"
         >
           <HeroSearch />
         </motion.div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 pt-2 w-full max-w-md sm:max-w-none mx-auto">
+        {/* CTA Buttons - Extra BOLD buttons & spring entry */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 pt-2 w-full max-w-md sm:max-w-none mx-auto">
           <motion.button
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 150, damping: 14, delay: 0.35 }}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => openBookModal()}
-            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-widest shadow-2xl shadow-red-600/30 transition-all duration-300 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
+            className="w-full sm:w-auto px-7 sm:px-9 py-4 sm:py-4.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-115 text-white font-manrope font-black text-xs sm:text-sm uppercase tracking-widest shadow-2xl shadow-red-600/40 transition-all duration-300 inline-flex items-center justify-center gap-2 whitespace-nowrap"
           >
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-200 shrink-0" />
+            <Sparkles className="w-4 h-4 text-sky-200 shrink-0 animate-pulse" />
             <span>Book Us Now</span>
           </motion.button>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            whileHover={{ scale: 1.04 }}
-            whileTap={{ scale: 0.96 }}
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 150, damping: 14, delay: 0.4 }}
+            whileHover={{ scale: 1.07 }}
+            whileTap={{ scale: 0.95 }}
             className="w-full sm:w-auto"
           >
             <Link
               href="/services"
-              className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-100 font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-widest hover:border-red-500/50 transition-all duration-300 inline-flex items-center justify-center gap-1.5 text-center whitespace-nowrap shadow-lg backdrop-blur-md"
+              className="w-full sm:w-auto px-7 sm:px-9 py-4 sm:py-4.5 rounded-full bg-slate-900/95 hover:bg-slate-800 border-2 border-slate-600 hover:border-red-500 text-white font-manrope font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 inline-flex items-center justify-center gap-2 text-center whitespace-nowrap shadow-xl backdrop-blur-md"
             >
               <span>Explore Services</span>
-              <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0" />
+              <ArrowRight className="w-4 h-4 text-sky-400 shrink-0" />
             </Link>
           </motion.div>
         </div>
 
         {/* Category Interactive Indicator Dots */}
-        <div className="pt-4 flex items-center justify-center gap-2">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.45 }}
+          className="pt-4 flex items-center justify-center gap-2.5"
+        >
           {categorySlides.map((slide, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlideIdx(idx)}
               title={slide.name}
-              className={`h-2.5 rounded-full transition-all duration-500 cursor-pointer ${
+              className={`h-3 rounded-full transition-all duration-500 cursor-pointer ${
                 currentSlideIdx === idx
-                  ? 'w-9 bg-red-500 shadow-md shadow-red-500/50'
-                  : 'w-2.5 bg-slate-500/60 hover:bg-white'
+                  ? 'w-10 bg-red-500 shadow-lg shadow-red-500/60'
+                  : 'w-3 bg-slate-400/60 hover:bg-white'
               }`}
             />
           ))}
-        </div>
-
-        {/* Supporting Trust Indicators */}
-        <motion.div
-          initial={{ opacity: 0, y: 25 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.5 }}
-          className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-manrope text-slate-300 border-t border-slate-700/60"
-        >
-          <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.6 }} className="flex items-center gap-2">
-            <Home className="w-4 h-4 text-red-500" />
-            Residential & Commercial
-          </motion.div>
-          <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.7 }} className="flex items-center gap-2">
-            <Award className="w-4 h-4 text-sky-500" />
-            Professional Installation
-          </motion.div>
-          <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} transition={{ delay: 0.8 }} className="flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-red-500" />
-            Quality Workmanship
-          </motion.div>
         </motion.div>
+
+        {/* Supporting Trust Indicators - Extra BOLD text & icons */}
+        <div className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-sm sm:text-base font-manrope font-black text-white border-t border-slate-700/80 drop-shadow-md">
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.5 }}
+            className="flex items-center gap-2.5"
+          >
+            <Home className="w-5 h-5 text-red-500 shrink-0" />
+            <span>Residential & Commercial</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.55 }}
+            className="flex items-center gap-2.5"
+          >
+            <Award className="w-5 h-5 text-sky-400 shrink-0" />
+            <span>Professional Installation</span>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ type: 'spring', stiffness: 140, damping: 14, delay: 0.6 }}
+            className="flex items-center gap-2.5"
+          >
+            <ShieldCheck className="w-5 h-5 text-red-500 shrink-0" />
+            <span>Quality Workmanship</span>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

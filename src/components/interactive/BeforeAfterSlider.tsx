@@ -68,7 +68,7 @@ export function BeforeAfterSlider() {
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1600&q=80')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=960&q=55&fm=webp')`,
           }}
         >
           <span className="absolute top-4 right-4 bg-red-600/90 text-white px-3.5 py-1.5 rounded-full font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg">
@@ -81,7 +81,7 @@ export function BeforeAfterSlider() {
           className="absolute inset-0 bg-cover bg-center border-r-2 border-red-500"
           style={{
             width: `${sliderPos}%`,
-            backgroundImage: `url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1600&q=80')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=960&q=55&fm=webp')`,
           }}
         >
           <span className="absolute top-4 left-4 bg-slate-900/90 text-slate-100 px-3.5 py-1.5 rounded-full font-manrope font-semibold text-xs uppercase tracking-wider shadow-lg border border-slate-700">
