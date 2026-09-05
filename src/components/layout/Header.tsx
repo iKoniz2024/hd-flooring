@@ -81,14 +81,14 @@ export function Header() {
               >
                 <Link
                   href="/services"
-                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-amber-500 py-1 ${
-                    pathname.startsWith('/services') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-sky-500 py-1 ${
+                    pathname.startsWith('/services') ? 'text-sky-600 dark:text-sky-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                   }`}
                 >
                   Services
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 ${
-                      servicesOpen ? 'rotate-180 text-amber-500' : ''
+                      servicesOpen ? 'rotate-180 text-sky-500' : ''
                     }`}
                   />
                 </Link>
@@ -105,7 +105,7 @@ export function Header() {
                     >
                       <div className="p-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl grid gap-1.5">
                         <div className="px-3 py-2 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between">
-                          <span className="text-xs font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                          <span className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 uppercase tracking-wider">
                             Flooring Solutions
                           </span>
                           <Link href="/services" className="text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white flex items-center gap-1">
@@ -122,14 +122,14 @@ export function Header() {
                             className="p-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800/80 transition-colors duration-150 group flex items-start justify-between"
                           >
                             <div>
-                              <div className="text-xs font-semibold text-stone-900 dark:text-stone-200 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+                              <div className="text-xs font-semibold text-stone-900 dark:text-stone-200 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                                 {service.name}
                               </div>
                               <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
                                 {service.desc}
                               </div>
                             </div>
-                            <ArrowRight className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 group-hover:text-amber-500 group-hover:translate-x-1 transition-all mt-0.5 shrink-0" />
+                            <ArrowRight className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 group-hover:text-sky-500 group-hover:translate-x-1 transition-all mt-0.5 shrink-0" />
                           </Link>
                         ))}
                       </div>
@@ -140,18 +140,18 @@ export function Header() {
 
               <Link
                 href="/cost-calculator"
-                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-amber-500 ${
-                  pathname === '/cost-calculator' ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-red-500 ${
+                  pathname === '/cost-calculator' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
-                <Calculator className="w-3.5 h-3.5 text-amber-500" />
+                <Calculator className="w-3.5 h-3.5 text-red-500" />
                 <span>Cost Calculator</span>
               </Link>
 
               <Link
                 href="/projects"
-                className={`transition-colors duration-200 hover:text-amber-500 ${
-                  pathname.startsWith('/projects') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-sky-500 ${
+                  pathname.startsWith('/projects') ? 'text-sky-600 dark:text-sky-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Project Gallery
@@ -168,8 +168,8 @@ export function Header() {
 
               <Link
                 href="/contact-us"
-                className={`transition-colors duration-200 hover:text-amber-500 ${
-                  pathname === '/contact-us' ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-red-500 ${
+                  pathname === '/contact-us' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Contact Us
@@ -180,14 +180,14 @@ export function Header() {
             <div className="flex items-center gap-3">
               <DarkModeToggle />
 
-              {/* Book Us CTA */}
+              {/* Book Us CTA - Red/Amber/Sky Multi Brand Gradient */}
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => openBookModal()}
-                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider shadow-lg shadow-amber-500/20 transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 hover:from-red-500 hover:to-sky-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 transition-all duration-300"
               >
-                <Sparkles className="w-3.5 h-3.5 text-stone-950" />
+                <Sparkles className="w-3.5 h-3.5 text-white" />
                 <span>Book Us</span>
               </motion.button>
 

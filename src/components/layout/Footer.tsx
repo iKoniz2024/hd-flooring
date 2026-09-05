@@ -11,11 +11,16 @@ export function Footer() {
 
   return (
     <footer className="bg-stone-100 dark:bg-stone-950 text-stone-700 dark:text-stone-300 border-t border-stone-200 dark:border-stone-800 pt-16 pb-12 font-inter relative overflow-hidden">
-      {/* Animated Glowing Orb Background */}
+      {/* Animated Glowing Orbs Background with Brand Colors */}
       <motion.div
-        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-0 right-0 w-96 h-96 bg-amber-500/10 blur-[120px] rounded-full pointer-events-none"
+        className="absolute bottom-0 right-0 w-96 h-96 bg-red-500/10 blur-[120px] rounded-full pointer-events-none"
+      />
+      <motion.div
+        animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.5, 0.3] }}
+        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-0 left-0 w-96 h-96 bg-sky-500/10 blur-[120px] rounded-full pointer-events-none"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -32,7 +37,7 @@ export function Footer() {
           }}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-stone-200 dark:border-stone-800"
         >
-          {/* Column 1: Brand Info (Slide Left) */}
+          {/* Column 1: Brand Info */}
           <motion.div
             variants={{
               hidden: { opacity: 0, x: -40 },
@@ -49,20 +54,20 @@ export function Footer() {
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <motion.span
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-3 py-1.5 rounded-xl text-xs text-emerald-600 dark:text-emerald-400 shadow-sm"
+                className="flex items-center gap-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-3 py-1.5 rounded-xl text-xs text-red-600 dark:text-red-400 shadow-sm"
               >
-                <ShieldCheck className="w-4 h-4 text-amber-500" /> 100% Workmanship Warranty
+                <ShieldCheck className="w-4 h-4 text-red-500" /> 100% Workmanship Warranty
               </motion.span>
               <motion.span
                 whileHover={{ scale: 1.05 }}
-                className="flex items-center gap-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-3 py-1.5 rounded-xl text-xs text-amber-600 dark:text-amber-400 shadow-sm"
+                className="flex items-center gap-1.5 bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 px-3 py-1.5 rounded-xl text-xs text-sky-600 dark:text-sky-400 shadow-sm"
               >
-                <Clock className="w-4 h-4 text-amber-500" /> Mon - Sat: 8am - 7pm
+                <Clock className="w-4 h-4 text-sky-500" /> Mon - Sat: 8am - 7pm
               </motion.span>
             </div>
           </motion.div>
 
-          {/* Column 2: Quick Links (Slide Up) */}
+          {/* Column 2: Quick Links */}
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 30 },
@@ -70,7 +75,7 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-bold text-amber-600 dark:text-amber-500 text-xs tracking-wider uppercase">
+            <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-amber-500 text-xs tracking-wider uppercase">
               Quick Links
             </h3>
             <ul className="space-y-2.5 text-xs text-stone-600 dark:text-stone-400 font-medium">
@@ -84,7 +89,7 @@ export function Footer() {
                 { label: 'Contact Us', href: '/contact-us' },
               ].map((item, i) => (
                 <motion.li key={i} whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300 }}>
-                  <Link href={item.href} className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                  <Link href={item.href} className="hover:text-red-500 transition-colors">
                     {item.label}
                   </Link>
                 </motion.li>
@@ -92,7 +97,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Column 3: Flooring Categories (Zoom In) */}
+          {/* Column 3: Flooring Categories */}
           <motion.div
             variants={{
               hidden: { opacity: 0, scale: 0.9 },
@@ -100,7 +105,7 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-bold text-amber-600 dark:text-amber-500 text-xs tracking-wider uppercase">
+            <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-sky-500 to-amber-500 text-xs tracking-wider uppercase">
               Flooring Categories
             </h3>
             <ul className="space-y-2 text-xs text-stone-600 dark:text-stone-400 font-medium">
@@ -116,7 +121,7 @@ export function Footer() {
                 { label: 'Subfloor Preparation', href: '/services/floor-preparation' },
               ].map((item, i) => (
                 <motion.li key={i} whileHover={{ x: 4 }} transition={{ type: 'spring', stiffness: 300 }}>
-                  <Link href={item.href} className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                  <Link href={item.href} className="hover:text-sky-500 transition-colors">
                     {item.label}
                   </Link>
                 </motion.li>
@@ -124,7 +129,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Column 4: Contact & Booking (Slide Right) */}
+          {/* Column 4: Contact & Support */}
           <motion.div
             variants={{
               hidden: { opacity: 0, x: 40 },
@@ -132,19 +137,19 @@ export function Footer() {
             }}
             className="space-y-4"
           >
-            <h3 className="font-bold text-amber-600 dark:text-amber-500 text-xs tracking-wider uppercase">
+            <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-500 to-red-500 text-xs tracking-wider uppercase">
               Contact & Support
             </h3>
             <ul className="space-y-3 text-xs text-stone-600 dark:text-stone-400 font-medium">
               <li className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                <a href="tel:+18005553566" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                <Phone className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                <a href="tel:+18005553566" className="hover:text-red-500 transition-colors">
                   +1 (800) 555-FLOOR
                 </a>
               </li>
               <li className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
-                <a href="mailto:info@hdflooringca.com" className="hover:text-amber-600 dark:hover:text-amber-400 transition-colors">
+                <Mail className="w-4 h-4 text-sky-500 shrink-0 mt-0.5" />
+                <a href="mailto:info@hdflooringca.com" className="hover:text-sky-500 transition-colors">
                   info@hdflooringca.com
                 </a>
               </li>
@@ -158,9 +163,9 @@ export function Footer() {
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               onClick={() => openBookModal()}
-              className="mt-2 w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 hover:brightness-110 transition-all"
+              className="mt-2 w-full py-3 rounded-xl bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 hover:from-red-500 hover:to-sky-400 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-500/20 transition-all"
             >
-              <Sparkles className="w-4 h-4" />
+              <Sparkles className="w-4 h-4 text-white" />
               Book Free Consultation
             </motion.button>
           </motion.div>

@@ -46,7 +46,7 @@ const steps = [
 export function ProcessTimeline() {
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden relative">
-      {/* Header - ipropertybd inspired */}
+      {/* Header */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -54,9 +54,9 @@ export function ProcessTimeline() {
         transition={{ duration: 0.6 }}
         className="text-center space-y-4 mb-16"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-amber-500" />
-          <span>Our 6-Step Installation Process</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500/10 via-amber-500/10 to-sky-500/10 border border-stone-300 dark:border-stone-800 text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-4 h-4 text-sky-500" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">Our 6-Step Installation Process</span>
         </div>
         <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
           From Consultation to Finished Floor
@@ -66,9 +66,34 @@ export function ProcessTimeline() {
         </p>
       </motion.div>
 
-      {/* Grid of ipropertybd styled step boxes */}
+      {/* Grid of step boxes with logo color mixture */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative">
         {steps.map((step, idx) => {
+          const stepColors = [
+            {
+              borderHover: 'hover:border-red-500/60',
+              numBadge: 'bg-red-600 text-white shadow-red-500/30',
+              titleHover: 'group-hover:text-red-500',
+              iconColor: 'text-red-500',
+              footerText: 'text-red-500',
+            },
+            {
+              borderHover: 'hover:border-sky-500/60',
+              numBadge: 'bg-sky-500 text-white shadow-sky-500/30',
+              titleHover: 'group-hover:text-sky-500',
+              iconColor: 'text-sky-500',
+              footerText: 'text-sky-500',
+            },
+            {
+              borderHover: 'hover:border-amber-500/60',
+              numBadge: 'bg-amber-500 text-stone-950 shadow-amber-500/30',
+              titleHover: 'group-hover:text-amber-500',
+              iconColor: 'text-amber-500',
+              footerText: 'text-amber-500',
+            },
+          ];
+          const color = stepColors[idx % stepColors.length];
+
           return (
             <motion.div
               key={step.num}
@@ -76,7 +101,7 @@ export function ProcessTimeline() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className="relative rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 hover:border-amber-500/60 shadow-xl shadow-stone-900/5 dark:shadow-black/60 overflow-hidden group flex flex-col justify-between"
+              className={`relative rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 ${color.borderHover} shadow-xl shadow-stone-900/5 dark:shadow-black/60 overflow-hidden group flex flex-col justify-between`}
             >
               {/* Image Preview */}
               <div className="relative h-48 w-full bg-stone-950 overflow-hidden">
@@ -89,8 +114,8 @@ export function ProcessTimeline() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/40 to-transparent" />
                 
-                {/* Large ipropertybd style step number box */}
-                <div className="absolute top-4 left-4 w-12 h-12 rounded-2xl bg-amber-500 text-stone-950 font-black text-lg flex items-center justify-center shadow-xl shadow-amber-500/30">
+                {/* Large step number box */}
+                <div className={`absolute top-4 left-4 w-12 h-12 rounded-2xl ${color.numBadge} font-black text-lg flex items-center justify-center shadow-xl`}>
                   {step.num}
                 </div>
               </div>
@@ -99,17 +124,17 @@ export function ProcessTimeline() {
               <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-playfair text-lg font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-500 transition-colors">
+                    <h3 className={`font-playfair text-lg font-bold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors`}>
                       {step.title}
                     </h3>
-                    <CheckCircle2 className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+                    <CheckCircle2 className={`w-5 h-5 ${color.iconColor} shrink-0 mt-0.5`} />
                   </div>
                   <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-semibold text-amber-500">
+                <div className={`pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-semibold ${color.footerText}`}>
                   <span>Step {step.num} of 06</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
