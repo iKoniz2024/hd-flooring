@@ -29,81 +29,81 @@ export function BeforeAfterSlider() {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-12 px-4 sm:px-6 font-inter overflow-hidden">
-      {/* Header with Zoom-In */}
+    <section className="w-full max-w-6xl mx-auto py-16 px-4 sm:px-6 font-inter overflow-hidden">
+      {/* Header with SLOW Smooth Reveal */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.85, y: -20 }}
+        initial={{ opacity: 0, scale: 0.9, y: -40 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6 }}
-        className="text-center space-y-3 mb-8"
+        transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+        className="text-center space-y-4 mb-10"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/15 border border-red-500/30 text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-lg shadow-red-500/10">
+          <Sparkles className="w-4 h-4 text-sky-300 animate-pulse" />
           Interactive Floor Transformation
         </div>
-        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-          See the HD Flooring Difference
+        <h2 className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-slate-100 leading-tight">
+          See the <span className="brand-gradient-text">HD Flooring Difference</span>
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base max-w-xl mx-auto font-inter">
-          Drag the slider to compare raw subfloor preparation with a flawlessly installed luxury hardwood finish.
+        <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-medium">
+          Drag the interactive slider to compare raw subfloor preparation with a flawlessly installed luxury hardwood finish.
         </p>
       </motion.div>
 
-      {/* Slider Container with Zoom Expansion */}
+      {/* Slider Container with SLOW Smooth Zoom & Expansion */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        initial={{ opacity: 0, scale: 0.9, y: 50 }}
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.7 }}
+        transition={{ duration: 1.8, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
         ref={containerRef}
         onMouseDown={() => setIsDragging(true)}
         onMouseUp={() => setIsDragging(false)}
         onMouseLeave={() => setIsDragging(false)}
         onMouseMove={handleMouseMove}
         onTouchMove={handleTouchMove}
-        className="relative w-full h-[380px] sm:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-red-500/30 select-none cursor-ew-resize group"
+        className="relative w-full h-[400px] sm:h-[520px] rounded-3xl overflow-hidden shadow-2xl border-2 border-red-500/40 select-none cursor-ew-resize group backdrop-blur-xl"
       >
-        {/* AFTER Image (Finished Hardwood Floor) */}
+        {/* AFTER Image (Finished Luxury Hardwood Floor) */}
         <div
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=960&q=55&fm=webp')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=75&fm=webp')`,
           }}
         >
-          <span className="absolute top-4 right-4 bg-red-600/90 text-white px-3.5 py-1.5 rounded-full font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg">
-            After — Installed Hardwood
+          <span className="absolute top-5 right-5 bg-gradient-to-r from-red-600 to-red-500 text-white px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl border border-white/20 backdrop-blur-md">
+            AFTER — Installed Luxury Hardwood
           </span>
         </div>
 
-        {/* BEFORE Image (Subfloor Prep / Raw Concrete) */}
+        {/* BEFORE Image (Raw Concrete Subfloor Preparation) */}
         <div
-          className="absolute inset-0 bg-cover bg-center border-r-2 border-red-500"
+          className="absolute inset-0 bg-cover bg-center border-r-4 border-red-500 shadow-2xl"
           style={{
             width: `${sliderPos}%`,
-            backgroundImage: `url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=960&q=55&fm=webp')`,
+            backgroundImage: `url('https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=75&fm=webp')`,
           }}
         >
-          <span className="absolute top-4 left-4 bg-slate-900/90 text-slate-100 px-3.5 py-1.5 rounded-full font-manrope font-semibold text-xs uppercase tracking-wider shadow-lg border border-slate-700">
-            Before — Subfloor Prep
+          <span className="absolute top-5 left-5 bg-slate-950/90 text-red-400 border border-red-500/50 px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md whitespace-nowrap">
+            BEFORE — Subfloor Leveling & Prep
           </span>
         </div>
 
         {/* Divider Handle */}
         <div
-          className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.8)]"
+          className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-[0_0_25px_rgba(239,68,68,1)] z-20"
           style={{ left: `${sliderPos}%` }}
         >
           <motion.div
-            animate={{ scale: [1, 1.15, 1] }}
-            transition={{ duration: 2.5, repeat: Infinity }}
-            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-11 h-11 rounded-full bg-red-600 text-white border-2 border-slate-950 shadow-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
+            animate={{ scale: [1, 1.12, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-slate-950 text-white border-2 border-red-500 shadow-2xl flex items-center justify-center group-hover:scale-115 transition-transform"
           >
-            <SlidersHorizontal className="w-5 h-5 text-sky-200" />
+            <SlidersHorizontal className="w-5 h-5 text-red-400" />
           </motion.div>
         </div>
       </motion.div>
-    </div>
+    </section>
   );
 }
 

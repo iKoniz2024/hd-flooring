@@ -57,7 +57,7 @@ export function HeroSearch() {
     <div className="w-full max-w-2xl mx-auto relative z-20 font-inter">
       {/* Main Search Input Form */}
       <form onSubmit={handleSearchSubmit} className="relative">
-        <div className="relative flex items-center p-2 rounded-2xl bg-slate-900/90 dark:bg-slate-900/95 bg-white/90 border border-red-500/30 backdrop-blur-xl shadow-2xl shadow-red-950/20 focus-within:border-red-500 transition-all duration-300">
+        <div className="relative flex items-center p-2 rounded-2xl bg-slate-900/95 border-2 border-red-500/40 backdrop-blur-xl shadow-2xl focus-within:border-red-500 transition-all duration-300">
           <Search className="w-5 h-5 text-red-500 ml-4 shrink-0" />
 
           <input
@@ -69,7 +69,7 @@ export function HeroSearch() {
             }}
             onFocus={() => setIsOpen(true)}
             placeholder="Search flooring type, e.g. Hardwood, Vinyl, Tile..."
-            className="w-full pl-3 pr-4 py-3 bg-transparent text-slate-100 placeholder:text-slate-400 text-sm font-manrope outline-none"
+            className="w-full pl-3 pr-4 py-3 bg-transparent text-white placeholder:text-slate-300 text-sm font-manrope font-semibold outline-none"
           />
 
           <button
@@ -123,14 +123,14 @@ export function HeroSearch() {
 
       {/* Quick Suggestion Tags */}
       <div className="flex items-center justify-center flex-wrap gap-2 pt-3">
-        <span className="text-xs text-slate-400 font-manrope font-medium">
+        <span className="text-xs font-manrope font-extrabold text-slate-200 uppercase tracking-wider drop-shadow-md">
           Popular:
         </span>
         {quickTags.map((tag) => (
           <button
             key={tag}
             onClick={() => handleTagClick(tag)}
-            className="text-xs px-3 py-1 rounded-full bg-red-500/10 hover:bg-red-500/20 border border-red-500/20 text-red-400 font-manrope transition-all"
+            className="text-xs px-3.5 py-1.5 rounded-full bg-slate-900/95 hover:bg-red-600 border border-slate-700 hover:border-red-500 text-slate-100 hover:text-white font-manrope font-bold shadow-lg backdrop-blur-md transition-all duration-300 hover:scale-105"
           >
             {tag}
           </button>
