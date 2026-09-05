@@ -39,7 +39,7 @@ const cardsData = [
 
 export function IntroSection() {
   return (
-    <section className="py-24 sm:py-32 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter relative overflow-hidden">
+    <section className="pt-52 pb-20 sm:pt-60 sm:pb-28 lg:pt-64 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter relative overflow-hidden">
       {/* Background Subtle Gradient Blobs */}
       <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-96 h-96 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 translate-x-1/2 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
@@ -106,39 +106,39 @@ export function IntroSection() {
                 transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
               }}
               whileTap={{ scale: 0.98 }}
-              className={`group relative p-8 sm:p-9 rounded-3xl bg-white/95 dark:bg-slate-900/90 border-2 border-slate-200/90 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none ${card.hoverBorder} transition-all duration-500 ease-out backdrop-blur-xl flex flex-col justify-between overflow-hidden cursor-pointer`}
+              className="group relative p-8 sm:p-9 rounded-3xl bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border border-stone-200 dark:border-stone-800 hover:border-amber-500/80 shadow-xl transition-all duration-500 ease-out flex flex-col justify-between overflow-hidden cursor-pointer hover:-translate-y-2"
             >
-              {/* Card Ambient Glow effect on hover */}
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-gradient-to-br from-red-500/10 to-sky-500/10 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700 pointer-events-none" />
+              {/* Top Animated Gold Accent Bar */}
+              <div className="h-1 w-0 group-hover:w-full bg-amber-500 transition-all duration-500 absolute top-0 left-0 z-20" />
 
               <div>
-                {/* Gentle Floating Icon */}
+                {/* Icon Box */}
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 4.5 + idx * 0.5, repeat: Infinity, ease: 'easeInOut' }}
-                  className={`w-14 h-14 rounded-2xl ${card.iconColor} flex items-center justify-center mb-6 shadow-lg group-hover:scale-108 transition-transform duration-500`}
+                  className="w-14 h-14 rounded-2xl bg-amber-500/10 dark:bg-amber-500/20 border border-amber-500/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-stone-950 group-hover:border-amber-500 flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-all duration-500"
                 >
                   <Icon className="w-7 h-7" />
                 </motion.div>
 
                 {/* Badge */}
-                <div className="inline-block px-3 py-1 rounded-full text-[11px] font-manrope font-black uppercase tracking-widest border mb-3 shadow-xs">
-                  <span className={card.badgeColor.split(' ')[0]}>{card.badge}</span>
+                <div className="inline-block px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400 mb-3 shadow-xs">
+                  <span>{card.badge}</span>
                 </div>
 
                 {/* Title */}
-                <h3 className="font-manrope font-extrabold text-xl text-slate-900 dark:text-white mb-3 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
+                <h3 className="font-playfair font-black text-xl text-stone-900 dark:text-white group-hover:text-amber-400 transition-colors duration-300 mb-3">
                   {card.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
+                <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-300 transition-colors duration-300 leading-relaxed font-normal">
                   {card.desc}
                 </p>
               </div>
 
               {/* Bottom Action Line */}
-              <div className="pt-6 mt-6 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs font-manrope font-bold text-slate-400 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors duration-300">
+              <div className="pt-6 mt-6 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800 flex items-center justify-between text-xs font-bold text-stone-500 dark:text-stone-400 group-hover:text-amber-400 transition-colors duration-300">
                 <span>Learn Craftsmanship</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
               </div>

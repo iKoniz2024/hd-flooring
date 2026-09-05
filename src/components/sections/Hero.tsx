@@ -2,99 +2,73 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowRight, ShieldCheck, Award, Home, Camera, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Camera, ChevronLeft, ChevronRight, Layers, Hammer, Grid, Wrench, Shield } from 'lucide-react';
 import { HeroSearch } from '@/components/interactive/HeroSearch';
-import { useModal } from '@/lib/context/ModalContext';
 import Link from 'next/link';
+
+const heroServices = [
+  {
+    title: 'Hardwood Flooring',
+    subtitle: 'Solid & Engineered',
+    icon: Hammer,
+    href: '/services/hardwood-flooring',
+  },
+  {
+    title: 'Luxury Vinyl (LVP)',
+    subtitle: '100% Waterproof',
+    icon: Layers,
+    href: '/services/luxury-vinyl-flooring',
+  },
+  {
+    title: 'Tile & Porcelain',
+    subtitle: 'Kitchen & Bathroom',
+    icon: Grid,
+    href: '/services/tile-flooring',
+  },
+  {
+    title: 'Laminate Floors',
+    subtitle: 'High Durability',
+    icon: Shield,
+    href: '/services/laminate-flooring',
+  },
+  {
+    title: 'Subfloor & Stairs',
+    subtitle: 'Leveling & Capping',
+    icon: Wrench,
+    href: '/services/stair-flooring',
+  },
+];
 
 const categorySlides = [
   {
     name: 'Solid Hardwood Flooring',
-    tag: 'Hardwood',
-    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=960&q=55&fm=webp',
+    tag: 'Real Wood Grain',
+    image: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=1920&q=95',
   },
   {
-    name: 'Engineered Hardwood',
-    tag: 'Engineered Wood',
-    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=960&q=55&fm=webp',
-  },
-  {
-    name: 'Luxury Vinyl & Sheet Vinyl',
-    tag: 'LVP / LVT / VCT',
-    image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=960&q=55&fm=webp',
-  },
-  {
-    name: 'Laminate Flooring',
-    tag: 'Laminate',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=960&q=55&fm=webp',
-  },
-  {
-    name: 'Carpet Flooring',
-    tag: 'Carpet & Padding',
-    image: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=960&q=55&fm=webp',
+    name: 'Luxury Vinyl Plank (LVP)',
+    tag: '100% Waterproof',
+    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1920&q=95',
   },
   {
     name: 'Tile & Porcelain Installation',
-    tag: 'Tile & Porcelain',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=960&q=55&fm=webp',
+    tag: 'Kitchen & Bathroom',
+    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1920&q=95',
   },
   {
-    name: 'Stair Flooring & Capping',
-    tag: 'Stairwork',
-    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=960&q=55&fm=webp',
+    name: 'Premium Laminate Flooring',
+    tag: 'Herringbone & Planks',
+    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1920&q=95',
   },
   {
-    name: 'Flooring Repairs & Replacement',
-    tag: 'Repairs & Restorations',
-    image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=960&q=55&fm=webp',
+    name: 'Stair Capping & Subfloor Prep',
+    tag: 'Wood Treads & Leveling',
+    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1920&q=95',
   },
-  {
-    name: 'Self Leveling & Floor Prep',
-    tag: 'Subfloor Prep',
-    image: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=960&q=55&fm=webp',
-  },
-];
-
-const typingWords = [
-  'Solid Hardwood Floors',
-  'Luxury Vinyl Planks (LVP)',
-  'Engineered Hardwood',
-  'Tile & Porcelain Setting',
-  'Stair Flooring & Capping',
-  'Laminate Flooring',
-  'Subfloor Leveling & Prep',
 ];
 
 export function Hero() {
-  const { openBookModal } = useModal();
   const [currentSlideIdx, setCurrentSlideIdx] = useState(0);
-
-  // Typing Animation State
-  const [wordIdx, setWordIdx] = useState(0);
-  const [currentText, setCurrentText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-
-  useEffect(() => {
-    const fullWord = typingWords[wordIdx];
-    const speed = isDeleting ? 40 : 85;
-
-    const timer = setTimeout(() => {
-      if (!isDeleting) {
-        setCurrentText(fullWord.substring(0, currentText.length + 1));
-        if (currentText === fullWord) {
-          setTimeout(() => setIsDeleting(true), 2200);
-        }
-      } else {
-        setCurrentText(fullWord.substring(0, currentText.length - 1));
-        if (currentText === '') {
-          setIsDeleting(false);
-          setWordIdx((prev) => (prev + 1) % typingWords.length);
-        }
-      }
-    }, speed);
-
-    return () => clearTimeout(timer);
-  }, [currentText, isDeleting, wordIdx]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -114,255 +88,170 @@ export function Hero() {
   const currentSlide = categorySlides[currentSlideIdx];
 
   return (
-    <section className="relative min-h-[92vh] flex items-center justify-center pt-32 pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-950 text-slate-100">
-      {/* Seamless Stacked Crossfade Slideshow - 0% Black Gap / 0% Flicker */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+    <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-0 px-4 sm:px-6 lg:px-8 bg-stone-100 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
+      {/* Background Slideshow */}
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-85 dark:opacity-80 transition-opacity">
         {categorySlides.map((slide, idx) => (
           <motion.div
             key={slide.image}
-            initial={false}
+            initial={{ opacity: 0, scale: 1.0 }}
             animate={{
               opacity: currentSlideIdx === idx ? 1 : 0,
-              scale: currentSlideIdx === idx ? 1.15 : 1.0,
+              scale: currentSlideIdx === idx ? 1.08 : 1.0,
             }}
             transition={{
               opacity: { duration: 1.2, ease: 'easeInOut' },
-              scale: { duration: currentSlideIdx === idx ? 6 : 0, ease: 'easeOut' },
+              scale: { duration: currentSlideIdx === idx ? 6.5 : 0, ease: 'easeOut' },
             }}
             className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
-            style={{
-              backgroundImage: `url('${slide.image}')`,
-            }}
+            style={{ backgroundImage: `url('${slide.image}')` }}
           />
         ))}
       </div>
 
-      {/* Very Soft Light Tint to Keep Text Clean While Image Remains 100% Visible */}
-      <div className="absolute inset-0 bg-slate-950/30 pointer-events-none z-10" />
-      
-      <motion.div
-        animate={{ scale: [0.9, 1.15, 0.9], opacity: [0.15, 0.3, 0.15] }}
-        transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-red-600/15 rounded-full blur-[140px] pointer-events-none z-10"
-      />
-      <motion.div
-        animate={{ scale: [1.1, 0.95, 1.1], opacity: [0.2, 0.4, 0.2] }}
-        transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        className="absolute bottom-1/4 left-1/3 w-[400px] h-[250px] bg-sky-500/15 rounded-full blur-[120px] pointer-events-none z-10"
-      />
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-stone-100/85 via-stone-100/50 to-stone-100/15 dark:from-stone-950/85 dark:via-stone-950/50 dark:to-stone-950/20 pointer-events-none z-10" />
 
-      {/* Side Slide Navigators */}
-      <div className="hidden md:flex absolute inset-x-4 top-1/2 -translate-y-1/2 items-center justify-between z-30 pointer-events-none">
-        <button
-          onClick={prevSlide}
-          aria-label="Previous Category"
-          className="p-3 rounded-full bg-slate-950/40 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md transition-all duration-300 pointer-events-auto shadow-lg hover:scale-110"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </button>
-        <button
-          onClick={nextSlide}
-          aria-label="Next Category"
-          className="p-3 rounded-full bg-slate-950/40 hover:bg-red-600 text-white border border-white/20 backdrop-blur-md transition-all duration-300 pointer-events-auto shadow-lg hover:scale-110"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </button>
-      </div>
+      {/* Left Slide Control Button */}
+      <button
+        onClick={prevSlide}
+        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-amber-500 text-stone-900 dark:text-white hover:text-stone-950 border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+        aria-label="Previous Slide"
+      >
+        <ChevronLeft className="w-5 h-5" />
+      </button>
 
-      <div className="max-w-5xl mx-auto text-center space-y-7 relative z-20">
-        {/* Active Category Showcase Badge - UPOR THEKE NAMBE (From Top) */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentSlideIdx}
-            initial={{ opacity: 0, y: -90 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 40 }}
-            transition={{ duration: 1.0, ease: [0.22, 1, 0.36, 1] }}
-            className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-slate-900/95 border-2 border-red-500/60 text-slate-100 shadow-2xl shadow-red-600/20 backdrop-blur-md"
-          >
-            <Camera className="w-4.5 h-4.5 text-red-500 animate-pulse shrink-0" />
-            <span className="text-xs sm:text-sm font-manrope font-extrabold tracking-wider text-slate-100">
-              <span className="text-red-400 font-black">Featured {currentSlideIdx + 1}/9:</span> {currentSlide.name}
-            </span>
-          </motion.div>
-        </AnimatePresence>
+      {/* Right Slide Control Button */}
+      <button
+        onClick={nextSlide}
+        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-amber-500 text-stone-900 dark:text-white hover:text-stone-950 border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+        aria-label="Next Slide"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
 
-        {/* Main Headline - Line 1 BAM THEKE (Left), Line 2 DAN THEKE (Right) */}
-        <h1 className="font-playfair text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.08] drop-shadow-[0_10px_25px_rgba(0,0,0,0.9)] flex flex-col items-center gap-2 sm:gap-3">
-          {/* BAM THEKE ASBE (From Left) */}
-          <motion.span
-            initial={{ opacity: 0, x: -140 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="block font-black text-white"
-          >
-            Professional Flooring Installation.
-          </motion.span>
-
-          {/* DAN THEKE ASBE (From Right) */}
-          <motion.div
-            initial={{ opacity: 0, x: 140 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
-            className="text-2xl sm:text-4xl lg:text-5xl font-manrope font-extrabold text-slate-200 flex flex-wrap items-center justify-center gap-2 pt-1"
-          >
-            <span>Specializing in</span>
-            <span className="brand-gradient-text font-black inline-flex items-center min-h-[1.3em]">
-              {currentText}
-              <span className="animate-pulse text-sky-400 font-normal ml-0.5">|</span>
-            </span>
-          </motion.div>
-        </h1>
-
-        {/* Subtitle - NIC THEKE UTHTE (From Bottom) */}
-        <motion.p
-          initial={{ opacity: 0, y: 90 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="font-inter text-slate-100 max-w-3xl mx-auto text-base sm:text-2xl leading-relaxed drop-shadow-[0_4px_12px_rgba(0,0,0,0.9)] font-extrabold"
-        >
-          Transform your home or business with professionally installed flooring from HD Flooring. From timeless hardwood and engineered wood to luxury vinyl, laminate, carpet, and tile — tailored to your lifestyle and budget.
-        </motion.p>
-
-        {/* Hero Interactive Search Bar - UPOR THEKE NAMBE (From Top) */}
-        <motion.div
-          initial={{ opacity: 0, y: -80 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="pt-2"
-        >
-          <HeroSearch />
-        </motion.div>
-
-        {/* CTA Buttons - Left button BAM THEKE (Left), Right button DAN THEKE (Right) */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-5 pt-2 w-full max-w-md sm:max-w-none mx-auto">
-          {/* BAM THEKE ASBE (From Left) */}
-          <motion.button
-            initial={{ opacity: 0, x: -120 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.07 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => openBookModal()}
-            className="w-full sm:w-auto px-7 sm:px-9 py-4 sm:py-4.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-115 text-white font-manrope font-black text-xs sm:text-sm uppercase tracking-widest shadow-2xl shadow-red-600/40 transition-all duration-300 inline-flex items-center justify-center gap-2 whitespace-nowrap"
-          >
-            <motion.span
-              animate={{ y: [0, -3, 0] }}
-              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex items-center gap-2"
+      <div className="max-w-7xl mx-auto w-full relative z-20 space-y-8">
+        <div className="max-w-4xl text-left space-y-6 pb-8">
+          {/* Minimal Badge */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentSlideIdx}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 border border-amber-500/50 text-stone-900 dark:text-stone-100 shadow-md backdrop-blur-md"
             >
-              <Sparkles className="w-4 h-4 text-sky-200 shrink-0 animate-pulse" />
-              <span>Book Us Now</span>
-            </motion.span>
-          </motion.button>
+              <Camera className="w-3.5 h-3.5 text-amber-500 animate-pulse shrink-0" />
+              <span className="text-xs font-semibold">
+                <span className="text-amber-600 dark:text-amber-400">Featured ({currentSlideIdx + 1}/5):</span> {currentSlide.name}
+              </span>
+            </motion.div>
+          </AnimatePresence>
 
-          {/* DAN THEKE ASBE (From Right) */}
-          <motion.div
-            initial={{ opacity: 0, x: 120 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            whileHover={{ scale: 1.07 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full sm:w-auto"
-          >
-            <Link
-              href="/services"
-              className="w-full sm:w-auto px-7 sm:px-9 py-4 sm:py-4.5 rounded-full bg-slate-900/95 hover:bg-slate-800 border-2 border-slate-600 hover:border-red-500 text-white font-manrope font-black text-xs sm:text-sm uppercase tracking-widest transition-all duration-300 inline-flex items-center justify-center gap-2 text-center whitespace-nowrap shadow-xl backdrop-blur-md"
-            >
-              <span>Explore Services</span>
-              <motion.span
-                animate={{ x: [0, 4, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-              >
-                <ArrowRight className="w-4 h-4 text-sky-400 shrink-0" />
-              </motion.span>
-            </Link>
-          </motion.div>
+          {/* Minimal Headline */}
+          <h1 className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 dark:text-white leading-[1.15]">
+            Professional Flooring Installation
+            <div className="text-xl sm:text-3xl font-extrabold text-stone-700 dark:text-stone-300 flex items-center gap-2 pt-1">
+              <span>Specializing in</span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={currentSlideIdx}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  className="text-amber-600 dark:text-amber-400 font-black inline-flex items-center"
+                >
+                  {currentSlide.name}
+                </motion.span>
+              </AnimatePresence>
+            </div>
+          </h1>
+
+          {/* Ultra Minimal Subtitle */}
+          <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-normal max-w-2xl">
+            Quality Canadian installation for residential & commercial spaces.
+          </p>
+
+          {/* Interactive Search Bar Widget */}
+          <div className="pt-1 max-w-3xl relative z-50">
+            <HeroSearch />
+          </div>
         </div>
 
-        {/* Category Interactive Indicator Dots - NIC THEKE UTHTE (From Bottom) */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.0, delay: 0.9 }}
-          className="pt-4 flex items-center justify-center gap-2.5"
-        >
-          {categorySlides.map((slide, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentSlideIdx(idx)}
-              title={slide.name}
-              className={`h-3 rounded-full transition-all duration-500 cursor-pointer ${
-                currentSlideIdx === idx
-                  ? 'w-10 bg-red-500 shadow-lg shadow-red-500/60'
-                  : 'w-3 bg-slate-400/60 hover:bg-white'
-              }`}
-            />
-          ))}
-        </motion.div>
+        {/* 5-Card Quick Services Banner Grid (50% Inside / 50% Outside ipropertybd Style) */}
+        <div className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32">
+          <div className="mb-3 text-xs font-extrabold text-stone-500 dark:text-stone-400 uppercase tracking-widest flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-ping" />
+            <span>Our Core Flooring Services</span>
+          </div>
 
-        {/* Supporting Trust Indicators - BAM THEKE (Left), NIC THEKE (Bottom), DAN THEKE (Right) */}
-        <div className="pt-6 flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-sm sm:text-base font-manrope font-black text-white border-t border-slate-700/80 drop-shadow-md">
-          {/* BAM THEKE ASBE (From Left) */}
-          <motion.div
-            initial={{ opacity: 0, x: -100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 1.0, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-2.5"
-          >
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <Home className="w-5 h-5 text-red-500 shrink-0" />
-            </motion.div>
-            <span>Residential & Commercial</span>
-          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {heroServices.map((srv, idx) => {
+              const Icon = srv.icon;
+              const isActive = currentSlideIdx === idx;
+              return (
+                <div
+                  key={idx}
+                  onMouseEnter={() => setCurrentSlideIdx(idx)}
+                  onClick={() => setCurrentSlideIdx(idx)}
+                  className={`group relative rounded-2xl border transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 ${
+                    isActive
+                      ? 'bg-stone-950 text-white border-amber-500 shadow-2xl -translate-y-2'
+                      : 'bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border-stone-200 dark:border-stone-800 hover:border-amber-500/80 shadow-2xl hover:-translate-y-2.5'
+                  }`}
+                >
+                  {/* Top Animated Gold Accent Bar */}
+                  <div
+                    className={`h-1 bg-amber-500 transition-all duration-500 absolute top-0 left-0 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
+                  />
 
-          {/* NIC THEKE UTHTE (From Bottom) */}
-          <motion.div
-            initial={{ opacity: 0, y: 80 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 1.1, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-2.5"
-          >
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <Award className="w-5 h-5 text-sky-400 shrink-0" />
-            </motion.div>
-            <span>Professional Installation</span>
-          </motion.div>
+                  <div className="space-y-3">
+                    {/* Icon Box */}
+                    <div
+                      className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${
+                        isActive
+                          ? 'bg-amber-500 text-stone-950 border-amber-500 scale-110'
+                          : 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-stone-950 group-hover:border-amber-500 group-hover:scale-110'
+                      }`}
+                    >
+                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                    </div>
 
-          {/* DAN THEKE ASBE (From Right) */}
-          <motion.div
-            initial={{ opacity: 0, x: 100 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="flex items-center gap-2.5"
-          >
-            <motion.div
-              animate={{ y: [0, -4, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-            >
-              <ShieldCheck className="w-5 h-5 text-red-500 shrink-0" />
-            </motion.div>
-            <span>Quality Workmanship</span>
-          </motion.div>
+                    {/* Title & Subtitle */}
+                    <div>
+                      <h3
+                        className={`font-playfair font-black text-base sm:text-lg transition-colors duration-300 leading-snug ${
+                          isActive ? 'text-amber-400' : 'text-stone-900 dark:text-stone-100 group-hover:text-white'
+                        }`}
+                      >
+                        {srv.title}
+                      </h3>
+                      <p
+                        className={`text-xs font-semibold transition-colors duration-300 mt-1 ${
+                          isActive ? 'text-stone-300' : 'text-stone-500 dark:text-stone-400 group-hover:text-stone-300'
+                        }`}
+                      >
+                        {srv.subtitle}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Bottom Right Corner Gold Chevron Box */}
+                  <Link
+                    href={srv.href}
+                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl bg-amber-500 text-stone-950 flex items-center justify-center font-black shadow-lg transition-all duration-300 ${
+                      isActive ? 'bg-amber-400 scale-110' : 'group-hover:bg-amber-400 group-hover:scale-110'
+                    }`}
+                  >
+                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
 }
-

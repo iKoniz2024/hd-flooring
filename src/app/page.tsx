@@ -10,7 +10,6 @@ import { IntroSection } from '@/components/sections/IntroSection';
 import { LiveBadge } from '@/components/animations/LiveBadge';
 import { BeforeAfterSlider } from '@/components/interactive/BeforeAfterSlider';
 import { StatsBanner } from '@/components/sections/StatsBanner';
-import { LiveCostCalculator } from '@/components/interactive/LiveCostCalculator';
 import { ServicesGrid } from '@/components/sections/ServicesGrid';
 import { ProjectShowcaseTicker } from '@/components/sections/ProjectShowcaseTicker';
 import { WhyUs } from '@/components/sections/WhyUs';
@@ -45,28 +44,25 @@ export default function Home() {
         {/* 5. Statistics Banner */}
         <StatsBanner />
 
-        {/* 6. Live Flooring Cost Estimator */}
-        <LiveCostCalculator />
-
-        {/* 7. Flooring Categories */}
+        {/* 6. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 8. On-Site Real Project Photo Gallery */}
+        {/* 7. On-Site Real Project Photo Gallery */}
         <ProjectShowcaseTicker />
 
-        {/* 9. Why HD Flooring */}
+        {/* 8. Why HD Flooring */}
         <WhyUs />
 
-        {/* 10. Residential & Commercial Solutions */}
+        {/* 9. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 11. Installation Process */}
+        {/* 10. Installation Process */}
         <ProcessTimeline />
 
-        {/* 12. Customer Testimonials */}
+        {/* 11. Customer Testimonials */}
         <Testimonials />
 
-        {/* 13. Final CTA */}
+        {/* 12. Final CTA */}
         <FinalCTA />
       </main>
 
@@ -79,4 +75,3 @@ export default function Home() {
     </div>
   );
 }
-

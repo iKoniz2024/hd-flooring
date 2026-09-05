@@ -2,121 +2,115 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, CheckCircle } from 'lucide-react';
+import { ArrowRight, Sparkles, CheckCircle, ShieldCheck } from 'lucide-react';
 import { servicesData } from '@/data/services';
 import { TiltCard } from '@/components/interactive/TiltCard';
 import { useModal } from '@/lib/context/ModalContext';
-
-const getCardVariant = (idx: number) => {
-  switch (idx % 6) {
-    case 0:
-      return { hidden: { opacity: 0, x: -60 }, show: { opacity: 1, x: 0 } }; // Left
-    case 1:
-      return { hidden: { opacity: 0, scale: 0.8 }, show: { opacity: 1, scale: 1 } }; // Zoom In
-    case 2:
-      return { hidden: { opacity: 0, x: 60 }, show: { opacity: 1, x: 0 } }; // Right
-    case 3:
-      return { hidden: { opacity: 0, y: 60 }, show: { opacity: 1, y: 0 } }; // Up
-    case 4:
-      return { hidden: { opacity: 0, scale: 1.2 }, show: { opacity: 1, scale: 1 } }; // Zoom Out
-    case 5:
-    default:
-      return { hidden: { opacity: 0, y: -40 }, show: { opacity: 1, y: 0 } }; // Down
-  }
-};
 
 export function ServicesGrid() {
   const { openBookModal } = useModal();
 
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
-      {/* Header */}
+    <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
+      {/* Header - ipropertybd + hdflooringca styling */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.85, y: -20 }}
-        whileInView={{ opacity: 1, scale: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center space-y-3 mb-16"
+        className="text-center space-y-4 mb-16"
       >
-        <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-sky-400" />
-          Flooring Solutions for Every Space
-        </span>
-        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-          Our Flooring Installation Services
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-4 h-4 text-amber-500" />
+          <span>Professional Flooring Installation</span>
+        </div>
+        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
+          Flooring Solutions For Every Space
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto text-sm sm:text-base font-inter">
-          Different spaces require different flooring. We provide expert installation across a wide range of popular Canadian flooring options.
+        <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base">
+          Explore our complete range of Canadian flooring installation services designed for residential homes, condos, and commercial properties.
         </p>
       </motion.div>
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {servicesData.map((service, idx) => {
-          const variant = getCardVariant(idx);
+          const stepNumber = String(idx + 1).padStart(2, '0');
           return (
             <motion.div
               key={service.id}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, amount: 0.15 }}
-              variants={variant}
-              transition={{ duration: 0.6, delay: 0.05 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.05 }}
             >
               <TiltCard>
-                <div className="h-full rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl shadow-black/5 dark:shadow-black/40 overflow-hidden flex flex-col justify-between group transition-all duration-300">
+                <div className="h-full rounded-2xl bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border border-stone-200 dark:border-stone-800 hover:border-amber-500/80 shadow-xl shadow-stone-900/5 dark:shadow-black/60 overflow-hidden flex flex-col justify-between group transition-all duration-500 relative">
+                  {/* Top Amber Accent Line */}
+                  <div className="h-1 w-0 group-hover:w-full bg-amber-500 transition-all duration-500" />
+
                   {/* Image Banner */}
-                  <div className="relative h-48 overflow-hidden">
+                  <div className="relative h-52 overflow-hidden">
                     <img
                       src={service.heroImage}
                       alt={service.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
-                    <span className="absolute bottom-3 left-4 text-xs font-manrope font-semibold text-sky-300 bg-slate-950/80 px-3 py-1 rounded-full border border-sky-500/30 backdrop-blur-md">
-                      {service.title.split(' ')[0]}
-                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent" />
+                    
+                    {/* Number Overlay Badge - ipropertybd style */}
+                    <div className="absolute top-3 right-3 w-10 h-10 rounded-xl bg-amber-500 text-stone-950 font-black text-sm flex items-center justify-center shadow-lg shadow-amber-500/30 group-hover:scale-110 transition-transform">
+                      {stepNumber}
+                    </div>
+
+                    {/* Tag */}
+                    <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-amber-400 bg-stone-950/90 px-3 py-1 rounded-full border border-amber-500/30 backdrop-blur-md">
+                        {service.idealFor[0] || 'Residential & Commercial'}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Content */}
                   <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
-                      <h3 className="font-playfair text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors">
+                      <h3 className="font-playfair text-xl font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-400 transition-colors duration-300">
                         {service.title}
                       </h3>
-                      <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
+                      <p className="text-xs text-stone-600 dark:text-stone-400 group-hover:text-stone-300 transition-colors duration-300 leading-relaxed line-clamp-2">
                         {service.shortDesc}
                       </p>
                     </div>
 
                     {/* Key Benefits */}
-                    <ul className="space-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                    <ul className="space-y-1.5 pt-3 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800">
                       {service.benefits.slice(0, 2).map((benefit, bIdx) => (
                         <li
                           key={bIdx}
-                          className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-2 font-manrope"
+                          className="text-xs text-stone-600 dark:text-stone-300 group-hover:text-stone-200 transition-colors flex items-start gap-2"
                         >
-                          <CheckCircle className="w-3.5 h-3.5 text-red-500 shrink-0 mt-0.5" />
-                          <span>{benefit}</span>
+                          <CheckCircle className="w-3.5 h-3.5 text-amber-500 shrink-0 mt-0.5" />
+                          <span className="line-clamp-1">{benefit}</span>
                         </li>
                       ))}
                     </ul>
 
-                    {/* Action Buttons */}
-                    <div className="pt-4 flex flex-wrap items-center justify-between gap-2.5 border-t border-slate-100 dark:border-slate-800">
+                    {/* Action Bar */}
+                    <div className="pt-4 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800">
                       <button
                         onClick={() => openBookModal(service.title)}
-                        className="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 font-manrope font-bold text-xs transition-colors shrink-0"
+                        className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider transition-all shadow-md shadow-amber-500/20 flex items-center gap-1.5"
                       >
+                        <ShieldCheck className="w-3.5 h-3.5" />
                         Book Us
                       </button>
 
                       <Link
                         href={`/services/${service.slug}`}
-                        className="text-xs font-manrope font-semibold text-slate-700 dark:text-slate-300 hover:text-red-500 flex items-center gap-1 group/link transition-colors shrink-0"
+                        className="w-9 h-9 rounded-xl bg-amber-500 group-hover:bg-amber-400 text-stone-950 flex items-center justify-center font-extrabold shadow-md group-hover:scale-110 transition-all duration-300"
+                        title="Explore Service"
                       >
-                        Learn More
-                        <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover/link:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                       </Link>
                     </div>
                   </div>
@@ -129,5 +123,6 @@ export function ServicesGrid() {
     </section>
   );
 }
+
 
 
