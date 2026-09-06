@@ -411,9 +411,9 @@ export default function ServiceDetailPage() {
 
           <button
             onClick={() => openBookModal(service.title)}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-slate-950 text-white font-bold text-xs uppercase tracking-wider hover:bg-slate-900 transition-colors shrink-0 shadow-lg shadow-black/30 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white text-red-600 font-extrabold text-xs uppercase tracking-wider hover:bg-slate-100 transition-colors shrink-0 shadow-xl shadow-red-900/20 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-sky-200" />
+            <Sparkles className="w-4 h-4 text-red-500" />
             <span>Get Free Quote</span>
           </button>
         </motion.div>

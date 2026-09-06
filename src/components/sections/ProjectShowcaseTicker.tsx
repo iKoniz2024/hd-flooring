@@ -303,7 +303,7 @@ export function ProjectShowcaseTicker() {
                 transition={{ duration: 0.4, delay: index * 0.04 }}
                 whileHover={{ y: -6 }}
                 onClick={() => setSelectedPhoto(photo)}
-                className="group relative h-72 rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 cursor-pointer shadow-xl"
+                className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl"
               >
                 {/* Photo Image */}
                 <Image
@@ -365,19 +365,19 @@ export function ProjectShowcaseTicker() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setSelectedPhoto(null)}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
+            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
           >
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-4xl w-full bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden shadow-2xl cursor-default"
+              className="relative max-w-4xl w-full bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-2xl cursor-default"
             >
               {/* Close Button */}
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-slate-950/80 border border-slate-700 text-white flex items-center justify-center hover:bg-red-600 hover:border-red-600 transition-colors"
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white flex items-center justify-center hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>

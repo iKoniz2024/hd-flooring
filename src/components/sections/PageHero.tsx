@@ -93,20 +93,20 @@ export function PageHero({
             aria-label="Breadcrumb"
             className="mb-1 sm:mb-2 max-w-full overflow-hidden"
           >
-            <ol className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 rounded-xl sm:rounded-full bg-slate-900/90 border border-slate-700/60 backdrop-blur-md text-[11px] sm:text-xs font-medium text-slate-300 shadow-lg max-w-full">
+            <ol className="flex flex-wrap items-center justify-center gap-1 sm:gap-1.5 px-3 sm:px-4 py-1.5 rounded-xl sm:rounded-full bg-white/90 dark:bg-slate-900/90 border border-stone-200 dark:border-slate-700/60 backdrop-blur-md text-[11px] sm:text-xs font-medium text-stone-800 dark:text-slate-300 shadow-lg max-w-full">
               {breadcrumbs.map((item, idx) => {
                 const isLast = idx === breadcrumbs.length - 1;
                 return (
                   <li key={idx} className="inline-flex items-center gap-1 sm:gap-1.5 max-w-full">
-                    {idx > 0 && <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-500 shrink-0" />}
+                    {idx > 0 && <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-stone-400 dark:text-slate-500 shrink-0" />}
                     {isLast || !item.href ? (
-                      <span className="text-red-400 font-semibold truncate max-w-[130px] sm:max-w-[280px] lg:max-w-none">
+                      <span className="text-red-600 dark:text-red-400 font-bold truncate max-w-[130px] sm:max-w-[280px] lg:max-w-none">
                         {item.label}
                       </span>
                     ) : (
                       <Link
                         href={item.href}
-                        className="hover:text-white transition-colors duration-200 shrink-0"
+                        className="hover:text-red-600 dark:hover:text-white transition-colors duration-200 shrink-0"
                       >
                         {item.label}
                       </Link>
@@ -195,14 +195,14 @@ export function PageHero({
               secondaryCta.href ? (
                 <Link
                   href={secondaryCta.href}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-sm font-semibold backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/90 hover:bg-white text-stone-900 dark:bg-slate-900/80 dark:hover:bg-slate-800 dark:text-slate-200 border border-stone-200 dark:border-slate-700/80 text-sm font-semibold backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   {secondaryCta.label}
                 </Link>
               ) : (
                 <button
                   onClick={secondaryCta.onClick}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 text-slate-200 text-sm font-semibold backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/90 hover:bg-white text-stone-900 dark:bg-slate-900/80 dark:hover:bg-slate-800 dark:text-slate-200 border border-stone-200 dark:border-slate-700/80 text-sm font-semibold backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   {secondaryCta.label}
                 </button>

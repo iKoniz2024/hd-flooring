@@ -83,22 +83,22 @@ export function BookUsModal() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-2xl bg-stone-900 text-stone-100 backdrop-blur-2xl border border-stone-800 rounded-3xl shadow-2xl overflow-hidden z-10 font-inter"
+            className="relative w-full max-w-2xl bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 backdrop-blur-2xl border border-stone-200 dark:border-stone-800 rounded-3xl shadow-2xl overflow-hidden z-10 font-inter"
           >
             {/* Header Banner */}
-            <div className="bg-gradient-to-r from-amber-600 via-amber-500 to-amber-700 p-6 text-stone-950 flex items-center justify-between relative overflow-hidden">
+            <div className="bg-gradient-to-r from-red-600 via-amber-500 to-sky-600 p-6 text-white flex items-center justify-between relative overflow-hidden">
               <div className="relative z-10 space-y-1">
-                <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-extrabold text-stone-950">
-                  <Sparkles className="w-4 h-4 text-stone-950" />
+                <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-extrabold text-white">
+                  <Sparkles className="w-4 h-4 text-amber-300" />
                   Free In-Home Consultation & Estimate
                 </div>
-                <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-950">
+                <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white">
                   Book Your Flooring Project
                 </h2>
               </div>
               <button
                 onClick={closeBookModal}
-                className="relative z-10 p-2 rounded-full bg-stone-950/20 hover:bg-stone-950/40 text-stone-950 transition-colors"
+                className="relative z-10 p-2 rounded-full bg-white/20 hover:bg-white/30 text-white transition-colors cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-5 h-5" />
@@ -109,20 +109,20 @@ export function BookUsModal() {
             <div className="p-6 sm:p-8">
               {submitted ? (
                 <div className="text-center py-10 space-y-6">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 flex items-center justify-center shadow-lg shadow-amber-500/20">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <CheckCircle2 className="w-12 h-12" />
                   </div>
                   <div className="space-y-2">
-                    <h3 className="font-playfair text-2xl font-bold text-white">
+                    <h3 className="font-playfair text-2xl font-bold text-stone-900 dark:text-white">
                       Thank You! Request Received
                     </h3>
-                    <p className="text-sm text-stone-400 max-w-md mx-auto leading-relaxed">
+                    <p className="text-sm text-stone-600 dark:text-stone-400 max-w-md mx-auto leading-relaxed">
                       Our HD Flooring consultation team will reach out to confirm your project details and scheduling options.
                     </p>
                   </div>
                   <button
                     onClick={handleReset}
-                    className="px-8 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-amber-500/20"
+                    className="px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-red-600/20 cursor-pointer"
                   >
                     Close Window
                   </button>
@@ -131,11 +131,11 @@ export function BookUsModal() {
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Full Name *
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                        <User className="absolute left-3.5 top-3 w-4 h-4 text-red-500" />
                         <input
                           type="text"
                           required
@@ -144,17 +144,17 @@ export function BookUsModal() {
                             setFormData({ ...formData, fullName: e.target.value })
                           }
                           placeholder="e.g. David Miller"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-sm placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Phone Number *
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                        <Phone className="absolute left-3.5 top-3 w-4 h-4 text-red-500" />
                         <input
                           type="tel"
                           required
@@ -163,7 +163,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, phone: e.target.value })
                           }
                           placeholder="e.g. (800) 555-FLOOR"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-sm placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
@@ -171,11 +171,11 @@ export function BookUsModal() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                        <Mail className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
                         <input
                           type="email"
                           value={formData.email}
@@ -183,13 +183,13 @@ export function BookUsModal() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           placeholder="info@hdflooringca.com"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-sm placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-sky-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Service Required *
                       </label>
                       <select
@@ -198,10 +198,10 @@ export function BookUsModal() {
                         onChange={(e) =>
                           setFormData({ ...formData, service: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-sm outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm outline-none"
                       >
                         {serviceOptions.map((opt) => (
-                          <option key={opt} value={opt} className="bg-stone-900 text-stone-100">
+                          <option key={opt} value={opt} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100">
                             {opt}
                           </option>
                         ))}
@@ -211,14 +211,14 @@ export function BookUsModal() {
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Property Type
                       </label>
                       <div className="flex items-center gap-3 pt-2">
                         {['Residential', 'Commercial'].map((type) => (
                           <label
                             key={type}
-                            className="flex items-center gap-1.5 text-xs text-stone-300 cursor-pointer"
+                            className="flex items-center gap-1.5 text-xs text-stone-700 dark:text-stone-300 cursor-pointer"
                           >
                             <input
                               type="radio"
@@ -228,7 +228,7 @@ export function BookUsModal() {
                               onChange={(e) =>
                                 setFormData({ ...formData, propertyType: e.target.value })
                               }
-                              className="accent-amber-500"
+                              className="accent-red-600"
                             />
                             {type}
                           </label>
@@ -237,11 +237,11 @@ export function BookUsModal() {
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Project Location
                       </label>
                       <div className="relative">
-                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
                         <input
                           type="text"
                           value={formData.location}
@@ -249,13 +249,13 @@ export function BookUsModal() {
                             setFormData({ ...formData, location: e.target.value })
                           }
                           placeholder="City / Region"
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-sky-500 text-stone-900 dark:text-stone-100 text-xs outline-none"
                         />
                       </div>
                     </div>
 
                     <div className="space-y-1.5">
-                      <label className="block text-xs font-semibold text-stone-300">
+                      <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                         Preferred Date
                       </label>
                       <div className="relative">
@@ -266,14 +266,14 @@ export function BookUsModal() {
                           onChange={(e) =>
                             setFormData({ ...formData, preferredDate: e.target.value })
                           }
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-amber-500 text-stone-900 dark:text-stone-100 text-xs outline-none"
                         />
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-semibold text-stone-300">
+                    <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300">
                       Project Details / Room Dimensions
                     </label>
                     <div className="relative">
@@ -285,7 +285,7 @@ export function BookUsModal() {
                           setFormData({ ...formData, details: e.target.value })
                         }
                         placeholder="Tell us about room sizes, flooring removal needs, subfloor condition, or timeline..."
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-950 border border-stone-800 focus:border-amber-500 text-stone-100 text-xs outline-none resize-none"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-amber-500 text-stone-900 dark:text-stone-100 text-xs outline-none resize-none"
                       />
                     </div>
                   </div>

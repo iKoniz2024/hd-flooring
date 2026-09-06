@@ -119,14 +119,14 @@ export function BeforeAfterSlider() {
         className="rounded-3xl overflow-hidden bg-slate-900 border-2 border-red-500/30 shadow-2xl shadow-slate-900/50"
       >
         {/* Mock Window Top Bar */}
-        <div className="bg-slate-950 px-5 py-3 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400 font-manrope font-semibold">
+        <div className="bg-stone-100 dark:bg-slate-950 px-5 py-3 border-b border-stone-200 dark:border-slate-800 flex items-center justify-between text-xs text-stone-600 dark:text-slate-400 font-manrope font-semibold">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
             <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
             <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
-            <span className="ml-3 text-slate-300 font-bold hidden sm:inline">HD Flooring Transformation Studio</span>
+            <span className="ml-3 text-stone-800 dark:text-slate-300 font-bold hidden sm:inline">HD Flooring Transformation Studio</span>
           </div>
-          <div className="text-red-400 font-bold bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
+          <div className="text-red-600 dark:text-red-400 font-bold bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
             {Math.round(sliderPos)}% Unfinished • {100 - Math.round(sliderPos)}% Finished
           </div>
         </div>
@@ -161,7 +161,7 @@ export function BeforeAfterSlider() {
               backgroundImage: `url('${current.beforeImage}')`,
             }}
           >
-            <span className="absolute top-5 left-5 bg-slate-950/95 text-red-400 border border-red-500/50 px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md whitespace-nowrap">
+            <span className="absolute top-5 left-5 bg-white/95 dark:bg-slate-950/95 text-red-600 dark:text-red-400 border border-red-500/40 px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md whitespace-nowrap">
               {current.beforeTitle}
             </span>
           </div>
@@ -174,9 +174,9 @@ export function BeforeAfterSlider() {
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-13 h-13 rounded-full bg-slate-950 text-white border-2 border-red-500 shadow-2xl flex items-center justify-center group"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-13 h-13 rounded-full bg-white dark:bg-slate-950 text-stone-900 dark:text-white border-2 border-red-500 shadow-2xl flex items-center justify-center group"
             >
-              <SlidersHorizontal className="w-6 h-6 text-red-400 group-hover:scale-110 transition-transform" />
+              <SlidersHorizontal className="w-6 h-6 text-red-500 dark:text-red-400 group-hover:scale-110 transition-transform" />
             </motion.div>
           </div>
         </div>

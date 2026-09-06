@@ -289,10 +289,10 @@ export default function BlogArticlePage() {
 
               <button
                 onClick={() => openBookModal(post.title)}
-                className="px-8 py-3.5 rounded-full bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs uppercase tracking-wider shrink-0 shadow-2xl shadow-black/40 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all z-10"
+                className="px-8 py-3.5 rounded-full bg-white hover:bg-slate-100 text-red-600 font-extrabold text-xs uppercase tracking-wider shrink-0 shadow-xl shadow-red-900/20 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all z-10 cursor-pointer"
               >
-                Book Free Estimate
-                <ArrowRight className="w-4 h-4 text-red-400" />
+                <span>Book Free Estimate</span>
+                <ArrowRight className="w-4 h-4 text-red-600" />
               </button>
             </motion.div>
           </div>

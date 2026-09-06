@@ -62,9 +62,9 @@ export function ResidentialCommercial() {
             <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
               <button
                 onClick={() => openBookModal('Residential Flooring')}
-                className="w-full py-3.5 px-4 rounded-2xl bg-slate-950 dark:bg-slate-100 text-slate-100 dark:text-slate-950 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-red-600 dark:hover:bg-red-600 dark:hover:text-white transition-colors flex items-center justify-center gap-2 shadow-lg"
+                className="w-full py-3.5 px-4 rounded-2xl bg-red-600 dark:bg-slate-100 text-white dark:text-slate-950 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-red-700 dark:hover:bg-red-600 dark:hover:text-white transition-colors flex items-center justify-center gap-2 shadow-lg shadow-red-600/20"
               >
-                <Sparkles className="w-4 h-4 text-sky-400 shrink-0" />
+                <Sparkles className="w-4 h-4 text-amber-300 dark:text-sky-400 shrink-0" />
                 <span>Book Free Consultation</span>
               </button>
             </div>

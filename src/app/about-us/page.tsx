@@ -141,8 +141,8 @@ export default function AboutUsPage() {
                   whileHover={{ scale: 1.1, rotate: 5 }}
                   className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-600 to-sky-500 p-0.5 shadow-xl shrink-0"
                 >
-                  <div className="w-full h-full rounded-[14px] bg-slate-950 flex items-center justify-center text-red-400">
-                    <UserCheck className="w-10 h-10 text-red-400" />
+                  <div className="w-full h-full rounded-[14px] bg-red-50 dark:bg-slate-950 flex items-center justify-center text-red-600 dark:text-red-400">
+                    <UserCheck className="w-10 h-10 text-red-600 dark:text-red-400" />
                   </div>
                 </motion.div>
 
@@ -366,9 +366,9 @@ export default function AboutUsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => openBookModal()}
-            className="px-6 py-3.5 rounded-full bg-slate-950 text-white font-manrope font-bold text-xs uppercase tracking-wider hover:bg-slate-900 transition-colors shrink-0 shadow-xl shadow-black/30 flex items-center gap-2"
+            className="px-6 py-3.5 rounded-full bg-white text-red-600 font-manrope font-extrabold text-xs uppercase tracking-wider hover:bg-slate-100 transition-colors shrink-0 shadow-xl shadow-red-900/20 flex items-center gap-2 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-sky-200" />
+            <Sparkles className="w-4 h-4 text-red-500" />
             <span>Book Free Measure</span>
           </motion.button>
         </motion.div>

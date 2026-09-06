@@ -172,10 +172,10 @@ export function IntroSection() {
         >
           <Link
             href="/about-us"
-            className="inline-flex items-center gap-3 px-9 py-4.5 rounded-full bg-slate-950 dark:bg-white text-white dark:text-slate-950 hover:bg-red-600 dark:hover:bg-red-600 dark:hover:text-white font-manrope font-black text-xs uppercase tracking-widest shadow-2xl shadow-slate-900/30 hover:shadow-red-600/30 transition-all duration-300 group"
+            className="inline-flex items-center gap-3 px-9 py-4.5 rounded-full bg-red-600 text-white hover:bg-red-700 font-manrope font-black text-xs uppercase tracking-widest shadow-xl shadow-red-600/30 transition-all duration-300 group"
           >
             <span>Learn More About Us</span>
-            <ArrowRight className="w-4 h-4 text-sky-400 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300" />
+            <ArrowRight className="w-4 h-4 text-amber-300 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300" />
           </Link>
         </motion.div>
       </motion.div>

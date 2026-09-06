@@ -239,30 +239,30 @@ export function LiveCostCalculator() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-5 rounded-3xl bg-slate-950 text-white p-7 sm:p-8 border-2 border-red-500/40 shadow-2xl flex flex-col justify-between relative overflow-hidden group"
+            className="lg:col-span-5 rounded-3xl bg-white dark:bg-slate-950 text-slate-900 dark:text-white p-7 sm:p-8 border-2 border-red-500/30 shadow-2xl flex flex-col justify-between relative overflow-hidden group"
           >
             {/* Glowing Backdrop */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/15 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
 
             <div className="space-y-6 relative z-10">
               {/* Header */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-800">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-amber-400" />
-                  <span className="text-xs font-manrope font-black text-slate-300 uppercase tracking-widest">
+                  <Sparkles className="w-4 h-4 text-red-500 dark:text-amber-400" />
+                  <span className="text-xs font-manrope font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest">
                     Estimate Summary
                   </span>
                 </div>
-                <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 animate-ping" />
                   Instant Live
                 </span>
               </div>
 
               {/* Investment Price Display */}
-              <div className="text-center py-5 px-4 rounded-2xl bg-slate-900/90 border border-slate-800 shadow-inner">
-                <span className="text-xs text-slate-400 font-manrope font-semibold block mb-1">
+              <div className="text-center py-5 px-4 rounded-2xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-inner">
+                <span className="text-xs text-slate-500 dark:text-slate-400 font-manrope font-semibold block mb-1">
                   Estimated Total Investment:
                 </span>
                 <motion.div
@@ -270,44 +270,44 @@ export function LiveCostCalculator() {
                   initial={{ scale: 0.92, opacity: 0.7 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.3 }}
-                  className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-500 via-amber-400 to-red-400 font-manrope tracking-tight"
+                  className="text-3xl sm:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-red-500 font-manrope tracking-tight"
                 >
                   ${minCost.toLocaleString()} - ${maxCost.toLocaleString()}
                 </motion.div>
-                <div className="text-xs text-slate-400 font-medium mt-2 flex items-center justify-center gap-1">
+                <div className="text-xs text-slate-500 dark:text-slate-400 font-medium mt-2 flex items-center justify-center gap-1">
                   <span>Approx.</span>
-                  <span className="font-extrabold text-amber-400">${totalRate.toFixed(2)}</span>
+                  <span className="font-extrabold text-red-600 dark:text-amber-400">${totalRate.toFixed(2)}</span>
                   <span>/ sq.ft installed</span>
                 </div>
               </div>
 
               {/* Itemized Line Breakdown */}
               <div className="space-y-3 text-xs font-manrope pt-2">
-                <div className="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-                  <span className="text-slate-400 font-medium">Selected Material:</span>
-                  <span className="font-extrabold text-white">{selectedMaterial.name}</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-slate-200 dark:border-slate-800/60">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Selected Material:</span>
+                  <span className="font-extrabold text-slate-900 dark:text-white">{selectedMaterial.name}</span>
                 </div>
-                <div className="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-                  <span className="text-slate-400 font-medium">Coverage Area:</span>
-                  <span className="font-extrabold text-white">{sqft} sq.ft</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-slate-200 dark:border-slate-800/60">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Coverage Area:</span>
+                  <span className="font-extrabold text-slate-900 dark:text-white">{sqft} sq.ft</span>
                 </div>
-                <div className="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-                  <span className="text-slate-400 font-medium">Subfloor Prep:</span>
-                  <span className="font-extrabold text-white">{includePrep ? 'Included ($1.50/sq.ft)' : 'Not selected'}</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-slate-200 dark:border-slate-800/60">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Subfloor Prep:</span>
+                  <span className="font-extrabold text-slate-900 dark:text-white">{includePrep ? 'Included ($1.50/sq.ft)' : 'Not selected'}</span>
                 </div>
-                <div className="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-                  <span className="text-slate-400 font-medium">Old Floor Removal:</span>
-                  <span className="font-extrabold text-white">{includeRemoval ? 'Included ($1.20/sq.ft)' : 'Not selected'}</span>
+                <div className="flex justify-between items-center py-1.5 border-b border-slate-200 dark:border-slate-800/60">
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Old Floor Removal:</span>
+                  <span className="font-extrabold text-slate-900 dark:text-white">{includeRemoval ? 'Included ($1.20/sq.ft)' : 'Not selected'}</span>
                 </div>
                 <div className="flex justify-between items-center py-1.5">
-                  <span className="text-slate-400 font-medium">Est. Job Timeline:</span>
-                  <span className="font-extrabold text-amber-400">{estimatedDays}</span>
+                  <span className="text-slate-500 dark:text-slate-400 font-medium">Est. Job Timeline:</span>
+                  <span className="font-extrabold text-red-600 dark:text-amber-400">{estimatedDays}</span>
                 </div>
               </div>
             </div>
 
             {/* Action CTA & Guarantee */}
-            <div className="space-y-4 pt-6 border-t border-slate-800 relative z-10 mt-6">
+            <div className="space-y-4 pt-6 border-t border-slate-200 dark:border-slate-800 relative z-10 mt-6">
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}

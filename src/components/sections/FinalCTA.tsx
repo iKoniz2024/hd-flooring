@@ -20,7 +20,7 @@ export function FinalCTA() {
         <div className="absolute right-0 top-0 w-96 h-96 bg-white/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="space-y-3 text-center lg:text-left relative z-10 max-w-xl">
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-slate-950/40 border border-white/20 text-white text-xs font-manrope font-extrabold uppercase tracking-wider text-center max-w-full">
+          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-white/20 border border-white/30 backdrop-blur-md text-white text-xs font-manrope font-extrabold uppercase tracking-wider text-center max-w-full">
             Ready for a New Floor?
           </div>
           <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-white leading-tight">
@@ -36,9 +36,9 @@ export function FinalCTA() {
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
             onClick={() => openBookModal()}
-            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-slate-950 text-white font-manrope font-bold text-[11px] sm:text-xs uppercase tracking-wider hover:bg-slate-900 transition-colors shadow-xl shadow-black/30 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
+            className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white text-red-600 font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-wider hover:bg-slate-100 transition-colors shadow-xl shadow-red-900/20 inline-flex items-center justify-center gap-1.5 whitespace-nowrap cursor-pointer"
           >
-            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400 shrink-0" />
+            <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 shrink-0" />
             <span>Book Us Now</span>
           </motion.button>
 
