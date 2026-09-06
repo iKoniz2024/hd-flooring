@@ -171,8 +171,11 @@ export function PageHero({
                   href={primaryCta.href}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white text-sm font-semibold hover:from-red-500 hover:to-amber-500 shadow-xl shadow-red-600/30 transition-all duration-300 hover:scale-105 active:scale-95"
                 >
-                  {primaryCta.label}
-                  <ArrowRight className="w-4 h-4" />
+                  {primaryCta.href.startsWith('tel:') ? (
+                    <Phone className="w-4 h-4 text-amber-200 shrink-0" />
+                  ) : null}
+                  <span>{primaryCta.label}</span>
+                  {!primaryCta.href.startsWith('tel:') && <ArrowRight className="w-4 h-4" />}
                 </Link>
               ) : (
                 <button
@@ -185,7 +188,7 @@ export function PageHero({
                   }}
                   className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white text-sm font-semibold hover:from-red-500 hover:to-amber-500 shadow-xl shadow-red-600/30 transition-all duration-300 hover:scale-105 active:scale-95"
                 >
-                  {primaryCta.label}
+                  <span>{primaryCta.label}</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )
