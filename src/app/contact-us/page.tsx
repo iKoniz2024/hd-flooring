@@ -31,10 +31,10 @@ export default function ContactUsPage() {
 
       {/* Parallax Hero Section */}
       <PageHero
-        badge="Get In Touch"
+        badge="Contact Us"
         badgeIcon={Phone}
-        title="Let's Discuss Your Flooring Project"
-        subtitle="Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help."
+        title="Contact HD Flooring"
+        subtitle="Get in touch with our team for free estimates, flooring advice, or project inquiries."
         backgroundImage="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=65&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },

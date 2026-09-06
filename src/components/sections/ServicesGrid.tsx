@@ -22,13 +22,13 @@ export function ServicesGrid() {
       >
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-500 text-xs font-bold uppercase tracking-wider">
           <Sparkles className="w-4 h-4 text-amber-500" />
-          <span>Professional Flooring Installation</span>
+          <span>Our Services</span>
         </div>
         <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
-          Flooring Solutions For Every Space
+          Flooring Services We Offer
         </h2>
         <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Explore our complete range of Canadian flooring installation services designed for residential homes, condos, and commercial properties.
+          Choose from our complete list of home and commercial flooring installation services across Canada.
         </p>
       </motion.div>
 
@@ -95,7 +95,7 @@ export function ServicesGrid() {
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent" />
-                    
+
                     {/* Number Overlay Badge */}
                     <div className={`absolute top-3 right-3 w-10 h-10 rounded-xl ${color.badgeBg} font-black text-sm flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform`}>
                       {stepNumber}

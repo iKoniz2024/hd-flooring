@@ -36,7 +36,7 @@ export function LiveCostCalculator() {
   const prepRate = includePrep ? 1.5 : 0;
   const removalRate = includeRemoval ? 1.2 : 0;
   const totalRate = baseRate + prepRate + removalRate;
-  
+
   const estimatedCost = Math.round(sqft * totalRate);
   const minCost = Math.round(estimatedCost * 0.95);
   const maxCost = Math.round(estimatedCost * 1.05);
@@ -50,9 +50,9 @@ export function LiveCostCalculator() {
 
       {/* Main Container Card: Light Architectural Studio Style */}
       <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-3xl border-2 border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-300/40 dark:shadow-none p-6 sm:p-10 lg:p-12 relative">
-        
+
         {/* Header - Animated from Top */}
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -73,9 +73,9 @@ export function LiveCostCalculator() {
 
         {/* 2-Column Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
+
           {/* Controls Column - Animated from Left */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -99,11 +99,10 @@ export function LiveCostCalculator() {
                     <button
                       key={mat.id}
                       onClick={() => setSelectedMaterial(mat)}
-                      className={`p-4 rounded-2xl border-2 text-left transition-all duration-300 relative group overflow-hidden ${
-                        isSelected
+                      className={`p-4 rounded-2xl border-2 text-left transition-all duration-300 relative group overflow-hidden ${isSelected
                           ? 'bg-gradient-to-r from-red-600 to-red-500 text-white border-red-500 shadow-lg shadow-red-600/25 scale-[1.02]'
                           : 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700/80 text-slate-800 dark:text-slate-200 hover:border-red-500/50 hover:shadow-md'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-start gap-3">
                         <span className="text-2xl shrink-0 p-1 bg-slate-100 dark:bg-slate-700/40 rounded-xl">{mat.icon}</span>
@@ -115,11 +114,10 @@ export function LiveCostCalculator() {
                             <span className={`font-semibold ${isSelected ? 'text-red-100' : 'text-slate-500 dark:text-slate-400'}`}>
                               ${mat.rate.toFixed(2)} / sq.ft
                             </span>
-                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${
-                              isSelected 
-                                ? 'bg-white/20 text-white' 
+                            <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${isSelected
+                                ? 'bg-white/20 text-white'
                                 : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
-                            }`}>
+                              }`}>
                               {mat.tag}
                             </span>
                           </div>
@@ -139,9 +137,9 @@ export function LiveCostCalculator() {
                   2. Room Size Area
                 </label>
                 <div className="flex items-center gap-2">
-                  <input 
-                    type="number" 
-                    min="100" 
+                  <input
+                    type="number"
+                    min="100"
                     max="5000"
                     value={sqft}
                     onChange={(e) => setSqft(Math.max(100, Number(e.target.value)))}
@@ -177,11 +175,10 @@ export function LiveCostCalculator() {
                     <button
                       key={preset.label}
                       onClick={() => setSqft(preset.value)}
-                      className={`px-3 py-1 rounded-xl text-xs font-manrope font-bold transition-all ${
-                        sqft === preset.value
+                      className={`px-3 py-1 rounded-xl text-xs font-manrope font-bold transition-all ${sqft === preset.value
                           ? 'bg-red-600 text-white shadow-sm'
                           : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-stone-200 dark:border-slate-700 hover:border-red-500'
-                      }`}
+                        }`}
                     >
                       {preset.label} ({preset.value} sq.ft)
                     </button>
@@ -199,13 +196,12 @@ export function LiveCostCalculator() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {/* Leveling Prep */}
-                <div 
+                <div
                   onClick={() => setIncludePrep(!includePrep)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3 ${
-                    includePrep
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3 ${includePrep
                       ? 'bg-red-50/70 dark:bg-red-950/30 border-red-500 text-slate-900 dark:text-white'
                       : 'bg-stone-50 dark:bg-slate-800/70 border-stone-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className={`mt-0.5 p-1 rounded-lg ${includePrep ? 'bg-red-600 text-white' : 'bg-stone-200 dark:bg-slate-700 text-slate-400'}`}>
                     <CheckCircle2 className="w-4 h-4" />
@@ -217,13 +213,12 @@ export function LiveCostCalculator() {
                 </div>
 
                 {/* Old Flooring Removal */}
-                <div 
+                <div
                   onClick={() => setIncludeRemoval(!includeRemoval)}
-                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3 ${
-                    includeRemoval
+                  className={`p-4 rounded-2xl border-2 cursor-pointer transition-all flex items-start gap-3 ${includeRemoval
                       ? 'bg-red-50/70 dark:bg-red-950/30 border-red-500 text-slate-900 dark:text-white'
                       : 'bg-stone-50 dark:bg-slate-800/70 border-stone-200 dark:border-slate-700 text-slate-600 dark:text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className={`mt-0.5 p-1 rounded-lg ${includeRemoval ? 'bg-red-600 text-white' : 'bg-stone-200 dark:bg-slate-700 text-slate-400'}`}>
                     <Trash2 className="w-4 h-4" />
@@ -238,7 +233,7 @@ export function LiveCostCalculator() {
           </motion.div>
 
           {/* Right Estimate Receipt Column - Animated from Right */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}

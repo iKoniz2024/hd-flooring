@@ -2,47 +2,41 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, Layers, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, Sparkles, Layers, ShieldCheck, CheckCircle2, Award } from 'lucide-react';
 
 const cardsData = [
   {
-    badge: 'Foundation First',
-    badgeColor: 'text-red-500 bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800/40',
+    badge: 'Subfloor Prep',
     topBar: 'bg-red-500',
     hoverBorder: 'hover:border-red-500/80',
     iconBox: 'bg-red-500/10 dark:bg-red-500/20 border-red-500/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600',
     badgeText: 'text-red-600 dark:text-red-400 bg-red-500/10 border-red-500/30',
     titleHover: 'group-hover:text-red-500 dark:group-hover:text-red-400',
     title: 'Subfloor Leveling & Prep',
-    desc: 'Precision self-leveling compound, moisture testing, and plywood boarding ensure a 100% squeak-free, flat foundation.',
+    desc: 'We fix uneven subfloors and moisture issues so your new floor sits completely flat and squeak-free.',
     icon: Layers,
-    initialOffset: { opacity: 0, y: 35, x: -20 },
   },
   {
-    badge: '15+ Years Experience',
-    badgeColor: 'text-sky-500 bg-sky-50 dark:bg-sky-950/50 border-sky-200 dark:border-sky-800/40',
+    badge: 'Experienced Team',
     topBar: 'bg-sky-500',
     hoverBorder: 'hover:border-sky-500/80',
     iconBox: 'bg-sky-500/10 dark:bg-sky-500/20 border-sky-500/30 text-sky-600 dark:text-sky-400 group-hover:bg-sky-500 group-hover:text-white group-hover:border-sky-500',
     badgeText: 'text-sky-600 dark:text-sky-400 bg-sky-500/10 border-sky-500/30',
     titleHover: 'group-hover:text-sky-500 dark:group-hover:text-sky-400',
-    title: 'Master Craftsmanship',
-    desc: 'Expert solid wood, engineered, LVP, laminate, carpet, and tile setters with exact expansion spacing and clean trims.',
+    title: 'Professional Installation',
+    desc: 'Our expert team installs solid hardwood, vinyl plank, laminate, tile, and carpet with clean borders.',
     icon: ShieldCheck,
-    initialOffset: { opacity: 0, y: 45, x: 0 },
   },
   {
-    badge: 'Turnkey Service',
-    badgeColor: 'text-amber-500 bg-amber-50 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800/40',
+    badge: 'Clean & On Time',
     topBar: 'bg-amber-500',
     hoverBorder: 'hover:border-amber-500/80',
     iconBox: 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-stone-950 group-hover:border-amber-500',
     badgeText: 'text-amber-600 dark:text-amber-400 bg-amber-500/10 border-amber-500/30',
     titleHover: 'group-hover:text-amber-500 dark:group-hover:text-amber-400',
-    title: 'Clean & Dust-Controlled',
-    desc: 'Old floor tear-out, complete dust containment, furniture care, and waste haul-away — delivered on schedule.',
+    title: 'Clean & Dust-Free Work',
+    desc: 'We remove old floors, protect your furniture, keep dust away, and clean up thoroughly when finished.',
     icon: CheckCircle2,
-    initialOffset: { opacity: 0, y: 35, x: 20 },
   },
 ];
 
@@ -53,132 +47,144 @@ export function IntroSection() {
       <div className="absolute top-1/3 left-1/4 -translate-x-1/2 w-96 h-96 bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/3 right-1/4 translate-x-1/2 w-96 h-96 bg-sky-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Header Container */}
-      <div className="text-center space-y-6 max-w-4xl mx-auto relative z-10">
-        {/* Top Pill Badge */}
+      {/* 2-Column Side-by-Side Section Layout */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10">
+
+        {/* Left Side: Large High-Resolution Showcase Image Frame */}
         <motion.div
-          initial={{ opacity: 0, y: -25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, x: -60, scale: 0.95 }}
+          whileInView={{ opacity: 1, x: 0, scale: 1 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8 }}
+          className="lg:col-span-5 relative group"
         >
-          <span className="inline-flex items-center gap-2.5 px-4.5 py-2 rounded-full bg-gradient-to-r from-red-500/10 via-amber-500/10 to-sky-500/10 border border-stone-200 dark:border-stone-800 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
-            <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">Flooring Installation You Can Count On</span>
-          </span>
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[480px] sm:h-[560px] w-full">
+            <img
+              src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1000&q=75&fm=webp"
+              alt="Professional Hardwood Flooring Installation in Action"
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/30 to-transparent" />
+
+            {/* Top Floating Badge */}
+            <div className="absolute top-6 left-6 inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 dark:bg-stone-900/90 backdrop-blur-md border border-stone-200 dark:border-stone-700 text-xs font-bold text-stone-900 dark:text-white shadow-xl">
+              <Award className="w-4 h-4 text-red-500" />
+              <span>Certified Installation Standard</span>
+            </div>
+
+            {/* Bottom Floating Stats Box */}
+            <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border border-stone-200 dark:border-stone-800 shadow-2xl space-y-2">
+              <div className="flex items-center justify-between text-xs font-bold text-stone-600 dark:text-stone-300">
+                <span>Workmanship Guarantee</span>
+                <span className="text-emerald-500 font-extrabold">100% Squeak Free</span>
+              </div>
+              <p className="text-xs text-stone-500 dark:text-stone-400">
+                Precision subfloor prep & laser alignment for lasting residential and commercial floors.
+              </p>
+            </div>
+          </div>
+
+          {/* Background Decorative Accent Glow */}
+          <div className="absolute -bottom-6 -right-6 w-72 h-72 bg-gradient-to-tr from-red-600/20 to-sky-600/20 rounded-full blur-3xl -z-10" />
         </motion.div>
 
-        {/* Heading */}
-        <motion.h2
-          initial={{ opacity: 0, y: 25 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.5, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-          className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-[1.15] tracking-tight"
-        >
-          Dependable Craftsmanship for{' '}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 block sm:inline">
-            Canadian Spaces
-          </span>
-        </motion.h2>
-
-        {/* Description */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 1.6, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="text-slate-600 dark:text-slate-300 text-base sm:text-xl leading-relaxed font-medium max-w-3xl mx-auto"
-        >
-          At HD Flooring, we make flooring installation simple, professional, and dependable. We partner with homeowners, business owners, contractors, and renovators across Canada to deliver long-lasting, flawless floors.
-        </motion.p>
-      </div>
-
-      {/* 3 Premium Feature Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 pt-16 relative z-10">
-        {cardsData.map((card, idx) => {
-          const Icon = card.icon;
-          return (
+        {/* Right Side: Section Content & Feature Cards */}
+        <div className="lg:col-span-7 space-y-8">
+          {/* Header */}
+          <div className="space-y-4">
             <motion.div
-              key={card.title}
-              initial={card.initialOffset}
-              whileInView={{ opacity: 1, x: 0, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                duration: 1.6,
-                delay: 0.2 + idx * 0.2,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{
-                y: -10,
-                scale: 1.02,
-                transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
-              }}
-              whileTap={{ scale: 0.98 }}
-              className={`group relative p-8 sm:p-9 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${card.hoverBorder} shadow-xl hover:shadow-2xl transition-all duration-500 ease-out flex flex-col justify-between overflow-hidden cursor-pointer hover:-translate-y-2`}
+              initial={{ opacity: 0, y: -15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
             >
-              {/* Top Animated Accent Bar */}
-              <div className={`h-1.5 w-0 group-hover:w-full ${card.topBar} transition-all duration-500 absolute top-0 left-0 z-20`} />
-
-              <div>
-                {/* Icon Box */}
-                <motion.div
-                  animate={{ y: [0, -6, 0] }}
-                  transition={{ duration: 4.5 + idx * 0.5, repeat: Infinity, ease: 'easeInOut' }}
-                  className={`w-14 h-14 rounded-2xl ${card.iconBox} border flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-all duration-500`}
-                >
-                  <Icon className="w-7 h-7" />
-                </motion.div>
-
-                {/* Badge */}
-                <div className={`inline-block px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest border ${card.badgeText} mb-3 shadow-xs`}>
-                  <span>{card.badge}</span>
-                </div>
-
-                {/* Title */}
-                <h3 className={`font-jakarta font-extrabold text-xl text-stone-900 dark:text-white ${card.titleHover} transition-colors duration-300 mb-3`}>
-                  {card.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
-                  {card.desc}
-                </p>
-              </div>
-
-              {/* Bottom Action Line */}
-              <div className="pt-6 mt-6 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between text-xs font-bold text-stone-500 dark:text-stone-400 group-hover:text-stone-900 dark:group-hover:text-white transition-colors duration-300">
-                <span>Learn Craftsmanship</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
-              </div>
+              <span className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500/10 via-amber-500/10 to-sky-500/10 border border-stone-200 dark:border-stone-800 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
+                <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">Reliable Flooring Services</span>
+              </span>
             </motion.div>
-          );
-        })}
-      </div>
 
-      {/* CTA Button */}
-      <motion.div
-        initial={{ opacity: 0, y: 25 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 1.5, delay: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        className="pt-14 text-center relative z-10"
-      >
-        <motion.div
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="inline-block"
-        >
-          <Link
-            href="/about-us"
-            className="inline-flex items-center gap-3 px-9 py-4.5 rounded-full bg-red-600 text-white hover:bg-red-700 font-manrope font-black text-xs uppercase tracking-widest shadow-xl shadow-red-600/30 transition-all duration-300 group"
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="font-playfair text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-tight tracking-tight"
+            >
+              Quality Flooring Installation for{' '}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">
+                Homes & Businesses
+              </span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed font-medium"
+            >
+              We install top quality floors for homes, offices, and commercial properties across Canada. Quick, clean, and built to last.
+            </motion.p>
+          </div>
+
+          {/* 3 Feature Cards List */}
+          <div className="space-y-4">
+            {cardsData.map((card, idx) => {
+              const Icon = card.icon;
+              return (
+                <motion.div
+                  key={card.title}
+                  initial={{ opacity: 0, y: 25 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
+                  whileHover={{ x: 6 }}
+                  className={`group p-6 rounded-2xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800/90 ${card.hoverBorder} shadow-lg hover:shadow-xl transition-all duration-300 flex items-start gap-5 cursor-pointer relative overflow-hidden`}
+                >
+                  <div className={`h-full w-1.5 ${card.topBar} absolute top-0 left-0 transition-all duration-300`} />
+
+                  <div className={`w-12 h-12 rounded-xl ${card.iconBox} border flex items-center justify-center shrink-0 shadow-md group-hover:scale-110 transition-transform`}>
+                    <Icon className="w-6 h-6" />
+                  </div>
+
+                  <div className="space-y-1 flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className={`font-jakarta font-extrabold text-base sm:text-lg text-stone-900 dark:text-white ${card.titleHover} transition-colors`}>
+                        {card.title}
+                      </h3>
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase border ${card.badgeText} shrink-0`}>
+                        {card.badge}
+                      </span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+                      {card.desc}
+                    </p>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Action Link */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+            className="pt-2"
           >
-            <span>Learn More About Us</span>
-            <ArrowRight className="w-4 h-4 text-amber-300 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300" />
-          </Link>
-        </motion.div>
-      </motion.div>
+            <Link
+              href="/about-us"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-red-600 text-white hover:bg-red-700 font-manrope font-black text-xs uppercase tracking-widest shadow-xl shadow-red-600/30 transition-all duration-300 group"
+            >
+              <span>Learn More About Us</span>
+              <ArrowRight className="w-4 h-4 text-amber-300 group-hover:text-white group-hover:translate-x-1.5 transition-all duration-300" />
+            </Link>
+          </motion.div>
+        </div>
+
+      </div>
     </section>
   );
 }

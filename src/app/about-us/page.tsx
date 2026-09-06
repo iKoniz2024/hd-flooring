@@ -110,8 +110,8 @@ export default function AboutUsPage() {
       {/* Parallax Hero Section */}
       <PageHero
         badge="About HD Flooring"
-        title="Flooring Expertise. Built on Craftsmanship."
-        subtitle="HD Flooring is a Saskatoon-based flooring installation company specializing in high-grade vinyl, sheet vinyl coving, hardwood, laminate, tile, carpet, and self-leveling floor prep across Saskatchewan."
+        title="About Our Flooring Company"
+        subtitle="We are a professional Canadian flooring installation company specializing in hardwood, vinyl plank, laminate, tile, carpet, and subfloor prep."
         backgroundImage="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=65&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -209,11 +209,11 @@ export default function AboutUsPage() {
             </div>
 
             <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
-              Delivering Dependable Perfection
+              Quality Flooring Services
             </h3>
 
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
-              To provide dependable flooring installation and repair services with professional workmanship, quality-focused material advice, and specialized vinyl & hardwood solutions tailored to every client in Saskatoon and Saskatchewan.
+              To provide reliable flooring installation and repair services with professional workmanship, quality advice, and long-lasting flooring solutions for homes and businesses.
             </p>
           </motion.div>
 
@@ -235,11 +235,11 @@ export default function AboutUsPage() {
             </div>
 
             <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
-              Saskatchewan's Most Trusted Installer
+              Trusted Flooring Specialists
             </h3>
 
             <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter">
-              To become the standard for flooring installation excellence across Canada — recognized for zero-defect installation, flawless subfloor preparation, transparent customer service, and long-lasting durability.
+              To be the most trusted name in flooring installation across Canada — known for clean work, honest pricing, and high customer satisfaction.
             </p>
           </motion.div>
         </div>

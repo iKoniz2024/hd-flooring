@@ -140,9 +140,9 @@ export default function ProjectsPage() {
 
       {/* Hero Section */}
       <PageHero
-        badge="HD Flooring Workmanship Portfolio"
-        title="Real On-Site Installation Gallery"
-        subtitle="Browse high-definition photos of real installation sites, subfloor leveling preps, custom stair capping, and sheet vinyl coving completed across Saskatoon and Saskatchewan."
+        badge="Our Projects"
+        title="Our Flooring Project Gallery"
+        subtitle="Browse real installation photos of our completed hardwood, vinyl, tile, and laminate projects."
         backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },

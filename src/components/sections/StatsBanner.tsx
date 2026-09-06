@@ -5,10 +5,10 @@ import { AnimatedCounter } from '@/components/animations/AnimatedCounter';
 import { Award, ShieldCheck, ThumbsUp, Calendar, CheckCircle } from 'lucide-react';
 
 const qualityProgress = [
-  { name: 'Laser Precision Installation & Leveling', value: 99.8 },
-  { name: 'Dustless Tear-Out & Cleanup Standard', value: 99.2 },
-  { name: 'On-Time Project Schedule Delivery', value: 100 },
-  { name: 'Canadian Workmanship & Warranty Satisfaction', value: 99.6 },
+  { name: 'Subfloor Leveling Precision', value: 99.8 },
+  { name: 'Dust-Free Cleanup Rate', value: 99.2 },
+  { name: 'On-Time Delivery Rate', value: 100 },
+  { name: 'Customer Satisfaction Rate', value: 99.6 },
 ];
 
 export function StatsBanner() {

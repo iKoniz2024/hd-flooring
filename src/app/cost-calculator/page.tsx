@@ -43,15 +43,15 @@ export default function CostCalculatorPage() {
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
             <Calculator className="w-4 h-4 text-amber-500" />
-            <span>Interactive Estimator Studio</span>
+            <span>Cost Calculator</span>
           </div>
 
           <h1 className="font-jakarta text-4xl sm:text-6xl font-black text-stone-900 dark:text-white tracking-tight">
-            Live Flooring Project <span className="brand-gradient-text">Cost Calculator</span>
+            Flooring Cost <span className="brand-gradient-text">Calculator</span>
           </h1>
 
           <p className="text-stone-600 dark:text-stone-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Get an instant real-time budget estimate for your residential or commercial flooring installation. Choose your preferred material, room square footage, and subfloor prep options below.
+            Estimate your flooring project cost instantly. Select your flooring type, room size, and preparation options below.
           </p>
         </section>
 

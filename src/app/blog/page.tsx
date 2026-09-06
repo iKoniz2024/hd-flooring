@@ -18,9 +18,9 @@ export default function BlogPage() {
 
       {/* Parallax Hero Section */}
       <PageHero
-        badge="Flooring Insights & Advice"
-        title="Expert Flooring Guides & Tips"
-        subtitle="Practical guides and professional advice to help Canadian homeowners and businesses make informed flooring choices."
+        badge="Flooring Articles"
+        title="Flooring Guides & Tips"
+        subtitle="Read our simple guides and tips on choosing, installing, and caring for your floors."
         backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-02.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },

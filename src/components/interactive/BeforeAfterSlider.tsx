@@ -98,11 +98,10 @@ export function BeforeAfterSlider() {
               setActiveCategory(idx);
               setSliderPos(50);
             }}
-            className={`px-5 py-2.5 rounded-full font-manrope font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 flex items-center gap-2 border shadow-md ${
-              activeCategory === idx
+            className={`px-5 py-2.5 rounded-full font-manrope font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 flex items-center gap-2 border shadow-md ${activeCategory === idx
                 ? 'bg-red-600 text-white border-red-500 shadow-red-600/30 scale-105'
                 : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-red-500/50'
-            }`}
+              }`}
           >
             <span>{item.icon}</span>
             <span>{item.label}</span>
