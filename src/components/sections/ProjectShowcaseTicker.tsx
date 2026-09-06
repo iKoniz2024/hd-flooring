@@ -224,13 +224,7 @@ const categories = [
 ];
 
 export function ProjectShowcaseTicker() {
-  const [activeTab, setActiveTab] = useState('all');
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
-
-  const filteredPhotos =
-    activeTab === 'all'
-      ? galleryPhotos
-      : galleryPhotos.filter((p) => p.category === activeTab);
 
   return (
     <section className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter relative overflow-hidden border-y border-slate-200 dark:border-slate-800">
@@ -270,37 +264,17 @@ export function ProjectShowcaseTicker() {
           </motion.p>
         </div>
 
-        {/* Category Filter Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          {categories.map((cat) => {
-            const isActive = activeTab === cat.key;
-            return (
-              <button
-                key={cat.key}
-                onClick={() => setActiveTab(cat.key)}
-                className={`px-4 py-2 rounded-xl text-xs sm:text-sm font-manrope font-semibold transition-all duration-300 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-red-600 to-sky-600 text-white shadow-lg shadow-red-600/30 scale-105'
-                    : 'bg-white dark:bg-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-800'
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Gallery Grid */}
+        {/* Gallery Grid - Generic Photo Gallery */}
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           <AnimatePresence mode="popLayout">
-            {filteredPhotos.map((photo, index) => (
+            {galleryPhotos.map((photo, index) => (
               <motion.div
                 key={photo.id}
                 layout
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: index * 0.04 }}
+                transition={{ duration: 0.4, delay: index * 0.03 }}
                 whileHover={{ y: -6 }}
                 onClick={() => setSelectedPhoto(photo)}
                 className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl"
@@ -315,13 +289,10 @@ export function ProjectShowcaseTicker() {
                 />
 
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-70 group-hover:opacity-90 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
 
-                {/* Top Badge */}
-                <div className="absolute top-3 left-3 right-3 flex items-center justify-between pointer-events-none">
-                  <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700/60 text-[10px] font-bold text-red-400 uppercase tracking-wider backdrop-blur-md">
-                    {photo.tag}
-                  </span>
+                {/* Top Action Icon */}
+                <div className="absolute top-3 right-3 pointer-events-none">
                   <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
                     <Maximize2 className="w-3.5 h-3.5" />
                   </div>

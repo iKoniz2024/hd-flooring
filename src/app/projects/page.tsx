@@ -55,31 +55,9 @@ export default function ProjectsPage() {
       />
 
       <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-12 overflow-hidden">
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex flex-wrap items-center justify-center gap-2 font-manrope"
-        >
-          {filterCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveFilter(cat)}
-              className={`relative px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-bold transition-colors ${
-                activeFilter === cat
-                  ? 'text-white bg-red-600 shadow-md shadow-red-600/20'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 bg-slate-200/60 dark:bg-slate-900'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
-
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <AnimatePresence>
-            {filteredProjects.map((project, idx) => {
+            {projectsData.map((project, idx) => {
               const isEven = idx % 2 === 0;
               return (
                 <motion.div
