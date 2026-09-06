@@ -44,7 +44,7 @@ export default function CostCalculatorPage() {
         badge="Live Cost Calculator"
         title="Flooring Cost Calculator"
         subtitle="Estimate your flooring project cost instantly. Select your desired material, room size, and preparation options below."
-        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=95&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=95&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Cost Calculator' },

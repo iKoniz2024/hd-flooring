@@ -58,7 +58,7 @@ export default function BlogArticlePage() {
         badge={`${post.category} • ${post.readTime}`}
         title={post.title}
         subtitle={post.summary}
-        backgroundImage={post.coverImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=95&fm=webp'}
+        backgroundImage={post.coverImage || 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=1920&q=95&fm=webp'}
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Blog', href: '/blog' },

@@ -53,7 +53,7 @@ export function ResidentialCommercial() {
         >
           <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[520px] sm:h-[600px] w-full group">
             <img
-              src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=1000&q=90&fm=webp"
+              src="https://images.unsplash.com/photo-1697953796322-abc90?auto=format&fit=crop&w=1000&q=90&fm=webp"
               alt="Residential and Commercial Flooring Showcase"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />

@@ -10,37 +10,37 @@ const steps = [
     num: '01',
     title: 'Site Measurement & Inspection',
     desc: 'We measure your room dimensions, check subfloor moisture, and discuss your design ideas.',
-    image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-1615529182904-14819c35db37?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '02',
     title: 'Floor Selection & Free Quote',
     desc: 'Choose your preferred flooring material and get a clear, upfront price estimate.',
-    image: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-1615529162924-f8605388461d?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '03',
     title: 'Old Floor Removal & Subfloor Prep',
     desc: 'We remove old floors, level the subfloor, repair squeaks, and install underlayment.',
-    image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-4222018458839-abc85?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '04',
     title: 'Professional Floor Installation',
     desc: 'Our expert team lays your new floor with tight seams, straight lines, and clean edge cuts.',
-    image: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-4208698864878-abc86?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '05',
     title: 'Baseboards & Transition Strips',
     desc: 'We fit matching baseboards, stair caps, and door transition moldings for a complete look.',
-    image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-1727733816402-abc87?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '06',
     title: 'Clean Up & Final Inspection',
     desc: 'We clean up the work area, inspect every room with you, and issue your warranty.',
-    image: 'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    image: 'https://images.unsplash.com/photo-1626780069990-abc88?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
 ];
 

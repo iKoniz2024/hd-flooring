@@ -26,9 +26,9 @@ const serviceCategoryImages: Record<string, string[]> = {
   'engineered-hardwood-flooring': [
     'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=450&q=35&fm=webp',
-    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=450&q=35&fm=webp',
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=450&q=35&fm=webp',
   ],
   'luxury-vinyl-flooring': [
@@ -67,7 +67,7 @@ const serviceCategoryImages: Record<string, string[]> = {
     'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=450&q=35&fm=webp',
-    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=450&q=35&fm=webp',
     'https://images.unsplash.com/photo-1584738766473-61c083514bf4?auto=format&fit=crop&w=450&q=35&fm=webp',
   ],
