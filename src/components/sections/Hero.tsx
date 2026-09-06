@@ -167,23 +167,34 @@ export function Hero() {
       <div className="max-w-7xl mx-auto w-full relative z-20 space-y-8">
         <div className="max-w-4xl text-left space-y-6 pb-8">
           {/* Minimal Badge - Logo Red & Sky Mixed */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={currentSlideIdx}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 shadow-md backdrop-blur-md"
-            >
-              <Camera className="w-3.5 h-3.5 text-red-500 animate-pulse shrink-0" />
-              <span className="text-xs font-semibold">
-                <span className="text-red-600 dark:text-red-400 font-bold">Featured ({currentSlideIdx + 1}/5):</span> {currentSlide.name}
-              </span>
-            </motion.div>
-          </AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentSlideIdx}
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 shadow-md backdrop-blur-md"
+              >
+                <Camera className="w-3.5 h-3.5 text-red-500 animate-pulse shrink-0" />
+                <span className="text-xs font-semibold">
+                  <span className="text-red-600 dark:text-red-400 font-bold">Featured ({currentSlideIdx + 1}/5):</span> {currentSlide.name}
+                </span>
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
 
           {/* Minimal Headline with Red-Amber-Sky Brand Gradient */}
-          <h1 className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 dark:text-white leading-[1.15]">
+          <motion.h1
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 dark:text-white leading-[1.15]"
+          >
             Professional Flooring Installation
             <div className="text-xl sm:text-3xl font-extrabold text-stone-700 dark:text-stone-300 flex items-center gap-2 pt-1">
               <span>Specializing in</span>
@@ -199,21 +210,36 @@ export function Hero() {
                 </motion.span>
               </AnimatePresence>
             </div>
-          </h1>
+          </motion.h1>
 
           {/* Subtitle */}
-          <p className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-normal max-w-2xl">
+          <motion.p
+            initial={{ opacity: 0, y: 25 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-normal max-w-2xl"
+          >
             Quality Canadian installation for residential & commercial spaces.
-          </p>
+          </motion.p>
 
           {/* Interactive Search Bar Widget */}
-          <div className="pt-1 max-w-3xl relative z-50">
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="pt-1 max-w-3xl relative z-50"
+          >
             <HeroSearch />
-          </div>
+          </motion.div>
         </div>
 
-        {/* 5-Card Quick Services Banner Grid (Brand Color Mixed - Red, Sky Blue & Amber) */}
-        <div className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32">
+        {/* 5-Card Quick Services Banner Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.55 }}
+          className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32"
+        >
           <div className="mb-3 text-xs font-extrabold text-stone-500 dark:text-stone-400 uppercase tracking-widest flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
             <span>Our Core Flooring Services</span>
@@ -224,8 +250,11 @@ export function Hero() {
               const Icon = srv.icon;
               const isActive = currentSlideIdx === idx;
               return (
-                <div
+                <motion.div
                   key={idx}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.65 + idx * 0.08 }}
                   onMouseEnter={() => setCurrentSlideIdx(idx)}
                   onClick={() => setCurrentSlideIdx(idx)}
                   className={`group relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${
@@ -279,11 +308,11 @@ export function Hero() {
                   >
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
-                </div>
+                </motion.div>
               );
             })}
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
