@@ -35,7 +35,7 @@ export default function ContactUsPage() {
         badgeIcon={Phone}
         title="Let's Discuss Your Flooring Project"
         subtitle="Whether you're planning a residential renovation, commercial space upgrade, or exploring Sheet Vinyl, LVP, LVT, VCT, or Hardwood flooring, we are ready to help."
-        backgroundImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=65&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=65&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Contact Us' },
