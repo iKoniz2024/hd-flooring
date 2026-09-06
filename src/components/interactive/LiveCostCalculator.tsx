@@ -6,11 +6,15 @@ import { Calculator, Sparkles, CheckCircle2, ArrowRight, ShieldCheck, Ruler, Lay
 import { useModal } from '@/lib/context/ModalContext';
 
 const materials = [
-  { id: 'lvp', name: 'LVP / Luxury Vinyl Plank', rate: 3.5, icon: '🪵', tag: 'Popular' },
-  { id: 'hardwood', name: 'Solid & Engineered Hardwood', rate: 6.5, icon: '🌳', tag: 'Premium' },
-  { id: 'sheet_vinyl', name: 'Sheet Vinyl & Coving (PVC)', rate: 5.0, icon: '✨', tag: 'Commercial' },
-  { id: 'tile', name: 'Porcelain & Ceramic Tile', rate: 7.0, icon: '🏛️', tag: 'Durable' },
-  { id: 'vct', name: 'VCT Commercial Vinyl', rate: 4.0, icon: '🏢', tag: 'Heavy Duty' },
+  { id: 'solid-hardwood', name: 'Solid Hardwood Flooring', rate: 6.5, icon: '🌳', tag: 'Real Wood' },
+  { id: 'engineered-hardwood', name: 'Engineered Hardwood', rate: 5.8, icon: '🪵', tag: 'Climate Stable' },
+  { id: 'luxury-vinyl', name: 'Luxury Vinyl (LVP & LVT)', rate: 3.5, icon: '🌊', tag: '100% Waterproof' },
+  { id: 'laminate-flooring', name: 'Laminate Flooring', rate: 3.2, icon: '📐', tag: 'Scratch-Proof' },
+  { id: 'carpet-flooring', name: 'Carpet & Under-Padding', rate: 3.8, icon: '🛋️', tag: 'Plush & Soft' },
+  { id: 'tile-flooring', name: 'Porcelain & Ceramic Tile', rate: 7.0, icon: '🏛️', tag: 'Heavy Duty' },
+  { id: 'stair-flooring', name: 'Stair Flooring & Capping', rate: 5.0, icon: '🪜', tag: 'Custom Fit' },
+  { id: 'sheet-vinyl', name: 'Sheet Vinyl & Wall Coving', rate: 4.5, icon: '✨', tag: 'Hygienic' },
+  { id: 'floor-preparation', name: 'Self Leveling & Subfloor Prep', rate: 2.0, icon: '🏗️', tag: 'Foundation' },
 ];
 
 const sizePresets = [
@@ -98,11 +102,11 @@ export function LiveCostCalculator() {
                       className={`p-4 rounded-2xl border-2 text-left transition-all duration-300 relative group overflow-hidden ${
                         isSelected
                           ? 'bg-gradient-to-r from-red-600 to-red-500 text-white border-red-500 shadow-lg shadow-red-600/25 scale-[1.02]'
-                          : 'bg-stone-50 dark:bg-slate-800/80 border-stone-200 dark:border-slate-700/80 text-slate-800 dark:text-slate-200 hover:border-red-500/50 hover:bg-white dark:hover:bg-slate-800'
+                          : 'bg-white dark:bg-slate-800/80 border-slate-200 dark:border-slate-700/80 text-slate-800 dark:text-slate-200 hover:border-red-500/50 hover:shadow-md'
                       }`}
                     >
                       <div className="flex items-start gap-3">
-                        <span className="text-2xl shrink-0 p-1 bg-white/20 dark:bg-slate-700/40 rounded-xl">{mat.icon}</span>
+                        <span className="text-2xl shrink-0 p-1 bg-slate-100 dark:bg-slate-700/40 rounded-xl">{mat.icon}</span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between gap-1 mb-0.5">
                             <span className="font-extrabold text-xs tracking-tight line-clamp-1">{mat.name}</span>
@@ -114,7 +118,7 @@ export function LiveCostCalculator() {
                             <span className={`px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase ${
                               isSelected 
                                 ? 'bg-white/20 text-white' 
-                                : 'bg-stone-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                                : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
                             }`}>
                               {mat.tag}
                             </span>
