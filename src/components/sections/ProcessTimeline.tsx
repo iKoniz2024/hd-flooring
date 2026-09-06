@@ -101,7 +101,7 @@ export function ProcessTimeline() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.08 }}
-              className={`relative rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 ${color.borderHover} shadow-xl shadow-stone-900/5 dark:shadow-black/60 overflow-hidden group flex flex-col justify-between`}
+              className={`relative rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.borderHover} shadow-xl hover:shadow-2xl overflow-hidden group flex flex-col justify-between transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer`}
             >
               {/* Image Preview */}
               <div className="relative h-48 w-full bg-stone-950 overflow-hidden">
@@ -124,19 +124,19 @@ export function ProcessTimeline() {
               <div className="p-6 space-y-3 flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <h3 className={`font-playfair text-lg font-bold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors`}>
+                    <h3 className={`font-jakarta text-lg font-extrabold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors`}>
                       {step.title}
                     </h3>
                     <CheckCircle2 className={`w-5 h-5 ${color.iconColor} shrink-0 mt-0.5`} />
                   </div>
-                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
                     {step.desc}
                   </p>
                 </div>
 
-                <div className={`pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-semibold ${color.footerText}`}>
+                <div className={`pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs font-bold ${color.footerText}`}>
                   <span>Step {step.num} of 06</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
                 </div>
               </div>
             </motion.div>

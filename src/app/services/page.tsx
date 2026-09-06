@@ -67,7 +67,7 @@ export default function ServicesPage() {
                 transition={{ duration: 0.6, delay: 0.05 }}
               >
                 <TiltCard>
-                  <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl overflow-hidden flex flex-col justify-between group transition-all duration-300 h-full">
+                  <div className="rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 h-full cursor-pointer">
                     <div className="relative h-48 overflow-hidden">
                       <img
                         src={service.heroImage}
@@ -75,35 +75,35 @@ export default function ServicesPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent" />
-                      <span className="absolute top-4 left-4 w-9 h-9 rounded-full bg-red-600 text-white font-playfair font-extrabold text-sm flex items-center justify-center shadow">
+                      <span className="absolute top-4 left-4 w-9 h-9 rounded-full bg-red-600 text-white font-jakarta font-extrabold text-sm flex items-center justify-center shadow">
                         0{index + 1}
                       </span>
                     </div>
 
                     <div className="p-6 sm:p-8 space-y-4 flex-1 flex flex-col justify-between font-inter">
                       <div className="space-y-2">
-                        <h3 className="font-playfair text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors">
+                        <h3 className="font-jakarta text-xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                           {service.title}
                         </h3>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter">
                           {service.shortDesc}
                         </p>
                       </div>
 
-                      <div className="pt-4 flex flex-wrap items-center justify-between gap-2.5 border-t border-slate-100 dark:border-slate-800 font-manrope">
+                      <div className="pt-4 flex flex-wrap items-center justify-between gap-2.5 border-t border-slate-100 dark:border-slate-800/80 font-manrope">
                         <button
                           onClick={() => openBookModal(service.title)}
-                          className="px-3.5 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 font-bold text-xs transition-colors shrink-0"
+                          className="px-3.5 py-2 rounded-xl bg-red-600/10 hover:bg-red-600/20 text-red-600 dark:text-red-400 font-bold text-xs transition-colors shrink-0 cursor-pointer"
                         >
                           Request Quote
                         </button>
 
                         <Link
                           href={`/services/${service.slug}`}
-                          className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-red-500 flex items-center gap-1 group/link shrink-0"
+                          className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-1 group/link shrink-0"
                         >
                           Learn More
-                          <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform text-sky-400" />
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform text-red-500" />
                         </Link>
                       </div>
                     </div>

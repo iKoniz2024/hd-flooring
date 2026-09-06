@@ -277,15 +277,15 @@ export default function AboutUsPage() {
               return (
                 <motion.div key={idx} variants={variant}>
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-xl space-y-3 h-full flex flex-col justify-between group">
+                    <div className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl space-y-3 h-full flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer">
                       <div className="space-y-3">
                         <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
                           <IconComponent className="w-5 h-5" />
                         </div>
-                        <h3 className="font-playfair text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                        <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                           {v.title}
                         </h3>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
+                        <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter">
                           {v.desc}
                         </p>
                       </div>
@@ -326,17 +326,17 @@ export default function AboutUsPage() {
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   whileHover={{ y: -4 }}
-                  className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-sky-500/40 shadow-xl space-y-3 transition-all group"
+                  className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-sky-500/60 shadow-xl hover:shadow-2xl space-y-3 transition-all duration-500 ease-out group cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 group-hover:rotate-6 transition-transform">
                       <IconComp className="w-5 h-5" />
                     </div>
-                    <h3 className="font-playfair text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                    <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                       {item.title}
                     </h3>
                   </div>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter pl-13">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter pl-13">
                     {item.desc}
                   </p>
                 </motion.div>

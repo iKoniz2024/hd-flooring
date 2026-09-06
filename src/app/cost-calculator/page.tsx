@@ -45,7 +45,7 @@ export default function CostCalculatorPage() {
             <span>Interactive Estimator Studio</span>
           </div>
 
-          <h1 className="font-playfair text-4xl sm:text-6xl font-black text-stone-900 dark:text-white tracking-tight">
+          <h1 className="font-jakarta text-4xl sm:text-6xl font-black text-stone-900 dark:text-white tracking-tight">
             Live Flooring Project <span className="brand-gradient-text">Cost Calculator</span>
           </h1>
 
@@ -61,10 +61,10 @@ export default function CostCalculatorPage() {
         <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
           <div className="text-center space-y-3">
             <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-semibold">
-              <HelpCircle className="w-4 h-4 text-amber-500" />
+              <HelpCircle className="w-4 h-4 text-red-500 dark:text-amber-500" />
               <span>Estimator FAQs</span>
             </div>
-            <h2 className="font-playfair text-2xl sm:text-4xl font-bold text-stone-900 dark:text-white">
+            <h2 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">
               Frequently Asked Questions About Flooring Costs
             </h2>
           </div>
@@ -73,13 +73,13 @@ export default function CostCalculatorPage() {
             {faqs.map((faq, idx) => (
               <div
                 key={idx}
-                className="p-6 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-sm space-y-2"
+                className="p-6 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer space-y-2"
               >
-                <h3 className="font-bold text-stone-900 dark:text-stone-100 text-base flex items-start gap-2">
-                  <span className="text-amber-500 font-mono font-black">Q.</span>
+                <h3 className="font-jakarta font-extrabold text-stone-900 dark:text-stone-100 text-base flex items-start gap-2">
+                  <span className="text-red-600 dark:text-amber-500 font-black">Q.</span>
                   {faq.q}
                 </h3>
-                <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 leading-relaxed pl-6">
+                <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed pl-6">
                   {faq.a}
                 </p>
               </div>
@@ -87,16 +87,16 @@ export default function CostCalculatorPage() {
           </div>
 
           {/* Need Custom Quote Banner */}
-          <div className="p-8 rounded-3xl bg-gradient-to-r from-stone-900 to-stone-950 text-white border border-amber-500/30 flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+          <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-red-600 via-amber-500 to-sky-600 text-white border border-white/20 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">
             <div className="space-y-2 text-center md:text-left">
-              <div className="flex items-center justify-center md:justify-start gap-2 text-amber-400 text-xs font-bold uppercase tracking-wider">
-                <ShieldCheck className="w-4 h-4" />
+              <div className="flex items-center justify-center md:justify-start gap-2 text-white text-xs font-bold uppercase tracking-wider">
+                <ShieldCheck className="w-4 h-4 text-amber-300" />
                 <span>100% Free On-Site Measurement</span>
               </div>
-              <h3 className="font-playfair text-xl sm:text-2xl font-bold">
+              <h3 className="font-jakarta text-xl sm:text-2xl font-extrabold text-white">
                 Need a Custom Architectural or Large Commercial Quote?
               </h3>
-              <p className="text-xs text-stone-400 max-w-xl">
+              <p className="text-xs text-slate-100 max-w-xl">
                 Our flooring specialists provide on-site laser measurements, subfloor moisture analysis, and exact written quotes across Canada.
               </p>
             </div>
@@ -104,16 +104,16 @@ export default function CostCalculatorPage() {
             <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
               <a
                 href="tel:+18005553566"
-                className="px-5 py-3 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-100 text-xs font-bold flex items-center gap-2 border border-stone-700 transition-all"
+                className="px-5 py-3.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-bold flex items-center gap-2 border border-white/30 transition-all backdrop-blur-md"
               >
-                <Phone className="w-4 h-4 text-amber-400" />
+                <Phone className="w-4 h-4 text-white" />
                 <span>+1 (800) 555-FLOOR</span>
               </a>
               <Link
                 href="/contact-us"
-                className="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-amber-500/20 transition-all"
+                className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-100 text-red-600 font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-xl shadow-red-900/20 transition-all cursor-pointer"
               >
-                <Sparkles className="w-4 h-4" />
+                <Sparkles className="w-4 h-4 text-red-500" />
                 <span>Request Custom Quote</span>
               </Link>
             </div>

@@ -58,59 +58,59 @@ export default function ContactUsPage() {
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-2 space-y-8 p-8 rounded-3xl bg-slate-900 text-slate-100 border border-red-500/20 shadow-2xl"
+            className="lg:col-span-2 space-y-8 p-8 sm:p-9 rounded-3xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 shadow-2xl"
           >
             <div className="space-y-2 font-manrope">
-              <h3 className="font-playfair text-2xl font-bold text-slate-100">
+              <h3 className="font-jakarta text-2xl font-extrabold text-slate-900 dark:text-slate-100">
                 Contact Information
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-600 dark:text-slate-400">
                 Reach out directly to HD Flooring management and technical team.
               </p>
             </div>
 
             <ul className="space-y-6 text-xs sm:text-sm font-manrope">
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400">
+                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
                   <UserCheck className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Managing Director</span>
-                  <span className="font-bold text-slate-100">Habibur Rahman (Habib)</span>
+                  <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Managing Director</span>
+                  <span className="font-bold text-slate-900 dark:text-slate-100">Habibur Rahman (Habib)</span>
                 </div>
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400">
+                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Phone</span>
-                  <a href="tel:+13068808404" className="font-bold text-slate-100 hover:text-red-400 transition-colors">
+                  <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Phone</span>
+                  <a href="tel:+13068808404" className="font-bold text-slate-900 dark:text-slate-100 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                     +1 (306) 880-8404
                   </a>
                 </div>
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-500/10 border border-red-500/30 text-red-400">
+                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Email</span>
-                  <a href="mailto:hdflooring7@gmail.com" className="font-bold text-slate-100 hover:text-red-400 transition-colors">
+                  <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Email</span>
+                  <a href="mailto:hdflooring7@gmail.com" className="font-bold text-slate-900 dark:text-slate-100 hover:text-red-600 dark:hover:text-red-400 transition-colors">
                     hdflooring7@gmail.com
                   </a>
                 </div>
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-400">
+                <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Physical Address</span>
-                  <span className="font-bold text-slate-100">211 47th St East, S7L 5H1, Saskatoon, SK, Canada</span>
+                  <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Physical Address</span>
+                  <span className="font-bold text-slate-900 dark:text-slate-100">211 47th St East, S7L 5H1, Saskatoon, SK, Canada</span>
                 </div>
               </li>
 
@@ -119,8 +119,8 @@ export default function ContactUsPage() {
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <span className="block text-slate-400 text-xs uppercase tracking-wider">Business Hours</span>
-                  <span className="font-bold text-slate-100">Monday - Saturday: 8:00 AM - 6:00 PM</span>
+                  <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Business Hours</span>
+                  <span className="font-bold text-slate-900 dark:text-slate-100">Monday - Saturday: 8:00 AM - 6:00 PM</span>
                 </div>
               </li>
             </ul>
@@ -139,14 +139,14 @@ export default function ContactUsPage() {
                 <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
-                <h3 className="font-playfair text-2xl font-bold">Request Submitted!</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto font-manrope">
+                <h3 className="font-jakarta text-2xl font-bold">Request Submitted!</h3>
+                <p className="text-xs text-slate-600 dark:text-slate-400 max-w-sm mx-auto font-manrope">
                   Thank you! Habibur Rahman & the HD Flooring team will review your project details and reach out shortly.
                 </p>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5 font-inter">
-                <h3 className="font-playfair text-2xl font-bold text-slate-900 dark:text-slate-100">
+                <h3 className="font-jakarta text-2xl font-extrabold text-slate-900 dark:text-slate-100">
                   Request a Free Quote
                 </h3>
 

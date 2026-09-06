@@ -41,37 +41,37 @@ export default function BlogPage() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: 0.05 }}
                 whileHover={{ y: -5 }}
-                className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl space-y-4 flex flex-col justify-between group transition-colors"
+                className="p-8 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl space-y-4 flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-xs text-red-500 font-manrope">
-                    <span className="px-3 py-1 rounded-full bg-red-500/10 border border-red-500/30 font-bold">
+                  <div className="flex items-center gap-3 text-xs text-red-600 dark:text-red-400 font-manrope">
+                    <span className="px-3 py-1 rounded-full bg-red-600/10 border border-red-500/30 font-bold">
                       {post.category}
                     </span>
-                    <span className="flex items-center gap-1 text-slate-500">
+                    <span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
                       <Clock className="w-3.5 h-3.5" />
                       {post.readTime}
                     </span>
                   </div>
 
-                  <h3 className="font-playfair text-xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors">
+                  <h3 className="font-jakarta text-xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                     {post.title}
                   </h3>
-                  <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed font-inter">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter">
                     {post.summary}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80">
                   <Link
                     href={`/blog/${post.slug}`}
                     onClick={() => {
                       smoothScrollToTop(750);
                     }}
-                    className="text-xs font-manrope font-bold text-red-500 hover:text-red-400 flex items-center gap-1.5 group/link"
+                    className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 hover:text-red-700 flex items-center gap-1.5 group/link"
                   >
-                    Read Full Article
-                    <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover/link:translate-x-1 transition-transform" />
+                    <span>Read Full Article</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-red-500 group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.div>

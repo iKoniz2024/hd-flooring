@@ -83,7 +83,7 @@ export function ServicesGrid() {
               transition={{ duration: 0.5, delay: idx * 0.05 }}
             >
               <TiltCard>
-                <div className={`h-full rounded-2xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 relative`}>
+                <div className={`h-full rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 relative cursor-pointer`}>
                   {/* Top Brand Accent Line */}
                   <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500`} />
 

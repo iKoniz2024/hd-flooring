@@ -228,10 +228,10 @@ export function Hero() {
                   key={idx}
                   onMouseEnter={() => setCurrentSlideIdx(idx)}
                   onClick={() => setCurrentSlideIdx(idx)}
-                  className={`group relative rounded-2xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${
+                  className={`group relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${
                     isActive
-                      ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2.5`
-                      : 'bg-white/80 dark:bg-stone-900/70 hover:bg-white/95 dark:hover:bg-stone-900/90 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/50 shadow-xl hover:-translate-y-2.5'
+                      ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
+                      : 'bg-white/80 dark:bg-stone-900/80 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/60 dark:hover:border-red-500/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
                   }`}
                 >
                   {/* Top Animated Brand Color Accent Bar */}

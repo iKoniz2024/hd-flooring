@@ -89,7 +89,7 @@ export default function ProjectsPage() {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.4 }}
                   key={project.id}
-                  className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/50 shadow-xl overflow-hidden group flex flex-col justify-between"
+                  className="rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl overflow-hidden group flex flex-col justify-between transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <img
@@ -113,25 +113,25 @@ export default function ProjectsPage() {
                       <MapPin className="w-3.5 h-3.5 text-sky-400" />
                       <span>{project.location}</span>
                     </div>
-                    <h3 className="font-playfair text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors">
+                    <h3 className="font-jakarta text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
                       {project.title}
                     </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-inter line-clamp-2 leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-inter line-clamp-2 leading-relaxed">
                       {project.result}
                     </p>
 
-                    <div className="pt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 font-manrope">
+                    <div className="pt-4 flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800/80 font-manrope">
                       <Link
                         href={`/projects/${project.slug}`}
-                        className="text-xs font-bold text-red-500 hover:text-red-400 flex items-center gap-1.5 group/link shrink-0"
+                        className="text-xs font-bold text-red-600 dark:text-red-400 hover:text-red-700 flex items-center gap-1.5 group/link shrink-0"
                       >
                         View Case Study
-                        <ArrowRight className="w-3.5 h-3.5 text-sky-400 group-hover/link:translate-x-1 transition-transform" />
+                        <ArrowRight className="w-3.5 h-3.5 text-red-500 group-hover/link:translate-x-1 transition-transform" />
                       </Link>
 
                       <button
                         onClick={() => openBookModal(project.category)}
-                        className="text-xs text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shrink-0"
+                        className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors shrink-0 cursor-pointer"
                       >
                         Get Similar Quote →
                       </button>
