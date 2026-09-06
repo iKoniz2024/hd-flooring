@@ -25,7 +25,7 @@ const serviceCategoryImages: Record<string, string[]> = {
   'hardwood-flooring': generateImageList('hardwood-flooring', 'hardwood-flooring', 3),
   'engineered-hardwood-flooring': generateImageList('engineered-hardwood', 'engineered-hardwood', 2),
   'luxury-vinyl-flooring': generateImageList('luxury-vinyl-flooring', 'luxury-vinyl-flooring', 71),
-  'laminate-flooring': generateImageList('laminate-flooring', 'laminate-flooring', 18),
+  'laminate-flooring': generateImageList('laminate-flooring', 'laminate-flooring', 17),
   'carpet-flooring': generateImageList('carpet-flooring', 'carpet-flooring', 15),
   'tile-flooring': generateImageList('tile-flooring', 'tile-flooring', 18),
   'stair-flooring': generateImageList('stair-flooring', 'stair-flooring', 5),
@@ -43,6 +43,9 @@ export default function ServiceDetailPage() {
 
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [showAllPhotos, setShowAllPhotos] = useState(false);
+
+  const displayedPhotos = showAllPhotos ? galleryPhotos : galleryPhotos.slice(0, 16);
 
   useEffect(() => {
     const scrollToTopSmooth = () => {
@@ -215,32 +218,42 @@ export default function ServiceDetailPage() {
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {galleryPhotos.map((imgUrl, idx) => (
-              <motion.div
+            {displayedPhotos.map((imgUrl, idx) => (
+              <div
                 key={idx}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.4, delay: (idx % 4) * 0.05 }}
                 onClick={() => {
                   setActiveImageIdx(idx);
                   setLightboxOpen(true);
                 }}
-                className="group relative h-44 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 cursor-pointer shadow-md"
+                className="group relative h-44 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 cursor-pointer shadow-md bg-slate-100 dark:bg-slate-900"
               >
                 <img
                   src={imgUrl}
                   alt={`${service.title} photo ${idx + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  loading="lazy"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="p-3 rounded-full bg-red-600/90 text-white shadow-lg">
                     <Maximize2 className="w-5 h-5" />
                   </span>
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
+
+          {galleryPhotos.length > 16 && (
+            <div className="text-center pt-2">
+              <button
+                onClick={() => setShowAllPhotos(!showAllPhotos)}
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:to-slate-900 text-white hover:brightness-110 font-manrope font-extrabold text-xs tracking-wider uppercase shadow-lg border border-slate-700/50 transition-all transform hover:scale-105"
+              >
+                {showAllPhotos
+                  ? 'Show Less Photos'
+                  : `Show All ${galleryPhotos.length} HD Photos (+${galleryPhotos.length - 16} More)`}
+              </button>
+            </div>
+          )}
         </motion.div>
 
         <motion.div
