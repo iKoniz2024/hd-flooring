@@ -42,18 +42,18 @@ export function MouseSpotlight() {
 
   return (
     <motion.div
-      className="pointer-events-none fixed inset-0 z-10 transition-opacity duration-300"
+      className="pointer-events-none fixed inset-0 z-10 hidden dark:block transition-opacity duration-300"
       animate={
         hasInteracted
           ? {
-              background: `radial-gradient(600px circle at ${position.x}px ${position.y}px, rgba(239, 68, 68, 0.12), transparent 80%)`,
+              background: `radial-gradient(450px circle at ${position.x}px ${position.y}px, rgba(239, 68, 68, 0.15), transparent 80%)`,
             }
           : {
               background: [
-                'radial-gradient(600px circle at 20% 30%, rgba(239, 68, 68, 0.12), transparent 80%)',
-                'radial-gradient(600px circle at 80% 60%, rgba(56, 189, 248, 0.12), transparent 80%)',
-                'radial-gradient(600px circle at 50% 80%, rgba(239, 68, 68, 0.12), transparent 80%)',
-                'radial-gradient(600px circle at 20% 30%, rgba(239, 68, 68, 0.12), transparent 80%)',
+                'radial-gradient(450px circle at 20% 30%, rgba(239, 68, 68, 0.15), transparent 80%)',
+                'radial-gradient(450px circle at 80% 60%, rgba(56, 189, 248, 0.15), transparent 80%)',
+                'radial-gradient(450px circle at 50% 80%, rgba(239, 68, 68, 0.15), transparent 80%)',
+                'radial-gradient(450px circle at 20% 30%, rgba(239, 68, 68, 0.15), transparent 80%)',
               ],
             }
       }

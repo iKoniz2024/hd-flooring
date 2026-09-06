@@ -42,7 +42,7 @@ export function LiveCostCalculator() {
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter relative overflow-hidden">
       {/* Background Decorative Accent */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-red-500/10 via-amber-500/5 to-sky-500/10 rounded-full blur-3xl -z-10 pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-tr from-red-500/10 via-amber-500/5 to-sky-500/10 rounded-full blur-3xl -z-10 pointer-events-none hidden dark:block" />
 
       {/* Main Container Card: Light Architectural Studio Style */}
       <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl rounded-3xl border-2 border-slate-200/90 dark:border-slate-800 shadow-2xl shadow-slate-300/40 dark:shadow-none p-6 sm:p-10 lg:p-12 relative">

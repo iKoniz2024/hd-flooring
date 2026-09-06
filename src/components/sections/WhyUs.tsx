@@ -41,9 +41,9 @@ export function WhyUs() {
   return (
     <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
       {/* Brand Color Ambient Glow Effects */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/10 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/5 blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 blur-3xl pointer-events-none hidden dark:block" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/10 blur-3xl pointer-events-none hidden dark:block" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/5 blur-3xl pointer-events-none hidden dark:block" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
         {/* Header */}
