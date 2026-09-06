@@ -43,7 +43,7 @@ export default function ProjectsPage() {
         badge="Our Flooring Portfolio"
         title="See the Difference Craftsmanship Makes"
         subtitle="Explore completed residential and commercial flooring installations across Saskatoon, SK, and Saskatchewan communities."
-        backgroundImage="/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-52.jpg"
+        backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Projects' },

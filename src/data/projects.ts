@@ -20,7 +20,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Sheet Vinyl',
     propertyType: 'Commercial',
     location: 'Saskatoon, SK',
-    coverImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-03.jpg',
+    coverImage: '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-07.jpg',
     galleryImages: [
       '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
       '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-02.jpg',
@@ -93,7 +93,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Tile',
     propertyType: 'Commercial',
     location: 'Saskatoon, SK',
-    coverImage: '/assets/images/tile-flooring/tile-flooring-01.jpg',
+    coverImage: '/assets/images/tile-flooring/tile-flooring-04.jpg',
     galleryImages: [
       '/assets/images/tile-flooring/tile-flooring-01.jpg',
       '/assets/images/tile-flooring/tile-flooring-02.jpg',
@@ -152,7 +152,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Laminate',
     propertyType: 'Residential',
     location: 'Regina, SK',
-    coverImage: '/assets/images/laminate-flooring/laminate-flooring-01.jpg',
+    coverImage: '/assets/images/laminate-flooring/laminate-flooring-03.jpg',
     galleryImages: [
       '/assets/images/laminate-flooring/laminate-flooring-01.jpg',
       '/assets/images/laminate-flooring/laminate-flooring-02.jpg',
@@ -171,7 +171,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Floor Prep',
     propertyType: 'Commercial',
     location: 'Saskatoon, SK',
-    coverImage: '/assets/images/floor-preparation/floor-preparation-01.jpg',
+    coverImage: '/assets/images/engineered-hardwood/engineered-hardwood-02.jpg',
     galleryImages: [
       '/assets/images/floor-preparation/floor-preparation-01.jpg',
       '/assets/images/team-company/team-company-04.jpg',
@@ -189,7 +189,7 @@ export const projectsData: ProjectItem[] = [
     category: 'Repairs & Restorations',
     propertyType: 'Residential',
     location: 'Warman, SK',
-    coverImage: '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
+    coverImage: '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg',
     galleryImages: [
       '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
       '/assets/images/flooring-replacement/flooring-replacement-02.jpg',

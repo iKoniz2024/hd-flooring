@@ -59,7 +59,7 @@ export function PageHero({
   return (
     <section
       ref={containerRef}
-      className={`relative w-full ${heightClass} flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-slate-950 text-white`}
+      className={`relative w-full ${heightClass} flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-stone-900 text-white`}
     >
       {/* 1. PARALLAX BACKGROUND IMAGE LAYER - BRIGHT & CRISP */}
       <motion.div
@@ -67,7 +67,7 @@ export function PageHero({
         style={{ y: backgroundY }}
       >
         <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 scale-105 brightness-[1.08] contrast-[1.05] saturate-[1.05]"
+          className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 scale-105 brightness-[1.18] contrast-[1.02] saturate-[1.1]"
           style={{
             backgroundImage: `url('${backgroundImage}')`,
           }}
@@ -76,8 +76,8 @@ export function PageHero({
 
       {/* 2. ULTRA-CLEAR MINIMAL OVERLAY GRADIENT */}
       {/* Light top shade for navbar contrast, clear center so floor images pop, soft bottom fade into page */}
-      <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/20 to-slate-950/85 pointer-events-none z-1" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent via-slate-950/10 to-slate-950/50 pointer-events-none z-1" />
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/55 via-stone-950/15 to-stone-950/65 pointer-events-none z-1" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent via-stone-950/10 to-stone-950/40 pointer-events-none z-1" />
 
       {/* 3. HERO CONTENT WRAPPER WITH TEXT SHADOWS & GLASSMORPHISM */}
       <motion.div

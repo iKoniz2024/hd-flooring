@@ -21,7 +21,7 @@ export default function BlogPage() {
         badge="Flooring Insights & Advice"
         title="Expert Flooring Guides & Tips"
         subtitle="Practical guides and professional advice to help Canadian homeowners and businesses make informed flooring choices."
-        backgroundImage="/assets/images/tile-flooring/tile-flooring-18.jpg"
+        backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-02.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Blog' },
