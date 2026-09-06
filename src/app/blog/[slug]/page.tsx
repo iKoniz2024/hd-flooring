@@ -58,7 +58,7 @@ export default function BlogArticlePage() {
         badge={`${post.category} • ${post.readTime}`}
         title={post.title}
         subtitle={post.summary}
-        backgroundImage={post.coverImage || '/assets/images/hardwood-flooring/hardwood-flooring-03.jpg'}
+        backgroundImage={post.coverImage || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=95&fm=webp'}
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Blog', href: '/blog' },
@@ -277,7 +277,7 @@ export default function BlogArticlePage() {
             >
               <div className="flex flex-col sm:flex-row items-center gap-4">
                 <img
-                  src={post.author?.avatar || '/assets/images/personal-photos/personal-photo-01.jpg'}
+                  src={post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp'}
                   alt={post.author?.name || 'Habibur Rahman (Habib)'}
                   className="w-16 h-16 rounded-2xl object-cover border-2 border-red-500/50 shadow-md shrink-0"
                 />
