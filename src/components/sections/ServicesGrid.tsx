@@ -83,9 +83,9 @@ export function ServicesGrid() {
               transition={{ duration: 0.5, delay: idx * 0.05 }}
             >
               <TiltCard>
-                <div className={`h-full rounded-2xl bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border border-stone-200 dark:border-stone-800 ${color.hoverBorder} shadow-xl shadow-stone-900/5 dark:shadow-black/60 overflow-hidden flex flex-col justify-between group transition-all duration-500 relative`}>
+                <div className={`h-full rounded-2xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 relative`}>
                   {/* Top Brand Accent Line */}
-                  <div className={`h-1 w-0 group-hover:w-full ${color.topBar} transition-all duration-500`} />
+                  <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500`} />
 
                   {/* Image Banner */}
                   <div className="relative h-52 overflow-hidden">
@@ -112,20 +112,20 @@ export function ServicesGrid() {
                   {/* Content */}
                   <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
                     <div className="space-y-2">
-                      <h3 className={`font-playfair text-xl font-bold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors duration-300`}>
+                      <h3 className={`font-jakarta text-xl font-extrabold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors duration-300`}>
                         {service.title}
                       </h3>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 group-hover:text-stone-300 transition-colors duration-300 leading-relaxed line-clamp-2">
+                      <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-2">
                         {service.shortDesc}
                       </p>
                     </div>
 
                     {/* Key Benefits */}
-                    <ul className="space-y-1.5 pt-3 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800">
+                    <ul className="space-y-1.5 pt-3 border-t border-stone-100 dark:border-stone-800/80">
                       {service.benefits.slice(0, 2).map((benefit, bIdx) => (
                         <li
                           key={bIdx}
-                          className="text-xs text-stone-600 dark:text-stone-300 group-hover:text-stone-200 transition-colors flex items-start gap-2"
+                          className="text-xs text-stone-600 dark:text-stone-300 flex items-start gap-2"
                         >
                           <CheckCircle className={`w-3.5 h-3.5 ${color.checkIcon} shrink-0 mt-0.5`} />
                           <span className="line-clamp-1">{benefit}</span>
@@ -134,7 +134,7 @@ export function ServicesGrid() {
                     </ul>
 
                     {/* Action Bar */}
-                    <div className="pt-4 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800">
+                    <div className="pt-4 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80">
                       <button
                         onClick={() => openBookModal(service.title)}
                         className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5`}

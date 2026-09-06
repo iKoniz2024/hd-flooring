@@ -101,9 +101,9 @@ export function WhyUs() {
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
               >
                 <TiltCard>
-                  <div className={`h-full p-8 sm:p-9 rounded-3xl bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border border-stone-200 dark:border-stone-800 ${color.border} shadow-xl shadow-stone-900/5 dark:shadow-black/50 transition-all duration-500 space-y-4 group relative overflow-hidden cursor-pointer hover:-translate-y-2`}>
+                  <div className={`h-full p-8 sm:p-9 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.border} shadow-xl hover:shadow-2xl transition-all duration-500 space-y-4 group relative overflow-hidden cursor-pointer hover:-translate-y-2`}>
                     {/* Top Animated Accent Bar */}
-                    <div className={`h-1 w-0 group-hover:w-full ${color.topBar} transition-all duration-500 absolute top-0 left-0`} />
+                    <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500 absolute top-0 left-0`} />
                     
                     {/* Icon Box */}
                     <div className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl ${color.iconBox} border flex items-center justify-center font-bold shadow-lg transition-all duration-500 group-hover:scale-110`}>
@@ -111,12 +111,12 @@ export function WhyUs() {
                     </div>
 
                     {/* Title */}
-                    <h3 className={`font-playfair text-xl font-black text-stone-900 dark:text-white ${color.titleHover} transition-colors duration-300`}>
+                    <h3 className={`font-jakarta text-xl font-extrabold text-stone-900 dark:text-white ${color.titleHover} transition-colors duration-300`}>
                       {item.title}
                     </h3>
                     
                     {/* Description */}
-                    <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 group-hover:text-stone-300 transition-colors duration-300 leading-relaxed font-normal">
+                    <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
                       {item.desc}
                     </p>
                   </div>

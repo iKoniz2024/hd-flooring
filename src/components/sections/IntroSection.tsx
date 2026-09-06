@@ -115,10 +115,10 @@ export function IntroSection() {
                 transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
               }}
               whileTap={{ scale: 0.98 }}
-              className={`group relative p-8 sm:p-9 rounded-3xl bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border border-stone-200 dark:border-stone-800 ${card.hoverBorder} shadow-xl transition-all duration-500 ease-out flex flex-col justify-between overflow-hidden cursor-pointer hover:-translate-y-2`}
+              className={`group relative p-8 sm:p-9 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${card.hoverBorder} shadow-xl hover:shadow-2xl transition-all duration-500 ease-out flex flex-col justify-between overflow-hidden cursor-pointer hover:-translate-y-2`}
             >
               {/* Top Animated Accent Bar */}
-              <div className={`h-1 w-0 group-hover:w-full ${card.topBar} transition-all duration-500 absolute top-0 left-0 z-20`} />
+              <div className={`h-1.5 w-0 group-hover:w-full ${card.topBar} transition-all duration-500 absolute top-0 left-0 z-20`} />
 
               <div>
                 {/* Icon Box */}
@@ -136,18 +136,18 @@ export function IntroSection() {
                 </div>
 
                 {/* Title */}
-                <h3 className={`font-playfair font-black text-xl text-stone-900 dark:text-white ${card.titleHover} transition-colors duration-300 mb-3`}>
+                <h3 className={`font-jakarta font-extrabold text-xl text-stone-900 dark:text-white ${card.titleHover} transition-colors duration-300 mb-3`}>
                   {card.title}
                 </h3>
 
                 {/* Description */}
-                <p className="text-sm text-stone-600 dark:text-stone-300 group-hover:text-stone-300 transition-colors duration-300 leading-relaxed font-normal">
+                <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
                   {card.desc}
                 </p>
               </div>
 
               {/* Bottom Action Line */}
-              <div className="pt-6 mt-6 border-t border-stone-100 dark:border-stone-800/80 group-hover:border-stone-800 flex items-center justify-between text-xs font-bold text-stone-500 dark:text-stone-400 group-hover:text-stone-200 transition-colors duration-300">
+              <div className="pt-6 mt-6 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between text-xs font-bold text-stone-500 dark:text-stone-400 group-hover:text-stone-900 dark:group-hover:text-white transition-colors duration-300">
                 <span>Learn Craftsmanship</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform duration-300" />
               </div>

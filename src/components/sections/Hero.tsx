@@ -14,10 +14,11 @@ const heroServices = [
     href: '/services/hardwood-flooring',
     barBg: 'bg-red-600',
     iconBg: 'bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30 group-hover:bg-red-600 group-hover:text-white',
-    activeIconBg: 'bg-red-600 text-white border-red-600',
-    activeText: 'text-red-400',
+    activeIconBg: 'bg-red-600 text-white border-red-600 shadow-md shadow-red-500/30',
+    activeText: 'text-red-600 dark:text-red-400',
     btnBg: 'bg-red-600 text-white',
-    activeBorder: 'border-red-500',
+    activeBorder: 'border-red-500/80 dark:border-red-500/80',
+    glowColor: 'shadow-red-500/20',
   },
   {
     title: 'Luxury Vinyl (LVP)',
@@ -26,10 +27,11 @@ const heroServices = [
     href: '/services/luxury-vinyl-flooring',
     barBg: 'bg-sky-500',
     iconBg: 'bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 group-hover:bg-sky-600 group-hover:text-white',
-    activeIconBg: 'bg-sky-600 text-white border-sky-600',
-    activeText: 'text-sky-400',
+    activeIconBg: 'bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-500/30',
+    activeText: 'text-sky-600 dark:text-sky-400',
     btnBg: 'bg-sky-600 text-white',
-    activeBorder: 'border-sky-500',
+    activeBorder: 'border-sky-500/80 dark:border-sky-500/80',
+    glowColor: 'shadow-sky-500/20',
   },
   {
     title: 'Tile & Porcelain',
@@ -38,10 +40,11 @@ const heroServices = [
     href: '/services/tile-flooring',
     barBg: 'bg-amber-500',
     iconBg: 'bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30 group-hover:bg-amber-500 group-hover:text-stone-950',
-    activeIconBg: 'bg-amber-500 text-stone-950 border-amber-500',
-    activeText: 'text-amber-400',
+    activeIconBg: 'bg-amber-500 text-stone-950 border-amber-500 shadow-md shadow-amber-500/30',
+    activeText: 'text-amber-600 dark:text-amber-400',
     btnBg: 'bg-amber-500 text-stone-950',
-    activeBorder: 'border-amber-500',
+    activeBorder: 'border-amber-500/80 dark:border-amber-500/80',
+    glowColor: 'shadow-amber-500/20',
   },
   {
     title: 'Laminate Floors',
@@ -50,10 +53,11 @@ const heroServices = [
     href: '/services/laminate-flooring',
     barBg: 'bg-red-500',
     iconBg: 'bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30 group-hover:bg-red-600 group-hover:text-white',
-    activeIconBg: 'bg-red-600 text-white border-red-600',
-    activeText: 'text-red-400',
+    activeIconBg: 'bg-red-600 text-white border-red-600 shadow-md shadow-red-500/30',
+    activeText: 'text-red-600 dark:text-red-400',
     btnBg: 'bg-red-600 text-white',
-    activeBorder: 'border-red-500',
+    activeBorder: 'border-red-500/80 dark:border-red-500/80',
+    glowColor: 'shadow-red-500/20',
   },
   {
     title: 'Subfloor & Stairs',
@@ -62,10 +66,11 @@ const heroServices = [
     href: '/services/stair-flooring',
     barBg: 'bg-sky-600',
     iconBg: 'bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 group-hover:bg-sky-600 group-hover:text-white',
-    activeIconBg: 'bg-sky-600 text-white border-sky-600',
-    activeText: 'text-sky-400',
+    activeIconBg: 'bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-500/30',
+    activeText: 'text-sky-600 dark:text-sky-400',
     btnBg: 'bg-sky-600 text-white',
-    activeBorder: 'border-sky-500',
+    activeBorder: 'border-sky-500/80 dark:border-sky-500/80',
+    glowColor: 'shadow-sky-500/20',
   },
 ];
 
@@ -223,22 +228,25 @@ export function Hero() {
                   key={idx}
                   onMouseEnter={() => setCurrentSlideIdx(idx)}
                   onClick={() => setCurrentSlideIdx(idx)}
-                  className={`group relative rounded-2xl border transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 ${isActive
-                      ? `bg-stone-950 text-white ${srv.activeBorder} shadow-2xl -translate-y-2`
-                      : 'bg-white dark:bg-stone-900 hover:bg-stone-950 dark:hover:bg-stone-950 border-stone-200 dark:border-stone-800 hover:border-red-500/80 shadow-2xl hover:-translate-y-2.5'
-                    }`}
+                  className={`group relative rounded-2xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${
+                    isActive
+                      ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2.5`
+                      : 'bg-white/80 dark:bg-stone-900/70 hover:bg-white/95 dark:hover:bg-stone-900/90 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/50 shadow-xl hover:-translate-y-2.5'
+                  }`}
                 >
                   {/* Top Animated Brand Color Accent Bar */}
                   <div
-                    className={`h-1 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                      }`}
+                    className={`h-1.5 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 ${
+                      isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`}
                   />
 
                   <div className="space-y-3">
                     {/* Icon Box with Brand Color Mix */}
                     <div
-                      className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
-                        }`}
+                      className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${
+                        isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
+                      }`}
                     >
                       <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
                     </div>
@@ -246,14 +254,16 @@ export function Hero() {
                     {/* Title & Subtitle */}
                     <div>
                       <h3
-                        className={`font-playfair font-black text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-white'
-                          }`}
+                        className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${
+                          isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-red-600 dark:group-hover:text-red-400'
+                        }`}
                       >
                         {srv.title}
                       </h3>
                       <p
-                        className={`text-xs font-semibold transition-colors duration-300 mt-1 ${isActive ? 'text-stone-300' : 'text-stone-500 dark:text-stone-400 group-hover:text-stone-300'
-                          }`}
+                        className={`text-xs font-semibold transition-colors duration-300 mt-1 ${
+                          isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'
+                        }`}
                       >
                         {srv.subtitle}
                       </p>
@@ -263,8 +273,9 @@ export function Hero() {
                   {/* Bottom Right Corner Brand Color Action Box */}
                   <Link
                     href={srv.href}
-                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
-                      }`}
+                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${
+                      isActive ? 'scale-110' : 'group-hover:scale-110'
+                    }`}
                   >
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Link>
