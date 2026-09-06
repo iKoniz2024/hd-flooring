@@ -381,11 +381,11 @@ export default function ServiceDetailPage() {
         {service.faqs && service.faqs.length > 0 && (
           <div className="space-y-6">
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-bold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-extrabold uppercase tracking-wider">
                 <HelpCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />
-                Got Questions?
+                GOT QUESTIONS?
               </div>
-              <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h2 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                 Frequently Asked Questions
               </h2>
             </div>

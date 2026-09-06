@@ -30,6 +30,7 @@ import { PageHero } from '@/components/sections/PageHero';
 import { blogPosts } from '@/data/blogs';
 import { useModal } from '@/lib/context/ModalContext';
 import { smoothScrollToTop } from '@/components/providers/ScrollToTop';
+import { Accordion } from '@/components/ui/Accordion';
 
 export default function BlogArticlePage() {
   const params = useParams();
@@ -213,55 +214,19 @@ export default function BlogArticlePage() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6 }}
-                className="p-6 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 shadow-xl space-y-6"
+                className="space-y-6"
               >
-                <div className="flex items-center gap-2.5 pb-2 border-b border-slate-200 dark:border-slate-800">
-                  <HelpCircle className="w-5 h-5 text-red-500 animate-pulse" />
-                  <h3 className="font-playfair text-2xl font-bold text-slate-900 dark:text-slate-100">
+                <div className="text-center space-y-2">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-extrabold uppercase tracking-wider">
+                    <HelpCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                    GOT QUESTIONS?
+                  </div>
+                  <h3 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                     Frequently Asked Questions
                   </h3>
                 </div>
 
-                <div className="space-y-3">
-                  {post.faqs.map((faq, idx) => {
-                    const isOpen = openFaqIdx === idx;
-                    return (
-                      <motion.div
-                        key={idx}
-                        whileHover={{ scale: 1.01 }}
-                        className="rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden bg-slate-50 dark:bg-slate-950/60 transition-all shadow-sm hover:shadow-md"
-                      >
-                        <button
-                          onClick={() => toggleFaq(idx)}
-                          className="w-full p-5 text-left flex items-center justify-between gap-4 font-playfair font-bold text-sm sm:text-base text-slate-900 dark:text-slate-100 hover:text-red-500 transition-colors"
-                        >
-                          <span className="flex items-center gap-2">
-                            <span className="text-red-500 font-extrabold">Q:</span>
-                            {faq.question}
-                          </span>
-                          <ChevronDown
-                            className={`w-4 h-4 text-slate-500 shrink-0 transition-transform duration-300 ${isOpen ? 'rotate-180 text-red-500' : ''
-                              }`}
-                          />
-                        </button>
-
-                        <AnimatePresence>
-                          {isOpen && (
-                            <motion.div
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="px-5 pb-5 text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-inter leading-relaxed border-t border-slate-200/60 dark:border-slate-800/60 pt-3"
-                            >
-                              {faq.answer}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    );
-                  })}
-                </div>
+                <Accordion items={post.faqs} />
               </motion.section>
             )}
 

@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { LiveCostCalculator } from '@/components/interactive/LiveCostCalculator';
+import { Accordion } from '@/components/ui/Accordion';
 import { Calculator, Sparkles, HelpCircle, ShieldCheck, Phone } from 'lucide-react';
 import Link from 'next/link';
 
@@ -58,33 +59,23 @@ export default function CostCalculatorPage() {
         <LiveCostCalculator />
 
         {/* FAQ & Guarantees Section */}
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto space-y-12">
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto space-y-8">
           <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-stone-200 dark:bg-stone-800 text-stone-800 dark:text-stone-200 text-xs font-semibold">
-              <HelpCircle className="w-4 h-4 text-red-500 dark:text-amber-500" />
-              <span>Estimator FAQs</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-extrabold uppercase tracking-wider">
+              <HelpCircle className="w-4 h-4 text-red-500" />
+              <span>GOT QUESTIONS?</span>
             </div>
             <h2 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">
-              Frequently Asked Questions About Flooring Costs
+              Frequently Asked Questions
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {faqs.map((faq, idx) => (
-              <div
-                key={idx}
-                className="p-6 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer space-y-2"
-              >
-                <h3 className="font-jakarta font-extrabold text-stone-900 dark:text-stone-100 text-base flex items-start gap-2">
-                  <span className="text-red-600 dark:text-amber-500 font-black">Q.</span>
-                  {faq.q}
-                </h3>
-                <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed pl-6">
-                  {faq.a}
-                </p>
-              </div>
-            ))}
-          </div>
+          <Accordion
+            items={faqs.map((faq) => ({
+              question: faq.q,
+              answer: faq.a,
+            }))}
+          />
 
           {/* Need Custom Quote Banner */}
           <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-red-600 via-amber-500 to-sky-600 text-white border border-white/20 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl">

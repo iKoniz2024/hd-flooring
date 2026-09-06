@@ -17,21 +17,21 @@ export function Accordion({ items }: { items: FAQItem[] }) {
   };
 
   return (
-    <div className="space-y-3 max-w-3xl mx-auto font-inter">
+    <div className="space-y-3.5 max-w-3xl mx-auto font-inter">
       {items.map((item, idx) => {
         const isOpen = openIndex === idx;
         return (
           <div
             key={idx}
-            className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden transition-colors"
+            className="rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800/90 overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:border-red-500/50"
           >
             <button
               onClick={() => toggle(idx)}
-              className="w-full p-5 text-left flex items-center justify-between gap-4 font-manrope font-semibold text-slate-900 dark:text-slate-100 hover:text-red-500 transition-colors"
+              className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-jakarta font-bold text-stone-900 dark:text-stone-100 hover:text-red-600 dark:hover:text-red-400 transition-colors"
             >
-              <span>{item.question}</span>
+              <span className="text-sm sm:text-base leading-snug">{item.question}</span>
               <ChevronDown
-                className={`w-4 h-4 text-red-500 shrink-0 transition-transform duration-300 ${
+                className={`w-4 h-4 sm:w-5 sm:h-5 text-red-500 shrink-0 transition-transform duration-300 ${
                   isOpen ? 'rotate-180' : ''
                 }`}
               />
@@ -43,10 +43,10 @@ export function Accordion({ items }: { items: FAQItem[] }) {
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.2 }}
-                  className="px-5 pb-5 pt-0 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed font-inter border-t border-slate-100 dark:border-slate-800/80"
+                  transition={{ duration: 0.25, ease: 'easeInOut' }}
+                  className="px-5 sm:px-6 pb-5 pt-0 text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-inter border-t border-stone-200/60 dark:border-stone-800/60"
                 >
-                  <p className="pt-3">{item.answer}</p>
+                  <p className="pt-4">{item.answer}</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -56,3 +56,4 @@ export function Accordion({ items }: { items: FAQItem[] }) {
     </div>
   );
 }
+
