@@ -112,7 +112,7 @@ export default function AboutUsPage() {
         badge="About HD Flooring"
         title="About Our Flooring Company"
         subtitle="We are a professional Canadian flooring installation company specializing in hardwood, vinyl plank, laminate, tile, carpet, and subfloor prep."
-        backgroundImage="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1200&q=65&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'About Us' },

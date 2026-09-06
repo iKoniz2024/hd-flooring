@@ -9,8 +9,8 @@ const transformations = [
     id: 'hardwood',
     label: 'Solid Oak Hardwood',
     icon: '🪵',
-    beforeImage: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=55&fm=webp', // Real active room subfloor renovation
-    afterImage: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp', // Beautiful finished solid oak floor
+    beforeImage: 'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=1600&q=90&fm=webp', // Real active room subfloor renovation
+    afterImage: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=90&fm=webp', // Beautiful finished solid oak floor
     beforeTitle: 'BEFORE — Raw Concrete & Subfloor Prep',
     afterTitle: 'AFTER — Precision Installed Oak Hardwood',
   },
@@ -18,8 +18,8 @@ const transformations = [
     id: 'vinyl',
     label: 'Waterproof LVP Planks',
     icon: '💧',
-    beforeImage: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=55&fm=webp',
-    afterImage: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=55&fm=webp',
+    beforeImage: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=90&fm=webp',
+    afterImage: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=90&fm=webp',
     beforeTitle: 'BEFORE — Uneven Base & Moisture Prep',
     afterTitle: 'AFTER — 100% Waterproof Luxury Vinyl',
   },
@@ -27,8 +27,8 @@ const transformations = [
     id: 'tile',
     label: 'Porcelain Tile & Grout',
     icon: '🏛️',
-    beforeImage: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=800&q=55&fm=webp',
-    afterImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=55&fm=webp',
+    beforeImage: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=1600&q=90&fm=webp',
+    afterImage: 'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=1600&q=90&fm=webp',
     beforeTitle: 'BEFORE — Subfloor Boarding & Membrane',
     afterTitle: 'AFTER — High-Strength Porcelain Tile',
   },

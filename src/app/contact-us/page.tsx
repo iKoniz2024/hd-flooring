@@ -35,7 +35,7 @@ export default function ContactUsPage() {
         badgeIcon={Phone}
         title="Contact HD Flooring"
         subtitle="Get in touch with our team for free estimates, flooring advice, or project inquiries."
-        backgroundImage="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1200&q=65&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Contact Us' },

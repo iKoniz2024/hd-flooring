@@ -44,7 +44,7 @@ export default function ServicesPage() {
         badge="Our Services"
         title="Flooring Services We Offer"
         subtitle="Professional flooring installation for homes and commercial spaces across Canada."
-        backgroundImage="https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1200&q=65&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Services' },

@@ -78,27 +78,27 @@ const categorySlides = [
   {
     name: 'Solid Hardwood Flooring',
     tag: 'Real Wood Grain',
-    image: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=1200&q=70&fm=webp',
+    image: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=1920&q=95&fm=webp',
   },
   {
     name: 'Luxury Vinyl Plank (LVP)',
     tag: '100% Waterproof',
-    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=70&fm=webp',
+    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=95&fm=webp',
   },
   {
     name: 'Tile & Porcelain Installation',
     tag: 'Kitchen & Bathroom',
-    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1200&q=70&fm=webp',
+    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1920&q=95&fm=webp',
   },
   {
     name: 'Premium Laminate Flooring',
     tag: 'Herringbone & Planks',
-    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1200&q=70&fm=webp',
+    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=95&fm=webp',
   },
   {
     name: 'Stair Capping & Subfloor Prep',
     tag: 'Wood Treads & Leveling',
-    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1200&q=70&fm=webp',
+    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1920&q=95&fm=webp',
   },
 ];
 

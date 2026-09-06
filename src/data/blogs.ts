@@ -60,7 +60,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: '2. Moisture & Seasonal Humidity Shifts in Canadian Homes',
         body: 'Canadian seasonal climate changes create significant indoor relative humidity fluctuations — from dry sub-zero winters to humid summers. Moisture exposure is the single biggest threat to organic flooring materials. Solid hardwood expands and contracts with humidity changes, making it unsuitable for basements or bathrooms. In contrast, Engineered Hardwood features cross-ply backing that resists humidity warping, while 100% Waterproof Luxury Vinyl Plank (LVP) and Sheet Vinyl remain completely impervious to standing water and basement dampness.',
-        image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=55&fm=webp',
+        image: 'https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&w=800&q=80&fm=webp',
       },
       {
         heading: '3. Subfloor Preparation & Sound Isolation Requirements',
@@ -90,7 +90,7 @@ export const blogPosts: BlogPost[] = [
     readTime: '7 min read',
     publishDate: 'August 2026',
     summary: 'Compare the characteristics, applications, maintenance, and practical considerations of two popular flooring options.',
-    coverImage: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=55&fm=webp',
+    coverImage: 'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80&fm=webp',
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
@@ -111,7 +111,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: '2. Waterproof Performance & Active Family Durability (LVP)',
         body: 'Luxury Vinyl Plank (LVP) has revolutionized the flooring industry by combining realistic 3D HD wood textures with 100% moisture immunity. Constructed with rigid stone polymer core (SPC) or cellular vinyl core (WPC), LVP will never swell, buckle, or cup when exposed to water spills, pet accidents, or flooded basements. Commercial wear layers (12mil to 28mil) provide extreme scratch resistance against dog claws, heavy furniture, and high foot traffic.',
-        image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp',
+        image: 'https://images.unsplash.com/photo-1600566752229-250ed79470f8?auto=format&fit=crop&w=800&q=80&fm=webp',
       },
       {
         heading: '3. Installation Methods & Subfloor Tolerances',
@@ -141,7 +141,7 @@ export const blogPosts: BlogPost[] = [
     readTime: '6 min read',
     publishDate: 'August 2026',
     summary: 'Explore practical flooring considerations for households dealing with everyday traffic, pets, children, and changing seasonal conditions.',
-    coverImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=800&q=55&fm=webp',
+    coverImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=800&q=80&fm=webp',
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
@@ -162,7 +162,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: '2. Pet & Child Friendly Flooring Solutions',
         body: 'Busy Canadian families with pets and children need floors that withstand heavy activity. Scratch-resistant LVP planks with ceramic-bead topcoats resist claw marks, while click-lock acoustic underlayments cushion footsteps and reduce noise transmission between floors. For living rooms, stain-shielded carpets or scratch-durable engineered hardwood provide warmth without delicate maintenance worries.',
-        image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp',
+        image: 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80&fm=webp',
       },
       {
         heading: '3. Thermal Insulation & Radiant Floor Compatibility',
@@ -188,7 +188,7 @@ export const blogPosts: BlogPost[] = [
     readTime: '5 min read',
     publishDate: 'July 2026',
     summary: 'Learn what factors can influence the timeline of a flooring installation project.',
-    coverImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=55&fm=webp',
+    coverImage: 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=800&q=80&fm=webp',
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
@@ -208,7 +208,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: '2. Phase 2: Subfloor Leveling & Underlayment Setup (Day 1-2)',
         body: 'If subfloor dips exceed 3/16" over a 10-foot radius, self-leveling cement compound is mixed and poured. This layer requires 12 to 24 hours to cure fully before plank laying can commence. Installing high-density acoustic underlayment or vapor barriers follows immediately after compound curing.',
-        image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=55&fm=webp',
+        image: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=800&q=80&fm=webp',
         quote: 'Skipping subfloor leveling creates hollow footstep sounds and eventually breaks plank click-lock joints.',
       },
       {
@@ -239,7 +239,7 @@ export const blogPosts: BlogPost[] = [
     readTime: '6 min read',
     publishDate: 'June 2026',
     summary: 'Simple maintenance routines to protect your hardwood investment against scratches, spills, and seasonal humidity shifts.',
-    coverImage: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp',
+    coverImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80&fm=webp',
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
@@ -260,7 +260,7 @@ export const blogPosts: BlogPost[] = [
       {
         heading: '2. Proper Daily & Weekly Cleaning Protocols',
         body: 'Dust and fine grit act like sandpaper under foot traffic, dulling your hardwood finish over time. Sweep daily using a soft-bristle broom or vacuum with a hard-floor brush attachment (avoid vacuums with spinning beater bars). Mop weekly using a damp microfiber pad sprayed with a specialized pH-neutral hardwood floor cleaner. Never use steam mops or wet buckets.',
-        image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp',
+        image: 'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80&fm=webp',
       },
       {
         heading: '3. Protecting Against Scratches, Pets & Heavy Furniture',

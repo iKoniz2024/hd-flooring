@@ -65,7 +65,7 @@ export function FinalCTA() {
           <div className="lg:col-span-5 relative group">
             <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 border-white/30 h-[260px] sm:h-[320px] w-full">
               <img
-                src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1000&q=90&fm=webp"
+                src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=1000&q=90&fm=webp"
                 alt="HD Flooring Installation Showcase"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
