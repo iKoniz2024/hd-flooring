@@ -14,80 +14,23 @@ import { servicesData } from '@/data/services';
 import { Accordion } from '@/components/ui/Accordion';
 import { useModal } from '@/lib/context/ModalContext';
 
+const generateImageList = (prefix: string, folder: string, count: number): string[] => {
+  return Array.from({ length: count }, (_, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    return `/assets/images/${folder}/${prefix}-${num}.jpg`;
+  });
+};
+
 const serviceCategoryImages: Record<string, string[]> = {
-  'hardwood-flooring': [
-    '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
-    '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg',
-    '/assets/images/hardwood-flooring/hardwood-flooring-03.jpg',
-  ],
-  'engineered-hardwood-flooring': [
-    '/assets/images/engineered-hardwood/engineered-hardwood-01.jpg',
-    '/assets/images/engineered-hardwood/engineered-hardwood-02.jpg',
-  ],
-  'luxury-vinyl-flooring': [
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-01.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-02.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-03.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-04.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-05.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-06.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-07.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-08.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-09.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-10.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-11.jpg',
-    '/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-12.jpg',
-  ],
-  'laminate-flooring': [
-    '/assets/images/laminate-flooring/laminate-flooring-01.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-02.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-03.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-04.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-05.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-06.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-07.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-08.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-09.jpg',
-    '/assets/images/laminate-flooring/laminate-flooring-10.jpg',
-  ],
-  'carpet-flooring': [
-    '/assets/images/carpet-flooring/carpet-flooring-01.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-02.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-03.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-04.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-05.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-06.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-07.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-08.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-09.jpg',
-    '/assets/images/carpet-flooring/carpet-flooring-10.jpg',
-  ],
-  'tile-flooring': [
-    '/assets/images/tile-flooring/tile-flooring-01.jpg',
-    '/assets/images/tile-flooring/tile-flooring-02.jpg',
-    '/assets/images/tile-flooring/tile-flooring-03.jpg',
-    '/assets/images/tile-flooring/tile-flooring-04.jpg',
-    '/assets/images/tile-flooring/tile-flooring-05.jpg',
-    '/assets/images/tile-flooring/tile-flooring-06.jpg',
-    '/assets/images/tile-flooring/tile-flooring-07.jpg',
-    '/assets/images/tile-flooring/tile-flooring-08.jpg',
-    '/assets/images/tile-flooring/tile-flooring-09.jpg',
-    '/assets/images/tile-flooring/tile-flooring-10.jpg',
-  ],
-  'stair-flooring': [
-    '/assets/images/stair-flooring/stair-flooring-01.jpg',
-    '/assets/images/stair-flooring/stair-flooring-02.jpg',
-    '/assets/images/stair-flooring/stair-flooring-03.jpg',
-    '/assets/images/stair-flooring/stair-flooring-04.jpg',
-    '/assets/images/stair-flooring/stair-flooring-05.jpg',
-  ],
-  'flooring-replacement': [
-    '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
-    '/assets/images/flooring-replacement/flooring-replacement-02.jpg',
-  ],
-  'floor-preparation': [
-    '/assets/images/floor-preparation/floor-preparation-01.jpg',
-  ],
+  'hardwood-flooring': generateImageList('hardwood-flooring', 'hardwood-flooring', 3),
+  'engineered-hardwood-flooring': generateImageList('engineered-hardwood', 'engineered-hardwood', 2),
+  'luxury-vinyl-flooring': generateImageList('luxury-vinyl-flooring', 'luxury-vinyl-flooring', 71),
+  'laminate-flooring': generateImageList('laminate-flooring', 'laminate-flooring', 18),
+  'carpet-flooring': generateImageList('carpet-flooring', 'carpet-flooring', 15),
+  'tile-flooring': generateImageList('tile-flooring', 'tile-flooring', 18),
+  'stair-flooring': generateImageList('stair-flooring', 'stair-flooring', 5),
+  'flooring-replacement': generateImageList('flooring-replacement', 'flooring-replacement', 2),
+  'floor-preparation': generateImageList('floor-preparation', 'floor-preparation', 1),
 };
 
 export default function ServiceDetailPage() {
