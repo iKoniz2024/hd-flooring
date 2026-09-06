@@ -1,13 +1,19 @@
 import type { Metadata } from 'next';
-import { Playfair_Display, Manrope, DM_Sans, Inter } from 'next/font/google';
+import { Plus_Jakarta_Sans, Outfit, Manrope, DM_Sans, Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ModalProvider } from '@/lib/context/ModalContext';
 import { BookUsModal } from '@/components/modals/BookUsModal';
 import './globals.css';
 
-const playfair = Playfair_Display({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
-  variable: '--font-playfair',
+  variable: '--font-jakarta',
+  display: 'swap',
+});
+
+const outfit = Outfit({
+  subsets: ['latin'],
+  variable: '--font-outfit',
   display: 'swap',
 });
 
@@ -71,7 +77,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${playfair.variable} ${manrope.variable} ${dmSans.variable} ${inter.variable}`}
+      className={`${plusJakarta.variable} ${outfit.variable} ${manrope.variable} ${dmSans.variable} ${inter.variable}`}
     >
       <body className="font-inter min-h-screen flex flex-col antialiased selection:bg-red-500 selection:text-white">
         <ThemeProvider

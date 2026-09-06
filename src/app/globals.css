@@ -51,8 +51,13 @@ body {
 }
 
 /* Custom Typography Helpers */
-.font-playfair {
-  font-family: var(--font-playfair), serif;
+.font-playfair,
+.font-jakarta {
+  font-family: var(--font-jakarta), var(--font-outfit), sans-serif;
+}
+
+.font-outfit {
+  font-family: var(--font-outfit), sans-serif;
 }
 
 .font-manrope {

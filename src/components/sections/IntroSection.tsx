@@ -109,7 +109,7 @@ export function IntroSection() {
                 delay: 0.2 + idx * 0.2,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              whileHover={{ 
+              whileHover={{
                 y: -10,
                 scale: 1.02,
                 transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
