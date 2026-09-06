@@ -112,7 +112,7 @@ export default function AboutUsPage() {
         badge="About HD Flooring"
         title="Flooring Expertise. Built on Craftsmanship."
         subtitle="HD Flooring is a Saskatoon-based flooring installation company specializing in high-grade vinyl, sheet vinyl coving, hardwood, laminate, tile, carpet, and self-leveling floor prep across Saskatchewan."
-        backgroundImage="/assets/images/team-company/team-company-07.jpg"
+        backgroundImage="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=1920&q=80"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'About Us' },

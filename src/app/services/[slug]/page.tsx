@@ -202,10 +202,10 @@ export default function ServiceDetailPage() {
             <div className="space-y-1">
               <span className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 uppercase tracking-wider">
                 <Images className="w-4 h-4 text-sky-400" />
-                Category Showcase Gallery
+                Our Works — Real Project Gallery
               </span>
               <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
-                {service.title} Project Photos
+                Our Works — {service.title} Showcase
               </h2>
             </div>
 

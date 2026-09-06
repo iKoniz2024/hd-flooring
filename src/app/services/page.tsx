@@ -42,7 +42,7 @@ export default function ServicesPage() {
         badge="Installation Expertise"
         title="Our Specialized Flooring Services"
         subtitle="Professional flooring installation for residential & commercial spaces across Saskatchewan. Explore our specialized craftsmanship categories below."
-        backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
+        backgroundImage="https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=1920&q=80"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Services' },
