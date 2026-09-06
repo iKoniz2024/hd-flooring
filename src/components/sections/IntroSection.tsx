@@ -60,7 +60,7 @@ export function IntroSection() {
         >
           <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[480px] sm:h-[560px] w-full">
             <img
-              src="https://images.unsplash.com/photo-1615874694520-474822394e73?auto=format&fit=crop&w=1000&q=90&fm=webp"
+              src="https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1000&q=90&fm=webp"
               alt="Professional Hardwood Flooring Installation in Action"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />

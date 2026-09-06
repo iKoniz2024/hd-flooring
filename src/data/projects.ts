@@ -238,3 +238,4 @@ export const projectsData: ProjectItem[] = [
     result: 'Warm, anti-slip spa bathroom environment with stain-resistant epoxy grouting.',
   },
 ];
+

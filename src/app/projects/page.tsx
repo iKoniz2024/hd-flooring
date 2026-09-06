@@ -86,9 +86,6 @@ const photoDescriptors: Record<string, string[]> = {
   'floor-preparation': [
     'Self-Leveling Pour & Subfloor Leveling',
   ],
-  'personal-photos': [
-    'Habibur Rahman (Habib) - Managing Director & Lead Specialist',
-  ],
 };
 
 const createPhotos = (folder: string, prefix: string, count: number, location: string): ProjectPhoto[] => {
@@ -113,8 +110,7 @@ const allProjectPhotos: ProjectPhoto[] = [
   ...createPhotos('tile-flooring', 'tile-flooring', 18, 'Saskatoon & Area'),
   ...createPhotos('carpet-flooring', 'carpet-flooring', 15, 'Regina & Area'),
   ...createPhotos('stair-flooring', 'stair-flooring', 5, 'Saskatoon & Area'),
-  ...createPhotos('team-company', 'team-company', 7, 'Saskatoon, SK'),
-  ...createPhotos('personal-photos', 'personal-photo', 1, 'Saskatoon, SK'),
+  ...createPhotos('team-company', 'team-company', 4, 'Saskatoon, SK'),
   ...createPhotos('hardwood-flooring', 'hardwood-flooring', 3, 'Saskatoon, SK'),
   ...createPhotos('engineered-hardwood', 'engineered-hardwood', 2, 'Saskatoon, SK'),
   ...createPhotos('flooring-replacement', 'flooring-replacement', 2, 'Saskatoon, SK'),
