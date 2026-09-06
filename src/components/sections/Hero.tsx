@@ -123,7 +123,7 @@ export function Hero() {
   const currentSlide = categorySlides[currentSlideIdx];
 
   return (
-    <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-0 px-4 sm:px-6 lg:px-8 bg-stone-100 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
+    <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
       <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-85 dark:opacity-80 transition-opacity">
         {categorySlides.map((slide, idx) => (
@@ -144,7 +144,7 @@ export function Hero() {
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-stone-100/85 via-stone-100/50 to-stone-100/15 dark:from-stone-950/85 dark:via-stone-950/50 dark:to-stone-950/20 pointer-events-none z-10" />
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-white/95 via-white/70 to-white/20 dark:from-stone-950/85 dark:via-stone-950/50 dark:to-stone-950/20 pointer-events-none z-10" />
 
       {/* Left Slide Control Button */}
       <button

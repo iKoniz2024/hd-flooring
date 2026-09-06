@@ -100,7 +100,7 @@ export default function AboutUsPage() {
   const { openBookModal } = useModal();
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-hidden">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-hidden">
       {/* Mouse & Ambient Spotlight */}
       <MouseSpotlight />
 

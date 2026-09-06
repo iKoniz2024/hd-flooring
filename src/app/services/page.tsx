@@ -34,7 +34,7 @@ export default function ServicesPage() {
   const { openBookModal } = useModal();
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
       <Header />
 
       {/* Parallax Hero Section */}

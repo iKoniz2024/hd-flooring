@@ -39,7 +39,7 @@ const whyUsItems = [
 
 export function WhyUs() {
   return (
-    <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
+    <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
       {/* Brand Color Ambient Glow Effects */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/10 blur-3xl pointer-events-none" />

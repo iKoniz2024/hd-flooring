@@ -52,7 +52,7 @@ export function Testimonials() {
   return (
     <section
       ref={containerRef}
-      className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-slate-100/90 dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300"
+      className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300"
     >
       {/* 1. Dynamic Floating Parallax Color Gradient Orbs */}
       <motion.div

@@ -233,7 +233,7 @@ export function ProjectShowcaseTicker() {
       : galleryPhotos.filter((p) => p.category === activeTab);
 
   return (
-    <section className="py-24 bg-slate-100/80 dark:bg-slate-950 text-slate-900 dark:text-white font-inter relative overflow-hidden border-y border-slate-200 dark:border-slate-800">
+    <section className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter relative overflow-hidden border-y border-slate-200 dark:border-slate-800">
       {/* Background Glow Effects */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-sky-600/10 rounded-full blur-[120px] pointer-events-none" />

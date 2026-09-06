@@ -35,7 +35,7 @@ const faqs = [
 
 export default function CostCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-stone-50 dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter relative">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter relative">
       <Header />
 
       <main className="flex-1 pt-28 pb-16">
