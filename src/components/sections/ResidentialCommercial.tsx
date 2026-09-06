@@ -34,7 +34,7 @@ export function ResidentialCommercial() {
           {/* Photo Banner */}
           <div className="relative h-56 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=960&q=80"
+              src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=55&fm=webp"
               alt="Residential Flooring Project"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
@@ -83,7 +83,7 @@ export function ResidentialCommercial() {
           {/* Photo Banner */}
           <div className="relative h-56 overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=960&q=80"
+              src="https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=55&fm=webp"
               alt="Commercial Flooring Installation"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />

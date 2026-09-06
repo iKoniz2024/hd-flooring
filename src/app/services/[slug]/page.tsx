@@ -14,23 +14,79 @@ import { servicesData } from '@/data/services';
 import { Accordion } from '@/components/ui/Accordion';
 import { useModal } from '@/lib/context/ModalContext';
 
-const generateImageList = (prefix: string, folder: string, count: number): string[] => {
-  return Array.from({ length: count }, (_, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    return `/assets/images/${folder}/${prefix}-${num}.jpg`;
-  });
-};
-
 const serviceCategoryImages: Record<string, string[]> = {
-  'hardwood-flooring': generateImageList('hardwood-flooring', 'hardwood-flooring', 3),
-  'engineered-hardwood-flooring': generateImageList('engineered-hardwood', 'engineered-hardwood', 2),
-  'luxury-vinyl-flooring': generateImageList('luxury-vinyl-flooring', 'luxury-vinyl-flooring', 71),
-  'laminate-flooring': generateImageList('laminate-flooring', 'laminate-flooring', 17),
-  'carpet-flooring': generateImageList('carpet-flooring', 'carpet-flooring', 15),
-  'tile-flooring': generateImageList('tile-flooring', 'tile-flooring', 18),
-  'stair-flooring': generateImageList('stair-flooring', 'stair-flooring', 5),
-  'flooring-replacement': generateImageList('flooring-replacement', 'flooring-replacement', 2),
-  'floor-preparation': generateImageList('floor-preparation', 'floor-preparation', 1),
+  'hardwood-flooring': [
+    'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'engineered-hardwood-flooring': [
+    'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'luxury-vinyl-flooring': [
+    'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600566752229-250ed79470f8?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'laminate-flooring': [
+    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'carpet-flooring': [
+    'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1540518614846-7ede433c5173?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1578898835026-6f81df6f8df7?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'tile-flooring': [
+    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1527352726752-1903158a3745?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'stair-flooring': [
+    'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1584738766473-61c083514bf4?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'flooring-replacement': [
+    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
+  'floor-preparation': [
+    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?auto=format&fit=crop&w=450&q=35&fm=webp',
+    'https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=450&q=35&fm=webp',
+  ],
 };
 
 export default function ServiceDetailPage() {
@@ -202,10 +258,10 @@ export default function ServiceDetailPage() {
             <div className="space-y-1">
               <span className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 uppercase tracking-wider">
                 <Images className="w-4 h-4 text-sky-400" />
-                Our Works — Real Project Gallery
+                Category Photo Gallery
               </span>
               <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
-                Our Works — {service.title} Showcase
+                {service.title} Design & Installation Showcase
               </h2>
             </div>
 

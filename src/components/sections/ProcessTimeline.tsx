@@ -9,37 +9,37 @@ const steps = [
     num: '01',
     title: 'Consultation & Site Assessment',
     desc: 'We evaluate your room dimensions, subfloor moisture levels, traffic needs, and design preferences.',
-    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
   {
     num: '02',
     title: 'Flooring Selection & Material Quote',
     desc: 'Select from our wide range of solid hardwood, engineered wood, LVP vinyl, laminate, or tile options.',
-    image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
   {
     num: '03',
     title: 'Subfloor Prep & Tear-Out',
     desc: 'Removal of old flooring, subfloor leveling, squeak repair, and acoustic underlayment placement.',
-    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
   {
     num: '04',
     title: 'Precision Master Installation',
     desc: 'Expert craftsmanship installation with clean scribing, expansion gap management, and seamless joints.',
-    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
   {
     num: '05',
     title: 'Trims, Baseboards & Capping',
     desc: 'Installation of matching baseboards, stair capping, transitions, and detail finishing touches.',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
   {
     num: '06',
     title: 'Final Quality Walkthrough',
     desc: 'Complete site cleanup, detailed walkthrough inspection, and issuance of your workmanship warranty.',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
+    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=600&q=55&fm=webp',
   },
 ];
 
