@@ -3,9 +3,10 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { PageHero } from '@/components/sections/PageHero';
 import { LiveCostCalculator } from '@/components/interactive/LiveCostCalculator';
 import { Accordion } from '@/components/ui/Accordion';
-import { Calculator, Sparkles, HelpCircle, ShieldCheck, Phone } from 'lucide-react';
+import { Sparkles, HelpCircle, ShieldCheck, Phone } from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
@@ -35,26 +36,22 @@ const faqs = [
 
 export default function CostCalculatorPage() {
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter relative">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative">
       <Header />
 
-      <main className="flex-1 pt-28 pb-16">
-        {/* Page Hero Header */}
-        <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
-            <Calculator className="w-4 h-4 text-amber-500" />
-            <span>Cost Calculator</span>
-          </div>
+      {/* Parallax Hero Section */}
+      <PageHero
+        badge="Live Cost Calculator"
+        title="Flooring Cost Calculator"
+        subtitle="Estimate your flooring project cost instantly. Select your desired material, room size, and preparation options below."
+        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=95&fm=webp"
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'Cost Calculator' },
+        ]}
+      />
 
-          <h1 className="font-jakarta text-4xl sm:text-6xl font-black text-stone-900 dark:text-white tracking-tight">
-            Flooring Cost <span className="brand-gradient-text">Calculator</span>
-          </h1>
-
-          <p className="text-stone-600 dark:text-stone-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
-            Estimate your flooring project cost instantly. Select your flooring type, room size, and preparation options below.
-          </p>
-        </section>
-
+      <main className="flex-1 py-12">
         {/* Live Estimator Component */}
         <LiveCostCalculator />
 
