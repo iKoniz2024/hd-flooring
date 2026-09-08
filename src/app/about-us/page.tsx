@@ -147,7 +147,7 @@ export default function AboutUsPage() {
                     className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-950 p-1 border-2 border-[#E85D04] shadow-xl shadow-[#E85D04]/25 shrink-0 overflow-hidden group/photo"
                   >
                     <Image
-                      src="/assets/images/personal-photos/personal-photo-01.jpg"
+                      src="/assets/images/personal-photos/habib-photo.jpg"
                       alt="Habibur Rahman (Habib)"
                       fill
                       className="object-cover group-hover/photo:scale-110 transition-transform duration-500"

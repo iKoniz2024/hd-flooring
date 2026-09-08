@@ -43,7 +43,7 @@ export const blogPosts: BlogPost[] = [
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp',
+      avatar: '/assets/images/personal-photos/habib-photo.jpg',
     },
     keyTakeaways: [
       'Evaluate moisture exposure: Basements and bathrooms require 100% waterproof LVP or tile.',
@@ -94,7 +94,7 @@ export const blogPosts: BlogPost[] = [
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp',
+      avatar: '/assets/images/personal-photos/habib-photo.jpg',
     },
     keyTakeaways: [
       'Hardwood offers authentic natural wood grain and refinishability for 50+ years of equity.',
@@ -145,7 +145,7 @@ export const blogPosts: BlogPost[] = [
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp',
+      avatar: '/assets/images/personal-photos/habib-photo.jpg',
     },
     keyTakeaways: [
       'Canadian winters track snow, slush, and corrosive de-icing salt into entryways.',
@@ -192,7 +192,7 @@ export const blogPosts: BlogPost[] = [
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp',
+      avatar: '/assets/images/personal-photos/habib-photo.jpg',
     },
     keyTakeaways: [
       'Standard 1,000 sq ft residential LVP installation takes 2 to 3 full working days.',
@@ -243,7 +243,7 @@ export const blogPosts: BlogPost[] = [
     author: {
       name: 'Habibur Rahman (Habib)',
       role: 'Lead Installation Specialist & Founder',
-      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=200&q=60&fm=webp',
+      avatar: '/assets/images/personal-photos/habib-photo.jpg',
     },
     keyTakeaways: [
       'Maintain indoor relative humidity between 35% and 55% using humidifiers in winter.',
