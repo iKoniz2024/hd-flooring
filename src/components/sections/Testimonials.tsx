@@ -38,12 +38,7 @@ const getReviewVariant = (idx: number) => {
 };
 
 export function Testimonials() {
-  const containerRef = useRef<HTMLElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start end', 'end start'],
-  });
+  const { scrollYProgress } = useScroll();
 
   // Parallax translation for background image
   const yParallaxImage = useTransform(scrollYProgress, [0, 1], ['-20%', '20%']);
@@ -52,16 +47,14 @@ export function Testimonials() {
 
   return (
     <section
-      ref={containerRef}
       className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300"
     >
-      {/* 1. Bright High-Contrast Parallax Background Image */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-        <motion.div
-          className="absolute -top-[25%] -bottom-[25%] inset-x-0 bg-cover bg-center bg-no-repeat opacity-90"
+      {/* 1. Bright High-Contrast True Fixed Parallax Background Image */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div
+          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-40"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80&fm=webp')`,
-            y: yParallaxImage,
           }}
         />
         <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60" />

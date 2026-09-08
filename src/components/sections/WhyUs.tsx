@@ -54,12 +54,7 @@ export function WhyUs() {
   const [activeIdx, setActiveIdx] = useState(0);
   const activeItem = whyUsItems[activeIdx];
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
-
+  const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], ['-15%', '15%']);
 
   return (

@@ -19,6 +19,7 @@ import {
   Home,
   Briefcase,
   Users,
+  Quote,
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -29,6 +30,38 @@ import { TiltCard } from '@/components/interactive/TiltCard';
 import { PageHero } from '@/components/sections/PageHero';
 import { TeamPhotoGallery } from '@/components/sections/TeamPhotoGallery';
 import { useModal } from '@/lib/context/ModalContext';
+
+const teamSpeeches = [
+  {
+    name: 'Habibur Rahman (Habib)',
+    role: 'Managing Director & Founder',
+    badge: 'Founder & Lead',
+    image: '/assets/images/personal-photos/habib-photo.jpg',
+    speech:
+      'At HD Flooring, our mission has always been built on trust and uncompromising quality. We approach every residential and commercial project as if we are working on our own home, ensuring flawless craftsmanship from subfloor prep to final finish.',
+    contact: {
+      type: 'phone',
+      label: 'Call +1 (306) 880-8404',
+      href: 'tel:+13068808404',
+    },
+  },
+  {
+    name: 'Firoz',
+    role: 'Senior Installation Craftsman',
+    badge: 'Site & Craftsmanship Lead',
+    image: '/assets/images/personal-photos/firoz.jpeg',
+    speech:
+      'Great flooring starts with what you cannot see—precision subfloor leveling and exact board layout. My focus on site is zero-squeak, zero-lippage perfection so your floors remain rock-solid for decades.',
+  },
+  {
+    name: 'Kashfia Islam Eva',
+    role: 'Client Relations & Operations Lead',
+    badge: 'Operations & Client Care',
+    image: '/assets/images/personal-photos/kashfia.jpeg',
+    speech:
+      'Exceptional service is about clear communication and hassle-free project delivery. I ensure our clients feel fully supported, informed, and delighted from the very first quote call to final walk-through.',
+  },
+];
 
 const values = [
   {
@@ -126,74 +159,105 @@ export default function AboutUsPage() {
 
       <main className="flex-1 py-16 w-full space-y-20 relative z-10">
 
-        {/* Leadership Profile Card - Real Founder Photo + 3D Tilt Card */}
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        {/* Leadership & Team Speeches Section - 3 Team Members */}
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-10">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 40 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, y: -20 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.7, type: 'spring', stiffness: 180 }}
+            className="text-center space-y-3"
           >
-            <TiltCard className="w-full">
-              <div className="p-8 sm:p-10 rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-[#E85D04]/30 shadow-2xl shadow-[#E85D04]/10 flex flex-col lg:flex-row items-center gap-8 justify-between relative overflow-hidden group">
-                {/* Top Brand Glow Accent Line */}
-                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90" />
-                <div className="absolute top-0 right-0 w-80 h-80 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
-
-                <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left relative z-10">
-                  {/* Real Founder Photo Frame */}
-                  <motion.div
-                    whileHover={{ scale: 1.08, rotate: 3 }}
-                    className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-slate-950 p-1 border-2 border-[#E85D04] shadow-xl shadow-[#E85D04]/25 shrink-0 overflow-hidden group/photo"
-                  >
-                    <Image
-                      src="/assets/images/personal-photos/habib-photo.jpg"
-                      alt="Habibur Rahman (Habib)"
-                      fill
-                      className="object-cover group-hover/photo:scale-110 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent" />
-                  </motion.div>
-
-                  <div className="space-y-1.5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
-                      <span className="w-2 h-2 rounded-full bg-[#E85D04] animate-ping" />
-                      Managing Director
-                    </div>
-                    <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
-                      Habibur Rahman (Habib)
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-manrope font-medium">
-                      Lead Installation Specialist & Founder, HD Flooring
-                    </p>
-                  </div>
-                </div>
-
-                {/* Quick Contact Action Pills */}
-                <div className="flex flex-wrap items-center justify-center lg:justify-end gap-3 relative z-10 font-manrope">
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="tel:+13068808404"
-                    className="px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all"
-                  >
-                    <Phone className="w-3.5 h-3.5" />
-                    <span>Call +1 (306) 880-8404</span>
-                  </motion.a>
-
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="mailto:hdflooring7@gmail.com"
-                    className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center gap-2 transition-all"
-                  >
-                    <Mail className="w-3.5 h-3.5 text-[#E85D04]" />
-                    <span>Email HD Flooring</span>
-                  </motion.a>
-                </div>
-              </div>
-            </TiltCard>
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider text-center">
+              <Quote className="w-3.5 h-3.5 mr-1.5 text-[#E85D04]" />
+              <span>Leadership & Team Speeches</span>
+            </div>
+            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+              Words From Our <span className="text-[#E85D04]">Leadership & Team</span>
+            </h2>
           </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {teamSpeeches.map((person, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 40, scale: 0.92 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, delay: idx * 0.15 }}
+                className="h-full"
+              >
+                <TiltCard className="h-full">
+                  <div className="p-7 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04]/70 shadow-2xl shadow-[#E85D04]/5 flex flex-col justify-between h-full relative overflow-hidden group transition-all duration-500">
+                    {/* Top Glow Accent Bar */}
+                    <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90 group-hover:h-2 transition-all duration-300" />
+
+                    {/* Background Subtle Quote Icon */}
+                    <Quote className="absolute right-4 top-6 w-16 h-16 text-slate-200/40 dark:text-slate-800/40 group-hover:text-[#E85D04]/20 transition-colors pointer-events-none" />
+
+                    <div className="space-y-6 relative z-10">
+                      {/* Member Photo & Role */}
+                      <div className="flex items-center gap-4">
+                        <motion.div
+                          whileHover={{ scale: 1.08, rotate: 3 }}
+                          className="relative w-20 h-20 rounded-2xl bg-slate-950 p-1 border-2 border-[#E85D04] shadow-lg shadow-[#E85D04]/20 shrink-0 overflow-hidden group/photo"
+                        >
+                          <Image
+                            src={person.image}
+                            alt={person.name}
+                            fill
+                            className="object-cover group-hover/photo:scale-110 transition-transform duration-500"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
+                        </motion.div>
+
+                        <div className="space-y-1">
+                          <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider">
+                            {person.badge}
+                          </span>
+                          <h3 className="font-playfair text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors leading-tight">
+                            {person.name}
+                          </h3>
+                          <p className="text-[11px] text-slate-500 dark:text-slate-400 font-manrope font-medium">
+                            {person.role}
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Speech Quote Text */}
+                      <div className="relative pl-3 border-l-2 border-[#E85D04]/50">
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 italic leading-relaxed font-inter font-normal">
+                          "{person.speech}"
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bottom Action / Footer */}
+                    {person.contact ? (
+                      <div className="pt-6 relative z-10">
+                        <motion.a
+                          whileHover={{ scale: 1.03 }}
+                          whileTap={{ scale: 0.97 }}
+                          href={person.contact.href}
+                          className="w-full py-2.5 px-4 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white text-xs font-manrope font-bold flex items-center justify-center gap-2 shadow-lg shadow-[#E85D04]/25 transition-all"
+                        >
+                          <Phone className="w-3.5 h-3.5" />
+                          <span>{person.contact.label}</span>
+                        </motion.a>
+                      </div>
+                    ) : (
+                      <div className="pt-6 border-t border-slate-100 dark:border-slate-800/80 mt-6 flex items-center justify-between text-[11px] text-slate-400 font-manrope relative z-10">
+                        <span className="flex items-center gap-1.5 text-emerald-500 font-semibold">
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                          Verified Specialist
+                        </span>
+                        <span className="text-slate-400 font-medium">HD Flooring Team</span>
+                      </div>
+                    )}
+                  </div>
+                </TiltCard>
+              </motion.div>
+            ))}
+          </div>
         </div>
 
         {/* Mission & Vision Section - Left & Right Directional Entrance */}
@@ -261,7 +325,7 @@ export default function AboutUsPage() {
         </div>
 
         {/* Core Values Section with Full-Width Fixed Parallax Background */}
-        <section className="w-full relative py-24 px-4 sm:px-6 lg:px-8 border-y border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden bg-stone-950 text-white">
+        <section className="w-full relative py-24 px-4 sm:px-6 lg:px-8 border-y border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden bg-stone-100 dark:bg-stone-950 text-slate-900 dark:text-white">
           {/* Parallax Background Image - 100% Truly Fixed to Viewport */}
           <div className="absolute inset-0 pointer-events-none z-0">
             <div
@@ -271,8 +335,8 @@ export default function AboutUsPage() {
                 backgroundAttachment: 'fixed',
               }}
             />
-            {/* Subtle Gradient Overlay for Text Readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-stone-950/40 to-stone-950/70" />
+            {/* Soft Warm Overlay for High Contrast & Text Readability */}
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-900/50 via-stone-900/30 to-stone-900/40" />
           </div>
 
           <div className="max-w-6xl mx-auto space-y-12 relative z-10">
@@ -286,7 +350,7 @@ export default function AboutUsPage() {
                 <Sparkles className="w-3.5 h-3.5 mr-1.5 text-white" />
                 <span>What Drives Us</span>
               </div>
-              <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-white">
+              <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-white drop-shadow-md">
                 Our Core Guiding <span className="text-[#E85D04]">Values</span>
               </h2>
             </motion.div>
@@ -308,17 +372,17 @@ export default function AboutUsPage() {
                 return (
                   <motion.div key={idx} variants={variant}>
                     <TiltCard className="h-full">
-                      <div className="p-6 sm:p-7 rounded-3xl bg-stone-950/85 hover:bg-stone-950/95 border border-stone-800 hover:border-[#E85D04] shadow-2xl space-y-3 h-full flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer transform-gpu relative overflow-hidden text-white">
+                      <div className="p-6 sm:p-7 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-2xl space-y-4 h-full flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer transform-gpu relative overflow-hidden text-slate-900 dark:text-white">
                         <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
 
                         <div className="space-y-3">
-                          <div className="w-12 h-12 rounded-2xl bg-[#E85D04]/20 border border-[#E85D04]/40 flex items-center justify-center text-[#E85D04] group-hover:scale-110 transition-transform">
-                            <IconComponent className="w-6 h-6" />
+                          <div className="w-12 h-12 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center text-[#E85D04] group-hover:scale-110 transition-transform">
+                            <IconComponent className="w-6 h-6 text-[#E85D04]" />
                           </div>
-                          <h3 className="font-jakarta text-lg font-extrabold text-white group-hover:text-[#E85D04] transition-colors">
+                          <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors">
                             {v.title}
                           </h3>
-                          <p className="text-xs text-stone-300 leading-relaxed font-inter font-normal">
+                          <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter font-normal">
                             {v.desc}
                           </p>
                         </div>

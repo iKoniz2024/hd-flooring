@@ -42,37 +42,29 @@ export function PageHero({
   secondaryCta,
   heightClass = 'min-h-[55vh] sm:min-h-[60vh] lg:min-h-[65vh]',
 }: PageHeroProps) {
-  const containerRef = useRef<HTMLElement>(null);
   const { openBookModal } = useModal();
 
-  // Framer Motion Parallax logic
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end start'],
-  });
+  // Framer Motion Parallax logic (Safe for hydration)
+  const { scrollYProgress } = useScroll();
 
   // Parallax Y offset for background image
   const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '35%']);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
 
   return (
     <section
-      ref={containerRef}
       className={`relative w-full ${heightClass} flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-stone-900 text-white`}
     >
-      {/* 1. PARALLAX BACKGROUND IMAGE LAYER - BRIGHT & CRISP */}
-      <motion.div
-        className="absolute inset-0 w-full h-[130%] -top-[15%] pointer-events-none z-0"
-        style={{ y: backgroundY }}
-      >
+      {/* 1. TRUE FIXED PARALLAX BACKGROUND IMAGE LAYER */}
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat transition-all duration-700 scale-105 brightness-[1.18] contrast-[1.02] saturate-[1.1]"
+          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat brightness-[1.18] contrast-[1.02] saturate-[1.1]"
           style={{
             backgroundImage: `url('${backgroundImage}')`,
           }}
         />
-      </motion.div>
+      </div>
 
       {/* 2. ULTRA-CLEAR MINIMAL OVERLAY GRADIENT */}
       {/* Light top shade for navbar contrast, clear center so floor images pop, soft bottom fade into page */}
