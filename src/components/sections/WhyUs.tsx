@@ -59,17 +59,21 @@ export function WhyUs() {
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
+
+  const yBg = useTransform(scrollYProgress, [0, 1], ['-15%', '15%']);
+
   return (
     <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-slate-50/60 dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
-      {/* Clean White Architectural Business Fixed Background Image */}
+      {/* Clean Fixed Background Image */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div
-          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-overlay contrast-125"
+          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-60 dark:opacity-40"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80&fm=webp')`,
+            backgroundImage: `url('https://plus.unsplash.com/premium_photo-1673770408482-075e320ae37f?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
           }}
         />
       </div>
+
       {/* Brand Color Ambient Glow Effects */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-[#E85D04]/10 blur-3xl pointer-events-none hidden dark:block" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E85D04]/10 blur-3xl pointer-events-none hidden dark:block" />

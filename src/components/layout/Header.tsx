@@ -4,21 +4,36 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Menu, X, Sparkles, ArrowRight, Calculator, Phone, Mail, MapPin, Clock, ShieldCheck } from 'lucide-react';
+import {
+  ChevronDown,
+  Menu,
+  X,
+  Sparkles,
+  ArrowRight,
+  Calculator,
+  Layers,
+  ShieldCheck,
+  Wrench,
+  Grid,
+  RefreshCw,
+  Footprints,
+  Ruler,
+  Award,
+} from 'lucide-react';
 import { DarkModeToggle } from '@/components/interactive/DarkModeToggle';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
 
 const serviceLinks = [
-  { name: 'Solid Hardwood Flooring', href: '/services/hardwood-flooring', desc: 'Timeless real wood beauty & durability' },
-  { name: 'Engineered Hardwood', href: '/services/engineered-hardwood-flooring', desc: 'Modern multi-layer wood construction' },
-  { name: 'Luxury Vinyl (LVP/LVT)', href: '/services/luxury-vinyl-flooring', desc: '100% Waterproof & low maintenance' },
-  { name: 'Laminate Flooring', href: '/services/laminate-flooring', desc: 'Stylish & practical wood alternative' },
-  { name: 'Carpet Flooring', href: '/services/carpet-flooring', desc: 'Plush, comfortable & acoustic control' },
-  { name: 'Tile & Porcelain Flooring', href: '/services/tile-flooring', desc: 'Heavy-duty water resistance for kitchen & bath' },
-  { name: 'Stair Flooring & Capping', href: '/services/stair-flooring', desc: 'Custom treads, risers & seamless stairs' },
-  { name: 'Flooring Replacement', href: '/services/flooring-replacement', desc: 'Complete teardown & fresh installation' },
-  { name: 'Floor Preparation & Subfloor', href: '/services/floor-preparation', desc: 'Precision leveling & subfloor readiness' },
+  { name: 'Solid Hardwood Flooring', href: '/services/hardwood-flooring', icon: Layers },
+  { name: 'Engineered Hardwood', href: '/services/engineered-hardwood-flooring', icon: Sparkles },
+  { name: 'Luxury Vinyl (LVP/LVT)', href: '/services/luxury-vinyl-flooring', icon: ShieldCheck },
+  { name: 'Laminate Flooring', href: '/services/laminate-flooring', icon: Award },
+  { name: 'Carpet Flooring', href: '/services/carpet-flooring', icon: Sparkles },
+  { name: 'Tile & Porcelain Flooring', href: '/services/tile-flooring', icon: Grid },
+  { name: 'Stair Flooring & Capping', href: '/services/stair-flooring', icon: Footprints },
+  { name: 'Flooring Replacement', href: '/services/flooring-replacement', icon: RefreshCw },
+  { name: 'Floor Preparation & Subfloor', href: '/services/floor-preparation', icon: Ruler },
 ];
 
 export function Header() {
@@ -37,15 +52,16 @@ export function Header() {
   }, []);
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-
-
+    <header
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      onMouseLeave={() => setServicesOpen(false)}
+    >
       {/* Main Navbar - Light & Dark Mode */}
       <div
         className={`transition-all duration-300 ${
           scrolled
-            ? 'bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 border-b border-stone-200 dark:border-stone-800 shadow-xl py-2.5'
-            : 'bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 border-b border-stone-200 dark:border-stone-800 py-3.5 shadow-sm'
+            ? 'bg-white/90 dark:bg-stone-950/90 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 shadow-xl py-2.5'
+            : 'bg-white/95 dark:bg-stone-950/95 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 py-3.5 shadow-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,15 +91,14 @@ export function Header() {
                 About Us
               </Link>
 
-              {/* Services Dropdown */}
+              {/* Services Dropdown Trigger */}
               <div
-                className="relative"
+                className="py-2"
                 onMouseEnter={() => setServicesOpen(true)}
-                onMouseLeave={() => setServicesOpen(false)}
               >
                 <Link
                   href="/services"
-                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-[#E85D04] py-1 ${
+                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-[#E85D04] ${
                     pathname.startsWith('/services') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                   }`}
                 >
@@ -94,50 +109,6 @@ export function Header() {
                     }`}
                   />
                 </Link>
-
-                {/* Mega Dropdown Menu */}
-                <AnimatePresence>
-                  {servicesOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 12, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.96 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full -left-6 w-96 pt-3"
-                    >
-                      <div className="p-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl grid gap-1.5">
-                        <div className="px-3 py-2 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between">
-                          <span className="text-xs font-bold text-[#E85D04] uppercase tracking-wider">
-                            Flooring Solutions
-                          </span>
-                          <Link href="/services" className="text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white flex items-center gap-1">
-                            View All <ArrowRight className="w-3 h-3" />
-                          </Link>
-                        </div>
-                        {serviceLinks.map((service) => (
-                          <Link
-                            key={service.href}
-                            href={service.href}
-                            onClick={() => {
-                              setServicesOpen(false);
-                            }}
-                            className="p-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800/80 transition-colors duration-150 group flex items-start justify-between"
-                          >
-                            <div>
-                              <div className="text-xs font-semibold text-stone-900 dark:text-stone-200 group-hover:text-[#E85D04] transition-colors">
-                                {service.name}
-                              </div>
-                              <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
-                                {service.desc}
-                              </div>
-                            </div>
-                            <ArrowRight className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 group-hover:text-[#E85D04] group-hover:translate-x-1 transition-all mt-0.5 shrink-0" />
-                          </Link>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
 
               <Link
@@ -206,6 +177,49 @@ export function Header() {
         </div>
       </div>
 
+      {/* Pure Full-Width Glassmorphism Services Mega Menu - NO EXTRA TEXT */}
+      <AnimatePresence>
+        {servicesOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -8, scaleY: 0.98 }}
+            animate={{ opacity: 1, y: 0, scaleY: 1 }}
+            exit={{ opacity: 0, y: -8, scaleY: 0.98 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            onMouseEnter={() => setServicesOpen(true)}
+            className="absolute top-full left-0 right-0 w-full bg-white/80 dark:bg-stone-950/80 backdrop-blur-3xl border-b border-stone-200/80 dark:border-stone-800/80 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.18)] dark:shadow-[0_30px_70px_-15px_rgba(0,0,0,0.8)] overflow-hidden z-50"
+          >
+            {/* Top glowing brand accent line */}
+            <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-80" />
+
+            <div className="max-w-7xl mx-auto px-6 lg:px-8 py-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+                {serviceLinks.map((service) => {
+                  const ItemIcon = service.icon;
+                  return (
+                    <Link
+                      key={service.href}
+                      href={service.href}
+                      onClick={() => setServicesOpen(false)}
+                      className="group flex items-center justify-between p-3.5 rounded-2xl bg-white/60 dark:bg-stone-900/50 hover:bg-white dark:hover:bg-stone-900 border border-stone-200/60 dark:border-stone-800/60 hover:border-[#E85D04]/50 shadow-xs hover:shadow-md transition-all duration-200 backdrop-blur-md"
+                    >
+                      <div className="flex items-center gap-3.5">
+                        <div className="w-9 h-9 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 group-hover:bg-[#E85D04] group-hover:text-white flex items-center justify-center transition-all duration-200 shrink-0 shadow-xs">
+                          <ItemIcon className="w-4.5 h-4.5" />
+                        </div>
+                        <span className="text-sm font-semibold text-stone-800 dark:text-stone-200 group-hover:text-[#E85D04] transition-colors">
+                          {service.name}
+                        </span>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-stone-400 dark:text-stone-500 group-hover:text-[#E85D04] group-hover:translate-x-1 transition-all shrink-0" />
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Mobile Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -214,7 +228,7 @@ export function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
-            className="lg:hidden bg-white dark:bg-stone-950 border-b border-stone-200 dark:border-stone-800 overflow-hidden"
+            className="lg:hidden bg-white/95 dark:bg-stone-950/95 backdrop-blur-xl border-b border-stone-200 dark:border-stone-800 overflow-hidden"
           >
             <div className="px-6 py-6 space-y-4 font-inter text-stone-800 dark:text-stone-200">
               <Link
@@ -298,5 +312,9 @@ export function Header() {
     </header>
   );
 }
+
+
+
+
 
 
