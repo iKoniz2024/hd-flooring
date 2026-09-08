@@ -58,11 +58,10 @@ export function Header() {
     >
       {/* Main Navbar - Light & Dark Mode */}
       <div
-        className={`transition-all duration-300 ${
-          scrolled
+        className={`transition-all duration-300 ${scrolled
             ? 'bg-white/90 dark:bg-stone-950/90 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 shadow-xl py-2.5'
             : 'bg-white/95 dark:bg-stone-950/95 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 py-3.5 shadow-sm'
-        }`}
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
@@ -75,18 +74,16 @@ export function Header() {
             <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
               <Link
                 href="/"
-                className={`transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname === '/' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname === '/' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 Home
               </Link>
 
               <Link
                 href="/about-us"
-                className={`transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname === '/about-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname === '/about-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 About Us
               </Link>
@@ -98,24 +95,21 @@ export function Header() {
               >
                 <Link
                   href="/services"
-                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-[#E85D04] ${
-                    pathname.startsWith('/services') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                  }`}
+                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-[#E85D04] ${pathname.startsWith('/services') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                    }`}
                 >
                   Services
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      servicesOpen ? 'rotate-180 text-[#E85D04]' : ''
-                    }`}
+                    className={`w-4 h-4 transition-transform duration-200 ${servicesOpen ? 'rotate-180 text-[#E85D04]' : ''
+                      }`}
                   />
                 </Link>
               </div>
 
               <Link
                 href="/cost-calculator"
-                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname === '/cost-calculator' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-[#E85D04] ${pathname === '/cost-calculator' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 <Calculator className="w-3.5 h-3.5 text-[#E85D04]" />
                 <span>Cost Calculator</span>
@@ -123,27 +117,24 @@ export function Header() {
 
               <Link
                 href="/projects"
-                className={`transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname.startsWith('/projects') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname.startsWith('/projects') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 Project Gallery
               </Link>
 
               <Link
                 href="/blog"
-                className={`transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname.startsWith('/blog') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname.startsWith('/blog') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 Blog
               </Link>
 
               <Link
                 href="/contact-us"
-                className={`transition-colors duration-200 hover:text-[#E85D04] ${
-                  pathname === '/contact-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
-                }`}
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname === '/contact-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  }`}
               >
                 Contact Us
               </Link>

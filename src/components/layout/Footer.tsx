@@ -53,7 +53,7 @@ export function Footer() {
 
       <footer className="bg-[#333333] text-stone-300 pt-6 pb-12">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 space-y-8">
-          
+
           {/* Top Row: Brand & Social Icons */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-stone-600/50">
             {/* Brand Logo & Tagline */}
@@ -89,7 +89,7 @@ export function Footer() {
 
           {/* 3 Columns Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 py-4">
-            
+
             {/* Col 1: Quick Links */}
             <div className="space-y-4">
               <h4 className="text-sm font-bold text-white tracking-wide">Quick Links</h4>
@@ -149,7 +149,7 @@ export function Footer() {
               </p>
               <button
                 onClick={() => openBookModal()}
-                className="px-6 py-2.5 bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shadow-md"
+                className="px-6 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer shadow-md"
               >
                 <Calendar className="w-4 h-4" />
                 <span>Book Free Measurement</span>

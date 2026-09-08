@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Camera, Maximize2, X, Users, MapPin, HardHat, ShieldCheck } from 'lucide-react';
+import { Camera, Maximize2, X, Users, MapPin, HardHat, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 
 interface TeamPhoto {
   id: string;
@@ -74,6 +74,9 @@ const teamPhotos: TeamPhoto[] = [
 
 export function TeamPhotoGallery() {
   const [selectedPhoto, setSelectedPhoto] = useState<TeamPhoto | null>(null);
+  const [showAll, setShowAll] = useState(false);
+
+  const displayedPhotos = showAll ? teamPhotos : teamPhotos.slice(0, 4);
 
   return (
     <section className="space-y-8 font-inter">
@@ -94,48 +97,69 @@ export function TeamPhotoGallery() {
       </motion.div>
 
       {/* Grid of Team Photos */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {teamPhotos.map((photo, idx) => (
-          <motion.div
-            key={photo.id}
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.5, delay: idx * 0.08 }}
-            whileHover={{ y: -6 }}
-            onClick={() => setSelectedPhoto(photo)}
-            className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl transform-gpu"
-          >
-            <Image
-              src={photo.src}
-              alt={photo.title}
-              fill
-              className="object-cover group-hover:scale-110 transition-transform duration-700"
-              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-            />
+      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <AnimatePresence mode="popLayout">
+          {displayedPhotos.map((photo, idx) => (
+            <motion.div
+              key={photo.id}
+              layout
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              whileHover={{ y: -6 }}
+              onClick={() => setSelectedPhoto(photo)}
+              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl transform-gpu"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.title}
+                fill
+                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+              />
 
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
-            <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-              <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-[#E85D04] uppercase tracking-wider backdrop-blur-md">
-                {photo.badge}
-              </span>
-              <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
-                <Maximize2 className="w-3.5 h-3.5" />
+              <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
+                <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-[#E85D04] uppercase tracking-wider backdrop-blur-md">
+                  {photo.badge}
+                </span>
+                <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </div>
               </div>
-            </div>
 
-            <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-              <h3 className="font-playfair text-base font-bold text-white group-hover:text-[#E85D04] transition-colors">
-                {photo.title}
-              </h3>
-              <p className="text-[11px] text-slate-300 line-clamp-2 leading-snug">
-                {photo.subtitle}
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+              <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
+                <h3 className="font-playfair text-base font-bold text-white group-hover:text-[#E85D04] transition-colors">
+                  {photo.title}
+                </h3>
+                <p className="text-[11px] text-slate-300 line-clamp-2 leading-snug">
+                  {photo.subtitle}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </motion.div>
+
+      {/* Show More / Show Less Toggle Button */}
+      {teamPhotos.length > 4 && (
+        <div className="text-center pt-4">
+          <button
+            onClick={() => setShowAll((prev) => !prev)}
+            className="inline-flex items-center gap-2 px-7 py-3 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+          >
+            <span>{showAll ? 'Show Less' : 'Show More Team Photos'}</span>
+            {showAll ? (
+              <ChevronUp className="w-4 h-4 text-white group-hover:-translate-y-0.5 transition-transform" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-white group-hover:translate-y-0.5 transition-transform" />
+            )}
+          </button>
+        </div>
+      )}
 
       {/* Lightbox Modal */}
       <AnimatePresence>
