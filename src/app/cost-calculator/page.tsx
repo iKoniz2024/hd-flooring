@@ -34,7 +34,7 @@ export default function CostCalculatorPage() {
   const { openBookModal } = useModal();
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter relative overflow-hidden">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter relative overflow-x-clip">
       {/* Mouse & Ambient Spotlight */}
       <MouseSpotlight />
 

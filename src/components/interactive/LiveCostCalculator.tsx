@@ -57,8 +57,11 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
 
   return (
     <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter relative">
-      {/* Outer Studio Card Container - Clean & Uncluttered */}
-      <div className="bg-white dark:bg-slate-900/90 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl p-6 sm:p-8 lg:p-10 relative">
+      {/* Outer Studio Card Container - Styled matching top orange glowing line */}
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-[#E85D04]/30 shadow-2xl shadow-[#E85D04]/10 rounded-3xl p-6 sm:p-8 lg:p-10 relative">
+        {/* Top Glowing Orange Accent Line */}
+        <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90 rounded-t-3xl" />
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
         {/* Optional Header */}
         {!hideHeader && (
@@ -74,11 +77,11 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
         )}
 
         {/* 2-Column Clean Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
           {/* Left Column: 3 Clean Step Controls */}
           <div className="lg:col-span-7 space-y-7">
-            
+
             {/* Step 1: Material Selection */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -98,16 +101,14 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                     <button
                       key={mat.id}
                       onClick={() => setSelectedMaterial(mat)}
-                      className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer ${
-                        isSelected
+                      className={`p-3.5 rounded-xl border text-left transition-all flex items-center justify-between gap-3 cursor-pointer ${isSelected
                           ? 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/20'
                           : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/70 text-slate-800 dark:text-slate-200 hover:border-[#E85D04]/60'
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-[#E85D04]'
-                        }`}>
+                        <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-[#E85D04]'
+                          }`}>
                           <Icon className="w-4 h-4" />
                         </div>
                         <span className="font-extrabold text-xs tracking-tight truncate">{mat.name}</span>
@@ -167,11 +168,10 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                   <button
                     key={preset.label}
                     onClick={() => setSqft(preset.value)}
-                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      sqft === preset.value
+                    className={`px-3 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${sqft === preset.value
                         ? 'bg-[#E85D04] text-white'
                         : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-[#E85D04]'
-                    }`}
+                      }`}
                   >
                     {preset.label}
                   </button>
@@ -191,11 +191,10 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                 <button
                   type="button"
                   onClick={() => setIncludePrep(!includePrep)}
-                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${
-                    includePrep
+                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${includePrep
                       ? 'bg-[#E85D04]/10 border-[#E85D04] text-slate-900 dark:text-white'
                       : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/70 text-slate-600 dark:text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className={`p-1 rounded-md ${includePrep ? 'bg-[#E85D04] text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'}`}>
                     <CheckCircle2 className="w-4 h-4" />
@@ -210,11 +209,10 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                 <button
                   type="button"
                   onClick={() => setIncludeRemoval(!includeRemoval)}
-                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${
-                    includeRemoval
+                  className={`p-3.5 rounded-xl border text-left flex items-center gap-3 transition-all cursor-pointer ${includeRemoval
                       ? 'bg-[#E85D04]/10 border-[#E85D04] text-slate-900 dark:text-white'
                       : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/70 text-slate-600 dark:text-slate-400'
-                  }`}
+                    }`}
                 >
                   <div className={`p-1 rounded-md ${includeRemoval ? 'bg-[#E85D04] text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'}`}>
                     <Trash2 className="w-4 h-4" />
@@ -229,23 +227,25 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
 
           </div>
 
-          {/* Right Column: Clean Sticky Receipt Summary */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <div className="p-6 sm:p-7 rounded-2xl bg-slate-900 text-white border border-slate-800 shadow-xl space-y-6 relative overflow-hidden">
+          {/* Right Column: Sticky Glider Summary Card */}
+          <div className="lg:col-span-5 relative">
+            <div className="sticky top-28 p-6 sm:p-7 rounded-2xl bg-slate-950 text-white border border-slate-800/80 shadow-2xl space-y-6 relative overflow-hidden backdrop-blur-xl">
+              {/* Top orange glow bar */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent" />
               <div className="absolute top-0 right-0 w-48 h-48 bg-[#E85D04]/15 rounded-full blur-2xl pointer-events-none" />
 
               {/* Header */}
-              <div className="flex items-center justify-between pb-3 border-b border-slate-800 relative z-10">
+              <div className="flex items-center justify-between pb-3 border-b border-slate-800/80 relative z-10">
                 <span className="text-xs font-extrabold uppercase tracking-widest text-slate-300">
                   Estimate Summary
                 </span>
-                <span className="text-[11px] font-extrabold text-[#E85D04] bg-[#E85D04]/15 px-2.5 py-0.5 rounded-md border border-[#E85D04]/30">
+                <span className="text-[11px] font-extrabold text-[#E85D04] bg-[#E85D04]/15 px-2.5 py-0.5 rounded-md border border-[#E85D04]/30 shadow-sm">
                   Live Rates
                 </span>
               </div>
 
               {/* Price Box */}
-              <div className="text-center py-4 px-3 rounded-xl bg-slate-950 border border-slate-800 space-y-1 relative z-10">
+              <div className="text-center py-5 px-3 rounded-xl bg-slate-900/90 border border-slate-800/90 space-y-1 relative z-10 shadow-inner">
                 <span className="text-[11px] text-slate-400 font-semibold uppercase tracking-wider block">
                   Estimated Total Investment
                 </span>
@@ -253,7 +253,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                   key={estimatedCost}
                   initial={{ scale: 0.95, opacity: 0.8 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="text-3xl sm:text-4xl font-black text-[#E85D04] tracking-tight"
+                  className="text-3xl sm:text-4xl font-black text-[#E85D04] tracking-tight drop-shadow-md"
                 >
                   ${minCost.toLocaleString()} - ${maxCost.toLocaleString()}
                 </motion.div>
@@ -263,7 +263,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
               </div>
 
               {/* Breakdown List */}
-              <div className="space-y-2 text-xs border-t border-slate-800 pt-3 relative z-10">
+              <div className="space-y-2.5 text-xs border-t border-slate-800/80 pt-3 relative z-10 font-manrope">
                 <div className="flex justify-between text-slate-300">
                   <span>Selected Material:</span>
                   <span className="font-extrabold text-white">{selectedMaterial.name}</span>
@@ -290,7 +290,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
               <div className="pt-2 relative z-10 space-y-3">
                 <button
                   onClick={() => openBookModal(selectedMaterial.name)}
-                  className="w-full py-3.5 px-5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all cursor-pointer"
+                  className="w-full py-3.5 px-5 rounded-xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all cursor-pointer"
                 >
                   <span>Lock In Estimate & Book</span>
                   <ArrowRight className="w-4 h-4" />
