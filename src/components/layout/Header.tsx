@@ -59,15 +59,15 @@ export function Header() {
       {/* Main Navbar - Light & Dark Mode */}
       <div
         className={`transition-all duration-300 ${scrolled
-            ? 'bg-white/90 dark:bg-stone-950/90 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 shadow-xl py-2.5'
-            : 'bg-white/95 dark:bg-stone-950/95 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 py-3.5 shadow-sm'
+          ? 'bg-white/90 dark:bg-stone-950/90 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 shadow-xl py-2.5'
+          : 'bg-white/95 dark:bg-stone-950/95 backdrop-blur-md text-stone-900 dark:text-stone-100 border-b border-stone-200/80 dark:border-stone-800 py-3.5 shadow-sm'
           }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between">
             {/* Brand Logo */}
             <Link href="/" className="group flex items-center gap-2">
-              <BrandLogo className="h-10 sm:h-11" />
+              <BrandLogo className="h-10 sm:h-12 lg:h-14" />
             </Link>
 
             {/* Desktop Navigation Links */}

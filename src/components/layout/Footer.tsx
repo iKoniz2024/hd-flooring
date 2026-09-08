@@ -57,13 +57,12 @@ export function Footer() {
           {/* Top Row: Brand & Social Icons */}
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 pb-8 border-b border-stone-600/50">
             {/* Brand Logo & Tagline */}
-            <div className="flex items-center gap-3.5">
+            <div className="flex items-center gap-4 sm:gap-5">
               <Link href="/">
-                <BrandLogo className="h-10 text-white" />
+                <BrandLogo className="h-24 sm:h-28 lg:h-32 text-white" />
               </Link>
-              <span className="text-stone-500 text-base font-light">/</span>
-              <span className="text-stone-400 text-xs sm:text-sm font-medium tracking-wide">
-                Simply #1 Canadian Flooring Specialist
+              <span className="text-stone-300 text-sm sm:text-base font-bold tracking-wide">
+                Canada&apos;s Trusted Flooring Installation Experts
               </span>
             </div>
 
