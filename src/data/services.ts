@@ -32,7 +32,13 @@ export const servicesData: ServiceItem[] = [
     ],
     options: ['Red/White Oak', 'Hard Maple', 'Black Walnut', 'Pre-finished & Site-Finished'],
     idealFor: ['Living Rooms', 'Bedrooms', 'Dining Areas', 'Executive Offices'],
-    process: ['Moisture Acclimation', 'Subfloor Prep', 'Precision Layout', 'Nail/Glue Installation', 'Finishing'],
+    process: [
+      'Moisture Acclimation',
+      'Subfloor Inspection & Prep',
+      'Precision Layout & Chalking',
+      'Nail & Glue-Down Installation',
+      'Custom Sanding & Finishing',
+    ],
     faqs: [
       {
         question: 'How long does hardwood installation take?',
@@ -56,7 +62,13 @@ export const servicesData: ServiceItem[] = [
       'Radiant floor heating compatible',
     ],
     idealFor: ['Condominiums', 'Basements', 'Open-Concept Homes', 'Showrooms'],
-    process: ['Moisture Testing', 'Subfloor Leveling', 'Floating or Glue-Down Install', 'Trim Finishing'],
+    process: [
+      'Moisture Testing & Leveling',
+      'Underlayment Setup',
+      'Precision Board Placement',
+      'Floating or Glue-Down Setting',
+      'Perimeter Trim & Transitions',
+    ],
     faqs: [
       {
         question: 'Can engineered hardwood be refinished?',
@@ -81,7 +93,13 @@ export const servicesData: ServiceItem[] = [
     ],
     options: ['Click-Lock LVP Planks', 'Glue-Down LVT Tiles', 'Sheet Vinyl Coving', 'Commercial VCT Tiles'],
     idealFor: ['Kitchens & Basements', 'Healthcare & Kitchens', 'Retail Stores', 'Corporate Offices'],
-    process: ['Subfloor Prep', 'Underlayment Setup', 'Plank/Tile/Sheet Setting', 'Perimeter Trimming & Heat Welding'],
+    process: [
+      'Subfloor Preparation & Cleaning',
+      'Acoustic Underlayment Setup',
+      'Precision Click/Glue Setting',
+      'Flash Coving & Heat Welding',
+      'Perimeter Trimming & Inspection',
+    ],
     faqs: [
       {
         question: 'What is the difference between LVP, LVT, and Sheet Vinyl?',
@@ -100,7 +118,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Budget-friendly investment', 'High impact & wear rating', 'Easy click-lock installation', 'Photo-realistic wood grain'],
     idealFor: ['Bedrooms', 'Living Areas', 'Rental Properties', 'Home Offices'],
-    process: ['Subfloor Inspection', 'Acoustic Underlayment', 'Interlocking Plank Install', 'Baseboard Trimming'],
+    process: [
+      'Subfloor Inspection & Leveling',
+      'Vapor Barrier & Underlayment',
+      'Precision Interlocking Layout',
+      'Expansion Gap Setting',
+      'Baseboard & Moulding Trimming',
+    ],
     faqs: [
       {
         question: 'Is modern laminate scratch resistant?',
@@ -119,7 +143,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Soft thermal comfort underfoot', 'Superior noise dampening', 'Stain-resistant fiber options', 'Non-slip surface safety'],
     idealFor: ['Bedrooms', 'Home Theaters', 'Stairs', 'Corporate Boardrooms'],
-    process: ['Tack Strip Prep', 'High-Density Cushioning', 'Power Stretching', 'Seam Sealing'],
+    process: [
+      'Tack Strip & Perimeter Prep',
+      'High-Density Cushioning Placement',
+      'Precision Seam Sealing',
+      'Power Stretching & Securing',
+      'Edge Tuck & Final Clean-Up',
+    ],
     faqs: [
       {
         question: 'Do you supply carpet under-padding?',
@@ -138,7 +168,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Impervious to steam & water', 'Ultra-durable porcelain strength', 'Wide range of large formats', 'Easy to sanitize'],
     idealFor: ['Bathrooms', 'Kitchens', 'Mudrooms', 'Commercial Entrances'],
-    process: ['Subfloor Boarding', 'Waterproofing Membrane', 'Laser Layout', 'Thinset Setting & Grouting'],
+    process: [
+      'Subfloor Boarding & Leveling',
+      'Waterproofing Membrane Application',
+      'Laser Grid Layout & Alignment',
+      'Thinset Setting & Tile Spacing',
+      'Grouting & Perimeter Sealing',
+    ],
     faqs: [
       {
         question: 'Are large format porcelain tiles suitable for floor heating?',
@@ -157,7 +193,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Seamless visual flow between floors', 'Durable solid wood treads', 'Custom stain matching', 'Enhanced stair safety'],
     idealFor: ['Main Entryway Staircases', 'Curved Stairs', 'Basement Steps'],
-    process: ['Old Carpet Removal', 'Tread Scribing & Cutting', 'Adhesive & Fastener Setting', 'Nosing Alignment'],
+    process: [
+      'Old Tread & Carpet Removal',
+      'Sub-Stair Structural Leveling',
+      'Tread & Riser Scribing',
+      'Heavy-Duty Adhesive Setting',
+      'Nosing Alignment & Staining',
+    ],
     faqs: [
       {
         question: 'Can you match my stairs to my floor color?',
@@ -176,7 +218,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Dust-controlled tear-out', 'Individual board replacement', 'Responsible waste haul-away', 'Subfloor restoration'],
     idealFor: ['Water Damage Repairs', 'Older Home Renovations', 'Post-Tenant Updates'],
-    process: ['Site Assessment', 'Demolition & Removal', 'Subfloor Repair', 'New Floor Setting'],
+    process: [
+      'Detailed Site Assessment',
+      'Dust-Controlled Demolition',
+      'Subfloor Structural Repair',
+      'Precision New Board Integration',
+      'Seamless Edge Finishing & Haul-Away',
+    ],
     faqs: [
       {
         question: 'Can you repair damaged planks without replacing the whole floor?',
@@ -195,7 +243,13 @@ export const servicesData: ServiceItem[] = [
     heroImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=80&fm=webp',
     benefits: ['Prevents floor squeaks & gaps', 'Ensures manufacturer warranty validity', 'Moisture barrier sealing', 'Ultra-smooth surface flatness'],
     idealFor: ['Uneven Concrete Slabs', 'Old Plywood Subfloors', 'Condo Slab Prep'],
-    process: ['Subfloor Inspection', 'Grinding & Patching', 'Self-Leveling Compound Pour', 'Moisture Barrier Seal'],
+    process: [
+      'Subfloor Moisture & Surface Inspection',
+      'Mechanical Grinding & Patching',
+      'Self-Leveling Compound Pour',
+      'Moisture Barrier Sealing',
+      'Final Surface Smoothness Verification',
+    ],
     faqs: [
       {
         question: 'Why is self-leveling so important?',

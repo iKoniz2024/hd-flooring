@@ -3,12 +3,32 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Sparkles, CheckCircle2, ArrowLeft, HelpCircle, Images, Camera, Maximize2, ChevronLeft, ChevronRight, X } from 'lucide-react';
+import {
+  Sparkles,
+  CheckCircle2,
+  ArrowLeft,
+  HelpCircle,
+  Images,
+  Camera,
+  Maximize2,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  ShieldCheck,
+  Wrench,
+  Clock,
+  Home,
+  Building2,
+  Phone,
+  ArrowRight,
+} from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
+import { TiltCard } from '@/components/interactive/TiltCard';
 import { PageHero } from '@/components/sections/PageHero';
 import { servicesData } from '@/data/services';
 import { Accordion } from '@/components/ui/Accordion';
@@ -89,6 +109,27 @@ const serviceCategoryImages: Record<string, string[]> = {
   ],
 };
 
+const serviceParallaxImages: Record<string, string> = {
+  'hardwood-flooring':
+    'https://images.unsplash.com/photo-1623868564620-611975f8cf70?q=80&w=1600&auto=format&fit=crop',
+  'engineered-hardwood-flooring':
+    'https://plus.unsplash.com/premium_photo-1770220928681-193cb7de4ea9?q=80&w=1600&auto=format&fit=crop',
+  'luxury-vinyl-flooring':
+    'https://plus.unsplash.com/premium_photo-1770235354225-c070a40dfd89?q=80&w=1600&auto=format&fit=crop',
+  'laminate-flooring':
+    'https://plus.unsplash.com/premium_photo-1778511632263-c2b63f8e92ca?q=80&w=1600&auto=format&fit=crop',
+  'carpet-flooring':
+    'https://plus.unsplash.com/premium_photo-1779470088794-003055f4a4fa?q=80&w=1600&auto=format&fit=crop',
+  'tile-flooring':
+    'https://plus.unsplash.com/premium_photo-1756717213191-775499a0aaee?q=80&w=1600&auto=format&fit=crop',
+  'stair-flooring':
+    'https://plus.unsplash.com/premium_photo-1779464142832-0baf99bb570c?q=80&w=1600&auto=format&fit=crop',
+  'flooring-replacement':
+    'https://plus.unsplash.com/premium_photo-1756717268707-ac177064fca3?q=80&w=1600&auto=format&fit=crop',
+  'floor-preparation':
+    'https://plus.unsplash.com/premium_photo-1778439612543-51488a109cf0?q=80&w=1600&auto=format&fit=crop',
+};
+
 export default function ServiceDetailPage() {
   const params = useParams();
   const slug = params?.slug as string;
@@ -122,7 +163,12 @@ export default function ServiceDetailPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-hidden">
+      {/* Dynamic Mouse Spotlight & Ambient Glow */}
+      <MouseSpotlight />
+
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
+
       <Header />
 
       {/* Parallax Hero Section */}
@@ -141,277 +187,427 @@ export default function ServiceDetailPage() {
         }}
       />
 
-      <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-16">
-        <Link
-          href="/services"
-          className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d45203] transition-colors"
-        >
-          <ArrowLeft className="w-4 h-4 text-[#E85D04]" />
-          Back to All Services
-        </Link>
+      <main className="flex-1 py-14 w-full space-y-20 relative z-10">
+        
+        {/* TOP CONTENT CONTAINER */}
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
+          {/* Navigation Back Link */}
+          <div>
+            <Link
+              href="/services"
+              className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d45203] px-4 py-2 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 transition-all hover:scale-105"
+            >
+              <ArrowLeft className="w-4 h-4 text-[#E85D04]" />
+              Back to All Services
+            </Link>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center overflow-hidden">
-          {/* Left Text: Slide from Left + Zoom */}
+          {/* HERO FEATURE BLOCK - 3D Tilt Glassmorphism Card */}
           <motion.div
-            initial={{ opacity: 0, x: -60, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.7, type: 'spring', stiffness: 160 }}
           >
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
-              Specialized Service
-            </span>
-            <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
-              {service.title}
-            </h1>
-            <p className="text-[#E85D04] font-manrope font-bold text-sm sm:text-base">
-              {service.tagline}
-            </p>
-            <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed font-inter">
-              {service.fullDesc}
-            </p>
+            <TiltCard className="w-full">
+              <div className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 shadow-2xl shadow-[#E85D04]/10 relative overflow-hidden group">
+                {/* Glowing Top Accent Line */}
+                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95 group-hover:h-2 transition-all duration-300" />
+                <div className="absolute top-0 right-0 w-80 h-80 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="pt-2">
-              <button
-                onClick={() => openBookModal(service.title)}
-                className="w-full sm:w-auto text-center px-6 sm:px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all hover:scale-105"
-              >
-                Book {service.title.split(' ')[0]} Installation
-              </button>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+                  {/* Left Info Column */}
+                  <div className="lg:col-span-7 space-y-6 text-left">
+                    <div className="space-y-3">
+                      <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+                        <Sparkles className="w-4 h-4 text-[#E85D04]" />
+                        Specialized Flooring Service
+                      </span>
+
+                      <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
+                        {service.title}
+                      </h1>
+
+                      <p className="text-[#E85D04] font-manrope font-extrabold text-base sm:text-lg">
+                        {service.tagline}
+                      </p>
+                    </div>
+
+                    <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter font-normal">
+                      {service.fullDesc}
+                    </p>
+
+                    <div className="pt-2 flex flex-wrap items-center gap-4">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        onClick={() => openBookModal(service.title)}
+                        className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/30 inline-flex items-center gap-2 transition-all cursor-pointer"
+                      >
+                        <Sparkles className="w-4 h-4 text-white" />
+                        <span>Book {service.title.split(' ')[0]} Installation</span>
+                      </motion.button>
+
+                      <motion.a
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        href="tel:+13068808404"
+                        className="px-6 py-4 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-extrabold flex items-center gap-2 transition-all"
+                      >
+                        <Phone className="w-4 h-4 text-[#E85D04]" />
+                        <span>Call +1 (306) 880-8404</span>
+                      </motion.a>
+                    </div>
+                  </div>
+
+                  {/* Right Image Frame Column - Pure & Crystal Clear */}
+                  <motion.div
+                    whileHover={{ scale: 1.02 }}
+                    onClick={() => {
+                      setActiveImageIdx(0);
+                      setLightboxOpen(true);
+                    }}
+                    className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 cursor-pointer bg-slate-900"
+                  >
+                    <img
+                      src={service.heroImage}
+                      alt={service.title}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover/img:scale-108 transition-transform duration-700"
+                    />
+                    <div className="absolute bottom-4 right-4 px-4 py-2 rounded-xl bg-[#E85D04] text-white text-xs font-manrope font-extrabold flex items-center gap-2 shadow-xl opacity-90 group-hover/img:opacity-100 transition-opacity">
+                      <Maximize2 className="w-4 h-4" />
+                      <span>View Gallery</span>
+                    </div>
+                  </motion.div>
+                </div>
+              </div>
+            </TiltCard>
+          </motion.div>
+
+          {/* Why Choose Section - 3D Tilt Cards Grid */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider text-center">
+                <ShieldCheck className="w-4 h-4 mr-1.5 text-[#E85D04]" />
+                <span>Key Advantages</span>
+              </div>
+              <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+                Why Choose <span className="text-[#E85D04]">{service.title}?</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto font-manrope">
+                Top advantages of choosing this flooring material for your Saskatoon property.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {service.benefits.map((benefit, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.5, delay: idx * 0.08 }}
+                >
+                  <TiltCard className="h-full">
+                    <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl hover:shadow-2xl flex items-start gap-4 h-full relative overflow-hidden group transition-all duration-300">
+                      <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
+                      <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] shrink-0 group-hover:scale-110 transition-transform">
+                        <CheckCircle2 className="w-5 h-5 text-[#E85D04]" />
+                      </div>
+                      <div className="space-y-1">
+                        <h4 className="font-manrope font-extrabold text-slate-900 dark:text-white text-sm sm:text-base group-hover:text-[#E85D04] transition-colors">
+                          Advantage #{idx + 1}
+                        </h4>
+                        <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 font-inter font-normal leading-relaxed">
+                          {benefit}
+                        </p>
+                      </div>
+                    </div>
+                  </TiltCard>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
 
-          {/* Right Image: Slide from Right + Zoom */}
+          {/* Category Photo Gallery Section */}
           <motion.div
-            initial={{ opacity: 0, x: 60, scale: 0.9 }}
-            animate={{ opacity: 1, x: 0, scale: 1 }}
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.15 }}
             transition={{ duration: 0.6 }}
-            className="relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 h-[340px] sm:h-[400px] transform-gpu"
+            className="space-y-8"
           >
-            <img
-              src={service.heroImage}
-              alt={service.title}
-              loading="lazy"
-              decoding="async"
-              className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-end p-6">
-              <button
-                onClick={() => {
-                  setActiveImageIdx(0);
-                  setLightboxOpen(true);
-                }}
-                className="px-4 py-2 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-bold flex items-center gap-2 hover:bg-[#d45203] transition-colors shadow-lg"
-              >
-                <Maximize2 className="w-4 h-4" />
-                View Gallery
-              </button>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+              <div className="space-y-2">
+                <div className="inline-flex items-center gap-2 text-xs font-manrope font-extrabold text-[#E85D04] uppercase tracking-wider">
+                  <Images className="w-4 h-4 text-[#E85D04]" />
+                  <span>Category Photo Gallery</span>
+                </div>
+                <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+                  {service.title} Design & Installation Showcase
+                </h2>
+              </div>
+
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-slate-900/95 border border-[#E85D04]/40 text-slate-100 shadow-xl shadow-[#E85D04]/10 shrink-0 whitespace-nowrap">
+                <Camera className="w-4 h-4 text-[#E85D04] animate-pulse" />
+                <span className="text-xs font-manrope font-extrabold text-slate-200">
+                  <span className="text-[#E85D04] font-black text-sm">{galleryPhotos.length}</span> HD Photos
+                </span>
+              </div>
             </div>
+
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
+              {displayedPhotos.map((imgUrl, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, amount: 0.1 }}
+                  transition={{ duration: 0.4, delay: idx * 0.04 }}
+                  onClick={() => {
+                    setActiveImageIdx(idx);
+                    setLightboxOpen(true);
+                  }}
+                  className="group relative h-48 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 cursor-pointer shadow-lg bg-slate-900 transition-all hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#E85D04]/50"
+                >
+                  <img
+                    src={imgUrl}
+                    alt={`${service.title} photo ${idx + 1}`}
+                    loading="lazy"
+                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+                  />
+                </motion.div>
+              ))}
+            </div>
+
+            {galleryPhotos.length > 16 && (
+              <div className="text-center pt-4">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowAllPhotos(!showAllPhotos)}
+                  className="px-8 py-3.5 rounded-full bg-[#E85D04] text-white hover:bg-[#d45203] font-manrope font-extrabold text-xs tracking-wider uppercase shadow-xl shadow-[#E85D04]/25 transition-all cursor-pointer"
+                >
+                  {showAllPhotos
+                    ? 'Show Less Photos'
+                    : `Show All ${galleryPhotos.length} HD Photos (+${galleryPhotos.length - 16} More)`}
+                </motion.button>
+              </div>
+            )}
           </motion.div>
         </div>
 
-        {/* Why Choose Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          <div className="text-center space-y-2">
-            <h2 className="font-playfair text-2xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100">
-              Why Choose {service.title}?
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto font-inter">
-              Top advantages of choosing this flooring material for your space.
-            </p>
+        {/* 100% FULL-WIDTH TRULY FIXED PARALLAX SHOWCASE BANNER - NO CARD BOX */}
+        <section className="w-full relative py-24 px-4 sm:px-6 lg:px-8 border-y border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden my-12 text-white">
+          {/* 100% Fixed Parallax Background Image - Pure Wood Plank Texture */}
+          <div className="absolute inset-0 pointer-events-none z-0">
+            <div
+              className="w-full h-full bg-cover bg-center bg-no-repeat opacity-100 brightness-[1.02] contrast-[1.05]"
+              style={{
+                backgroundImage: `url('${serviceParallaxImages[slug] || 'https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=1600&auto=format&fit=crop'}')`,
+                backgroundAttachment: 'fixed',
+              }}
+            />
+            {/* Soft Clear Overlay for High Contrast Floating Text */}
+            <div className="absolute inset-0 bg-stone-950/40 pointer-events-none" />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {service.benefits.map((benefit, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.85 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
-                className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-start gap-3"
+          <div className="max-w-4xl mx-auto space-y-6 relative z-10 text-center text-white">
+            <motion.div
+              initial={{ opacity: 0, y: -15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-extrabold uppercase tracking-wider shadow-lg"
+            >
+              <Sparkles className="w-4 h-4 text-white" />
+              <span>Saskatoon Premium Installation</span>
+            </motion.div>
+
+            <motion.h2
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="font-playfair text-3xl sm:text-5xl font-extrabold text-white leading-tight [text-shadow:_0_3px_14px_rgba(0,0,0,0.9)]"
+            >
+              Transform Your Property With <span className="text-[#E85D04]">{service.title}</span>
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="text-xs sm:text-base text-stone-100 max-w-2xl mx-auto leading-relaxed font-manrope font-medium [text-shadow:_0_2px_10px_rgba(0,0,0,0.9)]"
+            >
+              Engineered for Canadian climate durability, zero-lippage precision, and zero-squeak finish. Handcrafted by Habibur Rahman & the HD Flooring team.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              className="pt-2 flex flex-wrap justify-center items-center gap-4 font-manrope"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => openBookModal(service.title)}
+                className="px-8 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider shadow-2xl shadow-[#E85D04]/40 cursor-pointer"
               >
-                <CheckCircle2 className="w-5 h-5 text-[#E85D04] shrink-0 mt-0.5" />
-                <span className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium font-manrope">
-                  {benefit}
-                </span>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Category Photo Gallery */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.15 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-6"
-        >
-          <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
-            <div className="space-y-1">
-              <span className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] uppercase tracking-wider">
-                <Images className="w-4 h-4 text-[#E85D04]" />
-                Category Photo Gallery
-              </span>
-              <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
-                {service.title} Design & Installation Showcase
-              </h2>
-            </div>
-
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-[#E85D04]/30 text-slate-100 shadow-md shadow-[#E85D04]/10 shrink-0 whitespace-nowrap">
-              <Camera className="w-3.5 h-3.5 text-[#E85D04] animate-pulse" />
-              <span className="text-xs font-manrope font-extrabold text-slate-200">
-                <span className="text-[#E85D04] font-black">{galleryPhotos.length}</span> HD Photos
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {displayedPhotos.map((imgUrl, idx) => (
-              <div
-                key={idx}
-                onClick={() => {
-                  setActiveImageIdx(idx);
-                  setLightboxOpen(true);
-                }}
-                className="group relative h-44 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 cursor-pointer shadow-md bg-slate-100 dark:bg-slate-900"
+                Book Free On-Site Measure
+              </motion.button>
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                href="tel:+13068808404"
+                className="px-7 py-3.5 rounded-xl bg-slate-950/80 hover:bg-slate-950 border border-white/30 text-white font-extrabold text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 shadow-xl backdrop-blur-sm"
               >
-                <img
-                  src={imgUrl}
-                  alt={`${service.title} photo ${idx + 1}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="p-3 rounded-full bg-[#E85D04] text-white shadow-lg">
-                    <Maximize2 className="w-5 h-5" />
-                  </span>
-                </div>
-              </div>
-            ))}
+                <Phone className="w-4 h-4 text-[#E85D04]" />
+                <span>Call +1 (306) 880-8404</span>
+              </motion.a>
+            </motion.div>
           </div>
+        </section>
 
-          {galleryPhotos.length > 16 && (
-            <div className="text-center pt-2">
-              <button
-                onClick={() => setShowAllPhotos(!showAllPhotos)}
-                className="px-6 py-3 rounded-full bg-[#E85D04] text-white hover:bg-[#d45203] font-manrope font-extrabold text-xs tracking-wider uppercase shadow-lg border border-[#E85D04]/50 transition-all transform hover:scale-105"
-              >
-                {showAllPhotos
-                  ? 'Show Less Photos'
-                  : `Show All ${galleryPhotos.length} HD Photos (+${galleryPhotos.length - 16} More)`}
-              </button>
-            </div>
-          )}
-        </motion.div>
+        {/* BOTTOM CONTENT CONTAINER */}
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
 
+        {/* Ideal Rooms & Spaces Section - Clean Glassmorphism Grid */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.5 }}
-          className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 dark:bg-slate-900/90 border border-stone-800 space-y-6 text-center shadow-xl relative overflow-hidden"
+          transition={{ duration: 0.6 }}
+          className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 space-y-8 text-center shadow-2xl relative overflow-hidden text-slate-900 dark:text-white group"
         >
-          {/* Subtle Ambient Brand Glow */}
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-36 bg-[#E85D04]/10 blur-2xl pointer-events-none" />
+          {/* Glowing Top Accent Line & Ambient Light */}
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95" />
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white tracking-tight relative z-10">
-            Ideal For Rooms & Spaces
-          </h3>
+          <div className="space-y-3 relative z-10">
+            <span className="inline-block px-3.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+              Recommended Applications
+            </span>
+            <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+              Ideal Rooms & Spaces For {service.title}
+            </h3>
+          </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-3 relative z-10 max-w-3xl mx-auto">
+          <div className="flex flex-wrap justify-center items-center gap-4 relative z-10 max-w-4xl mx-auto">
             {service.idealFor.map((room) => (
-              <span
+              <motion.span
                 key={room}
-                className="px-5 py-2.5 rounded-full border bg-[#E85D04]/15 border-[#E85D04]/40 text-[#E85D04] hover:border-[#E85D04] text-xs font-manrope font-bold tracking-wide shadow-sm transition-all duration-300 hover:scale-105"
+                whileHover={{ scale: 1.08, y: -2 }}
+                className="px-6 py-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#E85D04] text-slate-800 dark:text-slate-200 hover:text-[#E85D04] dark:hover:text-[#E85D04] text-xs sm:text-sm font-manrope font-extrabold tracking-wide shadow-md transition-all duration-300 flex items-center gap-2.5 cursor-pointer"
               >
-                {room}
-              </span>
+                <Home className="w-4 h-4 text-[#E85D04]" />
+                <span>{room}</span>
+              </motion.span>
             ))}
           </div>
         </motion.div>
 
+        {/* Step-by-Step Installation Process Timeline */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="space-y-6"
+          className="space-y-8"
         >
-          <div className="text-center space-y-2">
-            <h2 className="font-playfair text-2xl sm:text-4xl font-bold text-slate-900 dark:text-slate-100">
-              Our Step-by-Step Installation Process
+          <div className="text-center space-y-3">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider">
+              <Wrench className="w-4 h-4 text-[#E85D04]" />
+              <span>Step-By-Step Execution</span>
+            </div>
+            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+              Our Professional <span className="text-[#E85D04]">Installation Process</span>
             </h2>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
             {service.process.map((stepName, idx) => (
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 25, scale: 0.9 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="flex-1 min-w-[170px] max-w-[220px] p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/60 shadow-lg text-center space-y-2.5 transition-all duration-300 hover:-translate-y-1.5"
               >
-                <span className="font-playfair font-black text-[#E85D04] text-xl block">
-                  0{idx + 1}
-                </span>
-                <p className="text-xs font-manrope font-bold text-slate-800 dark:text-slate-200 leading-snug">
-                  {stepName}
-                </p>
+                <TiltCard className="h-full">
+                  <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl text-center space-y-3 h-full flex flex-col justify-between group transition-all duration-300 relative overflow-hidden">
+                    <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
+                    <div className="w-10 h-10 mx-auto rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center font-playfair font-black text-[#E85D04] text-lg group-hover:scale-110 transition-transform">
+                      0{idx + 1}
+                    </div>
+                    <p className="text-xs sm:text-sm font-manrope font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
+                      {stepName}
+                    </p>
+                  </div>
+                </TiltCard>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
+        {/* FAQs Accordion Section */}
         {service.faqs && service.faqs.length > 0 && (
-          <div className="space-y-6">
-            <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-extrabold uppercase tracking-wider">
-                <HelpCircle className="w-3.5 h-3.5 text-[#E85D04] shrink-0" />
-                GOT QUESTIONS?
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-8"
+          >
+            <div className="text-center space-y-3">
+              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+                <HelpCircle className="w-4 h-4 text-[#E85D04] shrink-0" />
+                <span>Got Questions?</span>
               </div>
-              <h2 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h2 className="font-playfair text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                 Frequently Asked Questions
               </h2>
             </div>
             <Accordion items={service.faqs} />
-          </div>
+          </motion.div>
         )}
 
+        {/* Bottom CTA Banner */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="p-8 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl"
+          className="p-8 sm:p-12 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden"
         >
-          <div className="space-y-1 text-center sm:text-left font-manrope">
-            <h3 className="font-playfair text-2xl font-extrabold text-stone-900 dark:text-white">
+          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90" />
+
+          <div className="space-y-2 text-center sm:text-left font-manrope">
+            <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
               Ready to Install {service.title}?
             </h3>
-            <p className="text-xs font-medium text-stone-600 dark:text-stone-300">
-              Contact HD Flooring today for a free in-home site assessment & estimate.
+            <p className="text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-300">
+              Contact Habibur Rahman & the HD Flooring team today for a free on-site estimate in Saskatoon.
             </p>
           </div>
 
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={() => openBookModal(service.title)}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/20 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 cursor-pointer"
           >
             <Sparkles className="w-4 h-4 text-white" />
             <span>Get Free Quote</span>
-          </button>
+          </motion.button>
         </motion.div>
+        </div>
       </main>
 
       {/* Lightbox Modal */}
@@ -425,7 +621,7 @@ export default function ServiceDetailPage() {
           >
             <button
               onClick={() => setLightboxOpen(false)}
-              className="absolute top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:bg-[#E85D04] transition-colors"
+              className="absolute top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:bg-[#E85D04] transition-colors cursor-pointer"
             >
               <X className="w-6 h-6" />
             </button>
@@ -447,13 +643,13 @@ export default function ServiceDetailPage() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={prevImage}
-                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors"
+                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors cursor-pointer"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors"
+                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors cursor-pointer"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>
