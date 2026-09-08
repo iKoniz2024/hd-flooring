@@ -79,11 +79,11 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${plusJakarta.variable} ${outfit.variable} ${manrope.variable} ${dmSans.variable} ${inter.variable}`}
     >
-      <body className="font-inter min-h-screen flex flex-col antialiased selection:bg-red-500 selection:text-white">
+      <body className="font-inter min-h-screen flex flex-col antialiased selection:bg-[#E85D04] selection:text-white">
         <ThemeProvider
           attribute="class"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <ModalProvider>

@@ -86,10 +86,10 @@ export function BookUsModal() {
             className="relative w-full max-w-2xl bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 backdrop-blur-2xl border border-stone-200 dark:border-stone-800 rounded-3xl shadow-2xl overflow-hidden z-10 font-inter"
           >
             {/* Header Banner */}
-            <div className="bg-gradient-to-r from-red-600 via-amber-500 to-sky-600 p-6 text-white flex items-center justify-between relative overflow-hidden">
+            <div className="bg-[#E85D04] p-6 text-white flex items-center justify-between relative overflow-hidden">
               <div className="relative z-10 space-y-1">
                 <div className="flex items-center gap-2 text-xs uppercase tracking-widest font-extrabold text-white">
-                  <Sparkles className="w-4 h-4 text-amber-300" />
+                  <Sparkles className="w-4 h-4 text-white" />
                   Free In-Home Consultation & Estimate
                 </div>
                 <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white">
@@ -109,7 +109,7 @@ export function BookUsModal() {
             <div className="p-6 sm:p-8">
               {submitted ? (
                 <div className="text-center py-10 space-y-6">
-                  <div className="w-20 h-20 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                  <div className="w-20 h-20 mx-auto rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] flex items-center justify-center shadow-lg shadow-[#E85D04]/20">
                     <CheckCircle2 className="w-12 h-12" />
                   </div>
                   <div className="space-y-2">
@@ -122,7 +122,7 @@ export function BookUsModal() {
                   </div>
                   <button
                     onClick={handleReset}
-                    className="px-8 py-3 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-red-600/20 cursor-pointer"
+                    className="px-8 py-3 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-bold text-xs uppercase tracking-wider transition-colors shadow-lg shadow-[#E85D04]/20 cursor-pointer"
                   >
                     Close Window
                   </button>
@@ -135,7 +135,7 @@ export function BookUsModal() {
                         Full Name *
                       </label>
                       <div className="relative">
-                        <User className="absolute left-3.5 top-3 w-4 h-4 text-red-500" />
+                        <User className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                         <input
                           type="text"
                           required
@@ -144,7 +144,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, fullName: e.target.value })
                           }
                           placeholder="e.g. David Miller"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
@@ -154,7 +154,7 @@ export function BookUsModal() {
                         Phone Number *
                       </label>
                       <div className="relative">
-                        <Phone className="absolute left-3.5 top-3 w-4 h-4 text-red-500" />
+                        <Phone className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                         <input
                           type="tel"
                           required
@@ -163,7 +163,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, phone: e.target.value })
                           }
                           placeholder="e.g. (800) 555-FLOOR"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
@@ -175,7 +175,7 @@ export function BookUsModal() {
                         Email Address
                       </label>
                       <div className="relative">
-                        <Mail className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
+                        <Mail className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                         <input
                           type="email"
                           value={formData.email}
@@ -183,7 +183,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, email: e.target.value })
                           }
                           placeholder="info@hdflooringca.com"
-                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-sky-500 text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
+                          className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-sm placeholder:text-stone-400 dark:placeholder:text-stone-500 outline-none"
                         />
                       </div>
                     </div>
@@ -198,7 +198,7 @@ export function BookUsModal() {
                         onChange={(e) =>
                           setFormData({ ...formData, service: e.target.value })
                         }
-                        className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-red-500 text-stone-900 dark:text-stone-100 text-sm outline-none"
+                        className="w-full px-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-sm outline-none"
                       >
                         {serviceOptions.map((opt) => (
                           <option key={opt} value={opt} className="bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100">
@@ -228,7 +228,7 @@ export function BookUsModal() {
                               onChange={(e) =>
                                 setFormData({ ...formData, propertyType: e.target.value })
                               }
-                              className="accent-red-600"
+                              className="accent-[#E85D04]"
                             />
                             {type}
                           </label>
@@ -241,7 +241,7 @@ export function BookUsModal() {
                         Project Location
                       </label>
                       <div className="relative">
-                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-sky-500" />
+                        <MapPin className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                         <input
                           type="text"
                           value={formData.location}
@@ -249,7 +249,7 @@ export function BookUsModal() {
                             setFormData({ ...formData, location: e.target.value })
                           }
                           placeholder="City / Region"
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-sky-500 text-stone-900 dark:text-stone-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-xs outline-none"
                         />
                       </div>
                     </div>
@@ -259,14 +259,14 @@ export function BookUsModal() {
                         Preferred Date
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                        <Calendar className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                         <input
                           type="date"
                           value={formData.preferredDate}
                           onChange={(e) =>
                             setFormData({ ...formData, preferredDate: e.target.value })
                           }
-                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-amber-500 text-stone-900 dark:text-stone-100 text-xs outline-none"
+                          className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-xs outline-none"
                         />
                       </div>
                     </div>
@@ -277,7 +277,7 @@ export function BookUsModal() {
                       Project Details / Room Dimensions
                     </label>
                     <div className="relative">
-                      <FileText className="absolute left-3.5 top-3 w-4 h-4 text-amber-500" />
+                      <FileText className="absolute left-3.5 top-3 w-4 h-4 text-[#E85D04]" />
                       <textarea
                         rows={3}
                         value={formData.details}
@@ -285,7 +285,7 @@ export function BookUsModal() {
                           setFormData({ ...formData, details: e.target.value })
                         }
                         placeholder="Tell us about room sizes, flooring removal needs, subfloor condition, or timeline..."
-                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-amber-500 text-stone-900 dark:text-stone-100 text-xs outline-none resize-none"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-950 border border-stone-200 dark:border-stone-800 focus:border-[#E85D04] text-stone-900 dark:text-stone-100 text-xs outline-none resize-none"
                       />
                     </div>
                   </div>
@@ -293,7 +293,7 @@ export function BookUsModal() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:brightness-110 text-stone-950 font-bold text-xs uppercase tracking-widest shadow-xl shadow-amber-500/20 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#E85D04]/25 transition-all flex items-center justify-center gap-2"
                   >
                     {loading ? (
                       <span className="animate-pulse">Submitting Request...</span>

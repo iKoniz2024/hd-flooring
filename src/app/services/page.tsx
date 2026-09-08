@@ -41,9 +41,8 @@ export default function ServicesPage() {
 
       {/* Parallax Hero Section */}
       <PageHero
-        badge="Our Services"
+        badge="Our Specialized Services"
         title="Flooring Services We Offer"
-        subtitle="Professional flooring installation for homes and commercial spaces across Canada."
         backgroundImage="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -63,30 +62,13 @@ export default function ServicesPage() {
             const IconComponent = serviceIcons[index % serviceIcons.length];
             const stepNum = String(index + 1).padStart(2, '0');
 
-            const colorSchemes = [
-              {
-                topBar: 'bg-red-500',
-                iconBg: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30 group-hover:bg-red-600 group-hover:text-white',
-                numBadge: 'bg-red-600 text-white shadow-red-500/30',
-                titleHover: 'group-hover:text-red-500 dark:group-hover:text-red-400',
-                btnBg: 'bg-red-600 text-white hover:bg-red-700',
-              },
-              {
-                topBar: 'bg-sky-500',
-                iconBg: 'bg-sky-500/10 text-sky-600 dark:text-sky-400 border-sky-500/30 group-hover:bg-sky-500 group-hover:text-white',
-                numBadge: 'bg-sky-500 text-white shadow-sky-500/30',
-                titleHover: 'group-hover:text-sky-500 dark:group-hover:text-sky-400',
-                btnBg: 'bg-sky-600 text-white hover:bg-sky-700',
-              },
-              {
-                topBar: 'bg-amber-500',
-                iconBg: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/30 group-hover:bg-amber-500 group-hover:text-stone-950',
-                numBadge: 'bg-amber-500 text-stone-950 shadow-amber-500/30',
-                titleHover: 'group-hover:text-amber-500 dark:group-hover:text-amber-400',
-                btnBg: 'bg-amber-500 text-stone-950 hover:bg-amber-600',
-              },
-            ];
-            const color = colorSchemes[index % colorSchemes.length];
+            const color = {
+              topBar: 'bg-[#E85D04]',
+              iconBg: 'bg-[#E85D04]/10 text-[#E85D04] border-[#E85D04]/30 group-hover:bg-[#E85D04] group-hover:text-white',
+              numBadge: 'bg-[#E85D04] text-white shadow-[#E85D04]/30',
+              titleHover: 'group-hover:text-[#E85D04]',
+              btnBg: 'bg-[#E85D04] text-white hover:bg-[#d45203]',
+            };
 
             return (
               <motion.div
@@ -97,7 +79,7 @@ export default function ServicesPage() {
                 transition={{ duration: 0.6, delay: 0.05 }}
               >
                 <TiltCard>
-                  <div className="p-7 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 h-full cursor-pointer relative space-y-4">
+                  <div className="p-7 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 h-full cursor-pointer relative space-y-4">
                     {/* Top Accent Line */}
                     <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500 absolute top-0 left-0 rounded-t-3xl`} />
 
@@ -134,10 +116,10 @@ export default function ServicesPage() {
 
                       <Link
                         href={`/services/${service.slug}`}
-                        className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 flex items-center gap-1 group/link shrink-0"
+                        className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#E85D04] flex items-center gap-1 group/link shrink-0"
                       >
                         Details
-                        <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform text-red-500" />
+                        <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform text-[#E85D04]" />
                       </Link>
                     </div>
                   </div>

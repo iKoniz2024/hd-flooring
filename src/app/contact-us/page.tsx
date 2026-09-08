@@ -34,7 +34,6 @@ export default function ContactUsPage() {
         badge="Contact Us"
         badgeIcon={Phone}
         title="Contact HD Flooring"
-        subtitle="Get in touch with our team for free estimates, flooring advice, or project inquiries."
         backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -59,7 +58,7 @@ export default function ContactUsPage() {
             whileInView={{ opacity: 1, x: 0, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="lg:col-span-2 space-y-8 p-8 sm:p-9 rounded-3xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 shadow-2xl"
+            className="lg:col-span-2 space-y-8 p-8 sm:p-9 rounded-3xl bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-800 shadow-2xl transform-gpu"
           >
             <div className="space-y-2 font-manrope">
               <h3 className="font-jakarta text-2xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -72,7 +71,7 @@ export default function ContactUsPage() {
 
             <ul className="space-y-6 text-xs sm:text-sm font-manrope">
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
+                <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04]">
                   <UserCheck className="w-5 h-5" />
                 </div>
                 <div>
@@ -82,31 +81,31 @@ export default function ContactUsPage() {
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
+                <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04]">
                   <Phone className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Phone</span>
-                  <a href="tel:+13068808404" className="font-bold text-slate-900 dark:text-slate-100 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                  <a href="tel:+13068808404" className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#E85D04] transition-colors">
                     +1 (306) 880-8404
                   </a>
                 </div>
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-red-600/10 border border-red-500/30 text-red-600 dark:text-red-400">
+                <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04]">
                   <Mail className="w-5 h-5" />
                 </div>
                 <div>
                   <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider">Email</span>
-                  <a href="mailto:hdflooring7@gmail.com" className="font-bold text-slate-900 dark:text-slate-100 hover:text-red-600 dark:hover:text-red-400 transition-colors">
+                  <a href="mailto:hdflooring7@gmail.com" className="font-bold text-slate-900 dark:text-slate-100 hover:text-[#E85D04] transition-colors">
                     hdflooring7@gmail.com
                   </a>
                 </div>
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400">
+                <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04]">
                   <MapPin className="w-5 h-5" />
                 </div>
                 <div>
@@ -116,7 +115,7 @@ export default function ContactUsPage() {
               </li>
 
               <li className="flex items-start gap-4">
-                <div className="p-3 rounded-2xl bg-sky-500/10 border border-sky-500/30 text-sky-400">
+                <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04]">
                   <Clock className="w-5 h-5" />
                 </div>
                 <div>
@@ -137,7 +136,7 @@ export default function ContactUsPage() {
           >
             {submitted ? (
               <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="text-center py-12 space-y-4">
-                <div className="w-16 h-16 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                <div className="w-16 h-16 mx-auto rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] flex items-center justify-center">
                   <CheckCircle2 className="w-10 h-10" />
                 </div>
                 <h3 className="font-jakarta text-2xl font-bold">Request Submitted!</h3>
@@ -160,7 +159,7 @@ export default function ContactUsPage() {
                       type="text"
                       required
                       placeholder="David Miller"
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-[#E85D04] text-xs outline-none"
                     />
                   </div>
 
@@ -172,7 +171,7 @@ export default function ContactUsPage() {
                       type="tel"
                       required
                       placeholder="+1 (306) 880-8404"
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-[#E85D04] text-xs outline-none"
                     />
                   </div>
                 </div>
@@ -186,7 +185,7 @@ export default function ContactUsPage() {
                       type="email"
                       required
                       placeholder="hdflooring7@gmail.com"
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-[#E85D04] text-xs outline-none"
                     />
                   </div>
 
@@ -196,7 +195,7 @@ export default function ContactUsPage() {
                     </label>
                     <select
                       required
-                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none"
+                      className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-[#E85D04] text-xs outline-none"
                     >
                       <option>Sheet Vinyl Coving / PVC</option>
                       <option>LVP / LVT / VCT Vinyl Planking</option>
@@ -218,7 +217,7 @@ export default function ContactUsPage() {
                   <textarea
                     rows={4}
                     placeholder="Describe your room sizes, flooring preferences, repairs, or timeline..."
-                    className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-red-500 text-xs outline-none resize-none"
+                    className="w-full px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 focus:border-[#E85D04] text-xs outline-none resize-none"
                   />
                 </div>
 
@@ -227,9 +226,9 @@ export default function ContactUsPage() {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={loading}
-                  className="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-600/20 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
+                  className="w-full py-3.5 px-4 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 inline-flex items-center justify-center gap-1.5 whitespace-nowrap"
                 >
-                  <Send className="w-4 h-4 text-sky-200 shrink-0" />
+                  <Send className="w-4 h-4 text-white shrink-0" />
                   <span>{loading ? 'Sending Request...' : 'Submit Request'}</span>
                 </motion.button>
               </form>

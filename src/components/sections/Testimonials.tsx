@@ -45,7 +45,8 @@ export function Testimonials() {
     offset: ['start end', 'end start'],
   });
 
-  // Smooth background gradient parallax translation
+  // Parallax translation for background image
+  const yParallaxImage = useTransform(scrollYProgress, [0, 1], ['-20%', '20%']);
   const yParallaxFast = useTransform(scrollYProgress, [0, 1], ['-30%', '30%']);
   const yParallaxSlow = useTransform(scrollYProgress, [0, 1], ['20%', '-20%']);
 
@@ -54,38 +55,35 @@ export function Testimonials() {
       ref={containerRef}
       className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300"
     >
-      {/* 1. Dynamic Floating Parallax Color Gradient Orbs */}
-      <motion.div
-        style={{ y: yParallaxFast }}
-        className="absolute -top-32 left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-red-500/25 via-red-400/15 to-transparent dark:from-red-600/30 dark:via-red-500/20 rounded-full blur-[130px] pointer-events-none z-0"
-      />
-      <motion.div
-        style={{ y: yParallaxSlow }}
-        className="absolute -bottom-32 right-1/4 w-[550px] h-[550px] bg-gradient-to-bl from-sky-500/25 via-sky-400/15 to-transparent dark:from-sky-600/30 dark:via-sky-500/20 rounded-full blur-[120px] pointer-events-none z-0"
-      />
+      {/* 1. Bright High-Contrast Parallax Background Image */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div
+          className="absolute -top-[25%] -bottom-[25%] inset-x-0 bg-cover bg-center bg-no-repeat opacity-90"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80&fm=webp')`,
+            y: yParallaxImage,
+          }}
+        />
+        <div className="absolute inset-0 bg-white/40 dark:bg-slate-950/60" />
+      </div>
 
       {/* Content Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
-        {/* Section Header */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
+        {/* Section Header with Crisp White Backdrop for High Contrast */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, y: -20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 30 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="text-center space-y-3 max-w-2xl mx-auto"
+          className="text-center max-w-2xl mx-auto p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-slate-900/95 border border-stone-200/90 dark:border-stone-800 shadow-2xl backdrop-blur-md space-y-3"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider backdrop-blur-md">
-            <Sparkles className="w-4 h-4 text-red-500" />
-            <span>Customer Testimonials</span>
+          <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-bold uppercase tracking-wider">
+            <Star className="w-3.5 h-3.5 fill-[#E85D04] text-[#E85D04]" />
+            <span>Verified Client Reviews</span>
           </div>
-
-          <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white">
-            What Our Customers Say
+          <h2 className="font-playfair text-3xl sm:text-5xl font-black text-slate-900 dark:text-white">
+            What Our <span className="text-[#E85D04]">Customers Say</span>
           </h2>
-
-          <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm font-inter leading-relaxed">
-            Read verified reviews from homeowners, property managers, and commercial clients across Saskatchewan.
-          </p>
         </motion.div>
 
         {/* Testimonials Review Cards */}
@@ -100,14 +98,14 @@ export function Testimonials() {
                 viewport={{ once: true, amount: 0.15 }}
                 transition={{ duration: 0.6, delay: idx * 0.1 }}
                 whileHover={{ y: -6, scale: 1.02 }}
-                className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-xl dark:shadow-2xl backdrop-blur-xl transition-all duration-300 space-y-6 relative flex flex-col justify-between group"
+                className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/40 shadow-xl dark:shadow-2xl backdrop-blur-xl transition-all duration-300 space-y-6 relative flex flex-col justify-between group"
               >
-                <Quote className="w-10 h-10 text-red-500/15 dark:text-red-500/25 absolute top-6 right-6 group-hover:text-red-500/35 transition-colors" />
+                <Quote className="w-10 h-10 text-[#E85D04]/15 absolute top-6 right-6 group-hover:text-[#E85D04]/35 transition-colors" />
 
                 <div className="space-y-4 relative z-10">
-                  <div className="flex items-center gap-1.5 text-amber-500">
+                  <div className="flex items-center gap-1.5 text-[#E85D04]">
                     {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-500 text-amber-500" />
+                      <Star key={i} className="w-4 h-4 fill-[#E85D04] text-[#E85D04]" />
                     ))}
                   </div>
                   <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed font-inter">
@@ -117,7 +115,7 @@ export function Testimonials() {
 
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-800 font-manrope flex items-center justify-between relative z-10">
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors">
                       {review.name}
                     </h4>
                     <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -125,7 +123,7 @@ export function Testimonials() {
                     </p>
                   </div>
 
-                  <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
+                  <span className="px-2.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider">
                     Verified Client
                   </span>
                 </div>

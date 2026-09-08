@@ -140,9 +140,9 @@ export default function ProjectsPage() {
 
       {/* Hero Section */}
       <PageHero
-        badge="Our Projects"
+        badge="HD Flooring Workmanship Gallery"
+        badgeIcon={Camera}
         title="Our Flooring Project Gallery"
-        subtitle="Browse real installation photos of our completed hardwood, vinyl, tile, and laminate projects."
         backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -158,7 +158,7 @@ export default function ProjectsPage() {
         {/* Gallery Header Counter */}
         <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-red-600/10 text-red-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center">
               <Camera className="w-5 h-5" />
             </div>
             <div>
@@ -173,7 +173,7 @@ export default function ProjectsPage() {
 
           <button
             onClick={() => openBookModal('Project Gallery')}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-600 text-white font-manrope font-bold text-xs uppercase tracking-wider hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E85D04] text-white font-manrope font-bold text-xs uppercase tracking-wider hover:bg-[#d45203] transition-colors shadow-lg shadow-[#E85D04]/20"
           >
             <Sparkles className="w-4 h-4" />
             <span>Book Installation</span>
@@ -190,7 +190,7 @@ export default function ProjectsPage() {
               transition={{ duration: 0.3, delay: (index % 12) * 0.03 }}
               whileHover={{ y: -6 }}
               onClick={() => setSelectedIdx(index)}
-              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 cursor-pointer shadow-lg hover:shadow-2xl transition-all"
+              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 cursor-pointer shadow-lg hover:shadow-2xl transition-all transform-gpu"
             >
               {/* Photo Image */}
               <img
@@ -198,6 +198,7 @@ export default function ProjectsPage() {
                 alt={photo.title}
                 className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
                 loading="lazy"
+                decoding="async"
               />
 
               {/* Dark Hover Gradient Overlay */}
@@ -212,11 +213,11 @@ export default function ProjectsPage() {
 
               {/* Bottom Content */}
               <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-                <div className="flex items-center gap-1 text-[11px] font-manrope text-sky-400 font-semibold">
+                <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04] font-semibold">
                   <MapPin className="w-3 h-3" />
                   <span>{photo.location}</span>
                 </div>
-                <h3 className="font-playfair text-sm sm:text-base font-bold text-white group-hover:text-red-400 transition-colors line-clamp-1">
+                <h3 className="font-playfair text-sm sm:text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
                   {photo.title}
                 </h3>
               </div>
@@ -229,7 +230,7 @@ export default function ProjectsPage() {
           {visibleCount < allProjectPhotos.length && (
             <button
               onClick={() => setVisibleCount((prev) => Math.min(prev + 24, allProjectPhotos.length))}
-              className="px-8 py-3.5 rounded-full bg-gradient-to-r from-red-600 to-sky-600 text-white font-manrope font-bold text-xs uppercase tracking-wider hover:opacity-95 transition-all shadow-xl shadow-red-600/20 cursor-pointer"
+              className="px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#E85D04]/20 cursor-pointer"
             >
               Load More Photos ({allProjectPhotos.length - visibleCount} Remaining)
             </button>
@@ -270,7 +271,7 @@ export default function ProjectsPage() {
               {/* Top Header Bar */}
               <div className="p-4 sm:p-6 flex items-center justify-between border-b border-slate-800 bg-slate-950/80">
                 <div className="space-y-0.5">
-                  <div className="flex items-center gap-1.5 text-xs text-sky-400 font-semibold font-manrope">
+                  <div className="flex items-center gap-1.5 text-xs text-[#E85D04] font-semibold font-manrope">
                     <MapPin className="w-3.5 h-3.5" />
                     <span>{selectedPhoto.location}</span>
                   </div>
@@ -281,7 +282,7 @@ export default function ProjectsPage() {
 
                 <button
                   onClick={() => setSelectedIdx(null)}
-                  className="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-red-600 transition-colors flex items-center justify-center"
+                  className="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -298,14 +299,14 @@ export default function ProjectsPage() {
                 {/* Left/Right Navigation Arrows */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-red-600 transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
 
                 <button
                   onClick={handleNext}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-red-600 transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
@@ -323,7 +324,7 @@ export default function ProjectsPage() {
                       setSelectedIdx(null);
                       openBookModal(selectedPhoto.title);
                     }}
-                    className="px-6 py-2.5 rounded-full bg-red-600 text-white text-xs font-manrope font-bold uppercase tracking-wider hover:bg-red-700 transition-colors shadow-lg shadow-red-600/20"
+                    className="px-6 py-2.5 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-bold uppercase tracking-wider hover:bg-[#d45203] transition-colors shadow-lg shadow-[#E85D04]/20"
                   >
                     Get Free Estimate For Similar Work
                   </button>

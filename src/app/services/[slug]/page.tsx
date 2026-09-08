@@ -129,7 +129,6 @@ export default function ServiceDetailPage() {
       <PageHero
         badge={service.categoryTag || 'Specialized Service'}
         title={service.title}
-        subtitle={service.tagline}
         backgroundImage={service.heroImage}
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -145,9 +144,9 @@ export default function ServiceDetailPage() {
       <main className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto w-full space-y-16">
         <Link
           href="/services"
-          className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 hover:text-red-400 transition-colors"
+          className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d45203] transition-colors"
         >
-          <ArrowLeft className="w-4 h-4 text-sky-400" />
+          <ArrowLeft className="w-4 h-4 text-[#E85D04]" />
           Back to All Services
         </Link>
 
@@ -159,14 +158,14 @@ export default function ServiceDetailPage() {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-manrope font-bold uppercase tracking-wider">
-              <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider">
+              <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
               Specialized Service
             </span>
             <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
               {service.title}
             </h1>
-            <p className="text-red-500 font-manrope font-bold text-sm sm:text-base">
+            <p className="text-[#E85D04] font-manrope font-bold text-sm sm:text-base">
               {service.tagline}
             </p>
             <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm leading-relaxed font-inter">
@@ -176,7 +175,7 @@ export default function ServiceDetailPage() {
             <div className="pt-2">
               <button
                 onClick={() => openBookModal(service.title)}
-                className="w-full sm:w-auto text-center px-6 sm:px-8 py-3.5 rounded-full bg-gradient-to-r from-red-600 via-red-500 to-sky-600 hover:brightness-110 text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-lg shadow-red-600/20"
+                className="w-full sm:w-auto text-center px-6 sm:px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-[11px] sm:text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all hover:scale-105"
               >
                 Book {service.title.split(' ')[0]} Installation
               </button>
@@ -188,11 +187,13 @@ export default function ServiceDetailPage() {
             initial={{ opacity: 0, x: 60, scale: 0.9 }}
             animate={{ opacity: 1, x: 0, scale: 1 }}
             transition={{ duration: 0.6 }}
-            className="relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 h-[340px] sm:h-[400px]"
+            className="relative group rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 h-[340px] sm:h-[400px] transform-gpu"
           >
             <img
               src={service.heroImage}
               alt={service.title}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-end p-6">
@@ -201,7 +202,7 @@ export default function ServiceDetailPage() {
                   setActiveImageIdx(0);
                   setLightboxOpen(true);
                 }}
-                className="px-4 py-2 rounded-full bg-red-600 text-white text-xs font-manrope font-bold flex items-center gap-2 hover:bg-red-500 transition-colors shadow-lg"
+                className="px-4 py-2 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-bold flex items-center gap-2 hover:bg-[#d45203] transition-colors shadow-lg"
               >
                 <Maximize2 className="w-4 h-4" />
                 View Gallery
@@ -237,7 +238,7 @@ export default function ServiceDetailPage() {
                 transition={{ duration: 0.4, delay: idx * 0.05 }}
                 className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-start gap-3"
               >
-                <CheckCircle2 className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+                <CheckCircle2 className="w-5 h-5 text-[#E85D04] shrink-0 mt-0.5" />
                 <span className="text-xs sm:text-sm text-slate-700 dark:text-slate-300 font-medium font-manrope">
                   {benefit}
                 </span>
@@ -256,8 +257,8 @@ export default function ServiceDetailPage() {
         >
           <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-4">
             <div className="space-y-1">
-              <span className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-500 uppercase tracking-wider">
-                <Images className="w-4 h-4 text-sky-400" />
+              <span className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] uppercase tracking-wider">
+                <Images className="w-4 h-4 text-[#E85D04]" />
                 Category Photo Gallery
               </span>
               <h2 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -265,10 +266,10 @@ export default function ServiceDetailPage() {
               </h2>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-red-500/30 text-slate-100 shadow-md shadow-red-500/10 shrink-0 whitespace-nowrap">
-              <Camera className="w-3.5 h-3.5 text-red-500 animate-pulse" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 dark:bg-slate-900/95 border border-[#E85D04]/30 text-slate-100 shadow-md shadow-[#E85D04]/10 shrink-0 whitespace-nowrap">
+              <Camera className="w-3.5 h-3.5 text-[#E85D04] animate-pulse" />
               <span className="text-xs font-manrope font-extrabold text-slate-200">
-                <span className="text-red-400 font-black">{galleryPhotos.length}</span> HD Photos
+                <span className="text-[#E85D04] font-black">{galleryPhotos.length}</span> HD Photos
               </span>
             </div>
           </div>
@@ -290,7 +291,7 @@ export default function ServiceDetailPage() {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <div className="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                  <span className="p-3 rounded-full bg-red-600/90 text-white shadow-lg">
+                  <span className="p-3 rounded-full bg-[#E85D04] text-white shadow-lg">
                     <Maximize2 className="w-5 h-5" />
                   </span>
                 </div>
@@ -302,7 +303,7 @@ export default function ServiceDetailPage() {
             <div className="text-center pt-2">
               <button
                 onClick={() => setShowAllPhotos(!showAllPhotos)}
-                className="px-6 py-3 rounded-full bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 dark:from-slate-800 dark:to-slate-900 text-white hover:brightness-110 font-manrope font-extrabold text-xs tracking-wider uppercase shadow-lg border border-slate-700/50 transition-all transform hover:scale-105"
+                className="px-6 py-3 rounded-full bg-[#E85D04] text-white hover:bg-[#d45203] font-manrope font-extrabold text-xs tracking-wider uppercase shadow-lg border border-[#E85D04]/50 transition-all transform hover:scale-105"
               >
                 {showAllPhotos
                   ? 'Show Less Photos'
@@ -320,30 +321,21 @@ export default function ServiceDetailPage() {
           className="p-8 sm:p-10 rounded-3xl bg-slate-900/80 dark:bg-slate-900/90 border border-stone-800 space-y-6 text-center shadow-xl relative overflow-hidden"
         >
           {/* Subtle Ambient Brand Glow */}
-          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-36 bg-gradient-to-r from-red-500/20 via-amber-500/20 to-sky-500/20 blur-2xl pointer-events-none" />
+          <div className="absolute -top-12 left-1/2 -translate-x-1/2 w-80 h-36 bg-[#E85D04]/10 blur-2xl pointer-events-none" />
 
           <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white tracking-tight relative z-10">
             Ideal For Rooms & Spaces
           </h3>
 
           <div className="flex flex-wrap justify-center items-center gap-3 relative z-10 max-w-3xl mx-auto">
-            {service.idealFor.map((room, idx) => {
-              const pillStyles = [
-                'bg-red-500/15 border-red-500/40 text-red-400 hover:border-red-400',
-                'bg-sky-500/15 border-sky-500/40 text-sky-400 hover:border-sky-400',
-                'bg-amber-500/15 border-amber-500/40 text-amber-400 hover:border-amber-400',
-              ];
-              const pillStyle = pillStyles[idx % pillStyles.length];
-
-              return (
-                <span
-                  key={room}
-                  className={`px-5 py-2.5 rounded-full border ${pillStyle} text-xs font-manrope font-bold tracking-wide shadow-sm transition-all duration-300 hover:scale-105`}
-                >
-                  {room}
-                </span>
-              );
-            })}
+            {service.idealFor.map((room) => (
+              <span
+                key={room}
+                className="px-5 py-2.5 rounded-full border bg-[#E85D04]/15 border-[#E85D04]/40 text-[#E85D04] hover:border-[#E85D04] text-xs font-manrope font-bold tracking-wide shadow-sm transition-all duration-300 hover:scale-105"
+              >
+                {room}
+              </span>
+            ))}
           </div>
         </motion.div>
 
@@ -361,40 +353,31 @@ export default function ServiceDetailPage() {
           </div>
 
           <div className="flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
-            {service.process.map((stepName, idx) => {
-              const stepColors = [
-                { num: 'text-red-500', border: 'hover:border-red-500/60 shadow-red-500/5' },
-                { num: 'text-sky-500', border: 'hover:border-sky-500/60 shadow-sky-500/5' },
-                { num: 'text-amber-500', border: 'hover:border-amber-500/60 shadow-amber-500/5' },
-              ];
-              const color = stepColors[idx % stepColors.length];
-
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 25, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, amount: 0.15 }}
-                  transition={{ duration: 0.4, delay: idx * 0.08 }}
-                  className={`flex-1 min-w-[170px] max-w-[220px] p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 ${color.border} text-center space-y-2.5 shadow-lg transition-all duration-300 hover:-translate-y-1.5`}
-                >
-                  <span className={`font-playfair font-black ${color.num} text-xl block`}>
-                    0{idx + 1}
-                  </span>
-                  <p className="text-xs font-manrope font-bold text-slate-800 dark:text-slate-200 leading-snug">
-                    {stepName}
-                  </p>
-                </motion.div>
-              );
-            })}
+            {service.process.map((stepName, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 25, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.4, delay: idx * 0.08 }}
+                className="flex-1 min-w-[170px] max-w-[220px] p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/60 shadow-lg text-center space-y-2.5 transition-all duration-300 hover:-translate-y-1.5"
+              >
+                <span className="font-playfair font-black text-[#E85D04] text-xl block">
+                  0{idx + 1}
+                </span>
+                <p className="text-xs font-manrope font-bold text-slate-800 dark:text-slate-200 leading-snug">
+                  {stepName}
+                </p>
+              </motion.div>
+            ))}
           </div>
         </motion.div>
 
         {service.faqs && service.faqs.length > 0 && (
           <div className="space-y-6">
             <div className="text-center space-y-2">
-              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-extrabold uppercase tracking-wider">
-                <HelpCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />
+              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-extrabold uppercase tracking-wider">
+                <HelpCircle className="w-3.5 h-3.5 text-[#E85D04] shrink-0" />
                 GOT QUESTIONS?
               </div>
               <h2 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -410,22 +393,22 @@ export default function ServiceDetailPage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="p-8 rounded-3xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl"
+          className="p-8 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-xl"
         >
           <div className="space-y-1 text-center sm:text-left font-manrope">
-            <h3 className="font-playfair text-2xl font-extrabold text-white">
+            <h3 className="font-playfair text-2xl font-extrabold text-stone-900 dark:text-white">
               Ready to Install {service.title}?
             </h3>
-            <p className="text-xs font-medium text-slate-100">
+            <p className="text-xs font-medium text-stone-600 dark:text-stone-300">
               Contact HD Flooring today for a free in-home site assessment & estimate.
             </p>
           </div>
 
           <button
             onClick={() => openBookModal(service.title)}
-            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-white text-red-600 font-extrabold text-xs uppercase tracking-wider hover:bg-slate-100 transition-colors shrink-0 shadow-xl shadow-red-900/20 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/20 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-red-500" />
+            <Sparkles className="w-4 h-4 text-white" />
             <span>Get Free Quote</span>
           </button>
         </motion.div>
@@ -442,7 +425,7 @@ export default function ServiceDetailPage() {
           >
             <button
               onClick={() => setLightboxOpen(false)}
-              className="absolute top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:bg-red-600 transition-colors"
+              className="absolute top-6 right-6 p-3 rounded-full bg-slate-900 border border-slate-700 text-slate-200 hover:text-white hover:bg-[#E85D04] transition-colors"
             >
               <X className="w-6 h-6" />
             </button>
@@ -464,13 +447,13 @@ export default function ServiceDetailPage() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={prevImage}
-                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-red-500 text-white transition-colors"
+                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors"
                   >
                     <ChevronLeft className="w-5 h-5" />
                   </button>
                   <button
                     onClick={nextImage}
-                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-red-500 text-white transition-colors"
+                    className="p-2.5 rounded-full bg-slate-900 border border-slate-700 hover:border-[#E85D04] text-white transition-colors"
                   >
                     <ChevronRight className="w-5 h-5" />
                   </button>

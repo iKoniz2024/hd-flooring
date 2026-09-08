@@ -100,13 +100,13 @@ export function PageHero({
                   <li key={idx} className="inline-flex items-center gap-1 sm:gap-1.5 max-w-full">
                     {idx > 0 && <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-stone-400 dark:text-slate-500 shrink-0" />}
                     {isLast || !item.href ? (
-                      <span className="text-red-600 dark:text-red-400 font-bold truncate max-w-[130px] sm:max-w-[280px] lg:max-w-none">
+                      <span className="text-[#E85D04] font-bold truncate max-w-[130px] sm:max-w-[280px] lg:max-w-none">
                         {item.label}
                       </span>
                     ) : (
                       <Link
                         href={item.href}
-                        className="hover:text-red-600 dark:hover:text-white transition-colors duration-200 shrink-0"
+                        className="hover:text-[#E85D04] transition-colors duration-200 shrink-0"
                       >
                         {item.label}
                       </Link>
@@ -126,9 +126,9 @@ export function PageHero({
             transition={{ duration: 0.6, delay: 0.1, type: 'spring', stiffness: 200 }}
             className="max-w-full"
           >
-            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-red-600/20 border border-red-500/40 backdrop-blur-md shadow-xl shadow-red-600/10 max-w-full">
-              <BadgeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-500 animate-pulse shrink-0" />
-              <span className="text-[10px] sm:text-xs font-manrope font-bold text-red-300 uppercase tracking-widest truncate">
+            <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#E85D04]/25 border border-[#E85D04]/50 backdrop-blur-md shadow-xl shadow-[#E85D04]/15 max-w-full">
+              <BadgeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E85D04] animate-pulse shrink-0" />
+              <span className="text-[10px] sm:text-xs font-manrope font-bold text-white uppercase tracking-widest truncate">
                 {badge}
               </span>
             </div>
@@ -169,10 +169,10 @@ export function PageHero({
               primaryCta.href ? (
                 <Link
                   href={primaryCta.href}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white text-sm font-semibold hover:from-red-500 hover:to-amber-500 shadow-xl shadow-red-600/30 transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E85D04] text-white text-sm font-semibold hover:bg-[#d45203] shadow-xl shadow-[#E85D04]/30 transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   {primaryCta.href.startsWith('tel:') ? (
-                    <Phone className="w-4 h-4 text-amber-200 shrink-0" />
+                    <Phone className="w-4 h-4 text-white shrink-0" />
                   ) : null}
                   <span>{primaryCta.label}</span>
                   {!primaryCta.href.startsWith('tel:') && <ArrowRight className="w-4 h-4" />}
@@ -186,7 +186,7 @@ export function PageHero({
                       openBookModal();
                     }
                   }}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white text-sm font-semibold hover:from-red-500 hover:to-amber-500 shadow-xl shadow-red-600/30 transition-all duration-300 hover:scale-105 active:scale-95"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#E85D04] text-white text-sm font-semibold hover:bg-[#d45203] shadow-xl shadow-[#E85D04]/30 transition-all duration-300 hover:scale-105 active:scale-95"
                 >
                   <span>{primaryCta.label}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -216,7 +216,7 @@ export function PageHero({
       </motion.div>
 
       {/* Bottom Subtle Accent Glow Line */}
-      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-red-500/60 to-transparent pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#E85D04]/60 to-transparent pointer-events-none z-10" />
     </section>
   );
 }

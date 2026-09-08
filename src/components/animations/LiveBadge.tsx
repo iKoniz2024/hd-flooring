@@ -24,7 +24,7 @@ export function LiveBadge() {
 
   return (
     <div className="py-4 flex justify-center font-inter px-4">
-      <div className="px-4 py-2 rounded-full bg-slate-900/90 border border-red-500/30 backdrop-blur-md shadow-lg shadow-red-500/10 text-xs sm:text-sm font-medium text-slate-200 overflow-hidden relative max-w-xl text-center">
+      <div className="px-4 py-2 rounded-full bg-slate-900/90 border border-[#E85D04]/30 backdrop-blur-md shadow-lg shadow-[#E85D04]/10 text-xs sm:text-sm font-medium text-slate-200 overflow-hidden relative max-w-xl text-center">
         <AnimatePresence mode="wait">
           <motion.span
             key={index}

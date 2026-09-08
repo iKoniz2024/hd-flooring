@@ -18,10 +18,9 @@ export default function BlogPage() {
 
       {/* Parallax Hero Section */}
       <PageHero
-        badge="Flooring Articles"
+        badge="Flooring Articles & Guides"
         title="Flooring Guides & Tips"
-        subtitle="Read our simple guides and tips on choosing, installing, and caring for your floors."
-        backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-02.jpg"
+        backgroundImage="https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Blog' },
@@ -41,20 +40,32 @@ export default function BlogPage() {
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: 0.6, delay: 0.05 }}
                 whileHover={{ y: -5 }}
-                className="p-8 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl space-y-4 flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer"
+                className="relative p-8 rounded-3xl bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/80 shadow-xl hover:shadow-2xl space-y-4 flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer overflow-hidden transform-gpu"
               >
-                <div className="space-y-3">
-                  <div className="flex items-center gap-3 text-xs text-red-600 dark:text-red-400 font-manrope">
-                    <span className="px-3 py-1 rounded-full bg-red-600/10 border border-red-500/30 font-bold">
+                {/* Hover Background Photo Reveal Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none z-0">
+                  <img
+                    src={post.coverImage}
+                    alt={post.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-stone-950/40" />
+                </div>
+
+                <div className="space-y-3 relative z-10">
+                  <div className="flex items-center gap-3 text-xs text-[#E85D04] font-manrope">
+                    <span className="px-3 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 font-bold backdrop-blur-md">
                       {post.category}
                     </span>
-                    <span className="flex items-center gap-1 text-slate-500 dark:text-slate-400">
+                    <span className="flex items-center gap-1 text-slate-500 dark:text-slate-400 font-semibold">
                       <Clock className="w-3.5 h-3.5" />
                       {post.readTime}
                     </span>
                   </div>
 
-                  <h3 className="font-jakarta text-xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                  <h3 className="font-jakarta text-xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter">
@@ -62,16 +73,16 @@ export default function BlogPage() {
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-800/80 relative z-10">
                   <Link
                     href={`/blog/${post.slug}`}
                     onClick={() => {
                       smoothScrollToTop(750);
                     }}
-                    className="text-xs font-manrope font-bold text-red-600 dark:text-red-400 hover:text-red-700 flex items-center gap-1.5 group/link"
+                    className="text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d05203] flex items-center gap-1.5 group/link"
                   >
                     <span>Read Full Article</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-red-500 group-hover/link:translate-x-1 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 text-[#E85D04] group-hover/link:translate-x-1 transition-transform" />
                   </Link>
                 </div>
               </motion.div>

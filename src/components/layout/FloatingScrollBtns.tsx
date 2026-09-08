@@ -44,7 +44,7 @@ export function FloatingScrollBtns() {
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-red-500/40 text-red-500 hover:text-red-400 hover:bg-red-500/20 backdrop-blur-md shadow-lg shadow-red-500/10 transition-all duration-300 group"
+            className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-[#E85D04]/40 text-[#E85D04] hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-lg shadow-[#E85D04]/10 transition-all duration-300 group"
           >
             <ChevronUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200" />
           </motion.button>
@@ -56,7 +56,7 @@ export function FloatingScrollBtns() {
         whileTap={{ scale: 0.9 }}
         onClick={scrollToBottom}
         aria-label="Scroll to bottom"
-        className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-sky-500/40 text-sky-400 hover:text-sky-300 hover:bg-sky-500/20 backdrop-blur-md shadow-lg shadow-sky-500/10 transition-all duration-300 group"
+        className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-[#E85D04]/40 text-[#E85D04] hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-lg shadow-[#E85D04]/10 transition-all duration-300 group"
       >
         <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform duration-200" />
       </motion.button>

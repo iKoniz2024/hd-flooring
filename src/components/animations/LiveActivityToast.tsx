@@ -81,22 +81,22 @@ export function LiveActivityToast() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.85 }}
             transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-            className="relative p-4 rounded-2xl bg-slate-900/95 border border-red-500/30 backdrop-blur-2xl shadow-2xl shadow-black/60 text-slate-100 flex items-start gap-3.5 group cursor-pointer"
+            className="relative p-4 rounded-2xl bg-slate-900/95 border border-[#E85D04]/30 backdrop-blur-2xl shadow-2xl shadow-black/60 text-slate-100 flex items-start gap-3.5 group cursor-pointer"
             onClick={() => openBookModal(current.service)}
           >
             {/* Live Indicator Pulse Dot */}
             <div className="relative shrink-0 pt-0.5">
               <span className="relative flex h-3.5 w-3.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-red-500 border border-slate-950" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E85D04] opacity-75" />
+                <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#E85D04] border border-slate-950" />
               </span>
             </div>
 
             {/* Content */}
             <div className="space-y-1 flex-1 font-inter">
               <div className="flex items-center justify-between gap-2">
-                <span className="text-[11px] font-manrope font-extrabold uppercase tracking-wider text-red-400 flex items-center gap-1">
-                  <Sparkles className="w-3 h-3 text-sky-400" />
+                <span className="text-[11px] font-manrope font-extrabold uppercase tracking-wider text-[#E85D04] flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-[#E85D04]" />
                   {current.title}
                 </span>
                 <span className="text-[10px] text-slate-400 flex items-center gap-1 font-manrope">
@@ -110,8 +110,8 @@ export function LiveActivityToast() {
               </p>
 
               <div className="flex items-center justify-between text-[11px] font-manrope text-slate-400 pt-1">
-                <span className="text-sky-300 font-medium">📍 {current.city}</span>
-                <span className="text-red-400 group-hover:underline font-bold">Book Similar →</span>
+                <span className="text-slate-300 font-medium">📍 {current.city}</span>
+                <span className="text-[#E85D04] group-hover:underline font-bold">Book Similar →</span>
               </div>
             </div>
 

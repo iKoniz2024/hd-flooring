@@ -9,37 +9,37 @@ const steps = [
   {
     num: '01',
     title: 'Site Measurement & Inspection',
-    desc: 'We measure your room dimensions, check subfloor moisture, and discuss your design ideas.',
+    desc: 'Room measurement & subfloor check.',
     image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '02',
-    title: 'Floor Selection & Free Quote',
-    desc: 'Choose your preferred flooring material and get a clear, upfront price estimate.',
+    title: 'Floor Selection & Quote',
+    desc: 'Material pick & upfront pricing.',
     image: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '03',
-    title: 'Old Floor Removal & Subfloor Prep',
-    desc: 'We remove old floors, level the subfloor, repair squeaks, and install underlayment.',
+    title: 'Subfloor Prep & Removal',
+    desc: 'Old floor removal & subfloor prep.',
     image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '04',
-    title: 'Professional Floor Installation',
-    desc: 'Our expert team lays your new floor with tight seams, straight lines, and clean edge cuts.',
+    title: 'Master Floor Installation',
+    desc: 'Precision plank & tile laying.',
     image: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '05',
-    title: 'Baseboards & Transition Strips',
-    desc: 'We fit matching baseboards, stair caps, and door transition moldings for a complete look.',
+    title: 'Baseboards & Transitions',
+    desc: 'Trim, baseboards & stair caps.',
     image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '06',
-    title: 'Clean Up & Final Inspection',
-    desc: 'We clean up the work area, inspect every room with you, and issue your warranty.',
+    title: 'Cleanup & Final Walkthrough',
+    desc: 'Site cleanup & final walk-through.',
     image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
 ];
@@ -57,18 +57,15 @@ export function ProcessTimeline() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6 }}
-        className="text-center space-y-4 mb-16"
+        className="text-center mb-12 space-y-3"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500/10 via-amber-500/10 to-sky-500/10 border border-stone-300 dark:border-stone-800 text-xs font-bold uppercase tracking-wider">
-          <Sparkles className="w-4 h-4 text-sky-500" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">How We Work (6 Easy Steps)</span>
+        <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 text-xs font-bold uppercase tracking-widest">
+          <span className="w-2 h-2 rounded-full bg-[#E85D04] animate-pulse" />
+          <span>Proven Workflow</span>
         </div>
         <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
-          Our Step-by-Step Installation Process
+          Our 6-Step <span className="text-[#E85D04]">Process</span>
         </h2>
-        <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base">
-          Hover over any step card to see how we complete each stage of your floor installation.
-        </p>
       </motion.div>
 
       {/* Side-by-Side 2-Column Section Layout */}
@@ -82,7 +79,7 @@ export function ProcessTimeline() {
           transition={{ duration: 0.8 }}
           className="lg:col-span-5 sticky top-28 space-y-6"
         >
-          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[520px] sm:h-[620px] w-full group">
+          <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[420px] sm:h-[480px] w-full group">
             <AnimatePresence mode="wait">
               <motion.img
                 key={activeStep.image}
@@ -96,62 +93,36 @@ export function ProcessTimeline() {
               />
             </AnimatePresence>
 
-            <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-stone-950/30 to-transparent" />
-
-            {/* Top Overlay Quality Badge */}
-            <div className="absolute top-6 left-6 p-4 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-stone-200 dark:border-stone-800 shadow-xl space-y-1">
-              <span className="text-xs font-black uppercase text-sky-500 tracking-wider">Hover Preview: Step {activeStep.num} of 06</span>
-              <p className="text-xs font-bold text-stone-900 dark:text-white">{activeStep.title}</p>
-            </div>
+            <div className="absolute inset-0 bg-gradient-to-t from-stone-950/80 via-transparent to-transparent" />
 
             {/* Bottom Overlay Info Card */}
-            <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-stone-200 dark:border-stone-800 shadow-2xl space-y-3">
+            <div className="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-stone-950/80 backdrop-blur-md border border-stone-800 shadow-2xl space-y-2.5">
               <div className="flex items-center justify-between text-xs font-bold">
-                <span className="text-stone-700 dark:text-stone-200">Saskatoon & Area Master Installation</span>
-                <span className="text-emerald-500 font-extrabold">100% Quality</span>
+                <span className="text-stone-200">Step {activeStep.num} of 06</span>
+                <span className="text-[#E85D04] font-extrabold">{activeStep.title}</span>
               </div>
-              <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed">
-                From room measurements to final baseboard touchups, our systematic 6-step workflow keeps your project on time and budget.
-              </p>
               <button
                 onClick={() => openBookModal(`Step ${activeStep.num} - ${activeStep.title}`)}
-                className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-sky-600 via-amber-500 to-red-600 text-white font-extrabold text-xs uppercase tracking-wider shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-2"
+                className="w-full py-2 px-3 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 transition-all flex items-center justify-center gap-2"
               >
                 <ShieldCheck className="w-4 h-4" />
-                Schedule Free Site Assessment
+                Get Free Estimate
               </button>
             </div>
           </div>
         </motion.div>
 
-        {/* Right Side: Clean 6-Step Feature Cards Grid (With Interactive Hover Photo Preview) */}
+        {/* Right Side: Clean 6-Step Feature Cards Grid */}
         <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
           {steps.map((step, idx) => {
             const isHovered = activeIdx === idx;
-            const stepColors = [
-              {
-                borderHover: 'hover:border-red-500/60',
-                numBadge: 'bg-red-600 text-white shadow-red-500/30',
-                titleHover: 'group-hover:text-red-500',
-                iconColor: 'text-red-500',
-                footerText: 'text-red-500',
-              },
-              {
-                borderHover: 'hover:border-sky-500/60',
-                numBadge: 'bg-sky-500 text-white shadow-sky-500/30',
-                titleHover: 'group-hover:text-sky-500',
-                iconColor: 'text-sky-500',
-                footerText: 'text-sky-500',
-              },
-              {
-                borderHover: 'hover:border-amber-500/60',
-                numBadge: 'bg-amber-500 text-stone-950 shadow-amber-500/30',
-                titleHover: 'group-hover:text-amber-500',
-                iconColor: 'text-amber-500',
-                footerText: 'text-amber-500',
-              },
-            ];
-            const color = stepColors[idx % stepColors.length];
+            const color = {
+              borderHover: 'hover:border-[#E85D04]/60',
+              numBadge: 'bg-[#E85D04] text-white shadow-[#E85D04]/30',
+              titleHover: 'group-hover:text-[#E85D04]',
+              iconColor: 'text-[#E85D04]',
+              footerText: 'text-[#E85D04]',
+            };
 
             return (
               <motion.div
@@ -161,7 +132,7 @@ export function ProcessTimeline() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
                 onMouseEnter={() => setActiveIdx(idx)}
-                className={`relative rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.borderHover} ${isHovered ? 'ring-2 ring-sky-500/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl overflow-hidden group flex flex-col justify-between p-6 transition-all duration-500 ease-out cursor-pointer space-y-4 h-full`}
+                className={`relative rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.borderHover} ${isHovered ? 'ring-2 ring-[#E85D04]/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl overflow-hidden group flex flex-col justify-between p-6 transition-all duration-500 ease-out cursor-pointer space-y-4 h-full`}
               >
                 {/* Hover Photo Preview Background Overlay */}
                 <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none -z-0">

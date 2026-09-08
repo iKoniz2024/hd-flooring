@@ -15,7 +15,7 @@ export function DarkModeToggle() {
 
   if (!mounted) {
     return (
-      <div className="w-9 h-9 rounded-full border border-red-500/20 bg-red-500/5 animate-pulse" />
+      <div className="w-9 h-9 rounded-full border border-[#E85D04]/20 bg-[#E85D04]/5 animate-pulse" />
     );
   }
 
@@ -31,7 +31,7 @@ export function DarkModeToggle() {
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.92 }}
       onClick={toggleTheme}
-      className="relative w-9 h-9 rounded-full border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-500 dark:text-red-400 transition-all duration-300 shadow-sm focus:outline-none flex items-center justify-center shrink-0 cursor-pointer"
+      className="relative w-9 h-9 rounded-full border border-[#E85D04]/30 bg-[#E85D04]/10 hover:bg-[#E85D04]/20 text-[#E85D04] transition-all duration-300 shadow-sm focus:outline-none flex items-center justify-center shrink-0 cursor-pointer"
       aria-label="Toggle Dark / Light Mode"
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
     >

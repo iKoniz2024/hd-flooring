@@ -35,8 +35,7 @@ export default function Home() {
         {/* 2. Introduction Section */}
         <IntroSection />
 
-        {/* 3. Live Activity Ticker */}
-        <LiveBadge />
+
 
         {/* 4. Before / After Transformation */}
         <BeforeAfterSlider />

@@ -43,7 +43,7 @@ export function AnimatedCounter({
   }, [isInView, from, to, duration]);
 
   return (
-    <span ref={ref} className="font-playfair font-extrabold text-red-500">
+    <span ref={ref} className="font-playfair font-extrabold text-[#E85D04]">
       {count}
       {suffix}
     </span>

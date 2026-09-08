@@ -229,8 +229,8 @@ export function ProjectShowcaseTicker() {
   return (
     <section className="py-24 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter relative overflow-hidden border-y border-slate-200 dark:border-slate-800">
       {/* Background Glow Effects */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-red-600/10 rounded-full blur-[140px] pointer-events-none hidden dark:block" />
-      <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-sky-600/10 rounded-full blur-[120px] pointer-events-none hidden dark:block" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-[#E85D04]/10 rounded-full blur-[140px] pointer-events-none hidden dark:block" />
+      <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-[#E85D04]/10 rounded-full blur-[120px] pointer-events-none hidden dark:block" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-12">
         {/* Section Heading */}
@@ -239,9 +239,9 @@ export function ProjectShowcaseTicker() {
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider"
           >
-            <Camera className="w-4 h-4 text-red-500" />
+            <Camera className="w-4 h-4 text-[#E85D04]" />
             <span>HD Flooring Workmanship Gallery</span>
           </motion.div>
 
@@ -251,23 +251,14 @@ export function ProjectShowcaseTicker() {
             viewport={{ once: true }}
             className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight"
           >
-            Real On-Site Projects & <span className="brand-gradient-text">Craftsmanship</span>
+            Real On-Site Projects & <span className="text-[#E85D04]">Craftsmanship</span>
           </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-slate-600 dark:text-slate-300 text-sm sm:text-base font-inter max-w-2xl mx-auto leading-relaxed"
-          >
-            Browse high-definition photos of real installation sites, self-leveling floor preps, custom stair capping, and sheet vinyl coving completed across Saskatoon and Saskatchewan.
-          </motion.p>
         </div>
 
-        {/* Gallery Grid - Generic Photo Gallery */}
-        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* Gallery Grid - 4 Curated Showcase Photos */}
+        <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <AnimatePresence mode="popLayout">
-            {galleryPhotos.map((photo, index) => (
+            {galleryPhotos.slice(0, 4).map((photo, index) => (
               <motion.div
                 key={photo.id}
                 layout
@@ -277,7 +268,7 @@ export function ProjectShowcaseTicker() {
                 transition={{ duration: 0.4, delay: index * 0.03 }}
                 whileHover={{ y: -6 }}
                 onClick={() => setSelectedPhoto(photo)}
-                className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl"
+                className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-lg transform-gpu"
               >
                 {/* Photo Image */}
                 <Image
@@ -300,11 +291,11 @@ export function ProjectShowcaseTicker() {
 
                 {/* Bottom Content */}
                 <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-                  <div className="flex items-center gap-1 text-[11px] font-manrope text-sky-400">
+                  <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04]">
                     <MapPin className="w-3 h-3" />
                     <span>{photo.location}</span>
                   </div>
-                  <h3 className="font-playfair text-base font-bold text-white group-hover:text-red-400 transition-colors line-clamp-1">
+                  <h3 className="font-playfair text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
                     {photo.title}
                   </h3>
                 </div>
@@ -314,14 +305,14 @@ export function ProjectShowcaseTicker() {
         </motion.div>
 
         {/* View All Projects CTA */}
-        <div className="text-center pt-4">
+        <div className="text-center pt-2">
           <Link href="/projects">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-gradient-to-r from-red-600 to-sky-600 text-white font-manrope font-bold text-sm uppercase tracking-wider shadow-xl shadow-red-600/25 hover:shadow-red-600/40 transition-all"
+              className="inline-flex items-center gap-2.5 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 hover:shadow-[#E85D04]/40 transition-all"
             >
-              <span>Explore Complete Gallery ({galleryPhotos.length}+ Photos)</span>
+              <span>Explore Complete Gallery</span>
               <ArrowRight className="w-4 h-4" />
             </motion.button>
           </Link>
@@ -348,7 +339,7 @@ export function ProjectShowcaseTicker() {
               {/* Close Button */}
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white flex items-center justify-center hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white flex items-center justify-center hover:bg-[#E85D04] hover:text-white hover:border-[#E85D04] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -367,10 +358,10 @@ export function ProjectShowcaseTicker() {
               <div className="p-6 bg-slate-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-slate-800">
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[11px] font-bold uppercase tracking-wider">
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#E85D04]/20 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
                       {selectedPhoto.tag}
                     </span>
-                    <span className="flex items-center gap-1 text-xs text-sky-400">
+                    <span className="flex items-center gap-1 text-xs text-[#E85D04]">
                       <MapPin className="w-3 h-3" />
                       {selectedPhoto.location}
                     </span>
@@ -381,7 +372,7 @@ export function ProjectShowcaseTicker() {
                 </div>
 
                 <Link href="/projects" onClick={() => setSelectedPhoto(null)}>
-                  <button className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white font-manrope font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all">
+                  <button className="px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg transition-all">
                     <span>View Related Projects</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>

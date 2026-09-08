@@ -82,20 +82,15 @@ export function TeamPhotoGallery() {
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        className="text-center space-y-3"
+        className="text-center mb-12 space-y-3"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
-          <HardHat className="w-4 h-4 text-red-500" />
-          <span>Real On-Site Team & Workmanship</span>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-stone-100 dark:bg-slate-900 border border-stone-300 dark:border-slate-800 text-stone-800 dark:text-slate-200 text-xs font-bold uppercase tracking-wider">
+          <HardHat className="w-3.5 h-3.5 text-[#E85D04]" />
+          <span>On-Site Specialists</span>
         </div>
-
         <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-          Meet Our Team <span className="brand-gradient-text">In Action</span>
+          Meet Our Team <span className="text-[#E85D04]">In Action</span>
         </h2>
-
-        <p className="text-slate-600 dark:text-slate-400 text-xs sm:text-sm font-inter max-w-2xl mx-auto leading-relaxed">
-          Take a look behind the scenes at our dedicated installation specialists pouring self-levelers, heat welding sheet vinyl, laying hardwood, and inspecting site details.
-        </p>
       </motion.div>
 
       {/* Grid of Team Photos */}
@@ -109,7 +104,7 @@ export function TeamPhotoGallery() {
             transition={{ duration: 0.5, delay: idx * 0.08 }}
             whileHover={{ y: -6 }}
             onClick={() => setSelectedPhoto(photo)}
-            className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl"
+            className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl transform-gpu"
           >
             <Image
               src={photo.src}
@@ -122,7 +117,7 @@ export function TeamPhotoGallery() {
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
             <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-              <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-red-400 uppercase tracking-wider backdrop-blur-md">
+              <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-[#E85D04] uppercase tracking-wider backdrop-blur-md">
                 {photo.badge}
               </span>
               <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
@@ -131,7 +126,7 @@ export function TeamPhotoGallery() {
             </div>
 
             <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-              <h3 className="font-playfair text-base font-bold text-white group-hover:text-red-400 transition-colors">
+              <h3 className="font-playfair text-base font-bold text-white group-hover:text-[#E85D04] transition-colors">
                 {photo.title}
               </h3>
               <p className="text-[11px] text-slate-300 line-clamp-2 leading-snug">
@@ -161,7 +156,7 @@ export function TeamPhotoGallery() {
             >
               <button
                 onClick={() => setSelectedPhoto(null)}
-                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white flex items-center justify-center hover:bg-red-600 hover:text-white hover:border-red-600 transition-colors"
+                className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-white/90 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white flex items-center justify-center hover:bg-[#E85D04] hover:text-white hover:border-[#E85D04] transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -177,7 +172,7 @@ export function TeamPhotoGallery() {
 
               <div className="p-6 bg-slate-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-slate-800">
                 <div className="space-y-1">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-red-500/20 text-red-400 text-[11px] font-bold uppercase tracking-wider">
+                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#E85D04]/20 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
                     {selectedPhoto.badge}
                   </span>
                   <h3 className="font-playfair text-xl font-bold text-white">

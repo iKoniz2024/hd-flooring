@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, Menu, X, Sparkles, ArrowRight, Calculator } from 'lucide-react';
+import { ChevronDown, Menu, X, Sparkles, ArrowRight, Calculator, Phone, Mail, MapPin, Clock, ShieldCheck } from 'lucide-react';
 import { DarkModeToggle } from '@/components/interactive/DarkModeToggle';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
@@ -38,12 +38,14 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+
+
       {/* Main Navbar - Light & Dark Mode */}
       <div
         className={`transition-all duration-300 ${
           scrolled
-            ? 'bg-white/95 dark:bg-stone-950/95 text-stone-900 dark:text-stone-100 border-b border-stone-200 dark:border-stone-800 backdrop-blur-md py-3 shadow-xl'
-            : 'bg-white/80 dark:bg-stone-950/80 text-stone-900 dark:text-stone-100 backdrop-blur-md py-4 border-b border-stone-200/60 dark:border-stone-800/60'
+            ? 'bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 border-b border-stone-200 dark:border-stone-800 shadow-xl py-2.5'
+            : 'bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 border-b border-stone-200 dark:border-stone-800 py-3.5 shadow-sm'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -57,8 +59,8 @@ export function Header() {
             <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
               <Link
                 href="/"
-                className={`transition-colors duration-200 hover:text-amber-500 ${
-                  pathname === '/' ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname === '/' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Home
@@ -66,8 +68,8 @@ export function Header() {
 
               <Link
                 href="/about-us"
-                className={`transition-colors duration-200 hover:text-amber-500 ${
-                  pathname === '/about-us' ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname === '/about-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 About Us
@@ -81,14 +83,14 @@ export function Header() {
               >
                 <Link
                   href="/services"
-                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-sky-500 py-1 ${
-                    pathname.startsWith('/services') ? 'text-sky-600 dark:text-sky-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                  className={`flex items-center gap-1 transition-colors duration-200 hover:text-[#E85D04] py-1 ${
+                    pathname.startsWith('/services') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                   }`}
                 >
                   Services
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 ${
-                      servicesOpen ? 'rotate-180 text-sky-500' : ''
+                      servicesOpen ? 'rotate-180 text-[#E85D04]' : ''
                     }`}
                   />
                 </Link>
@@ -105,7 +107,7 @@ export function Header() {
                     >
                       <div className="p-3 rounded-2xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 shadow-2xl grid gap-1.5">
                         <div className="px-3 py-2 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between">
-                          <span className="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 uppercase tracking-wider">
+                          <span className="text-xs font-bold text-[#E85D04] uppercase tracking-wider">
                             Flooring Solutions
                           </span>
                           <Link href="/services" className="text-[11px] text-stone-500 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white flex items-center gap-1">
@@ -122,14 +124,14 @@ export function Header() {
                             className="p-2.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800/80 transition-colors duration-150 group flex items-start justify-between"
                           >
                             <div>
-                              <div className="text-xs font-semibold text-stone-900 dark:text-stone-200 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                              <div className="text-xs font-semibold text-stone-900 dark:text-stone-200 group-hover:text-[#E85D04] transition-colors">
                                 {service.name}
                               </div>
                               <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
                                 {service.desc}
                               </div>
                             </div>
-                            <ArrowRight className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 group-hover:text-sky-500 group-hover:translate-x-1 transition-all mt-0.5 shrink-0" />
+                            <ArrowRight className="w-3.5 h-3.5 text-stone-400 dark:text-stone-500 group-hover:text-[#E85D04] group-hover:translate-x-1 transition-all mt-0.5 shrink-0" />
                           </Link>
                         ))}
                       </div>
@@ -140,18 +142,18 @@ export function Header() {
 
               <Link
                 href="/cost-calculator"
-                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-red-500 ${
-                  pathname === '/cost-calculator' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`flex items-center gap-1.5 transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname === '/cost-calculator' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
-                <Calculator className="w-3.5 h-3.5 text-red-500" />
+                <Calculator className="w-3.5 h-3.5 text-[#E85D04]" />
                 <span>Cost Calculator</span>
               </Link>
 
               <Link
                 href="/projects"
-                className={`transition-colors duration-200 hover:text-sky-500 ${
-                  pathname.startsWith('/projects') ? 'text-sky-600 dark:text-sky-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname.startsWith('/projects') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Project Gallery
@@ -159,8 +161,8 @@ export function Header() {
 
               <Link
                 href="/blog"
-                className={`transition-colors duration-200 hover:text-amber-500 ${
-                  pathname.startsWith('/blog') ? 'text-amber-600 dark:text-amber-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname.startsWith('/blog') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Blog
@@ -168,8 +170,8 @@ export function Header() {
 
               <Link
                 href="/contact-us"
-                className={`transition-colors duration-200 hover:text-red-500 ${
-                  pathname === '/contact-us' ? 'text-red-600 dark:text-red-400 font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
+                className={`transition-colors duration-200 hover:text-[#E85D04] ${
+                  pathname === '/contact-us' ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                 }`}
               >
                 Contact Us
@@ -180,21 +182,21 @@ export function Header() {
             <div className="flex items-center gap-3">
               <DarkModeToggle />
 
-              {/* Book Us CTA - Red/Amber/Sky Multi Brand Gradient */}
+              {/* Get Quote / Book Us CTA */}
               <motion.button
                 whileHover={{ scale: 1.04 }}
                 whileTap={{ scale: 0.96 }}
                 onClick={() => openBookModal()}
-                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 hover:from-red-500 hover:to-sky-400 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 transition-all duration-300"
+                className="flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 transition-all duration-300"
               >
-                <Sparkles className="w-3.5 h-3.5 text-white" />
-                <span>Book Us</span>
+                <Sparkles className="w-3.5 h-3.5 text-white animate-pulse" />
+                <span>Get Quote</span>
               </motion.button>
 
               {/* Mobile Hamburger Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:text-amber-500 focus:outline-none"
+                className="lg:hidden p-2 rounded-xl text-stone-700 dark:text-stone-300 hover:text-[#E85D04] focus:outline-none"
                 aria-label="Toggle menu"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -218,29 +220,29 @@ export function Header() {
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium hover:text-amber-500"
+                className="block text-sm font-medium hover:text-[#E85D04]"
               >
                 Home
               </Link>
               <Link
                 href="/about-us"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium hover:text-amber-500"
+                className="block text-sm font-medium hover:text-[#E85D04]"
               >
                 About Us
               </Link>
 
               <div className="space-y-2">
-                <span className="block text-amber-600 dark:text-amber-500 text-xs font-bold uppercase tracking-wider">
+                <span className="block text-[#E85D04] text-xs font-bold uppercase tracking-wider">
                   Flooring Services
                 </span>
-                <div className="pl-3 space-y-2 border-l border-amber-500/30">
+                <div className="pl-3 space-y-2 border-l border-[#E85D04]/30">
                   {serviceLinks.map((service) => (
                     <Link
                       key={service.href}
                       href={service.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block text-xs text-stone-600 dark:text-stone-400 hover:text-stone-950 dark:hover:text-stone-100"
+                      className="block text-xs text-stone-600 dark:text-stone-400 hover:text-[#E85D04]"
                     >
                       {service.name}
                     </Link>
@@ -251,30 +253,30 @@ export function Header() {
               <Link
                 href="/cost-calculator"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2 text-sm font-semibold text-amber-600 dark:text-amber-400 hover:text-amber-500"
+                className="flex items-center gap-2 text-sm font-semibold text-[#E85D04] hover:text-[#d45203]"
               >
-                <Calculator className="w-4 h-4 text-amber-500" />
+                <Calculator className="w-4 h-4 text-[#E85D04]" />
                 <span>Cost Calculator Studio</span>
               </Link>
 
               <Link
                 href="/projects"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium hover:text-amber-500"
+                className="block text-sm font-medium hover:text-[#E85D04]"
               >
                 Project Gallery
               </Link>
               <Link
                 href="/blog"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium hover:text-amber-500"
+                className="block text-sm font-medium hover:text-[#E85D04]"
               >
                 Blog
               </Link>
               <Link
                 href="/contact-us"
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-medium hover:text-amber-500"
+                className="block text-sm font-medium hover:text-[#E85D04]"
               >
                 Contact Us
               </Link>
@@ -284,7 +286,7 @@ export function Header() {
                   setMobileMenuOpen(false);
                   openBookModal();
                 }}
-                className="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20"
+                className="w-full py-3 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-[#E85D04]/20"
               >
                 <Sparkles className="w-4 h-4" />
                 Book Us Now

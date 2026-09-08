@@ -1,50 +1,50 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { ShieldCheck, Layers, Building2, Wrench, PhoneCall, UserCheck, Sparkles } from 'lucide-react';
 import { TiltCard } from '@/components/interactive/TiltCard';
 
 const whyUsItems = [
   {
     icon: ShieldCheck,
-    title: 'Precise Floor Leveling',
-    desc: 'We test for subfloor moisture and level the floor so your new flooring stays flat and smooth.',
+    title: 'Precise Leveling',
+    desc: 'Subfloor moisture testing & leveling.',
     badge: 'Flat & Level',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     icon: Layers,
     title: 'All Flooring Types',
-    desc: 'We install solid hardwood, engineered wood, vinyl plank (LVP), laminate, carpet, and tile.',
-    badge: 'Hardwood, Vinyl & Tile',
+    desc: 'Hardwood, LVP, tile & laminate.',
+    badge: 'Hardwood & Vinyl',
     image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     icon: Building2,
-    title: 'Homes & Businesses',
-    desc: 'From single-room home renovations to large offices, retail stores, and condos.',
+    title: 'Homes & Offices',
+    desc: 'Residential & commercial projects.',
     badge: 'Residential & Commercial',
     image: 'https://images.unsplash.com/photo-1567016432779-094069958ea5?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     icon: Wrench,
     title: 'Clean Trim & Borders',
-    desc: 'We carefully cut door frames, install matching baseboards, and fit seamless transition strips.',
+    desc: 'Baseboards, door frames & transitions.',
     badge: 'Neat Finish',
     image: 'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     icon: PhoneCall,
-    title: 'Clear Prices & Timelines',
-    desc: 'You get upfront price quotes and clear project schedules with zero hidden charges.',
+    title: 'Upfront Pricing',
+    desc: 'Clear quotes with zero hidden fees.',
     badge: 'Honest Estimates',
     image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     icon: UserCheck,
-    title: '100% Satisfaction',
-    desc: 'We help you choose the best floor for your budget, lifestyle, and room moisture level.',
+    title: 'Guaranteed Quality',
+    desc: 'Lifetime installation guarantee.',
     badge: 'Guaranteed Quality',
     image: 'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
@@ -54,12 +54,25 @@ export function WhyUs() {
   const [activeIdx, setActiveIdx] = useState(0);
   const activeItem = whyUsItems[activeIdx];
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
   return (
-    <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
+    <section className="py-24 border-y border-stone-200 dark:border-stone-800 font-inter bg-slate-50/60 dark:bg-stone-950 text-stone-900 dark:text-stone-100 relative overflow-hidden">
+      {/* Clean White Architectural Business Fixed Background Image */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div
+          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-20 dark:opacity-10 mix-blend-multiply dark:mix-blend-overlay contrast-125"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80&fm=webp')`,
+          }}
+        />
+      </div>
       {/* Brand Color Ambient Glow Effects */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-red-500/10 blur-3xl pointer-events-none hidden dark:block" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-sky-500/10 blur-3xl pointer-events-none hidden dark:block" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-amber-500/5 blur-3xl pointer-events-none hidden dark:block" />
+      <div className="absolute top-0 right-0 w-96 h-96 bg-[#E85D04]/10 blur-3xl pointer-events-none hidden dark:block" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#E85D04]/10 blur-3xl pointer-events-none hidden dark:block" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 space-y-16">
         {/* Header */}
@@ -68,18 +81,15 @@ export function WhyUs() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center space-y-4"
+          className="text-center mb-12 space-y-3"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-red-500/10 via-amber-500/10 to-sky-500/10 border border-stone-300 dark:border-stone-800 text-xs font-bold uppercase tracking-wider">
-            <Sparkles className="w-4 h-4 text-red-500" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500">Why Choose Us</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-[#1E293B] text-white text-xs font-semibold tracking-wide shadow-md">
+            <ShieldCheck className="w-4 h-4 text-[#E85D04]" />
+            <span>Why Choose Us</span>
           </div>
           <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-white">
-            Why Customers Trust HD Flooring
+            Why Customers Trust <span className="text-[#E85D04]">HD Flooring</span>
           </h2>
-          <p className="text-stone-600 dark:text-stone-400 max-w-2xl mx-auto text-sm sm:text-base">
-            Hover over any feature card to view our installation photos and quality standards.
-          </p>
         </motion.div>
 
         {/* Side-by-Side 2-Column Section Layout */}
@@ -93,7 +103,7 @@ export function WhyUs() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-5 relative group"
           >
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[480px] sm:h-[580px] w-full">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[420px] sm:h-[480px] w-full">
               <AnimatePresence mode="wait">
                 <motion.img
                   key={activeItem.image}
@@ -107,50 +117,28 @@ export function WhyUs() {
                 />
               </AnimatePresence>
 
-              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/30 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-stone-950/70 via-transparent to-transparent" />
 
               {/* Overlay Quality Badge */}
-              <div className="absolute top-6 left-6 p-4 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-stone-200 dark:border-stone-800 shadow-xl space-y-1">
-                <span className="text-xs font-black uppercase text-red-500 tracking-wider">Hover Preview: {activeItem.badge}</span>
-                <p className="text-xs font-bold text-stone-900 dark:text-white">{activeItem.title}</p>
-              </div>
-
-              <div className="absolute bottom-6 left-6 right-6 p-5 rounded-2xl bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-stone-200 dark:border-stone-800 shadow-2xl">
-                <div className="flex items-center justify-between text-xs font-bold">
-                  <span className="text-stone-700 dark:text-stone-200">Canadian Climate Engineered</span>
-                  <span className="text-sky-500 font-extrabold">100% Guaranteed</span>
-                </div>
+              <div className="absolute bottom-4 left-4 p-3 rounded-xl bg-stone-950/80 backdrop-blur-md border border-[#E85D04]/40 shadow-xl space-y-0.5">
+                <span className="text-[11px] font-black uppercase text-[#E85D04] tracking-wider">{activeItem.badge}</span>
+                <p className="text-xs font-bold text-white">{activeItem.title}</p>
               </div>
             </div>
           </motion.div>
 
-          {/* Right Side: Feature Grid (6 Clean Interactive Hover Cards) */}
+          {/* Right Side: Feature Grid */}
           <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
             {whyUsItems.map((item, idx) => {
               const Icon = item.icon;
               const isHovered = activeIdx === idx;
 
-              const cardColors = [
-                {
-                  topBar: 'bg-red-500',
-                  border: 'hover:border-red-500/80',
-                  iconBox: 'bg-red-500/10 dark:bg-red-500/20 border-red-500/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 group-hover:text-white group-hover:border-red-600',
-                  titleHover: 'group-hover:text-red-500 dark:group-hover:text-red-400',
-                },
-                {
-                  topBar: 'bg-sky-500',
-                  border: 'hover:border-sky-500/80',
-                  iconBox: 'bg-sky-500/10 dark:bg-sky-500/20 border-sky-500/30 text-sky-600 dark:text-sky-400 group-hover:bg-sky-500 group-hover:text-white group-hover:border-sky-500',
-                  titleHover: 'group-hover:text-sky-500 dark:group-hover:text-sky-400',
-                },
-                {
-                  topBar: 'bg-amber-500',
-                  border: 'hover:border-amber-500/80',
-                  iconBox: 'bg-amber-500/10 dark:bg-amber-500/20 border-amber-500/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-500 group-hover:text-stone-950 group-hover:border-amber-500',
-                  titleHover: 'group-hover:text-amber-500 dark:group-hover:text-amber-400',
-                },
-              ];
-              const color = cardColors[idx % cardColors.length];
+              const color = {
+                topBar: 'bg-[#E85D04]',
+                border: 'hover:border-[#E85D04]/80',
+                iconBox: 'bg-[#E85D04]/10 dark:bg-[#E85D04]/20 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white group-hover:border-[#E85D04]',
+                titleHover: 'group-hover:text-[#E85D04]',
+              };
 
               return (
                 <motion.div
@@ -162,7 +150,7 @@ export function WhyUs() {
                   onMouseEnter={() => setActiveIdx(idx)}
                 >
                   <TiltCard>
-                    <div className={`h-full p-6 sm:p-7 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.border} ${isHovered ? 'ring-2 ring-red-500/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl transition-all duration-500 space-y-3 group relative overflow-hidden cursor-pointer`}>
+                    <div className={`h-full p-6 sm:p-7 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.border} ${isHovered ? 'ring-2 ring-[#E85D04]/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl transition-all duration-500 space-y-3 group relative overflow-hidden cursor-pointer`}>
 
                       {/* Hover Photo Preview Background Overlay */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none -z-0">

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { SlidersHorizontal, Sparkles } from 'lucide-react';
 
 const transformations = [
@@ -61,26 +61,43 @@ export function BeforeAfterSlider() {
     handleMove(e.clientX);
   };
 
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ['-12%', '12%']);
+
   return (
-    <section className="w-full max-w-6xl mx-auto py-16 px-4 sm:px-6 font-inter overflow-hidden">
-      {/* Header - UPOR THEKE NAMBE (From Top) */}
+    <section ref={sectionRef} className="w-full relative py-20 px-4 sm:px-6 font-inter overflow-hidden bg-[#FAF6F0]/90 dark:bg-stone-950 border-y border-stone-200/80 dark:border-stone-800">
+      {/* Fixed Stationary Golden Background Image Overlay */}
+      <div className="absolute inset-0 pointer-events-none z-0">
+        <div
+          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-100"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1655012325185-9e4091a0481c?q=80&w=1112&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
+          }}
+        />
+        {/* Soft edge vignette to ensure text contrast */}
+        <div className="absolute inset-0 bg-white/20 dark:bg-slate-950/40 pointer-events-none" />
+      </div>
+
+      <div className="max-w-6xl mx-auto relative z-10">
+        {/* Header - UPOR THEKE NAMBE (From Top) */}
       <motion.div
         initial={{ opacity: 0, y: -90 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-        className="text-center space-y-4 mb-8"
+        className="text-center mb-8 space-y-3"
       >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/10 dark:bg-red-500/15 border border-red-500/20 text-red-600 dark:text-red-400 text-xs font-manrope font-black uppercase tracking-widest shadow-sm">
-          <Sparkles className="w-4 h-4 text-red-500 animate-pulse" />
-          Real Canadian Floor Transformations
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-sm text-slate-800 dark:text-slate-200 text-xs font-bold uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
+          <span>Before & After Visuals</span>
         </div>
         <h2 className="font-playfair text-3xl sm:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white leading-tight">
-          See the <span className="brand-gradient-text">HD Flooring Difference</span>
+          See the <span className="text-[#E85D04]">HD Flooring Difference</span>
         </h2>
-        <p className="text-slate-600 dark:text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-medium">
-          Drag the handle below to compare raw subfloor preparation with a finished, high-end installation.
-        </p>
       </motion.div>
 
       {/* Category Tabs Switcher - NIC THEKE UTHTE (From Bottom) */}
@@ -99,8 +116,8 @@ export function BeforeAfterSlider() {
               setSliderPos(50);
             }}
             className={`px-5 py-2.5 rounded-full font-manrope font-extrabold text-xs sm:text-sm uppercase tracking-wider transition-all duration-300 flex items-center gap-2 border shadow-md ${activeCategory === idx
-                ? 'bg-red-600 text-white border-red-500 shadow-red-600/30 scale-105'
-                : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-red-500/50'
+                ? 'bg-[#E85D04] text-white border-[#E85D04] shadow-[#E85D04]/30 scale-105'
+                : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/50'
               }`}
           >
             <span>{item.icon}</span>
@@ -115,20 +132,9 @@ export function BeforeAfterSlider() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-        className="rounded-3xl overflow-hidden bg-slate-900 border-2 border-red-500/30 shadow-2xl shadow-slate-900/50"
+        className="rounded-3xl overflow-hidden bg-slate-900 border-2 border-[#E85D04]/30 shadow-2xl shadow-slate-900/50"
       >
-        {/* Mock Window Top Bar */}
-        <div className="bg-stone-100 dark:bg-slate-950 px-5 py-3 border-b border-stone-200 dark:border-slate-800 flex items-center justify-between text-xs text-stone-600 dark:text-slate-400 font-manrope font-semibold">
-          <div className="flex items-center gap-2">
-            <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
-            <span className="ml-3 text-stone-800 dark:text-slate-300 font-bold hidden sm:inline">HD Flooring Transformation Studio</span>
-          </div>
-          <div className="text-red-600 dark:text-red-400 font-bold bg-red-500/10 px-3 py-1 rounded-full border border-red-500/20">
-            {Math.round(sliderPos)}% Unfinished • {100 - Math.round(sliderPos)}% Finished
-          </div>
-        </div>
+
 
         {/* Interactive Slider Area */}
         <div
@@ -147,72 +153,41 @@ export function BeforeAfterSlider() {
               backgroundImage: `url('${current.afterImage}')`,
             }}
           >
-            <span className="absolute top-5 right-5 bg-gradient-to-r from-red-600 to-rose-600 text-white px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl border border-white/20 backdrop-blur-md">
+            <span className="absolute top-5 right-5 bg-[#E85D04] text-white px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl border border-white/20 backdrop-blur-md">
               {current.afterTitle}
             </span>
           </div>
 
           {/* BEFORE Image (Raw Renovation Subfloor) */}
           <div
-            className="absolute inset-0 bg-cover bg-center border-r-4 border-red-500 shadow-2xl transition-all duration-300"
+            className="absolute inset-0 bg-cover bg-center border-r-4 border-[#E85D04] shadow-2xl transition-all duration-300"
             style={{
               width: `${sliderPos}%`,
               backgroundImage: `url('${current.beforeImage}')`,
             }}
           >
-            <span className="absolute top-5 left-5 bg-white/95 dark:bg-slate-950/95 text-red-600 dark:text-red-400 border border-red-500/40 px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md whitespace-nowrap">
+            <span className="absolute top-5 left-5 bg-white/95 dark:bg-slate-950/95 text-[#E85D04] border border-[#E85D04]/40 px-4 py-2 rounded-full font-manrope font-black text-xs uppercase tracking-widest shadow-2xl backdrop-blur-md whitespace-nowrap">
               {current.beforeTitle}
             </span>
           </div>
 
           {/* Glowing Slider Handle */}
           <div
-            className="absolute top-0 bottom-0 w-1 bg-red-500 shadow-[0_0_30px_rgba(239,68,68,1)] z-20"
+            className="absolute top-0 bottom-0 w-1 bg-[#E85D04] shadow-[0_0_30px_rgba(232,93,4,1)] z-20"
             style={{ left: `${sliderPos}%` }}
           >
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-13 h-13 rounded-full bg-white dark:bg-slate-950 text-stone-900 dark:text-white border-2 border-red-500 shadow-2xl flex items-center justify-center group"
+              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-13 h-13 rounded-full bg-white dark:bg-slate-950 text-stone-900 dark:text-white border-2 border-[#E85D04] shadow-2xl flex items-center justify-center group"
             >
-              <SlidersHorizontal className="w-6 h-6 text-red-500 dark:text-red-400 group-hover:scale-110 transition-transform" />
+              <SlidersHorizontal className="w-6 h-6 text-[#E85D04] group-hover:scale-110 transition-transform" />
             </motion.div>
           </div>
         </div>
       </motion.div>
-
-      {/* Trust Metrics Bar Underneath - BAM THEKE (Left), NIC THEKE (Bottom), DAN THEKE (Right) */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-8 text-center text-xs font-manrope font-extrabold text-slate-700 dark:text-slate-300">
-        <motion.div
-          initial={{ opacity: 0, x: -100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
-        >
-          ⚡ 100% Flat Subfloor Leveling Guarantee
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 80 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
-        >
-          🔊 Soundproof Acoustic Underlayment
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1.2, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-md"
-        >
-          🛡️ 25-Year Manufacturer Installation Warranty
-        </motion.div>
       </div>
+
     </section>
   );
 }

@@ -12,65 +12,65 @@ const heroServices = [
     subtitle: 'Solid & Engineered',
     icon: Hammer,
     href: '/services/hardwood-flooring',
-    barBg: 'bg-red-600',
-    iconBg: 'bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30 group-hover:bg-red-600 group-hover:text-white',
-    activeIconBg: 'bg-red-600 text-white border-red-600 shadow-md shadow-red-500/30',
-    activeText: 'text-red-600 dark:text-red-400',
-    btnBg: 'bg-red-600 text-white',
-    activeBorder: 'border-red-500/80 dark:border-red-500/80',
-    glowColor: 'shadow-red-500/20',
+    barBg: 'bg-[#E85D04]',
+    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+    activeText: 'text-[#E85D04]',
+    btnBg: 'bg-[#E85D04] text-white',
+    activeBorder: 'border-[#E85D04]',
+    glowColor: 'shadow-[#E85D04]/20',
   },
   {
     title: 'Luxury Vinyl (LVP)',
     subtitle: '100% Waterproof',
     icon: Layers,
     href: '/services/luxury-vinyl-flooring',
-    barBg: 'bg-sky-500',
-    iconBg: 'bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 group-hover:bg-sky-600 group-hover:text-white',
-    activeIconBg: 'bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-500/30',
-    activeText: 'text-sky-600 dark:text-sky-400',
-    btnBg: 'bg-sky-600 text-white',
-    activeBorder: 'border-sky-500/80 dark:border-sky-500/80',
-    glowColor: 'shadow-sky-500/20',
+    barBg: 'bg-[#E85D04]',
+    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+    activeText: 'text-[#E85D04]',
+    btnBg: 'bg-[#E85D04] text-white',
+    activeBorder: 'border-[#E85D04]',
+    glowColor: 'shadow-[#E85D04]/20',
   },
   {
     title: 'Tile & Porcelain',
     subtitle: 'Kitchen & Bathroom',
     icon: Grid,
     href: '/services/tile-flooring',
-    barBg: 'bg-amber-500',
-    iconBg: 'bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30 group-hover:bg-amber-500 group-hover:text-stone-950',
-    activeIconBg: 'bg-amber-500 text-stone-950 border-amber-500 shadow-md shadow-amber-500/30',
-    activeText: 'text-amber-600 dark:text-amber-400',
-    btnBg: 'bg-amber-500 text-stone-950',
-    activeBorder: 'border-amber-500/80 dark:border-amber-500/80',
-    glowColor: 'shadow-amber-500/20',
+    barBg: 'bg-[#E85D04]',
+    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+    activeText: 'text-[#E85D04]',
+    btnBg: 'bg-[#E85D04] text-white',
+    activeBorder: 'border-[#E85D04]',
+    glowColor: 'shadow-[#E85D04]/20',
   },
   {
     title: 'Laminate Floors',
     subtitle: 'High Durability',
     icon: Shield,
     href: '/services/laminate-flooring',
-    barBg: 'bg-red-500',
-    iconBg: 'bg-red-500/10 dark:bg-red-500/20 text-red-600 dark:text-red-400 border-red-500/30 group-hover:bg-red-600 group-hover:text-white',
-    activeIconBg: 'bg-red-600 text-white border-red-600 shadow-md shadow-red-500/30',
-    activeText: 'text-red-600 dark:text-red-400',
-    btnBg: 'bg-red-600 text-white',
-    activeBorder: 'border-red-500/80 dark:border-red-500/80',
-    glowColor: 'shadow-red-500/20',
+    barBg: 'bg-[#E85D04]',
+    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+    activeText: 'text-[#E85D04]',
+    btnBg: 'bg-[#E85D04] text-white',
+    activeBorder: 'border-[#E85D04]',
+    glowColor: 'shadow-[#E85D04]/20',
   },
   {
     title: 'Subfloor & Stairs',
     subtitle: 'Leveling & Capping',
     icon: Wrench,
     href: '/services/stair-flooring',
-    barBg: 'bg-sky-600',
-    iconBg: 'bg-sky-500/10 dark:bg-sky-500/20 text-sky-600 dark:text-sky-400 border-sky-500/30 group-hover:bg-sky-600 group-hover:text-white',
-    activeIconBg: 'bg-sky-600 text-white border-sky-600 shadow-md shadow-sky-500/30',
-    activeText: 'text-sky-600 dark:text-sky-400',
-    btnBg: 'bg-sky-600 text-white',
-    activeBorder: 'border-sky-500/80 dark:border-sky-500/80',
-    glowColor: 'shadow-sky-500/20',
+    barBg: 'bg-[#E85D04]',
+    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+    activeText: 'text-[#E85D04]',
+    btnBg: 'bg-[#E85D04] text-white',
+    activeBorder: 'border-[#E85D04]',
+    glowColor: 'shadow-[#E85D04]/20',
   },
 ];
 
@@ -123,9 +123,9 @@ export function Hero() {
   const currentSlide = categorySlides[currentSlideIdx];
 
   return (
-    <section className="relative pt-28 sm:pt-32 lg:pt-36 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
+    <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-85 dark:opacity-80 transition-opacity">
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-95 transition-opacity">
         {categorySlides.map((slide, idx) => (
           <motion.div
             key={slide.image}
@@ -138,18 +138,18 @@ export function Hero() {
               opacity: { duration: 1.2, ease: 'easeInOut' },
               scale: { duration: currentSlideIdx === idx ? 6.5 : 0, ease: 'easeOut' },
             }}
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transform-gpu will-change-transform"
             style={{ backgroundImage: `url('${slide.image}')` }}
           />
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-white/95 via-white/70 to-white/20 dark:from-stone-950/85 dark:via-stone-950/50 dark:to-stone-950/20 pointer-events-none z-10" />
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-white/85 via-white/40 to-transparent dark:from-stone-950/90 dark:via-stone-950/50 dark:to-transparent pointer-events-none z-10" />
 
       {/* Left Slide Control Button */}
       <button
         onClick={prevSlide}
-        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-red-600 text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
         aria-label="Previous Slide"
       >
         <ChevronLeft className="w-5 h-5" />
@@ -158,7 +158,7 @@ export function Hero() {
       {/* Right Slide Control Button */}
       <button
         onClick={nextSlide}
-        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-red-600 text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
         aria-label="Next Slide"
       >
         <ChevronRight className="w-5 h-5" />
@@ -167,28 +167,9 @@ export function Hero() {
       <div className="max-w-7xl mx-auto w-full relative z-20 space-y-8">
         <div className="max-w-4xl text-left space-y-6 pb-8">
           {/* Minimal Badge - Logo Red & Sky Mixed */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={currentSlideIdx}
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-red-50 dark:bg-red-950/50 border border-red-200 dark:border-red-800/50 text-red-600 dark:text-red-400 shadow-md backdrop-blur-md"
-              >
-                <Camera className="w-3.5 h-3.5 text-red-500 animate-pulse shrink-0" />
-                <span className="text-xs font-semibold">
-                  <span className="text-red-600 dark:text-red-400 font-bold">Featured ({currentSlideIdx + 1}/5):</span> {currentSlide.name}
-                </span>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
 
-          {/* Minimal Headline with Red-Amber-Sky Brand Gradient */}
+
+          {/* Hero Headline with Coral Red & Teal Brand Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
@@ -196,15 +177,15 @@ export function Hero() {
             className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 dark:text-white leading-[1.15]"
           >
             Professional Flooring Installation
-            <div className="text-xl sm:text-3xl font-extrabold text-stone-700 dark:text-stone-300 flex items-center gap-2 pt-1">
-              <span>Specializing in</span>
+            <div className="text-xl sm:text-3xl font-extrabold text-stone-700 dark:text-stone-300 flex items-center gap-2 pt-1 flex-wrap">
+              <span>Built for Canadian Spaces —</span>
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentSlideIdx}
                   initial={{ opacity: 0, y: 5 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -5 }}
-                  className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 via-amber-500 to-sky-500 font-black inline-flex items-center"
+                  className="text-[#E85D04] font-black inline-flex items-center"
                 >
                   {currentSlide.name}
                 </motion.span>
@@ -217,9 +198,9 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-normal max-w-2xl"
+            className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-semibold max-w-2xl"
           >
-            Quality Canadian installation for residential & commercial spaces.
+            Hardwood, luxury vinyl plank, laminate, carpet & tile installation for Canadian homes and businesses.
           </motion.p>
 
           {/* Interactive Search Bar Widget */}
@@ -227,9 +208,13 @@ export function Hero() {
             initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.7, delay: 0.45 }}
-            className="pt-1 max-w-3xl relative z-50"
+            className="pt-1 max-w-3xl relative z-50 space-y-4"
           >
             <HeroSearch />
+
+
+
+
           </motion.div>
         </div>
 
@@ -240,10 +225,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.55 }}
           className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32"
         >
-          <div className="mb-3 text-xs font-extrabold text-stone-500 dark:text-stone-400 uppercase tracking-widest flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-red-500 animate-ping" />
-            <span>Our Core Flooring Services</span>
-          </div>
+
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {heroServices.map((srv, idx) => {
@@ -259,7 +241,7 @@ export function Hero() {
                   onClick={() => setCurrentSlideIdx(idx)}
                   className={`group relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
                     ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
-                    : 'bg-white/80 dark:bg-stone-900/80 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-red-500/60 dark:hover:border-red-500/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
+                    : 'bg-white/80 dark:bg-stone-900/80 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
                     }`}
                 >
                   {/* Top Animated Brand Color Accent Bar */}
@@ -280,7 +262,7 @@ export function Hero() {
                     {/* Title & Subtitle */}
                     <div>
                       <h3
-                        className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-red-600 dark:group-hover:text-red-400'
+                        className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-[#E85D04] dark:group-hover:text-[#E85D04]'
                           }`}
                       >
                         {srv.title}

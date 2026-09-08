@@ -77,7 +77,7 @@ export default function BlogArticlePage() {
         >
           <Link
             href="/blog"
-            className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-red-600 dark:text-red-400 hover:text-red-500 transition-colors group"
+            className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d05203] transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Back to All Articles
@@ -85,11 +85,11 @@ export default function BlogArticlePage() {
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-manrope">
             <span className="flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
-              <Calendar className="w-3 h-3 text-red-500 shrink-0" />
+              <Calendar className="w-3 h-3 text-[#E85D04] shrink-0" />
               Published {post.publishDate}
             </span>
             <span className="flex items-center gap-1 px-2.5 sm:px-3 py-1 rounded-full bg-slate-200/60 dark:bg-slate-900 border border-slate-300 dark:border-slate-800 font-semibold shadow-sm">
-              <Clock className="w-3 h-3 text-amber-500 shrink-0" />
+              <Clock className="w-3 h-3 text-[#E85D04] shrink-0" />
               {post.readTime}
             </span>
           </div>
@@ -105,12 +105,12 @@ export default function BlogArticlePage() {
                 initial={{ opacity: 0, scale: 0.92, y: 30 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.6, type: 'spring', stiffness: 180 }}
-                className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-red-950/20 via-white dark:via-slate-900 to-slate-100 dark:to-slate-900 border border-red-500/40 shadow-2xl space-y-4 relative overflow-hidden"
+                className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#E85D04]/10 via-white dark:via-slate-900 to-slate-100 dark:to-slate-900 border border-[#E85D04]/40 shadow-2xl space-y-4 relative overflow-hidden"
               >
-                <div className="absolute top-0 right-0 w-60 h-60 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-60 h-60 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="flex items-center gap-2 text-red-600 dark:text-red-400 font-manrope font-extrabold text-xs uppercase tracking-widest">
-                  <BookOpen className="w-4 h-4 text-red-500 animate-pulse" />
+                <div className="flex items-center gap-2 text-[#E85D04] font-manrope font-extrabold text-xs uppercase tracking-widest">
+                  <BookOpen className="w-4 h-4 text-[#E85D04] animate-pulse" />
                   Key Article Takeaways
                 </div>
 
@@ -123,7 +123,7 @@ export default function BlogArticlePage() {
                       transition={{ duration: 0.5, delay: 0.1 * idx }}
                       className="flex items-start gap-3 text-xs sm:text-sm text-slate-800 dark:text-slate-200 font-inter leading-snug p-2 rounded-xl hover:bg-slate-100/60 dark:hover:bg-slate-800/40 transition-colors"
                     >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                      <CheckCircle2 className="w-4 h-4 text-[#E85D04] shrink-0 mt-0.5" />
                       <span>{point}</span>
                     </motion.div>
                   ))}
@@ -149,7 +149,7 @@ export default function BlogArticlePage() {
                     className="space-y-5 border-b border-slate-100 dark:border-slate-800/60 pb-10 last:border-0 last:pb-0"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="w-9 h-9 rounded-full bg-gradient-to-br from-red-600 to-amber-600 text-white font-manrope font-extrabold text-xs flex items-center justify-center shrink-0 shadow-lg shadow-red-600/30">
+                      <span className="w-9 h-9 rounded-full bg-[#E85D04] text-white font-manrope font-extrabold text-xs flex items-center justify-center shrink-0 shadow-lg shadow-[#E85D04]/30">
                         0{idx + 1}
                       </span>
                       <h2 className="font-playfair text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
@@ -168,9 +168,9 @@ export default function BlogArticlePage() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.5 }}
-                        className="relative p-6 rounded-2xl bg-gradient-to-r from-red-600/15 via-slate-100 dark:via-slate-800/80 to-transparent border-l-4 border-red-500 space-y-2 shadow-md my-6"
+                        className="relative p-6 rounded-2xl bg-slate-50 dark:bg-slate-800/80 border-l-4 border-[#E85D04] space-y-2 shadow-md my-6"
                       >
-                        <Quote className="w-6 h-6 text-red-500 opacity-70" />
+                        <Quote className="w-6 h-6 text-[#E85D04] opacity-70" />
                         <p className="text-slate-800 dark:text-slate-200 text-xs sm:text-sm font-medium italic leading-relaxed">
                           "{section.quote}"
                         </p>
@@ -182,11 +182,13 @@ export default function BlogArticlePage() {
                       <motion.div
                         whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.4 }}
-                        className="my-6 rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[440px] group relative"
+                        className="my-6 rounded-3xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-800 max-h-[440px] group relative transform-gpu"
                       >
                         <img
                           src={section.image}
                           alt={section.heading}
+                          loading="lazy"
+                          decoding="async"
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
@@ -217,8 +219,8 @@ export default function BlogArticlePage() {
                 className="space-y-6"
               >
                 <div className="text-center space-y-2">
-                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-500 text-xs font-extrabold uppercase tracking-wider">
-                    <HelpCircle className="w-3.5 h-3.5 text-red-500 shrink-0" />
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-extrabold uppercase tracking-wider">
+                    <HelpCircle className="w-3.5 h-3.5 text-[#E85D04] shrink-0" />
                     GOT QUESTIONS?
                   </div>
                   <h3 className="font-jakarta text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -237,27 +239,27 @@ export default function BlogArticlePage() {
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
               whileHover={{ scale: 1.01 }}
-              className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-red-600 via-red-500 to-amber-600 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl shadow-red-600/30 relative overflow-hidden"
+              className="p-8 sm:p-10 rounded-3xl bg-[#FAF6F0] dark:bg-slate-900 text-slate-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl border border-[#E85D04]/20 relative overflow-hidden"
             >
               <div className="space-y-1.5 text-center sm:text-left font-manrope z-10">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-white text-[10px] font-bold uppercase tracking-wider">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-spin" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider border border-[#E85D04]/30">
+                  <Sparkles className="w-3.5 h-3.5 text-[#E85D04] animate-spin" />
                   Professional Installation
                 </span>
-                <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white">
+                <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">
                   Planning a Flooring Project?
                 </h3>
-                <p className="text-xs sm:text-sm font-medium text-slate-100 max-w-md">
+                <p className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 max-w-md">
                   Book a free in-home estimate or phone consultation with HD Flooring today.
                 </p>
               </div>
 
               <button
                 onClick={() => openBookModal(post.title)}
-                className="px-8 py-3.5 rounded-full bg-white hover:bg-slate-100 text-red-600 font-extrabold text-xs uppercase tracking-wider shrink-0 shadow-xl shadow-red-900/20 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all z-10 cursor-pointer"
+                className="px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d05203] text-white font-extrabold text-xs uppercase tracking-wider shrink-0 shadow-xl shadow-[#E85D04]/20 flex items-center gap-2 hover:scale-105 active:scale-95 transition-all z-10 cursor-pointer"
               >
                 <span>Book Free Estimate</span>
-                <ArrowRight className="w-4 h-4 text-red-600" />
+                <ArrowRight className="w-4 h-4 text-white" />
               </button>
             </motion.div>
           </div>
@@ -279,11 +281,13 @@ export default function BlogArticlePage() {
                 <img
                   src={post.author?.avatar || '/assets/images/personal-photos/personal-photo-01.jpg'}
                   alt={post.author?.name || 'Habibur Rahman (Habib)'}
-                  className="w-16 h-16 rounded-2xl object-cover border-2 border-red-500/50 shadow-md shrink-0"
+                  loading="lazy"
+                  decoding="async"
+                  className="w-16 h-16 rounded-2xl object-cover border-2 border-[#E85D04]/50 shadow-md shrink-0"
                 />
                 <div>
-                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-red-500 uppercase tracking-wider">
-                    <UserCheck className="w-3.5 h-3.5 text-emerald-500" />
+                  <div className="inline-flex items-center gap-1 text-[11px] font-bold text-[#E85D04] uppercase tracking-wider">
+                    <UserCheck className="w-3.5 h-3.5 text-[#E85D04]" />
                     Verified Author
                   </div>
                   <h4 className="font-playfair text-lg font-bold text-slate-900 dark:text-slate-100">
@@ -301,9 +305,9 @@ export default function BlogArticlePage() {
 
               <button
                 onClick={() => openBookModal()}
-                className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-red-600 hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-colors shadow-sm flex items-center justify-center gap-2"
+                className="w-full py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-[#E85D04] hover:text-white text-slate-800 dark:text-slate-200 font-bold text-xs transition-colors shadow-sm flex items-center justify-center gap-2"
               >
-                <MessageSquare className="w-3.5 h-3.5 text-red-500" />
+                <MessageSquare className="w-3.5 h-3.5 text-[#E85D04] group-hover:text-white" />
                 Ask Habib A Question
               </button>
             </motion.div>
@@ -312,10 +316,10 @@ export default function BlogArticlePage() {
             <motion.div
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
-              className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-red-500/40 shadow-2xl space-y-4 relative overflow-hidden"
+              className="p-6 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-[#E85D04]/40 shadow-2xl space-y-4 relative overflow-hidden"
             >
               <div className="space-y-2">
-                <span className="px-3 py-1 rounded-full bg-red-500/20 text-red-400 text-[10px] font-bold uppercase tracking-wider border border-red-500/30">
+                <span className="px-3 py-1 rounded-full bg-[#E85D04]/20 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider border border-[#E85D04]/30">
                   Instant Service
                 </span>
                 <h4 className="font-playfair text-xl font-bold text-white">
@@ -328,13 +332,13 @@ export default function BlogArticlePage() {
 
               <button
                 onClick={() => openBookModal(post.title)}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 text-white font-bold text-xs uppercase tracking-wider hover:from-red-500 hover:to-amber-500 transition-all shadow-lg shadow-red-600/30 hover:scale-[1.02] active:scale-95"
+                className="w-full py-3 rounded-xl bg-[#E85D04] hover:bg-[#d05203] text-white font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#E85D04]/30 hover:scale-[1.02] active:scale-95"
               >
                 Schedule Free Estimate
               </button>
 
               <div className="pt-2 flex items-center justify-center gap-2 text-[11px] text-slate-400">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#E85D04]" />
                 <span>Zero Obligation • 100% Free Consultation</span>
               </div>
             </motion.div>
@@ -360,10 +364,10 @@ export default function BlogArticlePage() {
                         }}
                         className="group block space-y-1.5 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                       >
-                        <span className="text-[10px] font-bold text-red-500 uppercase tracking-wider">
+                        <span className="text-[10px] font-bold text-[#E85D04] uppercase tracking-wider">
                           {rel.category}
                         </span>
-                        <h5 className="font-playfair text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-red-500 transition-colors leading-snug">
+                        <h5 className="font-playfair text-sm font-bold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors leading-snug">
                           {rel.title}
                         </h5>
                         <p className="text-[11px] text-slate-500 dark:text-slate-400 line-clamp-2">

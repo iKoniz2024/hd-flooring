@@ -111,7 +111,6 @@ export default function AboutUsPage() {
       <PageHero
         badge="About HD Flooring"
         title="About Our Flooring Company"
-        subtitle="We are a professional Canadian flooring installation company specializing in hardwood, vinyl plank, laminate, tile, carpet, and subfloor prep."
         backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
@@ -127,28 +126,28 @@ export default function AboutUsPage() {
 
         {/* Leadership Profile Card - 3D Tilt Card + Zoom Entrance */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, y: 40 }}
+          initial={{ opacity: 0, scale: 0.9, y: 40 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.7, type: 'spring', stiffness: 180 }}
         >
           <TiltCard className="w-full">
-            <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-red-500/30 shadow-2xl shadow-red-500/10 flex flex-col lg:flex-row items-center gap-8 justify-between relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="p-8 sm:p-10 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-[#E85D04]/30 shadow-2xl shadow-[#E85D04]/10 flex flex-col lg:flex-row items-center gap-8 justify-between relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
               <div className="flex flex-col sm:flex-row items-center gap-6 text-center sm:text-left relative z-10">
                 <motion.div
                   whileHover={{ scale: 1.1, rotate: 5 }}
-                  className="w-20 h-20 rounded-2xl bg-gradient-to-tr from-red-600 to-sky-500 p-0.5 shadow-xl shrink-0"
+                  className="w-20 h-20 rounded-2xl bg-[#E85D04] p-0.5 shadow-xl shrink-0"
                 >
-                  <div className="w-full h-full rounded-[14px] bg-red-50 dark:bg-slate-950 flex items-center justify-center text-red-600 dark:text-red-400">
-                    <UserCheck className="w-10 h-10 text-red-600 dark:text-red-400" />
+                  <div className="w-full h-full rounded-[14px] bg-[#E85D04]/10 dark:bg-slate-950 flex items-center justify-center text-[#E85D04]">
+                    <UserCheck className="w-10 h-10 text-[#E85D04]" />
                   </div>
                 </motion.div>
 
                 <div className="space-y-1.5">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-500 dark:text-emerald-400 text-[11px] font-bold uppercase tracking-wider">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
+                    <span className="w-2 h-2 rounded-full bg-[#E85D04] animate-ping" />
                     Managing Director
                   </div>
                   <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -166,7 +165,7 @@ export default function AboutUsPage() {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                   href="tel:+13068808404"
-                  className="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all"
+                  className="px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white text-xs font-bold flex items-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all"
                 >
                   <Phone className="w-3.5 h-3.5" />
                   <span>Call +1 (306) 880-8404</span>
@@ -178,7 +177,7 @@ export default function AboutUsPage() {
                   href="mailto:hdflooring7@gmail.com"
                   className="px-5 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center gap-2 transition-all"
                 >
-                  <Mail className="w-3.5 h-3.5 text-sky-500" />
+                  <Mail className="w-3.5 h-3.5 text-[#E85D04]" />
                   <span>Email HD Flooring</span>
                 </motion.a>
               </div>
@@ -198,17 +197,17 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             whileHover={{ y: -6 }}
-            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-red-500/40 shadow-2xl space-y-4 transition-all group"
+            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/40 shadow-2xl space-y-4 transition-all group"
           >
-            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center text-[#E85D04] group-hover:scale-110 transition-transform">
               <Sparkles className="w-6 h-6" />
             </div>
 
-            <div className="inline-block px-3 py-1 rounded-full bg-red-500/10 text-red-600 dark:text-red-400 text-[11px] font-bold uppercase tracking-wider">
+            <div className="inline-block px-3 py-1 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
               Our Mission
             </div>
 
-            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors">
               Quality Flooring Services
             </h3>
 
@@ -224,17 +223,17 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
             whileHover={{ y: -6 }}
-            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-sky-500/40 shadow-2xl space-y-4 transition-all group"
+            className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/40 shadow-2xl space-y-4 transition-all group"
           >
-            <div className="w-12 h-12 rounded-2xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 group-hover:scale-110 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center text-[#E85D04] group-hover:scale-110 transition-transform">
               <Award className="w-6 h-6" />
             </div>
 
-            <div className="inline-block px-3 py-1 rounded-full bg-sky-500/10 text-sky-600 dark:text-sky-400 text-[11px] font-bold uppercase tracking-wider">
+            <div className="inline-block px-3 py-1 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
               Our Vision
             </div>
 
-            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+            <h3 className="font-playfair text-2xl font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors">
               Trusted Flooring Specialists
             </h3>
 
@@ -252,7 +251,7 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             className="text-center space-y-2"
           >
-            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider text-center">
               What Drives Us
             </div>
             <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -277,12 +276,12 @@ export default function AboutUsPage() {
               return (
                 <motion.div key={idx} variants={variant}>
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-red-500/60 shadow-xl hover:shadow-2xl space-y-3 h-full flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer">
+                    <div className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl space-y-3 h-full flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 cursor-pointer transform-gpu">
                       <div className="space-y-3">
-                        <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-500 group-hover:scale-110 transition-transform">
+                        <div className="w-10 h-10 rounded-xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center text-[#E85D04] group-hover:scale-110 transition-transform">
                           <IconComponent className="w-5 h-5" />
                         </div>
-                        <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-red-600 dark:group-hover:text-red-400 transition-colors">
+                        <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors">
                           {v.title}
                         </h3>
                         <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-inter">
@@ -305,7 +304,7 @@ export default function AboutUsPage() {
             viewport={{ once: true, amount: 0.2 }}
             className="text-center space-y-2"
           >
-            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-600 dark:text-sky-400 text-xs font-manrope font-bold uppercase tracking-wider text-center">
+            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider text-center">
               Our Clientele
             </div>
             <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -326,13 +325,13 @@ export default function AboutUsPage() {
                   viewport={{ once: true, amount: 0.15 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
                   whileHover={{ y: -4 }}
-                  className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-sky-500/60 shadow-xl hover:shadow-2xl space-y-3 transition-all duration-500 ease-out group cursor-pointer"
+                  className="p-6 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl space-y-3 transition-all duration-500 ease-out group cursor-pointer"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-500 dark:text-sky-400 group-hover:rotate-6 transition-transform">
+                    <div className="w-10 h-10 rounded-xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center text-[#E85D04] group-hover:rotate-6 transition-transform">
                       <IconComp className="w-5 h-5" />
                     </div>
-                    <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                    <h3 className="font-jakarta text-lg font-extrabold text-slate-900 dark:text-slate-100 group-hover:text-[#E85D04] transition-colors">
                       {item.title}
                     </h3>
                   </div>
@@ -351,13 +350,13 @@ export default function AboutUsPage() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6 }}
-          className="p-8 sm:p-12 rounded-3xl bg-gradient-to-r from-red-600 via-red-500 to-sky-600 text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl shadow-red-600/20"
+          className="p-8 sm:p-12 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl"
         >
           <div className="space-y-2 text-center sm:text-left">
-            <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-white">
+            <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
               Ready to Upgrade Your Space?
             </h3>
-            <p className="text-xs sm:text-sm font-medium text-slate-100">
+            <p className="text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-300">
               Get in touch with Habib & the HD Flooring team for a free on-site consultation in Saskatoon.
             </p>
           </div>
@@ -366,9 +365,9 @@ export default function AboutUsPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => openBookModal()}
-            className="px-6 py-3.5 rounded-full bg-white text-red-600 font-manrope font-extrabold text-xs uppercase tracking-wider hover:bg-slate-100 transition-colors shrink-0 shadow-xl shadow-red-900/20 flex items-center gap-2 cursor-pointer"
+            className="px-6 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/20 flex items-center gap-2 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-red-500" />
+            <Sparkles className="w-4 h-4 text-white" />
             <span>Book Free Measure</span>
           </motion.button>
         </motion.div>

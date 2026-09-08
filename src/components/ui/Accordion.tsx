@@ -23,15 +23,15 @@ export function Accordion({ items }: { items: FAQItem[] }) {
         return (
           <div
             key={idx}
-            className="rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800/90 overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:border-red-500/50"
+            className="rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800/90 overflow-hidden transition-all duration-300 shadow-lg hover:shadow-xl hover:border-[#E85D04]/50"
           >
             <button
               onClick={() => toggle(idx)}
-              className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-jakarta font-bold text-stone-900 dark:text-stone-100 hover:text-red-600 dark:hover:text-red-400 transition-colors"
+              className="w-full p-5 sm:p-6 text-left flex items-center justify-between gap-4 font-jakarta font-bold text-stone-900 dark:text-stone-100 hover:text-[#E85D04] dark:hover:text-[#E85D04] transition-colors"
             >
               <span className="text-sm sm:text-base leading-snug">{item.question}</span>
               <ChevronDown
-                className={`w-4 h-4 sm:w-5 sm:h-5 text-red-500 shrink-0 transition-transform duration-300 ${
+                className={`w-4 h-4 sm:w-5 sm:h-5 text-[#E85D04] shrink-0 transition-transform duration-300 ${
                   isOpen ? 'rotate-180' : ''
                 }`}
               />
