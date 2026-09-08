@@ -255,21 +255,30 @@ export function ProjectShowcaseTicker() {
           </motion.h2>
         </div>
 
-        {/* Gallery Grid - 4 Curated Showcase Photos */}
+        {/* Gallery Grid - 4 Curated Showcase Photos (Directional Entrance: Left, Up, Right) */}
         <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <AnimatePresence mode="popLayout">
-            {galleryPhotos.slice(0, 4).map((photo, index) => (
-              <motion.div
-                key={photo.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.4, delay: index * 0.03 }}
-                whileHover={{ y: -6 }}
-                onClick={() => setSelectedPhoto(photo)}
-                className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-lg transform-gpu"
-              >
+            {galleryPhotos.slice(0, 4).map((photo, index) => {
+              const directionalVariants = [
+                { initial: { opacity: 0, x: -65, y: 20 }, whileInView: { opacity: 1, x: 0, y: 0 } },
+                { initial: { opacity: 0, y: 60, scale: 0.92 }, whileInView: { opacity: 1, y: 0, scale: 1 } },
+                { initial: { opacity: 0, y: 60, scale: 0.92 }, whileInView: { opacity: 1, y: 0, scale: 1 } },
+                { initial: { opacity: 0, x: 65, y: 20 }, whileInView: { opacity: 1, x: 0, y: 0 } },
+              ];
+              const motionVariant = directionalVariants[index % 4];
+
+              return (
+                <motion.div
+                  key={photo.id}
+                  layout
+                  initial={motionVariant.initial}
+                  whileInView={motionVariant.whileInView}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 120 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  onClick={() => setSelectedPhoto(photo)}
+                  className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-lg transform-gpu"
+                >
                 {/* Photo Image */}
                 <Image
                   src={photo.src}
@@ -300,7 +309,7 @@ export function ProjectShowcaseTicker() {
                   </h3>
                 </div>
               </motion.div>
-            ))}
+            )})}
           </AnimatePresence>
         </motion.div>
 

@@ -49,14 +49,22 @@ export function ServicesGrid() {
               arrowBg: 'bg-[#E85D04] group-hover:bg-[#d95b16] text-white',
             };
 
+            // Directional entrance: Card 0 (Left), Card 1 (Up), Card 2 (Right)
+            const entranceVariants = [
+              { initial: { opacity: 0, x: -60, y: 30 }, whileInView: { opacity: 1, x: 0, y: 0 } },
+              { initial: { opacity: 0, y: 60, scale: 0.95 }, whileInView: { opacity: 1, y: 0, scale: 1 } },
+              { initial: { opacity: 0, x: 60, y: 30 }, whileInView: { opacity: 1, x: 0, y: 0 } },
+            ];
+            const motionVariant = entranceVariants[idx % 3];
+
             return (
               <motion.div
                 key={service.id}
                 layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: idx * 0.05 }}
+                initial={motionVariant.initial}
+                whileInView={motionVariant.whileInView}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.6, delay: (idx % 3) * 0.1, type: 'spring', stiffness: 120 }}
               >
                 <TiltCard>
                   <div className={`h-full rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 relative cursor-pointer`}>
