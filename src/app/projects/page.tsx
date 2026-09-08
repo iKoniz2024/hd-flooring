@@ -8,6 +8,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { PageHero } from '@/components/sections/PageHero';
+import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { useModal } from '@/lib/context/ModalContext';
 
 interface ProjectPhoto {
@@ -135,7 +136,13 @@ export default function ProjectsPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter">
+    <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-clip">
+      {/* Dynamic Mouse Spotlight & Ambient Lighting */}
+      <MouseSpotlight />
+
+      {/* Ambient Background Light Blob */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
+
       <Header />
 
       {/* Hero Section */}
@@ -154,18 +161,18 @@ export default function ProjectsPage() {
         }}
       />
 
-      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-10 overflow-hidden">
+      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-10 relative z-10">
         {/* Gallery Header Counter */}
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-6">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80 pb-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] flex items-center justify-center shadow-sm">
               <Camera className="w-5 h-5" />
             </div>
             <div>
               <h2 className="font-playfair text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
                 Workmanship Gallery
               </h2>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-inter">
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-inter font-medium">
                 Showing {Math.min(visibleCount, allProjectPhotos.length)} of {allProjectPhotos.length} On-Site Photos
               </p>
             </div>
@@ -173,14 +180,14 @@ export default function ProjectsPage() {
 
           <button
             onClick={() => openBookModal('Project Gallery')}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#E85D04] text-white font-manrope font-bold text-xs uppercase tracking-wider hover:bg-[#d45203] transition-colors shadow-lg shadow-[#E85D04]/20"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#E85D04] to-[#f06810] text-white font-manrope font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-lg shadow-[#E85D04]/30 cursor-pointer"
           >
             <Sparkles className="w-4 h-4" />
             <span>Book Installation</span>
           </button>
         </div>
 
-        {/* Pure Photo Gallery Grid (No category badges) */}
+        {/* Pure Photo Gallery Grid (Glassmorphism & Glowing Hover Accents) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {allProjectPhotos.slice(0, visibleCount).map((photo, index) => (
             <motion.div
@@ -190,8 +197,11 @@ export default function ProjectsPage() {
               transition={{ duration: 0.3, delay: (index % 12) * 0.03 }}
               whileHover={{ y: -6 }}
               onClick={() => setSelectedIdx(index)}
-              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900 cursor-pointer shadow-lg hover:shadow-2xl transition-all transform-gpu"
+              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 bg-slate-100 dark:bg-slate-900/90 backdrop-blur-md cursor-pointer shadow-lg hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 transform-gpu"
             >
+              {/* Top Glowing Orange Accent Line on Hover */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
+
               {/* Photo Image */}
               <img
                 src={photo.src}
@@ -202,18 +212,18 @@ export default function ProjectsPage() {
               />
 
               {/* Dark Hover Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
 
               {/* Zoom Button Icon */}
-              <div className="absolute top-3 right-3 pointer-events-none">
-                <div className="w-9 h-9 rounded-full bg-slate-950/80 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
+              <div className="absolute top-3 right-3 pointer-events-none z-20">
+                <div className="w-9 h-9 rounded-full bg-slate-950/80 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md shadow-md">
                   <Maximize2 className="w-4 h-4" />
                 </div>
               </div>
 
               {/* Bottom Content */}
-              <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-                <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04] font-semibold">
+              <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left z-20">
+                <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04] font-bold">
                   <MapPin className="w-3 h-3" />
                   <span>{photo.location}</span>
                 </div>
@@ -268,6 +278,8 @@ export default function ProjectsPage() {
               onClick={(e) => e.stopPropagation()}
               className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
             >
+              {/* Top Glowing Orange Accent Line */}
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90 rounded-t-3xl z-30" />
               {/* Top Header Bar */}
               <div className="p-4 sm:p-6 flex items-center justify-between border-b border-slate-800 bg-slate-950/80">
                 <div className="space-y-0.5">
