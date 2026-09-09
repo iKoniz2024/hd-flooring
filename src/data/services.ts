@@ -23,7 +23,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Timeless Natural Beauty & Exceptional Prestige',
     shortDesc: 'Bring natural warmth, character, and long-term real estate value to your space with solid hardwood flooring.',
     fullDesc: 'Solid hardwood brings unmatched elegance to interiors. At HD Flooring, we provide expert solid hardwood installation with precise expansion spacing, subfloor nailing, and custom finishing.',
-    heroImage: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSL3HPvboAc7w5CmJdob159ZKEgx2xpIgVxnPrtuqreCA&s=10',
     benefits: [
       'Authentic natural wood grain and warmth',
       'Adds significant long-term real estate value',
@@ -54,7 +54,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Real Wood Appearance with Multi-Layer Climate Stability',
     shortDesc: 'Real wood top veneer with multi-layer cross-ply construction designed for Canadian seasonal humidity shifts.',
     fullDesc: 'Engineered hardwood offers the authentic look of solid timber while providing superior dimensional stability against humidity fluctuations. Ideal for condos, basements, and radiant heat floors.',
-    heroImage: 'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeFfAnNdiXWribw860kUMp8EaTsKecd0iXfQLXSjFtMg&s=10',
     benefits: [
       'Real hardwood veneer top layer',
       'Enhanced moisture & humidity resistance',
@@ -84,7 +84,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Waterproof Luxury Vinyl Planks, Tiles, Sheet Vinyl & Commercial VCT',
     shortDesc: '100% waterproof LVP, realistic stone LVT, sheet vinyl with flash coving, and heavy-duty commercial VCT.',
     fullDesc: 'Luxury Vinyl Plank (LVP), Luxury Vinyl Tile (LVT), Sheet Vinyl Coving, and Vinyl Composition Tile (VCT) provide hyper-realistic textures with total moisture immunity.',
-    heroImage: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShtyfpbvpcAD7y5Toces-8V5MnFjwG5l7PQiu2iPpzNg&s=10',
     benefits: [
       '100% Waterproof construction',
       'Pet & child scratch resistance',
@@ -115,7 +115,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Practical Everyday Style & High Wear Resistance',
     shortDesc: 'Budget-friendly, highly durable flooring with photo-realistic wood grain and AC-rated scratch protection.',
     fullDesc: 'Laminate flooring provides an economical yet stunning wood appearance. High AC4 and AC5 wear layers protect against scuffs, furniture, and busy family pets.',
-    heroImage: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQGnIdh79my428OElFfIOqsJ6m1-YBcz2OKYfHk1AyhQ&s=10',
     benefits: ['Budget-friendly investment', 'High impact & wear rating', 'Easy click-lock installation', 'Photo-realistic wood grain'],
     idealFor: ['Bedrooms', 'Living Areas', 'Rental Properties', 'Home Offices'],
     process: [
@@ -140,7 +140,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Unmatched Comfort, Thermal Warmth & Sound Absorption',
     shortDesc: 'Plush residential and durable commercial carpet installation for cozy bedrooms, stairs, and quiet offices.',
     fullDesc: 'Carpet creates cozy, insulated spaces underfoot. HD Flooring offers professional stretch-in carpet installation with high-density padding for superior foot comfort.',
-    heroImage: 'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS0E80xoiXCE-1gX-Yq3Zngmxj-ncLZu3J182ICWGtXQ&s=10',
     benefits: ['Soft thermal comfort underfoot', 'Superior noise dampening', 'Stain-resistant fiber options', 'Non-slip surface safety'],
     idealFor: ['Bedrooms', 'Home Theaters', 'Stairs', 'Corporate Boardrooms'],
     process: [
@@ -165,7 +165,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'High-Strength Porcelain, Ceramic & Stone Tiling',
     shortDesc: 'Durable porcelain and ceramic tile installations for moisture-prone areas, foyers, and sleek commercial floors.',
     fullDesc: 'Tile offers unmatched durability, fire resistance, and easy hygienic cleanup. Our master tile setters handle floor leveling, waterproofing membranes, laser layout, and epoxy grout application.',
-    heroImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8yFQ6lKiUEACDUbh6HwoZ5hXb1aTjrrmeCnkRwSYSUQ&s=10',
     benefits: ['Impervious to steam & water', 'Ultra-durable porcelain strength', 'Wide range of large formats', 'Easy to sanitize'],
     idealFor: ['Bathrooms', 'Kitchens', 'Mudrooms', 'Commercial Entrances'],
     process: [
@@ -190,7 +190,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Custom Wood Stair Treads, Risers & Nosing Profiles',
     shortDesc: 'Custom hardwood stair capping, nosing, and runner installations that connect your floors seamlessly.',
     fullDesc: 'Stairs are often the focal point of a home entrance. HD Flooring installs solid wood stair treads, custom risers, and matching nosing profiles for flawless stair transformations.',
-    heroImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfMXH_8ZtvLD_UmjPEISpFpg9LZKp0x7C2hlWhdqdnlQ&s=10',
     benefits: ['Seamless visual flow between floors', 'Durable solid wood treads', 'Custom stain matching', 'Enhanced stair safety'],
     idealFor: ['Main Entryway Staircases', 'Curved Stairs', 'Basement Steps'],
     process: [
@@ -215,7 +215,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'Professional Board Repairs, Tear-out & Upgrades',
     shortDesc: 'Damaged board repairs, water damage restoration, old carpet tear-out, and complete floor replacement.',
     fullDesc: 'From repairing water-damaged vinyl boards to complete whole-house tear-outs, HD Flooring provides comprehensive repair and replacement services with dust-controlled removal and waste haul-away.',
-    heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlV1WdLvscA2_BTdI7_e2Wxha9pDqBrbWw30PeDQwdpA&s=10',
     benefits: ['Dust-controlled tear-out', 'Individual board replacement', 'Responsible waste haul-away', 'Subfloor restoration'],
     idealFor: ['Water Damage Repairs', 'Older Home Renovations', 'Post-Tenant Updates'],
     process: [
@@ -240,7 +240,7 @@ export const servicesData: ServiceItem[] = [
     tagline: 'The Solid Foundation for Every Lasting Installation',
     shortDesc: 'Self-leveling compound poured bases, plywood subfloor boarding, moisture barriers, and squeak repairs.',
     fullDesc: 'No floor looks great without a flat, solid subfloor. We diagnose uneven joists, repair squeaks, apply self-leveling cement compound, and install cement board or underlayment plywood.',
-    heroImage: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=500&q=80&fm=webp',
+    heroImage: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJcZQqWQk_K1DojBx0zReuWp3rnwuO89nXCEiS2sl_5w&s=10',
     benefits: ['Prevents floor squeaks & gaps', 'Ensures manufacturer warranty validity', 'Moisture barrier sealing', 'Ultra-smooth surface flatness'],
     idealFor: ['Uneven Concrete Slabs', 'Old Plywood Subfloors', 'Condo Slab Prep'],
     process: [

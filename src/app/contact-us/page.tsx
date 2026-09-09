@@ -73,7 +73,7 @@ export default function ContactUsPage() {
         badgeIcon={Phone}
         title="Get in Touch With Our Team"
         subtitle="Speak directly with Habibur Rahman and our Saskatchewan installation craftsmen for free quotes and project inquiries."
-        backgroundImage="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80&fm=webp"
+        backgroundImage="https://hisellflooring.co.uk/wp-content/uploads/2021/06/contact_us.jpg"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Contact Us' },
@@ -92,7 +92,7 @@ export default function ContactUsPage() {
 
         {/* 2-COLUMN MAIN CONTACT LAYOUT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
-          
+
           {/* LEFT 5 COLS: CONTACT INFORMATION & FOUNDER PROFILE */}
           <motion.div
             initial={{ opacity: 0, x: -50, scale: 0.95 }}

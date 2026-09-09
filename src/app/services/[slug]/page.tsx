@@ -36,76 +36,76 @@ import { useModal } from '@/lib/context/ModalContext';
 
 const serviceCategoryImages: Record<string, string[]> = {
   'hardwood-flooring': [
-    'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA5QJadSxaoBD3LdD9h7KhYDyv7o11TzVdckjfq5JDig&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiW8_gwZDxPqKkFH5P7Ghha2ckIwxTI4WGykFVn3LMtg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB1TyGxm0n8ShaD2Ijaaf-Ts2wGoHfKrSJTqfN0b4ozw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs-4W2oPqRbnGFEG7eMgsCkKtBTEocuNwfAJG_XG6dRQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLWz-rdJ-0kVquH6DfaiIGfZOxq6V1Ds-1a-hBlDhj4A&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJDNxNrlkLQZ6fq4olQAbpXp_YVr0oMI3GNf3FcgUUaw&s=10',
   ],
   'engineered-hardwood-flooring': [
-    'https://images.unsplash.com/photo-1615873968403-89e068629265?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXQmIxGt-10bmF0fk_uKGBj5dUbbcIiQWAAavGBvCjPA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmijarypdtsAsXW5qBdQtzpIr0fbW5ZsukukKB0C9PHA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs3-L28yp4dL3ricNCO7eJqP5_8YtV4JUvJFFZSybmyw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy2ojHwAMZTNwW6hT_vea6fkSaB1gibZu5k1uI5juvSA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaG87bXy3DGHRf4LjdG6CF8A88oGwj9Q-YGz1b7hUrkw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmi3Epqe8PGZ4Cz0kusudQ2GNYseHspjC86nLKMDwwmw&s',
   ],
   'luxury-vinyl-flooring': [
-    'https://images.unsplash.com/photo-1620626011761-996317b8d101?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600573472591-ee6b68d14c68?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566752229-250ed79470f8?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1565538810643-b5bdb714032a?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEUoxo5DGNLJMzJebWMdlOa8szDn_2c5r2s-I0H7DuQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRprYk_wgpFy0agS7fqJW-jh74wvF_vuHdWKGfOuuktHg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI4hYZ-Gl4qQUj90s9I3kloHZyc7wsbOwZInH8_To9Gw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNjJfNG6_BVMgRdA157ajr81c2NEZmF4UiBdA_NqX40w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQePfHrloKbtVL-P_00NKcPExyy1ZjSEWsnDvJXZhmj6A&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY1t5rJOg_4OVbNuSvkLJXRPPjNbPUglPkEKxkN-gy1w&s=10',
   ],
   'laminate-flooring': [
-    'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1534349762230-e0cadf78f5da?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1507652313519-d4e9174996dd?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_0KThWJmVf_6Nnjnpc5qdjCBRMrXpeqPUt-YIOEz7XA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsmAm-NjWGHR6-qcpA-aEKE-fbW0Fsi3I6uaeqgMwBeg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTot95bUdetmdl-OAxq3iSF39mF9HesupUTUhA1MMgbBA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfcitSuqopyMPVgwK45W5rVRrN7D6VDHCaq6v_nJql2A&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3crbbeliLx1c9seCpSH9uClEglVpeGaV1u0pfEKpB_w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPFb7Hwh2sSysm6NbsFy554EoJ8CZyO82gB83aWxhbAg&s=10',
   ],
   'carpet-flooring': [
-    'https://images.unsplash.com/photo-1600121848594-d8644e57abab?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1616046229478-9901c5536a45?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eTGWfyZ4mt1oHeld-RRqF_AN5MTu62ydqB-SGTDezg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRop2Yx-hMRYrOWdtPdA6hOzzOxjG7r5wLJdRAnSwWPNQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnAVZ0alSjjBFQcxIkFLvwEp94t_4mKrnaC1rv4-9Fmw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8aSO-UG0z4QAg21CARws5OUQgjL3R-w8x49PEFUg2pQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Scz4twv5bXaa9dGdp1MN4qhtC2QSEjjKTRRFq1aNlg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQCvISGT61MmcmQ0zvFjRb4Sraoj089SfPirsRMQaanw&s=10',
   ],
   'tile-flooring': [
-    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWtKRec5ABWzi2l1fVYlePoT52sMCXMDYiSFd50OkvDw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlKUs7wqxSvkNBe93bwmWr1KLT0WTUxPwzCeAx-u2RWQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShd8sZClukz3873iWkVkwO7bO89sEb0oLby95RKvXrDw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNEDtxh_ApFbfEQxAxDFTcCpQcJzmIltWKejxloBkZg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8Nu8k5NLc8_wVDKZUKXTmvcVnBIOGQYnAbjtH7X0q3w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkD2XP7BcFJcNmSKNnY2FHp7YOuTEI5OW_vQ-iav-mRQ&s=10',
   ],
   'stair-flooring': [
-    'https://images.unsplash.com/photo-1512915922686-57c11dde9b6b?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1584738766473-61c083514bf4?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTV2NRDTv8Mj6xLScrNb9CqIivs2ahOsx2NnJ_5XEucA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi3GwWeALY8UqtV6LYXrW133EJ313Ufnwz2c4Aq-gDnw&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRdymJcUZ5dgm_HLRA7Ru5A_0vb3A-ptz8lldS0nNKXg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkkQQxsCfSu6v2rvZqGZNk_stmPNQu47PrxsKuApjThg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0YdSKRRelpU0hx_yEPd_WFAPqseKpk_tgjWwnVQFn0w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG2WxR7mZpNR9FGfsDNeG4SLoAwo-jB7DVeexB5m8XPw&s=10',
   ],
   'flooring-replacement': [
-    'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1531834685032-c34bf0d84c77?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1589939705384-5185137a7f0f?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4rjm3mP4ypQCHUs8Wk9WD_2F3eFrGFtpscYAJHHY_9g&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOBJ2xEso_wQv0PMn842tjicMWzXMTTR88wtoKhT5Z3w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiCgZL3ax6YkJjeYxY_SPfVQWRkmVIErv7a7VOv9vgSA&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7OSML6xj2g8tE5uhUMbv3t5TMune84mufxBfMtJnquQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaJrmLcoelW8nvryKv2LkQnTjlVWqoWNiPn01cOINfXg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-w2rJ3YSIs60x4GuKqfgReP3CyY1h1JhZI367-Axqw&s=10',
   ],
   'floor-preparation': [
-    'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=800&q=80&fm=webp',
-    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80&fm=webp',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJcZQqWQk_K1DojBx0zReuWp3rnwuO89nXCEiS2sl_5w&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMKx8eoyRGYBYmA_krJ09q2TjRTKjudonTjxQngJlhg&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Omh8zLpk07HXcAwxmLYIt3Hrl-n8XTiCmC4zEayYkQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ezuJoKT5tLVVSZAOv0Aj5yO3gQZdIh2SIIYxnoRpiQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRty0xWc85bRQZ-RCIznc_eV9wt3kfEcKzrgzbVSJDCjQ&s=10',
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWQqirITTZYHFtf1xKVnen7bNmLXtyEYfAhj4rFZdN3w&s=10',
   ],
 };
 
@@ -188,7 +188,7 @@ export default function ServiceDetailPage() {
       />
 
       <main className="flex-1 py-14 w-full space-y-20 relative z-10">
-        
+
         {/* TOP CONTENT CONTAINER */}
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
           {/* Navigation Back Link */}
@@ -478,86 +478,42 @@ export default function ServiceDetailPage() {
         {/* BOTTOM CONTENT CONTAINER */}
         <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
 
-        {/* Ideal Rooms & Spaces Section - Clean Glassmorphism Grid */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 space-y-8 text-center shadow-2xl relative overflow-hidden text-slate-900 dark:text-white group"
-        >
-          {/* Glowing Top Accent Line & Ambient Light */}
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95" />
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
+          {/* Ideal Rooms & Spaces Section - Clean Glassmorphism Grid */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 space-y-8 text-center shadow-2xl relative overflow-hidden text-slate-900 dark:text-white group"
+          >
+            {/* Glowing Top Accent Line & Ambient Light */}
+            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95" />
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
-          <div className="space-y-3 relative z-10">
-            <span className="inline-block px-3.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
-              Recommended Applications
-            </span>
-            <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-              Ideal Rooms & Spaces For {service.title}
-            </h3>
-          </div>
-
-          <div className="flex flex-wrap justify-center items-center gap-4 relative z-10 max-w-4xl mx-auto">
-            {service.idealFor.map((room) => (
-              <motion.span
-                key={room}
-                whileHover={{ scale: 1.08, y: -2 }}
-                className="px-6 py-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#E85D04] text-slate-800 dark:text-slate-200 hover:text-[#E85D04] dark:hover:text-[#E85D04] text-xs sm:text-sm font-manrope font-extrabold tracking-wide shadow-md transition-all duration-300 flex items-center gap-2.5 cursor-pointer"
-              >
-                <Home className="w-4 h-4 text-[#E85D04]" />
-                <span>{room}</span>
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Step-by-Step Installation Process Timeline */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="space-y-8"
-        >
-          <div className="text-center space-y-3">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider">
-              <Wrench className="w-4 h-4 text-[#E85D04]" />
-              <span>Step-By-Step Execution</span>
+            <div className="space-y-3 relative z-10">
+              <span className="inline-block px-3.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+                Recommended Applications
+              </span>
+              <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                Ideal Rooms & Spaces For {service.title}
+              </h3>
             </div>
-            <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-              Our Professional <span className="text-[#E85D04]">Installation Process</span>
-            </h2>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-            {service.process.map((stepName, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.4, delay: idx * 0.08 }}
-              >
-                <TiltCard className="h-full">
-                  <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl text-center space-y-3 h-full flex flex-col justify-between group transition-all duration-300 relative overflow-hidden">
-                    <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
-                    <div className="w-10 h-10 mx-auto rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center font-playfair font-black text-[#E85D04] text-lg group-hover:scale-110 transition-transform">
-                      0{idx + 1}
-                    </div>
-                    <p className="text-xs sm:text-sm font-manrope font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
-                      {stepName}
-                    </p>
-                  </div>
-                </TiltCard>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
+            <div className="flex flex-wrap justify-center items-center gap-4 relative z-10 max-w-4xl mx-auto">
+              {service.idealFor.map((room) => (
+                <motion.span
+                  key={room}
+                  whileHover={{ scale: 1.08, y: -2 }}
+                  className="px-6 py-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#E85D04] text-slate-800 dark:text-slate-200 hover:text-[#E85D04] dark:hover:text-[#E85D04] text-xs sm:text-sm font-manrope font-extrabold tracking-wide shadow-md transition-all duration-300 flex items-center gap-2.5 cursor-pointer"
+                >
+                  <Home className="w-4 h-4 text-[#E85D04]" />
+                  <span>{room}</span>
+                </motion.span>
+              ))}
+            </div>
+          </motion.div>
 
-        {/* FAQs Accordion Section */}
-        {service.faqs && service.faqs.length > 0 && (
+          {/* Step-by-Step Installation Process Timeline */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -566,47 +522,91 @@ export default function ServiceDetailPage() {
             className="space-y-8"
           >
             <div className="text-center space-y-3">
-              <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
-                <HelpCircle className="w-4 h-4 text-[#E85D04] shrink-0" />
-                <span>Got Questions?</span>
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-bold uppercase tracking-wider">
+                <Wrench className="w-4 h-4 text-[#E85D04]" />
+                <span>Step-By-Step Execution</span>
               </div>
-              <h2 className="font-playfair text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
-                Frequently Asked Questions
+              <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+                Our Professional <span className="text-[#E85D04]">Installation Process</span>
               </h2>
             </div>
-            <Accordion items={service.faqs} />
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+              {service.process.map((stepName, idx) => (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: 0.4, delay: idx * 0.08 }}
+                >
+                  <TiltCard className="h-full">
+                    <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl text-center space-y-3 h-full flex flex-col justify-between group transition-all duration-300 relative overflow-hidden">
+                      <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
+                      <div className="w-10 h-10 mx-auto rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center font-playfair font-black text-[#E85D04] text-lg group-hover:scale-110 transition-transform">
+                        0{idx + 1}
+                      </div>
+                      <p className="text-xs sm:text-sm font-manrope font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
+                        {stepName}
+                      </p>
+                    </div>
+                  </TiltCard>
+                </motion.div>
+              ))}
+            </div>
           </motion.div>
-        )}
 
-        {/* Bottom CTA Banner */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6 }}
-          className="p-8 sm:p-12 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden"
-        >
-          <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90" />
+          {/* FAQs Accordion Section */}
+          {service.faqs && service.faqs.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="text-center space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+                  <HelpCircle className="w-4 h-4 text-[#E85D04] shrink-0" />
+                  <span>Got Questions?</span>
+                </div>
+                <h2 className="font-playfair text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+                  Frequently Asked Questions
+                </h2>
+              </div>
+              <Accordion items={service.faqs} />
+            </motion.div>
+          )}
 
-          <div className="space-y-2 text-center sm:text-left font-manrope">
-            <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
-              Ready to Install {service.title}?
-            </h3>
-            <p className="text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-300">
-              Contact Habibur Rahman & the HD Flooring team today for a free on-site estimate in Saskatoon.
-            </p>
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => openBookModal(service.title)}
-            className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 cursor-pointer"
+          {/* Bottom CTA Banner */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.6 }}
+            className="p-8 sm:p-12 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden"
           >
-            <Sparkles className="w-4 h-4 text-white" />
-            <span>Get Free Quote</span>
-          </motion.button>
-        </motion.div>
+            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90" />
+
+            <div className="space-y-2 text-center sm:text-left font-manrope">
+              <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
+                Ready to Install {service.title}?
+              </h3>
+              <p className="text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-300">
+                Contact Habibur Rahman & the HD Flooring team today for a free on-site estimate in Saskatoon.
+              </p>
+            </div>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => openBookModal(service.title)}
+              className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 text-white" />
+              <span>Get Free Quote</span>
+            </motion.button>
+          </motion.div>
         </div>
       </main>
 

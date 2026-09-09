@@ -66,15 +66,14 @@ export function PageHero({
         />
       </div>
 
-      {/* 2. ULTRA-CLEAR MINIMAL OVERLAY GRADIENT */}
-      {/* Light top shade for navbar contrast, clear center so floor images pop, soft bottom fade into page */}
-      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/55 via-stone-950/15 to-stone-950/65 pointer-events-none z-1" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-transparent via-stone-950/10 to-stone-950/40 pointer-events-none z-1" />
+      {/* 2. ELEGANT FULL-WIDTH BLACKISH GLASS OVERLAY */}
+      <div className="absolute inset-0 bg-stone-950/30 backdrop-blur-[2px] pointer-events-none z-1" />
+      <div className="absolute inset-0 bg-gradient-to-b from-stone-950/55 via-stone-950/20 to-stone-950/60 pointer-events-none z-1" />
 
-      {/* 3. HERO CONTENT WRAPPER WITH TEXT SHADOWS & GLASSMORPHISM */}
+      {/* 3. HERO CONTENT WRAPPER - CLEAN & UN-BOXED */}
       <motion.div
         style={{ opacity: contentOpacity, y: contentY }}
-        className="relative z-10 w-full max-w-5xl mx-auto text-center space-y-4 sm:space-y-5 flex flex-col items-center justify-center pt-4 sm:pt-6 px-2 overflow-hidden"
+        className="relative z-10 w-full max-w-5xl mx-auto text-center space-y-4 sm:space-y-5 flex flex-col items-center justify-center pt-4 sm:pt-6 px-2"
       >
         {/* Breadcrumbs Navigation */}
         {breadcrumbs && breadcrumbs.length > 0 && (

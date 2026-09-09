@@ -125,7 +125,7 @@ export default function AboutUsPage() {
         badge="About HD Flooring"
         title="About Our Flooring Company"
         subtitle="Canadian installation specialists dedicated to hardwood, vinyl plank, laminate & tile craftsmanship."
-        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80&fm=webp"
+        backgroundImage="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'About Us' },
