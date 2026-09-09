@@ -40,7 +40,7 @@ export function PageHero({
   breadcrumbs,
   primaryCta,
   secondaryCta,
-  heightClass = 'min-h-[55vh] sm:min-h-[60vh] lg:min-h-[65vh]',
+  heightClass = 'min-h-[65vh] sm:min-h-[72vh] lg:min-h-[80vh]',
 }: PageHeroProps) {
   const { openBookModal } = useModal();
 
@@ -54,7 +54,7 @@ export function PageHero({
 
   return (
     <section
-      className={`relative w-full ${heightClass} flex items-center justify-center pt-28 pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden bg-stone-900 text-white`}
+      className={`relative w-full ${heightClass} flex items-center justify-center pt-36 sm:pt-40 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-8 bg-stone-900 text-white`}
     >
       {/* 1. TRUE FIXED PARALLAX BACKGROUND IMAGE LAYER */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">

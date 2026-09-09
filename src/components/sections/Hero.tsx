@@ -78,27 +78,27 @@ const categorySlides = [
   {
     name: 'Solid Hardwood Flooring',
     tag: 'Real Wood Grain',
-    image: 'https://www.floorstores.com/wp-content/uploads/2026/06/67907_847_solidtech_campaign_image_03.webp',
+    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyxINtJQD3XQadk70xqCM3l-FSzMJQCjjjf6FRIhas_Qe4mD8E4zVyxog&s=10',
   },
   {
     name: 'Luxury Vinyl Plank (LVP)',
     tag: '100% Waterproof',
-    image: 'https://static.homeguide.com/assets/images/content/homeguide-living-room-with-luxury-vinap-plank-lvp-flooring-by-Floorzz.jpg',
+    image: 'https://res.cloudinary.com/znet-flooring/images/c_limit,dpr_2.0,f_auto,q_auto/v1/media/catalog/product/e/6/e6e5c524498e680a3596e40ef01fd2dfc75c5fb02a9a6464d55a245830a7d92b.jpeg/LI-DP05-Lions-Floor-District-Pro-LVP-Sun-Valley-1',
   },
   {
     name: 'Tile & Porcelain Installation',
     tag: 'Kitchen & Bathroom',
-    image: 'https://apollotile.com/cdn/shop/files/How-to-Install-Porcelain-Tile.jpg?v=1763720975&width=1600',
+    image: 'https://app.dropinblog.com/uploaded/blogs/34246798/files/Royal_Statuario_Porcelain_Tiles.png',
   },
   {
     name: 'Premium Laminate Flooring',
     tag: 'Herringbone & Planks',
-    image: 'https://www.eurostyleflooring.ca/wp-content/uploads/eurostyle-the-norwegian-stavanger-laminate-002.jpg',
+    image: 'https://media.tarkett-image.com/large/IN-Floor-Laminate-WoodstockAquaBlock-SheffieldOakSpring_510043033_001.jpg',
   },
   {
     name: 'Stair Capping & Subfloor Prep',
     tag: 'Wood Treads & Leveling',
-    image: 'https://www.merinolaminates.com/wp-content/uploads/2025/12/Featured-image-2-4.jpg',
+    image: 'https://pro-tek-flooring.com/wp-content/uploads/2026/04/LVT-on-Stairs.jpg',
   },
 ];
 
@@ -125,29 +125,37 @@ export function Hero() {
   return (
     <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
+      {/* Background Slideshow with Smooth Zoom Animation */}
       <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-95 transition-opacity">
-        {categorySlides.map((slide, idx) => (
-          <motion.div
-            key={slide.image}
-            initial={{ opacity: 0, scale: 1.0 }}
-            animate={{
-              opacity: currentSlideIdx === idx ? 1 : 0,
-              scale: currentSlideIdx === idx ? 1.08 : 1.0,
-            }}
-            transition={{
-              opacity: { duration: 1.2, ease: 'easeInOut' },
-              scale: { duration: currentSlideIdx === idx ? 6.5 : 0, ease: 'easeOut' },
-            }}
-            className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
-          >
-            <img
-              src={slide.image}
-              alt={slide.name}
-              className="w-full h-full object-cover object-[center_70%] sm:object-[center_75%]"
-              loading={idx === 0 ? 'eager' : 'lazy'}
-            />
-          </motion.div>
-        ))}
+        {categorySlides.map((slide, idx) => {
+          const isActive = currentSlideIdx === idx;
+          return (
+            <motion.div
+              key={slide.image}
+              initial={{
+                opacity: idx === 0 ? 1 : 0,
+                scale: 1.0,
+              }}
+              animate={{
+                opacity: isActive ? 1 : 0,
+                scale: isActive ? 1.08 : 1.0,
+              }}
+              transition={{
+                opacity: { duration: 1.2, ease: 'easeInOut' },
+                scale: { duration: isActive ? 6.5 : 0, ease: 'easeOut' },
+              }}
+              className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
+            >
+              <img
+                src={slide.image}
+                alt={slide.name}
+                loading={idx === 0 ? 'eager' : 'lazy'}
+                fetchPriority={idx === 0 ? 'high' : 'low'}
+                className="w-full h-full object-cover object-center"
+              />
+            </motion.div>
+          );
+        })}
       </div>
 
       {/* Premium Smoked Blackish Glass Overlay - Left side 15%, Right side 75% smoked black glass */}
@@ -181,7 +189,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]"
+            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15] [text-shadow:_0_3px_12px_rgba(0,0,0,0.9)]"
           >
             Professional Flooring Installation
             <div className="text-xl sm:text-3xl font-extrabold text-stone-200 flex items-center gap-2 pt-1 flex-wrap">
