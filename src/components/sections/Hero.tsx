@@ -78,27 +78,27 @@ const categorySlides = [
   {
     name: 'Solid Hardwood Flooring',
     tag: 'Real Wood Grain',
-    image: 'https://images.unsplash.com/photo-1516455590571-18256e5bb9ff?auto=format&fit=crop&w=1920&q=95&fm=webp',
+    image: 'https://www.floorstores.com/wp-content/uploads/2026/06/67907_847_solidtech_campaign_image_03.webp',
   },
   {
     name: 'Luxury Vinyl Plank (LVP)',
     tag: '100% Waterproof',
-    image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1920&q=95&fm=webp',
+    image: 'https://static.homeguide.com/assets/images/content/homeguide-living-room-with-luxury-vinap-plank-lvp-flooring-by-Floorzz.jpg',
   },
   {
     name: 'Tile & Porcelain Installation',
     tag: 'Kitchen & Bathroom',
-    image: 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?auto=format&fit=crop&w=1920&q=95&fm=webp',
+    image: 'https://apollotile.com/cdn/shop/files/How-to-Install-Porcelain-Tile.jpg?v=1763720975&width=1600',
   },
   {
     name: 'Premium Laminate Flooring',
     tag: 'Herringbone & Planks',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1920&q=95&fm=webp',
+    image: 'https://www.eurostyleflooring.ca/wp-content/uploads/eurostyle-the-norwegian-stavanger-laminate-002.jpg',
   },
   {
     name: 'Stair Capping & Subfloor Prep',
     tag: 'Wood Treads & Leveling',
-    image: 'https://images.unsplash.com/photo-1541123437800-1bb1317badc2?auto=format&fit=crop&w=1920&q=95&fm=webp',
+    image: 'https://www.merinolaminates.com/wp-content/uploads/2025/12/Featured-image-2-4.jpg',
   },
 ];
 
@@ -138,13 +138,20 @@ export function Hero() {
               opacity: { duration: 1.2, ease: 'easeInOut' },
               scale: { duration: currentSlideIdx === idx ? 6.5 : 0, ease: 'easeOut' },
             }}
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat pointer-events-none transform-gpu will-change-transform"
-            style={{ backgroundImage: `url('${slide.image}')` }}
-          />
+            className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
+          >
+            <img
+              src={slide.image}
+              alt={slide.name}
+              className="w-full h-full object-cover object-[center_70%] sm:object-[center_75%]"
+              loading={idx === 0 ? 'eager' : 'lazy'}
+            />
+          </motion.div>
         ))}
       </div>
 
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 bg-gradient-to-r from-white/85 via-white/40 to-transparent dark:from-stone-950/90 dark:via-stone-950/50 dark:to-transparent pointer-events-none z-10" />
+      {/* Premium Smoked Blackish Glass Overlay - Left side 15%, Right side 75% smoked black glass */}
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 backdrop-blur-[3px] bg-gradient-to-l from-black/75 via-black/45 to-black/15 pointer-events-none z-10" />
 
       {/* Left Slide Control Button */}
       <button
@@ -174,10 +181,10 @@ export function Hero() {
             initial={{ opacity: 0, y: 35 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-stone-900 dark:text-white leading-[1.15]"
+            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15]"
           >
             Professional Flooring Installation
-            <div className="text-xl sm:text-3xl font-extrabold text-stone-700 dark:text-stone-300 flex items-center gap-2 pt-1 flex-wrap">
+            <div className="text-xl sm:text-3xl font-extrabold text-stone-200 flex items-center gap-2 pt-1 flex-wrap">
               <span>Built for Canadian Spaces —</span>
               <AnimatePresence mode="wait">
                 <motion.span
@@ -198,7 +205,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-stone-700 dark:text-stone-300 text-sm sm:text-base font-semibold max-w-2xl"
+            className="text-stone-200 text-sm sm:text-base font-semibold max-w-2xl"
           >
             Hardwood, luxury vinyl plank, laminate, carpet & tile installation for Canadian homes and businesses.
           </motion.p>
@@ -241,16 +248,29 @@ export function Hero() {
                   onClick={() => setCurrentSlideIdx(idx)}
                   className={`group relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
                     ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
-                    : 'bg-white/80 dark:bg-stone-900/80 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
+                    : 'bg-white/85 dark:bg-stone-900/85 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
                     }`}
                 >
+                  {/* Floor Background Image Overlay - Only Visible on Active Card */}
+                  <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-3xl">
+                    <img
+                      src={categorySlides[idx].image}
+                      alt={srv.title}
+                      className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'scale-105 opacity-25 dark:opacity-30' : 'opacity-0 scale-100'
+                        }`}
+                    />
+                    {isActive && (
+                      <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/70 to-white/30 dark:from-stone-900/95 dark:via-stone-900/80 dark:to-stone-900/40" />
+                    )}
+                  </div>
+
                   {/* Top Animated Brand Color Accent Bar */}
                   <div
-                    className={`h-1.5 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                    className={`h-1.5 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 z-10 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
                       }`}
                   />
 
-                  <div className="space-y-3">
+                  <div className="space-y-3 relative z-10">
                     {/* Icon Box with Brand Color Mix */}
                     <div
                       className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
@@ -279,7 +299,7 @@ export function Hero() {
                   {/* Bottom Right Corner Brand Color Action Box */}
                   <Link
                     href={srv.href}
-                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
+                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl z-10 ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
                       }`}
                   >
                     <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
