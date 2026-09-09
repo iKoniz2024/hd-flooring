@@ -65,7 +65,7 @@ const teamPhotos: TeamPhoto[] = [
   },
   {
     id: 'team-08',
-    src: '/assets/images/personal-photos/habib-photo.jpg',
+    src: '/assets/images/personal-photos/personal-photo-01.jpg',
     title: 'Habibur Rahman (Habib)',
     subtitle: 'Managing Director & Lead Flooring Specialist leading every project site',
     badge: 'Managing Lead',

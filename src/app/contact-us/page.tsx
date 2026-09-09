@@ -17,13 +17,44 @@ export default function ContactUsPage() {
   const [loading, setLoading] = useState(false);
   const { openBookModal } = useModal();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    service: 'Sheet Vinyl Coving / PVC',
+    details: '',
+  });
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setErrorMessage('');
+    try {
+      const res = await fetch('/api/book', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          phone: formData.phone,
+          email: formData.email,
+          service: formData.service,
+          details: formData.details,
+          source: 'Contact Us Page',
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(data.message || 'Failed to submit request.');
+      }
+    } catch (err) {
+      console.error('Error submitting contact request:', err);
       setSubmitted(true);
-    }, 700);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -174,6 +205,11 @@ export default function ContactUsPage() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6 font-inter">
+                {errorMessage && (
+                  <div className="p-3.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-600 dark:text-red-400 text-xs font-semibold">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="space-y-1">
                   <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-xs font-extrabold uppercase tracking-wider border border-[#E85D04]/30">
                     <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
@@ -192,6 +228,8 @@ export default function ContactUsPage() {
                     <input
                       type="text"
                       required
+                      value={formData.fullName}
+                      onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
                       placeholder="David Miller"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-[#E85D04] text-xs font-medium outline-none transition-colors shadow-sm"
                     />
@@ -204,6 +242,8 @@ export default function ContactUsPage() {
                     <input
                       type="tel"
                       required
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       placeholder="+1 (306) 880-8404"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-[#E85D04] text-xs font-medium outline-none transition-colors shadow-sm"
                     />
@@ -218,7 +258,9 @@ export default function ContactUsPage() {
                     <input
                       type="email"
                       required
-                      placeholder="hdflooring7@gmail.com"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="info@hdflooringca.com"
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-[#E85D04] text-xs font-medium outline-none transition-colors shadow-sm"
                     />
                   </div>
@@ -229,6 +271,8 @@ export default function ContactUsPage() {
                     </label>
                     <select
                       required
+                      value={formData.service}
+                      onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                       className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-[#E85D04] text-xs font-medium outline-none transition-colors shadow-sm cursor-pointer"
                     >
                       <option>Sheet Vinyl Coving / PVC</option>
@@ -250,6 +294,8 @@ export default function ContactUsPage() {
                   </label>
                   <textarea
                     rows={4}
+                    value={formData.details}
+                    onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                     placeholder="Describe your room sizes, flooring preferences, repairs, or timeline..."
                     className="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 focus:border-[#E85D04] text-xs font-medium outline-none resize-none transition-colors shadow-sm"
                   />

@@ -8,12 +8,10 @@
     --foreground: #0f172a;
     --card: #ffffff;
     --card-foreground: #0f172a;
-    --primary: #e85d04;
-    /* Unified HD Flooring Warm Orange */
+    --primary: #e85d04;          /* Unified HD Flooring Warm Orange */
     --primary-hover: #d95b16;
     --primary-foreground: #ffffff;
-    --secondary: #1e293b;
-    /* Slate Dark Accent */
+    --secondary: #1e293b;        /* Slate Dark Accent */
     --secondary-hover: #0f172a;
     --secondary-foreground: #ffffff;
     --accent: #e85d04;
