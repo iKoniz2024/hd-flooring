@@ -40,14 +40,14 @@ export default function Home() {
         {/* 4. Before / After Transformation */}
         <BeforeAfterSlider />
 
-        {/* 5. Statistics Banner */}
-        <StatsBanner />
-
-        {/* 6. Flooring Categories */}
+        {/* 5. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 7. On-Site Real Project Photo Gallery */}
+        {/* 6. On-Site Real Project Photo Gallery */}
         <ProjectShowcaseTicker />
+
+        {/* 7. Statistics Banner */}
+        <StatsBanner />
 
         {/* 8. Why HD Flooring */}
         <WhyUs />
