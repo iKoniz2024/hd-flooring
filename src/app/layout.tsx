@@ -76,6 +76,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${plusJakarta.variable} ${outfit.variable} ${manrope.variable} ${dmSans.variable} ${inter.variable}`}
     >

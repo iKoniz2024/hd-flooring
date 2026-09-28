@@ -52,7 +52,7 @@ export function Testimonials() {
       {/* 1. Bright High-Contrast True Fixed Parallax Background Image */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div
-          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-40"
+          className="w-full h-full bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-40 transform-gpu"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80&fm=webp')`,
           }}

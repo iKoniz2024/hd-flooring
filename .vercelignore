@@ -1,0 +1,15 @@
+node_modules
+node_modules/
+**/node_modules/**
+.next
+.next/
+**/.next/**
+.vercel
+.vercel/
+**/.vercel/**
+.git
+.git/
+**/.git/**
+*.log
+.env.local
+.env*.local

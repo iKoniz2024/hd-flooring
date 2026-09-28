@@ -114,20 +114,34 @@ export async function POST(request: Request) {
           user: smtpUser,
           pass: smtpPass,
         },
+        connectionTimeout: 4000,
+        greetingTimeout: 3000,
+        socketTimeout: 5000,
         tls: {
           rejectUnauthorized: false,
         },
       });
 
-      await transporter.sendMail({
-        from: smtpFrom,
-        to: recipientEmail,
-        subject: `New Booking Request from ${fullName} - HD Flooring`,
-        html: htmlContent,
-        replyTo: email && email !== 'N/A' ? email : undefined,
-      });
+      const sendMailPromise = transporter
+        .sendMail({
+          from: smtpFrom,
+          to: recipientEmail,
+          subject: `New Booking Request from ${fullName} - HD Flooring`,
+          html: htmlContent,
+          replyTo: email && email !== 'N/A' ? email : undefined,
+        })
+        .then(() => {
+          console.log(`Email successfully sent to ${recipientEmail}`);
+        })
+        .catch((err) => {
+          console.error('SMTP send error:', err);
+        });
 
-      console.log(`Email successfully sent to ${recipientEmail}`);
+      // Race with 1.5s max wait so user UI gets instant confirmation
+      await Promise.race([
+        sendMailPromise,
+        new Promise((resolve) => setTimeout(resolve, 1500)),
+      ]);
     } else {
       console.warn('SMTP credentials not set in env variables. Payload logged to server console.');
     }

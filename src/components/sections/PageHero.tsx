@@ -3,8 +3,16 @@
 import { useRef } from 'react';
 import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Sparkles, ChevronRight, ArrowRight, Phone } from 'lucide-react';
+import { Sparkles, ChevronRight, ArrowRight, Phone, Calculator, Camera, BookOpen } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
+
+const iconMap: Record<string, React.ElementType> = {
+  calculator: Calculator,
+  phone: Phone,
+  camera: Camera,
+  book: BookOpen,
+  sparkles: Sparkles,
+};
 
 export interface BreadcrumbItem {
   label: string;
@@ -15,7 +23,7 @@ export interface PageHeroProps {
   title: string;
   subtitle?: string;
   badge?: string;
-  badgeIcon?: React.ElementType;
+  badgeIcon?: string | React.ElementType;
   backgroundImage: string;
   breadcrumbs?: BreadcrumbItem[];
   primaryCta?: {
@@ -35,7 +43,7 @@ export function PageHero({
   title,
   subtitle,
   badge = 'HD Flooring',
-  badgeIcon: BadgeIcon = Sparkles,
+  badgeIcon = Sparkles,
   backgroundImage,
   breadcrumbs,
   primaryCta,
@@ -43,6 +51,10 @@ export function PageHero({
   heightClass = 'min-h-[65vh] sm:min-h-[72vh] lg:min-h-[80vh]',
 }: PageHeroProps) {
   const { openBookModal } = useModal();
+  const BadgeIcon = typeof badgeIcon === 'string'
+    ? (iconMap[badgeIcon.toLowerCase()] || Sparkles)
+    : (badgeIcon || Sparkles);
+
 
   // Framer Motion Parallax logic (Safe for hydration)
   const { scrollYProgress } = useScroll();
@@ -59,7 +71,7 @@ export function PageHero({
       {/* 1. TRUE FIXED PARALLAX BACKGROUND IMAGE LAYER */}
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <div
-          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat brightness-[1.18] contrast-[1.02] saturate-[1.1]"
+          className="w-full h-full bg-cover bg-center bg-no-repeat brightness-[1.18] contrast-[1.02] saturate-[1.1] transform-gpu"
           style={{
             backgroundImage: `url('${backgroundImage}')`,
           }}

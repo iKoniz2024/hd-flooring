@@ -148,7 +148,7 @@ export default function ProjectsPage() {
       {/* Hero Section */}
       <PageHero
         badge="HD Flooring Workmanship Gallery"
-        badgeIcon={Camera}
+        badgeIcon="camera"
         title="Our Flooring Project Gallery"
         backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
         breadcrumbs={[

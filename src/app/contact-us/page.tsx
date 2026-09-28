@@ -114,6 +114,7 @@ export default function ContactUsPage() {
                     src="/assets/images/personal-photos/habib-photo.jpg"
                     alt="Habibur Rahman (Habib)"
                     fill
+                    sizes="64px"
                     className="object-cover"
                   />
                 </div>

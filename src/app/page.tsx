@@ -1,4 +1,6 @@
-'use client';
+import nextDynamic from 'next/dynamic';
+
+export const dynamic = 'force-static';
 
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -7,16 +9,44 @@ import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { Hero } from '@/components/sections/Hero';
 import { IntroSection } from '@/components/sections/IntroSection';
-import { LiveBadge } from '@/components/animations/LiveBadge';
-import { BeforeAfterSlider } from '@/components/interactive/BeforeAfterSlider';
-import { StatsBanner } from '@/components/sections/StatsBanner';
 import { ServicesGrid } from '@/components/sections/ServicesGrid';
-import { ProjectShowcaseTicker } from '@/components/sections/ProjectShowcaseTicker';
 import { WhyUs } from '@/components/sections/WhyUs';
-import { ResidentialCommercial } from '@/components/sections/ResidentialCommercial';
-import { ProcessTimeline } from '@/components/sections/ProcessTimeline';
-import { Testimonials } from '@/components/sections/Testimonials';
-import { FinalCTA } from '@/components/sections/FinalCTA';
+
+// Dynamic imports for heavy below-the-fold interactive components
+const BeforeAfterSlider = nextDynamic(
+  () => import('@/components/interactive/BeforeAfterSlider').then((mod) => mod.BeforeAfterSlider),
+  { ssr: true }
+);
+
+const ProjectShowcaseTicker = nextDynamic(
+  () => import('@/components/sections/ProjectShowcaseTicker').then((mod) => mod.ProjectShowcaseTicker),
+  { ssr: true }
+);
+
+const StatsBanner = nextDynamic(
+  () => import('@/components/sections/StatsBanner').then((mod) => mod.StatsBanner),
+  { ssr: true }
+);
+
+const ResidentialCommercial = nextDynamic(
+  () => import('@/components/sections/ResidentialCommercial').then((mod) => mod.ResidentialCommercial),
+  { ssr: true }
+);
+
+const ProcessTimeline = nextDynamic(
+  () => import('@/components/sections/ProcessTimeline').then((mod) => mod.ProcessTimeline),
+  { ssr: true }
+);
+
+const Testimonials = nextDynamic(
+  () => import('@/components/sections/Testimonials').then((mod) => mod.Testimonials),
+  { ssr: true }
+);
+
+const FinalCTA = nextDynamic(
+  () => import('@/components/sections/FinalCTA').then((mod) => mod.FinalCTA),
+  { ssr: true }
+);
 
 export default function Home() {
   return (
@@ -35,33 +65,31 @@ export default function Home() {
         {/* 2. Introduction Section */}
         <IntroSection />
 
-
-
-        {/* 4. Before / After Transformation */}
+        {/* 3. Before / After Transformation */}
         <BeforeAfterSlider />
 
-        {/* 5. Flooring Categories */}
+        {/* 4. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 6. On-Site Real Project Photo Gallery */}
+        {/* 5. On-Site Real Project Photo Gallery */}
         <ProjectShowcaseTicker />
 
-        {/* 7. Statistics Banner */}
+        {/* 6. Statistics Banner */}
         <StatsBanner />
 
-        {/* 8. Why HD Flooring */}
+        {/* 7. Why HD Flooring */}
         <WhyUs />
 
-        {/* 9. Residential & Commercial Solutions */}
+        {/* 8. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 10. Installation Process */}
+        {/* 9. Installation Process */}
         <ProcessTimeline />
 
-        {/* 11. Customer Testimonials */}
+        {/* 10. Customer Testimonials */}
         <Testimonials />
 
-        {/* 12. Final CTA */}
+        {/* 11. Final CTA */}
         <FinalCTA />
       </main>
 
@@ -74,3 +102,4 @@ export default function Home() {
     </div>
   );
 }
+

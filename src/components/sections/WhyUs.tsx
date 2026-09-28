@@ -62,7 +62,7 @@ export function WhyUs() {
       {/* Clean Fixed Background Image */}
       <div className="absolute inset-0 pointer-events-none z-0">
         <div
-          className="w-full h-full bg-fixed bg-cover bg-center bg-no-repeat opacity-60 dark:opacity-40"
+          className="w-full h-full bg-cover bg-center bg-no-repeat opacity-60 dark:opacity-40 transform-gpu"
           style={{
             backgroundImage: `url('https://plus.unsplash.com/premium_photo-1673770408482-075e320ae37f?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
           }}

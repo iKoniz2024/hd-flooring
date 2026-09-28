@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef } from 'react';
 
 export function TiltCard({
   children,
@@ -11,73 +10,43 @@ export function TiltCard({
   className?: string;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [rotateX, setRotateX] = useState(0);
-  const [rotateY, setRotateY] = useState(0);
-  const [isTouchDevice, setIsTouchDevice] = useState(false);
-
-  useEffect(() => {
-    // Check if device supports touch or screen is small/medium
-    const checkMobileOrTouch = () => {
-      setIsTouchDevice(window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 1024);
-    };
-    checkMobileOrTouch();
-    window.addEventListener('resize', checkMobileOrTouch);
-    return () => window.removeEventListener('resize', checkMobileOrTouch);
-  }, []);
-
-  const calculateTilt = (clientX: number, clientY: number) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = clientX - rect.left;
-    const mouseY = clientY - rect.top;
-
-    const rY = (mouseX / width - 0.5) * 10;
-    const rX = (mouseY / height - 0.5) * -10;
-
-    setRotateX(rX);
-    setRotateY(rY);
-  };
+  const [transform, setTransform] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+  const [transition, setTransition] = useState('transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    calculateTilt(e.clientX, e.clientY);
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+
+    setTransition('transform 0.1s ease-out');
+    setTransform(`perspective(1000px) rotateX(${rotateX.toFixed(2)}deg) rotateY(${rotateY.toFixed(2)}deg) scale3d(1.01, 1.01, 1.01)`);
   };
 
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    if (e.touches.length > 0) {
-      calculateTilt(e.touches[0].clientX, e.touches[0].clientY);
-    }
-  };
-
-  const handleReset = () => {
-    setRotateX(0);
-    setRotateY(0);
+  const handleMouseLeave = () => {
+    setTransition('transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)');
+    setTransform('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
   };
 
   return (
-    <motion.div
+    <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
-      onMouseLeave={handleReset}
-      onTouchStart={(e) => calculateTilt(e.touches[0].clientX, e.touches[0].clientY)}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleReset}
-      animate={
-        rotateX === 0 && rotateY === 0 && isTouchDevice
-          ? { rotateX: [0, 2, -2, 0], rotateY: [0, -3, 3, 0] }
-          : { rotateX, rotateY }
-      }
-      transition={
-        rotateX === 0 && rotateY === 0 && isTouchDevice
-          ? { duration: 6, repeat: Infinity, ease: 'easeInOut' }
-          : { type: 'spring', stiffness: 300, damping: 20 }
-      }
-      style={{ transformStyle: 'preserve-3d' }}
-      className={`perspective-1000 ${className}`}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform,
+        transition,
+        willChange: 'transform',
+        transformStyle: 'preserve-3d',
+      }}
+      className={`transform-gpu ${className}`}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
-
