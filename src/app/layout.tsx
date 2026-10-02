@@ -1,39 +1,14 @@
 import type { Metadata } from 'next';
-import { Plus_Jakarta_Sans, Outfit, Manrope, DM_Sans, Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { ModalProvider } from '@/lib/context/ModalContext';
 import { BookUsModal } from '@/components/modals/BookUsModal';
 import './globals.css';
 
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ['latin'],
-  variable: '--font-jakarta',
-  display: 'swap',
-});
-
-const outfit = Outfit({
-  subsets: ['latin'],
-  variable: '--font-outfit',
-  display: 'swap',
-});
-
-const manrope = Manrope({
-  subsets: ['latin'],
-  variable: '--font-manrope',
-  display: 'swap',
-});
-
-const dmSans = DM_Sans({
-  subsets: ['latin'],
-  variable: '--font-dmsans',
-  display: 'swap',
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
-});
+const plusJakarta = { variable: 'font-jakarta' };
+const outfit = { variable: 'font-outfit' };
+const manrope = { variable: 'font-manrope' };
+const dmSans = { variable: 'font-dmsans' };
+const inter = { variable: 'font-inter' };
 
 export const metadata: Metadata = {
   title: 'HD Flooring | Professional Flooring Installation in Saskatoon, SK Canada',

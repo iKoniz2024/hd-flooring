@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Sparkles,
   CheckCircle2,
@@ -17,6 +18,9 @@ import {
   Wrench,
   Home,
   Phone,
+  Package,
+  Loader2,
+  Tag
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
@@ -28,112 +32,217 @@ import { TiltCard } from '@/components/interactive/TiltCard';
 import { PageHero } from '@/components/sections/PageHero';
 import { Accordion } from '@/components/ui/Accordion';
 import { useModal } from '@/lib/context/ModalContext';
-import { ServiceItem } from '@/data/services';
+import { servicesData, ServiceItem } from '@/data/services';
+import { ProductQuickViewModal, QuickViewProduct } from '@/components/modals/ProductQuickViewModal';
 
-const serviceCategoryImages: Record<string, string[]> = {
+interface CategoryDoc {
+  _id: string;
+  name: string;
+  isActive?: boolean;
+}
+
+interface ProductDoc {
+  _id: string;
+  title: string;
+  description: string;
+  category: string;
+  categoryName?: string;
+  price: number;
+  image: string;
+  images?: string[];
+}
+
+interface ProjectDoc {
+  _id: string;
+  title: string;
+  location: string;
+  category: string;
+  coverImage: string;
+  galleryImages?: string[];
+}
+
+const localCategoryGalleryMap: Record<string, string[]> = {
   'hardwood-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSA5QJadSxaoBD3LdD9h7KhYDyv7o11TzVdckjfq5JDig&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiW8_gwZDxPqKkFH5P7Ghha2ckIwxTI4WGykFVn3LMtg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTB1TyGxm0n8ShaD2Ijaaf-Ts2wGoHfKrSJTqfN0b4ozw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRs-4W2oPqRbnGFEG7eMgsCkKtBTEocuNwfAJG_XG6dRQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLWz-rdJ-0kVquH6DfaiIGfZOxq6V1Ds-1a-hBlDhj4A&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJDNxNrlkLQZ6fq4olQAbpXp_YVr0oMI3GNf3FcgUUaw&s=10',
+    '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
+    '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg',
+    '/assets/images/hardwood-flooring/hardwood-flooring-03.jpg',
   ],
   'engineered-hardwood-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSXQmIxGt-10bmF0fk_uKGBj5dUbbcIiQWAAavGBvCjPA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmijarypdtsAsXW5qBdQtzpIr0fbW5ZsukukKB0C9PHA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTs3-L28yp4dL3ricNCO7eJqP5_8YtV4JUvJFFZSybmyw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy2ojHwAMZTNwW6hT_vea6fkSaB1gibZu5k1uI5juvSA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaG87bXy3DGHRf4LjdG6CF8A88oGwj9Q-YGz1b7hUrkw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmi3Epqe8PGZ4Cz0kusudQ2GNYseHspjC86nLKMDwwmw&s',
+    '/assets/images/engineered-hardwood/engineered-hardwood-01.jpg',
+    '/assets/images/engineered-hardwood/engineered-hardwood-02.jpg',
   ],
-  'luxury-vinyl-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTEUoxo5DGNLJMzJebWMdlOa8szDn_2c5r2s-I0H7DuQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRprYk_wgpFy0agS7fqJW-jh74wvF_vuHdWKGfOuuktHg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTI4hYZ-Gl4qQUj90s9I3kloHZyc7wsbOwZInH8_To9Gw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNjJfNG6_BVMgRdA157ajr81c2NEZmF4UiBdA_NqX40w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQePfHrloKbtVL-P_00NKcPExyy1ZjSEWsnDvJXZhmj6A&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSY1t5rJOg_4OVbNuSvkLJXRPPjNbPUglPkEKxkN-gy1w&s=10',
-  ],
-  'laminate-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_0KThWJmVf_6Nnjnpc5qdjCBRMrXpeqPUt-YIOEz7XA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsmAm-NjWGHR6-qcpA-aEKE-fbW0Fsi3I6uaeqgMwBeg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTot95bUdetmdl-OAxq3iSF39mF9HesupUTUhA1MMgbBA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTfcitSuqopyMPVgwK45W5rVRrN7D6VDHCaq6v_nJql2A&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3crbbeliLx1c9seCpSH9uClEglVpeGaV1u0pfEKpB_w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPFb7Hwh2sSysm6NbsFy554EoJ8CZyO82gB83aWxhbAg&s=10',
-  ],
-  'carpet-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1eTGWfyZ4mt1oHeld-RRqF_AN5MTu62ydqB-SGTDezg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRop2Yx-hMRYrOWdtPdA6hOzzOxjG7r5wLJdRAnSwWPNQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnAVZ0alSjjBFQcxIkFLvwEp94t_4mKrnaC1rv4-9Fmw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8aSO-UG0z4QAg21CARws5OUQgjL3R-w8x49PEFUg2pQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR9Scz4twv5bXaa9dGdp1MN4qhtC2QSEjjKTRRFq1aNlg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQCvISGT61MmcmQ0zvFjRb4Sraoj089SfPirsRMQaanw&s=10',
-  ],
-  'tile-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSWtKRec5ABWzi2l1fVYlePoT52sMCXMDYiSFd50OkvDw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlKUs7wqxSvkNBe93bwmWr1KLT0WTUxPwzCeAx-u2RWQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShd8sZClukz3873iWkVkwO7bO89sEb0oLby95RKvXrDw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrNEDtxh_ApFbfEQxAxDFTcCpQcJzmIltWKejxloBkZg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS8Nu8k5NLc8_wVDKZUKXTmvcVnBIOGQYnAbjtH7X0q3w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkD2XP7BcFJcNmSKNnY2FHp7YOuTEI5OW_vQ-iav-mRQ&s=10',
-  ],
-  'stair-flooring': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTV2NRDTv8Mj6xLScrNb9CqIivs2ahOsx2NnJ_5XEucA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQi3GwWeALY8UqtV6LYXrW133EJ313Ufnwz2c4Aq-gDnw&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRdymJcUZ5dgm_HLRA7Ru5A_0vb3A-ptz8lldS0nNKXg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTkkQQxsCfSu6v2rvZqGZNk_stmPNQu47PrxsKuApjThg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0YdSKRRelpU0hx_yEPd_WFAPqseKpk_tgjWwnVQFn0w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQG2WxR7mZpNR9FGfsDNeG4SLoAwo-jB7DVeexB5m8XPw&s=10',
-  ],
+  'luxury-vinyl-flooring': Array.from({ length: 67 }, (_, i) => `/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
+  'laminate-flooring': Array.from({ length: 17 }, (_, i) => `/assets/images/laminate-flooring/laminate-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
+  'carpet-flooring': Array.from({ length: 15 }, (_, i) => `/assets/images/carpet-flooring/carpet-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
+  'tile-flooring': Array.from({ length: 18 }, (_, i) => `/assets/images/tile-flooring/tile-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
+  'stair-flooring': Array.from({ length: 5 }, (_, i) => `/assets/images/stair-flooring/stair-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
   'flooring-replacement': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4rjm3mP4ypQCHUs8Wk9WD_2F3eFrGFtpscYAJHHY_9g&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOBJ2xEso_wQv0PMn842tjicMWzXMTTR88wtoKhT5Z3w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSiCgZL3ax6YkJjeYxY_SPfVQWRkmVIErv7a7VOv9vgSA&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS7OSML6xj2g8tE5uhUMbv3t5TMune84mufxBfMtJnquQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQaJrmLcoelW8nvryKv2LkQnTjlVWqoWNiPn01cOINfXg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTR-w2rJ3YSIs60x4GuKqfgReP3CyY1h1JhZI367-Axqw&s=10',
+    '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
+    '/assets/images/flooring-replacement/flooring-replacement-02.jpg',
   ],
   'floor-preparation': [
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQJcZQqWQk_K1DojBx0zReuWp3rnwuO89nXCEiS2sl_5w&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKMKx8eoyRGYBYmA_krJ09q2TjRTKjudonTjxQngJlhg&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6Omh8zLpk07HXcAwxmLYIt3Hrl-n8XTiCmC4zEayYkQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1ezuJoKT5tLVVSZAOv0Aj5yO3gQZdIh2SIIYxnoRpiQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRty0xWc85bRQZ-RCIznc_eV9wt3kfEcKzrgzbVSJDCjQ&s=10',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWQqirITTZYHFtf1xKVnen7bNmLXtyEYfAhj4rFZdN3w&s=10',
+    '/assets/images/floor-preparation/floor-preparation-01.jpg',
   ],
 };
 
-const serviceParallaxImages: Record<string, string> = {
-  'hardwood-flooring':
-    'https://images.unsplash.com/photo-1623868564620-611975f8cf70?q=80&w=1600&auto=format&fit=crop',
-  'engineered-hardwood-flooring':
-    'https://plus.unsplash.com/premium_photo-1770220928681-193cb7de4ea9?q=80&w=1600&auto=format&fit=crop',
-  'luxury-vinyl-flooring':
-    'https://plus.unsplash.com/premium_photo-1770235354225-c070a40dfd89?q=80&w=1600&auto=format&fit=crop',
-  'laminate-flooring':
-    'https://plus.unsplash.com/premium_photo-1778511632263-c2b63f8e92ca?q=80&w=1600&auto=format&fit=crop',
-  'carpet-flooring':
-    'https://plus.unsplash.com/premium_photo-1779470088794-003055f4a4fa?q=80&w=1600&auto=format&fit=crop',
-  'tile-flooring':
-    'https://plus.unsplash.com/premium_photo-1756717213191-775499a0aaee?q=80&w=1600&auto=format&fit=crop',
-  'stair-flooring':
-    'https://plus.unsplash.com/premium_photo-1779464142832-0baf99bb570c?q=80&w=1600&auto=format&fit=crop',
-  'flooring-replacement':
-    'https://plus.unsplash.com/premium_photo-1756717268707-ac177064fca3?q=80&w=1600&auto=format&fit=crop',
-  'floor-preparation':
-    'https://plus.unsplash.com/premium_photo-1778439612543-51488a109cf0?q=80&w=1600&auto=format&fit=crop',
-};
-
-export function ServiceDetailClient({ service }: { service: ServiceItem }) {
+export function ServiceDetailClient({ slug }: { slug: string }) {
   const { openBookModal } = useModal();
-  const slug = service.slug;
-  const galleryPhotos = serviceCategoryImages[slug] || [service.heroImage];
+
+  const [categoryData, setCategoryData] = useState<CategoryDoc | null>(null);
+  const [products, setProducts] = useState<ProductDoc[]>([]);
+  const [projects, setProjects] = useState<ProjectDoc[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const [activeImageIdx, setActiveImageIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
+  const [selectedQuickViewProduct, setSelectedQuickViewProduct] = useState<QuickViewProduct | null>(null);
+
+  // Fallback service data matching slug
+  const fallbackService: ServiceItem = useMemo(() => {
+    const found = servicesData.find((s) => s.slug === slug);
+    if (found) return found;
+
+    const formattedTitle = slug
+      .split('-')
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ');
+
+    return {
+      id: slug,
+      slug: slug,
+      title: formattedTitle,
+      categoryTag: 'Flooring Service',
+      tagline: `Premium ${formattedTitle} Installation & Supply in Saskatoon`,
+      shortDesc: `Professional ${formattedTitle} services designed for long-lasting performance and aesthetic appeal.`,
+      fullDesc: `At HD Flooring, we provide top-tier ${formattedTitle} services with precision craftsmanship, moisture protection, and zero-squeak guarantee.`,
+      heroImage: '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
+      benefits: [
+        'Professional commercial & residential installation',
+        'Canadian climate & moisture-tested durability',
+        'Expert board layout with expansion spacing',
+        'Comprehensive warranty coverage',
+      ],
+      idealFor: ['Living Rooms', 'Bedrooms', 'Kitchens', 'Commercial Spaces'],
+      process: [
+        'Site Assessment & Subfloor Prep',
+        'Underlayment & Moisture Barrier Setup',
+        'Precision Board Fitting',
+        'Perimeter Baseboard Trimming',
+        'Final Quality Inspection',
+      ],
+      faqs: [
+        {
+          question: `How long does ${formattedTitle} installation take?`,
+          answer: 'Most standard home installations are completed within 1 to 3 days depending on square footage and room layout.',
+        },
+      ],
+    };
+  }, [slug]);
+
+  // Dynamic data loading from MongoDB
+  useEffect(() => {
+    async function loadDynamicData() {
+      setLoading(true);
+      try {
+        const [catRes, prodRes, projRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/products'),
+          fetch('/api/projects'),
+        ]);
+
+        const catData = await catRes.json();
+        const prodData = await prodRes.json();
+        const projData = await projRes.json();
+
+        let targetCategory: CategoryDoc | null = null;
+
+        if (catData.success && Array.isArray(catData.data)) {
+          // Find matching category by slugified name or title match
+          targetCategory = catData.data.find((c: CategoryDoc) => {
+            const catNameSlug = c.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            const targetSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            return (
+              catNameSlug === targetSlug ||
+              catNameSlug.replace(/-/g, '').includes(targetSlug.replace(/-/g, '')) ||
+              targetSlug.replace(/-/g, '').includes(catNameSlug.replace(/-/g, '')) ||
+              String(c._id) === slug
+            );
+          }) || null;
+          setCategoryData(targetCategory);
+        }
+
+        // Filter products matching this category
+        if (prodData.success && Array.isArray(prodData.data)) {
+          const filteredProds = prodData.data.filter((p: ProductDoc) => {
+            if (!p.category) return false;
+            const pCatStr = String(p.category);
+            const matchedId = targetCategory ? String(targetCategory._id) : '';
+
+            if (matchedId && pCatStr === matchedId) return true;
+            if (p.categoryName && targetCategory && p.categoryName.toLowerCase() === targetCategory.name.toLowerCase()) return true;
+
+            const nameOrSlug = String(p.categoryName || p.category).toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const targetSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            return nameOrSlug.includes(targetSlug.replace(/-/g, '')) || targetSlug.includes(nameOrSlug.replace(/-/g, ''));
+          });
+          setProducts(filteredProds);
+        }
+
+        // Filter project gallery photos matching this category
+        if (projData.success && Array.isArray(projData.data)) {
+          const filteredProjs = projData.data.filter((pr: ProjectDoc) => {
+            if (!pr.category) return false;
+            const prCatStr = String(pr.category);
+            const matchedId = targetCategory ? String(targetCategory._id) : '';
+
+            if (matchedId && prCatStr === matchedId) return true;
+            if (targetCategory && prCatStr.toLowerCase() === targetCategory.name.toLowerCase()) return true;
+
+            const nameOrSlug = prCatStr.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            const targetSlug = slug.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+            return nameOrSlug.includes(targetSlug.replace(/-/g, '')) || targetSlug.includes(nameOrSlug.replace(/-/g, ''));
+          });
+          setProjects(filteredProjs);
+        }
+      } catch (err) {
+        console.error('Error loading dynamic service data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    loadDynamicData();
+  }, [slug]);
+
+  // Category Photo Gallery is strictly for Project Installation Photos (from admin Projects) or Category Cover image
+  const galleryPhotos = useMemo(() => {
+    const dynamicProjectPhotos = projects.flatMap((p) => [p.coverImage, ...(p.galleryImages || [])]).filter(Boolean);
+    const categoryCover = categoryData && (categoryData as any).image ? [(categoryData as any).image] : [];
+    
+    const projectDynamicPhotos = Array.from(new Set([...categoryCover, ...dynamicProjectPhotos]));
+
+    if (projectDynamicPhotos.length > 0) {
+      return projectDynamicPhotos;
+    }
+
+    const localPhotos = localCategoryGalleryMap[slug] || [];
+    if (localPhotos.length > 0) {
+      return localPhotos;
+    }
+
+    return [fallbackService.heroImage];
+  }, [projects, categoryData, slug, fallbackService.heroImage]);
+
+  const heroImageToDisplay = useMemo(() => {
+    if (projects.length > 0 && projects[0].coverImage) {
+      return projects[0].coverImage;
+    }
+    if (categoryData && (categoryData as any).image) {
+      return (categoryData as any).image;
+    }
+    return fallbackService.heroImage;
+  }, [projects, categoryData, fallbackService.heroImage]);
 
   const displayedPhotos = showAllPhotos ? galleryPhotos : galleryPhotos.slice(0, 16);
 
@@ -149,6 +258,23 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
     setActiveImageIdx((prev) => (prev - 1 + galleryPhotos.length) % galleryPhotos.length);
   };
 
+  const activeTitle = categoryData ? categoryData.name : fallbackService.title;
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-hidden">
+        <Header />
+        <div className="flex-1 flex flex-col items-center justify-center min-h-[60vh] space-y-4">
+          <Loader2 className="w-10 h-10 text-[#E85D04] animate-spin" />
+          <p className="text-xs sm:text-sm font-manrope font-extrabold text-slate-600 dark:text-slate-400 tracking-wider uppercase animate-pulse">
+            Loading Service & Photos...
+          </p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-hidden">
       <MouseSpotlight />
@@ -158,13 +284,13 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
       <Header />
 
       <PageHero
-        badge={service.categoryTag || 'Specialized Service'}
-        title={service.title}
-        backgroundImage={service.heroImage}
+        badge={fallbackService.categoryTag || 'Specialized Service'}
+        title={activeTitle}
+        backgroundImage={heroImageToDisplay}
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Services', href: '/services' },
-          { label: service.title },
+          { label: activeTitle },
         ]}
       />
 
@@ -199,27 +325,27 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
                       </span>
 
                       <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
-                        {service.title}
+                        {activeTitle}
                       </h1>
 
                       <p className="text-[#E85D04] font-manrope font-extrabold text-base sm:text-lg">
-                        {service.tagline}
+                        {fallbackService.tagline}
                       </p>
                     </div>
 
                     <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter font-normal">
-                      {service.fullDesc}
+                      {fallbackService.fullDesc}
                     </p>
 
                     <div className="pt-2 flex flex-wrap items-center gap-4">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => openBookModal(service.title)}
+                        onClick={() => openBookModal(activeTitle)}
                         className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/30 inline-flex items-center gap-2 transition-all cursor-pointer"
                       >
                         <Sparkles className="w-4 h-4 text-white" />
-                        <span>Book {service.title.split(' ')[0]} Installation</span>
+                        <span>Book {activeTitle} Installation</span>
                       </motion.button>
 
                       <motion.a
@@ -234,31 +360,107 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
                     </div>
                   </div>
 
-                  <motion.div
-                    whileHover={{ scale: 1.02 }}
-                    onClick={() => {
-                      setActiveImageIdx(0);
-                      setLightboxOpen(true);
-                    }}
-                    className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 cursor-pointer bg-slate-900"
-                  >
+                  <div className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 bg-slate-900">
                     <img
-                      src={service.heroImage}
-                      alt={service.title}
+                      src={heroImageToDisplay}
+                      alt={activeTitle}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover group-hover/img:scale-108 transition-transform duration-700"
+                      className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute bottom-4 right-4 px-4 py-2 rounded-xl bg-[#E85D04] text-white text-xs font-manrope font-extrabold flex items-center gap-2 shadow-xl opacity-90 group-hover/img:opacity-100 transition-opacity">
-                      <Maximize2 className="w-4 h-4" />
-                      <span>View Gallery</span>
-                    </div>
-                  </motion.div>
+                  </div>
                 </div>
               </div>
             </TiltCard>
           </motion.div>
 
+          {/* DYNAMIC PRODUCTS CATALOG SECTION */}
+          {products.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 text-xs font-manrope font-extrabold text-[#E85D04] uppercase tracking-wider">
+                    <Package className="w-4 h-4 text-[#E85D04]" />
+                    <span>Live Product Catalog</span>
+                  </div>
+                  <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+                    Available {activeTitle} Materials
+                  </h2>
+                </div>
+
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-slate-900/95 border border-[#E85D04]/40 text-slate-100 shadow-xl shrink-0">
+                  <Tag className="w-4 h-4 text-[#E85D04]" />
+                  <span className="text-xs font-manrope font-extrabold text-slate-200">
+                    <span className="text-[#E85D04] font-black text-sm">{products.length}</span> In-Stock Options
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {products.map((product) => (
+                  <div
+                    key={product._id}
+                    className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/40 transition-all duration-300 flex flex-col justify-between group"
+                  >
+                    <div
+                      onClick={() => setSelectedQuickViewProduct(product)}
+                      className="relative h-56 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden block cursor-pointer"
+                    >
+                      <Image
+                        src={product.image}
+                        alt={product.title}
+                        fill
+                        className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute top-3 right-3">
+                        <span className="px-3 py-1 rounded-full text-xs font-black bg-[#E85D04] text-white shadow-md">
+                          ${product.price.toFixed(2)} / sq.ft
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                      <div>
+                        <h3
+                          onClick={() => setSelectedQuickViewProduct(product)}
+                          className="text-base font-bold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1 cursor-pointer"
+                        >
+                          {product.title}
+                        </h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 leading-relaxed">
+                          {product.description}
+                        </p>
+                      </div>
+
+                      <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                        <button
+                          onClick={() => setSelectedQuickViewProduct(product)}
+                          className="text-xs font-bold text-[#E85D04] hover:underline cursor-pointer"
+                        >
+                          View Details →
+                        </button>
+
+                        <button
+                          onClick={() => openBookModal(product.title)}
+                          className="px-4 py-2 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-md transition-all cursor-pointer"
+                        >
+                          Get Quote
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          )}
+
+          {/* ADVANTAGES SECTION */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -272,15 +474,15 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
                 <span>Key Advantages</span>
               </div>
               <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
-                Why Choose <span className="text-[#E85D04]">{service.title}?</span>
+                Why Choose <span className="text-[#E85D04]">{activeTitle}?</span>
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto font-manrope">
-                Top advantages of choosing this flooring material for your Saskatoon property.
+                Top advantages of choosing this flooring material for your property.
               </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {service.benefits.map((benefit, idx) => (
+              {fallbackService.benefits.map((benefit, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
@@ -308,175 +510,10 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
               ))}
             </div>
           </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.15 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-8"
-          >
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 text-xs font-manrope font-extrabold text-[#E85D04] uppercase tracking-wider">
-                  <Images className="w-4 h-4 text-[#E85D04]" />
-                  <span>Category Photo Gallery</span>
-                </div>
-                <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
-                  {service.title} Design & Installation Showcase
-                </h2>
-              </div>
-
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-slate-900/95 border border-[#E85D04]/40 text-slate-100 shadow-xl shadow-[#E85D04]/10 shrink-0 whitespace-nowrap">
-                <Camera className="w-4 h-4 text-[#E85D04] animate-pulse" />
-                <span className="text-xs font-manrope font-extrabold text-slate-200">
-                  <span className="text-[#E85D04] font-black text-sm">{galleryPhotos.length}</span> HD Photos
-                </span>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
-              {displayedPhotos.map((imgUrl, idx) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true, amount: 0.1 }}
-                  transition={{ duration: 0.4, delay: idx * 0.04 }}
-                  onClick={() => {
-                    setActiveImageIdx(idx);
-                    setLightboxOpen(true);
-                  }}
-                  className="group relative h-48 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 cursor-pointer shadow-lg bg-slate-900 transition-all hover:-translate-y-1.5 hover:shadow-2xl hover:border-[#E85D04]/50"
-                >
-                  <img
-                    src={imgUrl}
-                    alt={`${service.title} photo ${idx + 1}`}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
-                  />
-                </motion.div>
-              ))}
-            </div>
-
-            {galleryPhotos.length > 16 && (
-              <div className="text-center pt-4">
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setShowAllPhotos(!showAllPhotos)}
-                  className="px-8 py-3.5 rounded-full bg-[#E85D04] text-white hover:bg-[#d45203] font-manrope font-extrabold text-xs tracking-wider uppercase shadow-xl shadow-[#E85D04]/25 transition-all cursor-pointer"
-                >
-                  {showAllPhotos
-                    ? 'Show Less Photos'
-                    : `Show All ${galleryPhotos.length} HD Photos (+${galleryPhotos.length - 16} More)`}
-                </motion.button>
-              </div>
-            )}
-          </motion.div>
         </div>
 
-        <section className="w-full relative py-24 px-4 sm:px-6 lg:px-8 border-y border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden my-12 text-white">
-          <div className="absolute inset-0 pointer-events-none z-0">
-            <div
-              className="w-full h-full bg-cover bg-center bg-no-repeat opacity-100 brightness-[1.02] contrast-[1.05]"
-              style={{
-                backgroundImage: `url('${serviceParallaxImages[slug] || 'https://images.unsplash.com/photo-1546484475-7f7bd55792da?q=80&w=1600&auto=format&fit=crop'}')`,
-              }}
-            />
-            <div className="absolute inset-0 bg-stone-950/40 pointer-events-none" />
-          </div>
-
-          <div className="max-w-4xl mx-auto space-y-6 relative z-10 text-center text-white">
-            <motion.div
-              initial={{ opacity: 0, y: -15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-extrabold uppercase tracking-wider shadow-lg"
-            >
-              <Sparkles className="w-4 h-4 text-white" />
-              <span>Saskatoon Premium Installation</span>
-            </motion.div>
-
-            <motion.h2
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="font-playfair text-3xl sm:text-5xl font-extrabold text-white leading-tight [text-shadow:_0_3px_14px_rgba(0,0,0,0.9)]"
-            >
-              Transform Your Property With <span className="text-[#E85D04]">{service.title}</span>
-            </motion.h2>
-
-            <motion.p
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="text-xs sm:text-base text-stone-100 max-w-2xl mx-auto leading-relaxed font-manrope font-medium [text-shadow:_0_2px_10px_rgba(0,0,0,0.9)]"
-            >
-              Engineered for Canadian climate durability, zero-lippage precision, and zero-squeak finish. Handcrafted by Habibur Rahman & the HD Flooring team.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              className="pt-2 flex flex-wrap justify-center items-center gap-4 font-manrope"
-            >
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => openBookModal(service.title)}
-                className="px-8 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider shadow-2xl shadow-[#E85D04]/40 cursor-pointer"
-              >
-                Book Free On-Site Measure
-              </motion.button>
-              <motion.a
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                href="tel:+13068808404"
-                className="px-7 py-3.5 rounded-xl bg-slate-950/80 hover:bg-slate-950 border border-white/30 text-white font-extrabold text-xs uppercase tracking-wider transition-all cursor-pointer flex items-center gap-2 shadow-xl backdrop-blur-sm"
-              >
-                <Phone className="w-4 h-4 text-[#E85D04]" />
-                <span>Call +1 (306) 880-8404</span>
-              </motion.a>
-            </motion.div>
-          </div>
-        </section>
-
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6 }}
-            className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 space-y-8 text-center shadow-2xl relative overflow-hidden text-slate-900 dark:text-white group"
-          >
-            <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95" />
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-40 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="space-y-3 relative z-10">
-              <span className="inline-block px-3.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
-                Recommended Applications
-              </span>
-              <h3 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
-                Ideal Rooms & Spaces For {service.title}
-              </h3>
-            </div>
-
-            <div className="flex flex-wrap justify-center items-center gap-4 relative z-10 max-w-4xl mx-auto">
-              {service.idealFor.map((room) => (
-                <motion.span
-                  key={room}
-                  whileHover={{ scale: 1.08, y: -2 }}
-                  className="px-6 py-3 rounded-2xl bg-white dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700 hover:border-[#E85D04] text-slate-800 dark:text-slate-200 hover:text-[#E85D04] dark:hover:text-[#E85D04] text-xs sm:text-sm font-manrope font-extrabold tracking-wide shadow-md transition-all duration-300 flex items-center gap-2.5 cursor-pointer"
-                >
-                  <Home className="w-4 h-4 text-[#E85D04]" />
-                  <span>{room}</span>
-                </motion.span>
-              ))}
-            </div>
-          </motion.div>
-
+        {/* PROCESS & FAQ SECTIONS */}
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20 mt-12">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -495,7 +532,7 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
-              {service.process.map((stepName, idx) => (
+              {fallbackService.process.map((stepName, idx) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 30, scale: 0.9 }}
@@ -519,7 +556,7 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
             </div>
           </motion.div>
 
-          {service.faqs && service.faqs.length > 0 && (
+          {fallbackService.faqs && fallbackService.faqs.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -536,7 +573,7 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
                   Frequently Asked Questions
                 </h2>
               </div>
-              <Accordion items={service.faqs} />
+              <Accordion items={fallbackService.faqs} />
             </motion.div>
           )}
 
@@ -551,7 +588,7 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
 
             <div className="space-y-2 text-center sm:text-left font-manrope">
               <h3 className="font-playfair text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-white">
-                Ready to Install {service.title}?
+                Ready to Install {activeTitle}?
               </h3>
               <p className="text-xs sm:text-sm font-medium text-stone-600 dark:text-stone-300">
                 Contact Habibur Rahman & the HD Flooring team today for a free on-site estimate in Saskatoon.
@@ -561,7 +598,7 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => openBookModal(service.title)}
+              onClick={() => openBookModal(activeTitle)}
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 cursor-pointer"
             >
               <Sparkles className="w-4 h-4 text-white" />
@@ -590,14 +627,14 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
               <div className="relative w-full h-[60vh] sm:h-[70vh] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
                 <img
                   src={galleryPhotos[activeImageIdx]}
-                  alt={service.title}
+                  alt={activeTitle}
                   className="w-full h-full object-contain"
                 />
               </div>
 
               <div className="flex items-center justify-between w-full font-manrope text-slate-300 text-xs px-2">
                 <span>
-                  {service.title} — ({activeImageIdx + 1} / {galleryPhotos.length})
+                  {activeTitle} — ({activeImageIdx + 1} / {galleryPhotos.length})
                 </span>
 
                 <div className="flex items-center gap-3">
@@ -619,6 +656,13 @@ export function ServiceDetailClient({ service }: { service: ServiceItem }) {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <ProductQuickViewModal
+        product={selectedQuickViewProduct}
+        isOpen={Boolean(selectedQuickViewProduct)}
+        onClose={() => setSelectedQuickViewProduct(null)}
+        onGetQuote={openBookModal}
+      />
 
       <FloatingScrollBtns />
       <FloatingWhatsApp />

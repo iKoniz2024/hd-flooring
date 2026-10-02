@@ -1,15 +1,6 @@
-import { notFound } from 'next/navigation';
-import { servicesData } from '@/data/services';
 import { ServiceDetailClient } from './ServiceDetailClient';
 
-export const dynamic = 'force-static';
-export const revalidate = false;
-
-export function generateStaticParams() {
-  return servicesData.map((service) => ({
-    slug: service.slug,
-  }));
-}
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({
   params,
@@ -17,12 +8,14 @@ export async function generateMetadata({
   params: Promise<{ slug: string }> | { slug: string };
 }) {
   const { slug } = await Promise.resolve(params);
-  const service = servicesData.find((s) => s.slug === slug);
-  if (!service) return { title: 'Service Not Found | HD Flooring' };
+  const formattedTitle = slug
+    .split('-')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
 
   return {
-    title: `${service.title} | HD Flooring Saskatoon`,
-    description: service.shortDesc || service.fullDesc.slice(0, 160),
+    title: `${formattedTitle} Installation & Services | HD Flooring Saskatoon`,
+    description: `Professional ${formattedTitle} installation, supply, and repair services in Saskatoon & Saskatchewan. Request a free estimate today.`,
   };
 }
 
@@ -32,11 +25,5 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }> | { slug: string };
 }) {
   const { slug } = await Promise.resolve(params);
-  const service = servicesData.find((s) => s.slug === slug);
-
-  if (!service) {
-    notFound();
-  }
-
-  return <ServiceDetailClient service={service} />;
+  return <ServiceDetailClient slug={slug} />;
 }

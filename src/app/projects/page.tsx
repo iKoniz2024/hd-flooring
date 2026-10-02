@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Maximize2, X, MapPin, ChevronLeft, ChevronRight, Sparkles } from 'lucide-react';
+import { Camera, Maximize2, X, MapPin, ChevronLeft, ChevronRight, Sparkles, Loader2, Image as ImageIcon } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
@@ -16,123 +16,65 @@ interface ProjectPhoto {
   src: string;
   title: string;
   location: string;
+  category?: string;
+  propertyType?: string;
 }
-
-const photoDescriptors: Record<string, string[]> = {
-  'luxury-vinyl-flooring': [
-    'Watertight Commercial Sheet Vinyl & Flash Coving',
-    'Acoustic Click-Lock LVP Plank Installation',
-    'Stone Polymer Core (SPC) Waterproof Planks',
-    'Seamless Heat-Welded Vinyl Perimeter Joint',
-    'Modern Slate-Look Luxury Vinyl Tile (LVT)',
-    'High-Traffic Commercial Office Vinyl Fit',
-    'Open Concept Basement Waterproof LVP Floor',
-    'Precision Plank Layout & Expansion Jointing',
-    'Healthcare-Grade Hygienic Sheet Vinyl Base',
-    'Floating Click-Lock Vinyl over Concrete Slab',
-    'Custom Perimeter Baseboard Trimming',
-    'Non-Slip Commercial VCT Floor Setting',
-  ],
-  'laminate-flooring': [
-    'High AC4 Wear-Layer Laminate Plank Lay',
-    'Photo-Realistic Wood Grain Laminate Floor',
-    'Acoustic IXPE Underlayment Cushion Setup',
-    'Interlocking Click-System Laminate Planks',
-    'Herringbone Pattern Laminate Fitting',
-    'Living Room Scratch-Resistant Flooring',
-    'Bedroom Laminate Plank Transformation',
-    'Subfloor Moisture Barrier & Board Fit',
-  ],
-  'tile-flooring': [
-    'Large-Format Porcelain Tile Setting',
-    'Laser-Leveled Bathroom Floor & Wall Tiles',
-    'Stain-Resistant Epoxy Grout Application',
-    'Custom Mosaic Tile Entrance Foyer',
-    'Polished Commercial Showroom Tile',
-    'Waterproof Membrane Subfloor Preparation',
-  ],
-  'carpet-flooring': [
-    'Plush Master Suite Carpet Stretch-In',
-    'High-Density Acoustic Padding Cushion',
-    'Non-Slip Commercial Berber Carpet Tiles',
-    'Seamless Carpet Seam Heat-Bonding',
-    'Quiet Boardroom Sound-Absorbing Carpet',
-  ],
-  'stair-flooring': [
-    'Custom Hardwood Stair Tread Capping',
-    'Bullnose Nosing & Riser Precision Fit',
-    'Stain-Matched Solid Oak Staircase',
-    'Curved Entryway Stair Transformation',
-    'Durable Solid Wood Stair Runner Fit',
-  ],
-  'team-company': [
-    'HD Flooring On-Site Installation Craftsmen',
-    'Precision Board Scribing & Cutting Lead',
-    'Self-Leveling Compound Pouring Team',
-    'Final Quality Inspection Walkthrough',
-  ],
-  'hardwood-flooring': [
-    'Solid White Oak Hardwood Installation',
-    'Nail-Down Site-Finished Wood Floor',
-    'Custom Stained Hardwood Living Area',
-  ],
-  'engineered-hardwood': [
-    'Wide-Plank Engineered Oak Flooring',
-    'Condominium Acoustic Engineered Wood',
-  ],
-  'flooring-replacement': [
-    'Dust-Controlled Tear-Out & Disposal',
-    'Surgical Board Replacement & Repair',
-  ],
-  'floor-preparation': [
-    'Self-Leveling Pour & Subfloor Leveling',
-  ],
-};
-
-const createPhotos = (folder: string, prefix: string, count: number, location: string): ProjectPhoto[] => {
-  const list = photoDescriptors[folder] || ['On-Site Installation Project'];
-  return Array.from({ length: count }, (_, i) => {
-    const num = String(i + 1).padStart(2, '0');
-    const baseTitle = list[i % list.length];
-    const cycle = Math.floor(i / list.length);
-    const title = cycle > 0 ? `${baseTitle} (Site #${cycle + 1})` : baseTitle;
-    return {
-      id: `${prefix}-${num}`,
-      src: `/assets/images/${folder}/${prefix}-${num}.jpg`,
-      title,
-      location,
-    };
-  });
-};
-
-const allProjectPhotos: ProjectPhoto[] = [
-  ...createPhotos('luxury-vinyl-flooring', 'luxury-vinyl-flooring', 71, 'Saskatoon & Area'),
-  ...createPhotos('laminate-flooring', 'laminate-flooring', 18, 'Saskatoon & Area'),
-  ...createPhotos('tile-flooring', 'tile-flooring', 18, 'Saskatoon & Area'),
-  ...createPhotos('carpet-flooring', 'carpet-flooring', 15, 'Regina & Area'),
-  ...createPhotos('stair-flooring', 'stair-flooring', 5, 'Saskatoon & Area'),
-  ...createPhotos('team-company', 'team-company', 4, 'Saskatoon, SK'),
-  ...createPhotos('hardwood-flooring', 'hardwood-flooring', 3, 'Saskatoon, SK'),
-  ...createPhotos('engineered-hardwood', 'engineered-hardwood', 2, 'Saskatoon, SK'),
-  ...createPhotos('flooring-replacement', 'flooring-replacement', 2, 'Saskatoon, SK'),
-  ...createPhotos('floor-preparation', 'floor-preparation', 1, 'Saskatoon, SK'),
-];
 
 export default function ProjectsPage() {
   const { openBookModal } = useModal();
+  const [projectPhotos, setProjectPhotos] = useState<ProjectPhoto[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState<number>(24);
 
-  const selectedPhoto = selectedIdx !== null ? allProjectPhotos[selectedIdx] : null;
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        setLoading(true);
+        const res = await fetch('/api/projects');
+        const data = await res.json();
+        if (data.success && Array.isArray(data.data)) {
+          const formatted: ProjectPhoto[] = data.data.flatMap((item: {
+            _id: string;
+            title: string;
+            location: string;
+            coverImage: string;
+            galleryImages?: string[];
+            category?: string;
+            propertyType?: string;
+          }) => {
+            const allImages = Array.from(new Set([item.coverImage, ...(item.galleryImages || [])])).filter(Boolean);
+            return allImages.map((imgSrc, idx) => ({
+              id: `${item._id}-${idx}`,
+              src: imgSrc,
+              title: item.title,
+              location: item.location || 'Saskatoon & Area',
+              category: item.category || 'Flooring Project',
+              propertyType: item.propertyType || 'Residential',
+            }));
+          });
+          setProjectPhotos(formatted);
+        }
+      } catch (err) {
+        console.error('Failed to fetch projects gallery:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProjects();
+  }, []);
+
+  const selectedPhoto = selectedIdx !== null && projectPhotos[selectedIdx] ? projectPhotos[selectedIdx] : null;
 
   const handlePrev = () => {
-    if (selectedIdx === null) return;
-    setSelectedIdx((prev) => (prev! === 0 ? allProjectPhotos.length - 1 : prev! - 1));
+    if (selectedIdx === null || projectPhotos.length === 0) return;
+    setSelectedIdx((prev) => (prev! === 0 ? projectPhotos.length - 1 : prev! - 1));
   };
 
   const handleNext = () => {
-    if (selectedIdx === null) return;
-    setSelectedIdx((prev) => (prev! === allProjectPhotos.length - 1 ? 0 : prev! + 1));
+    if (selectedIdx === null || projectPhotos.length === 0) return;
+    setSelectedIdx((prev) => (prev! === projectPhotos.length - 1 ? 0 : prev! + 1));
   };
 
   return (
@@ -173,7 +115,9 @@ export default function ProjectsPage() {
                 Workmanship Gallery
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-inter font-medium">
-                Showing {Math.min(visibleCount, allProjectPhotos.length)} of {allProjectPhotos.length} On-Site Photos
+                {loading
+                  ? 'Loading project photos from database...'
+                  : `Showing ${Math.min(visibleCount, projectPhotos.length)} of ${projectPhotos.length} On-Site Photos`}
               </p>
             </div>
           </div>
@@ -187,77 +131,114 @@ export default function ProjectsPage() {
           </button>
         </div>
 
-        {/* Pure Photo Gallery Grid (Glassmorphism & Glowing Hover Accents) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {allProjectPhotos.slice(0, visibleCount).map((photo, index) => (
-            <motion.div
-              key={photo.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: (index % 12) * 0.03 }}
-              whileHover={{ y: -6 }}
-              onClick={() => setSelectedIdx(index)}
-              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 bg-slate-100 dark:bg-slate-900/90 backdrop-blur-md cursor-pointer shadow-lg hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 transform-gpu"
+        {/* Gallery State Views */}
+        {loading ? (
+          <div className="py-24 flex flex-col items-center justify-center space-y-3">
+            <Loader2 className="w-9 h-9 text-[#E85D04] animate-spin" />
+            <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+              Fetching project gallery...
+            </p>
+          </div>
+        ) : projectPhotos.length === 0 ? (
+          <div className="py-20 text-center bg-slate-50 dark:bg-slate-900/60 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-4 max-w-xl mx-auto">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center">
+              <ImageIcon className="w-7 h-7" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold font-playfair">No Project Photos Available Yet</h3>
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                Our team is currently updating our project portfolio. Check back soon or request a free estimate today to view our material samples!
+              </p>
+            </div>
+            <button
+              onClick={() => openBookModal('Project Gallery Empty')}
+              className="px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#E85D04]/20 cursor-pointer"
             >
-              {/* Top Glowing Orange Accent Line on Hover */}
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
+              Request Free Estimate & Samples
+            </button>
+          </div>
+        ) : (
+          /* Pure Photo Gallery Grid (Glassmorphism & Glowing Hover Accents) */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {projectPhotos.slice(0, visibleCount).map((photo, index) => (
+              <motion.div
+                key={photo.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: (index % 12) * 0.03 }}
+                whileHover={{ y: -6 }}
+                onClick={() => setSelectedIdx(index)}
+                className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 bg-slate-100 dark:bg-slate-900/90 backdrop-blur-md cursor-pointer shadow-lg hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 transform-gpu"
+              >
+                {/* Top Glowing Orange Accent Line on Hover */}
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
 
-              {/* Photo Image */}
-              <img
-                src={photo.src}
-                alt={photo.title}
-                className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                loading="lazy"
-                decoding="async"
-              />
+                {/* Photo Image */}
+                <img
+                  src={photo.src}
+                  alt={photo.title}
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
+                />
 
-              {/* Dark Hover Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+                {/* Dark Hover Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
 
-              {/* Zoom Button Icon */}
-              <div className="absolute top-3 right-3 pointer-events-none z-20">
-                <div className="w-9 h-9 rounded-full bg-slate-950/80 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md shadow-md">
-                  <Maximize2 className="w-4 h-4" />
+                {/* Zoom Button Icon */}
+                <div className="absolute top-3 right-3 pointer-events-none z-20">
+                  <div className="w-9 h-9 rounded-full bg-slate-950/80 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md shadow-md">
+                    <Maximize2 className="w-4 h-4" />
+                  </div>
                 </div>
-              </div>
 
-              {/* Bottom Content */}
-              <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left z-20">
-                <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04] font-bold">
-                  <MapPin className="w-3 h-3" />
-                  <span>{photo.location}</span>
+                {/* Bottom Content */}
+                <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left z-20">
+                  <div className="flex items-center justify-between gap-1 text-[11px] font-manrope text-[#E85D04] font-bold">
+                    <div className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      <span>{photo.location}</span>
+                    </div>
+                    {photo.category && (
+                      <span className="px-2 py-0.5 rounded bg-slate-900/80 text-white text-[10px] font-extrabold uppercase tracking-wider">
+                        {photo.category}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-playfair text-sm sm:text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
+                    {photo.title}
+                  </h3>
                 </div>
-                <h3 className="font-playfair text-sm sm:text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
-                  {photo.title}
-                </h3>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
 
         {/* Load More & Show Less Buttons */}
-        <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
-          {visibleCount < allProjectPhotos.length && (
-            <button
-              onClick={() => setVisibleCount((prev) => Math.min(prev + 24, allProjectPhotos.length))}
-              className="px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#E85D04]/20 cursor-pointer"
-            >
-              Load More Photos ({allProjectPhotos.length - visibleCount} Remaining)
-            </button>
-          )}
+        {!loading && projectPhotos.length > 24 && (
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
+            {visibleCount < projectPhotos.length && (
+              <button
+                onClick={() => setVisibleCount((prev) => Math.min(prev + 24, projectPhotos.length))}
+                className="px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#E85D04]/20 cursor-pointer"
+              >
+                Load More Photos ({projectPhotos.length - visibleCount} Remaining)
+              </button>
+            )}
 
-          {visibleCount > 24 && (
-            <button
-              onClick={() => {
-                setVisibleCount(24);
-                window.scrollTo({ top: 350, behavior: 'smooth' });
-              }}
-              className="px-8 py-3.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300 dark:border-slate-700 cursor-pointer shadow-lg"
-            >
-              Show Less / Hide Extra Photos ↑
-            </button>
-          )}
-        </div>
+            {visibleCount > 24 && (
+              <button
+                onClick={() => {
+                  setVisibleCount(24);
+                  window.scrollTo({ top: 350, behavior: 'smooth' });
+                }}
+                className="px-8 py-3.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300 dark:border-slate-700 cursor-pointer shadow-lg"
+              >
+                Show Less / Hide Extra Photos ↑
+              </button>
+            )}
+          </div>
+        )}
       </main>
 
       {/* Lightbox Modal */}
@@ -286,6 +267,11 @@ export default function ProjectsPage() {
                   <div className="flex items-center gap-1.5 text-xs text-[#E85D04] font-semibold font-manrope">
                     <MapPin className="w-3.5 h-3.5" />
                     <span>{selectedPhoto.location}</span>
+                    {selectedPhoto.category && (
+                      <span className="ml-2 px-2 py-0.5 rounded bg-slate-800 text-white text-[10px] uppercase font-bold">
+                        {selectedPhoto.category}
+                      </span>
+                    )}
                   </div>
                   <h3 className="font-playfair text-lg sm:text-xl font-bold text-white">
                     {selectedPhoto.title}
@@ -327,7 +313,7 @@ export default function ProjectsPage() {
               {/* Bottom Actions Bar */}
               <div className="p-4 sm:p-5 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
                 <span className="text-xs text-slate-400 font-manrope font-semibold">
-                  Photo {selectedIdx + 1} of {allProjectPhotos.length}
+                  Photo {selectedIdx + 1} of {projectPhotos.length}
                 </span>
 
                 <div className="flex items-center gap-3">

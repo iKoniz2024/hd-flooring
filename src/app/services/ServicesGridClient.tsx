@@ -1,13 +1,20 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck } from 'lucide-react';
-import { servicesData } from '@/data/services';
+import { ArrowRight, Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck, Loader2 } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 import { TiltCard } from '@/components/interactive/TiltCard';
 
 const serviceIcons = [Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck];
+
+interface DynamicCategoryService {
+  id: string;
+  title: string;
+  shortDesc: string;
+  slug: string;
+}
 
 const getServiceVariant = (idx: number) => {
   switch (idx % 6) {
@@ -29,10 +36,64 @@ const getServiceVariant = (idx: number) => {
 
 export function ServicesGridClient() {
   const { openBookModal } = useModal();
+  const [services, setServices] = useState<DynamicCategoryService[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchActiveCategories = async () => {
+      try {
+        const res = await fetch('/api/categories');
+        const data = await res.json();
+        if (isMounted && data.success && Array.isArray(data.data)) {
+          const formatted = data.data.map((cat: { _id?: string; name: string; description?: string }) => {
+            const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+            return {
+              id: cat._id || slug,
+              title: cat.name,
+              shortDesc: cat.description || `Professional ${cat.name} installation and craftsmanship tailored for Canadian residential and commercial spaces.`,
+              slug: slug,
+            };
+          });
+          setServices(formatted);
+        }
+      } catch (err) {
+        console.error('Error loading dynamic services grid:', err);
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    fetchActiveCategories();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-20 flex flex-col items-center justify-center space-y-3">
+        <Loader2 className="w-8 h-8 text-[#E85D04] animate-spin" />
+        <p className="text-xs font-semibold text-slate-500">Loading active services from database...</p>
+      </div>
+    );
+  }
+
+  if (services.length === 0) {
+    return (
+      <div className="py-16 text-center bg-stone-50 dark:bg-slate-900 rounded-3xl border border-stone-200 dark:border-slate-800 p-8 space-y-3">
+        <Layers className="w-12 h-12 mx-auto text-stone-400" />
+        <h3 className="text-lg font-bold text-slate-800 dark:text-slate-200">No Active Services Found</h3>
+        <p className="text-xs text-slate-500 max-w-md mx-auto">
+          Create categories in the Admin Panel to display them dynamically as services here.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {servicesData.map((service, index) => {
+      {services.map((service, index) => {
         const v = getServiceVariant(index);
         const IconComponent = serviceIcons[index % serviceIcons.length];
         const stepNum = String(index + 1).padStart(2, '0');

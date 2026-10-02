@@ -5,23 +5,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, CheckCircle2, Calendar, MapPin, User, Phone, Mail, FileText } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 
-const serviceOptions = [
-  'Solid Hardwood Flooring',
-  'Engineered Hardwood',
-  'Luxury Vinyl (LVP / LVT / VCT)',
-  'Laminate Flooring',
-  'Carpet Flooring',
-  'Tile & Porcelain Installation',
-  'Stair Flooring & Capping',
-  'Floor Preparation & Subfloor Leveling',
-  'Flooring Repairs & Replacement',
-  'Other / Custom Commercial Project',
-];
-
 export function BookUsModal() {
   const { isBookModalOpen, closeBookModal, selectedService } = useModal();
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [serviceOptions, setServiceOptions] = useState<string[]>([
+    'Solid Hardwood Flooring',
+    'Engineered Hardwood',
+    'Luxury Vinyl (LVP / LVT)',
+    'Laminate Flooring',
+    'Carpet Flooring',
+    'Tile & Porcelain Installation',
+    'Stair Flooring & Capping',
+    'Floor Preparation & Subfloor Leveling',
+    'Flooring Repairs & Replacement',
+  ]);
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -33,6 +31,30 @@ export function BookUsModal() {
     preferredDate: '',
     details: '',
   });
+
+  // Fetch active categories from MongoDB via /api/categories
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch('/api/categories');
+        const data = await res.json();
+        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const catNames = data.data.map((cat: { name: string }) => cat.name);
+          setServiceOptions(catNames);
+          if (!selectedService) {
+            setFormData((prev) => ({ ...prev, service: catNames[0] }));
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching categories in BookUsModal:', err);
+      }
+    };
+    fetchCategories();
+    return () => {
+      isMounted = false;
+    };
+  }, [selectedService]);
 
   useEffect(() => {
     if (selectedService) {
@@ -64,7 +86,6 @@ export function BookUsModal() {
       }
     } catch (err) {
       console.error('Error submitting booking request:', err);
-      // Still show success to user if fetch fallback resolves
       setSubmitted(true);
     } finally {
       setLoading(false);
@@ -77,7 +98,7 @@ export function BookUsModal() {
       fullName: '',
       phone: '',
       email: '',
-      service: 'Solid Hardwood Flooring',
+      service: serviceOptions[0] || 'Solid Hardwood Flooring',
       propertyType: 'Residential',
       location: '',
       preferredDate: '',
@@ -320,7 +341,7 @@ export function BookUsModal() {
                   <button
                     type="submit"
                     disabled={loading}
-                    className="w-full py-3.5 px-4 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#E85D04]/25 transition-all flex items-center justify-center gap-2"
+                    className="w-full py-3.5 px-4 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-bold text-xs uppercase tracking-widest shadow-xl shadow-[#E85D04]/25 transition-all flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {loading ? (
                       <span className="animate-pulse">Submitting Request...</span>
@@ -340,4 +361,3 @@ export function BookUsModal() {
     </AnimatePresence>
   );
 }
-

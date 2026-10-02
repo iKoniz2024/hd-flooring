@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Phone, Mail, MapPin, Calendar } from 'lucide-react';
+import { Phone, Mail, MapPin, Calendar, Lock } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
 
@@ -157,8 +157,16 @@ export function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="flex items-center justify-between pt-6 text-xs text-stone-400">
-            <p>© {new Date().getFullYear()}. All rights reserved.</p>
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-6 border-t border-stone-800/80 text-xs text-stone-400">
+            <p>© {new Date().getFullYear()} HD Flooring. All rights reserved.</p>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1 text-stone-500 hover:text-[#E85D04] transition-colors"
+              title="Staff Admin Portal"
+            >
+              <Lock className="w-3 h-3" />
+              <span>Admin Portal</span>
+            </Link>
           </div>
 
         </div>
