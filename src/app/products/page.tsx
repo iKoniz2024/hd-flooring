@@ -25,6 +25,7 @@ import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { PageHero } from '@/components/sections/PageHero';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { useModal } from '@/lib/context/ModalContext';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 
 interface Category {
   _id: string;
@@ -64,13 +65,10 @@ export default function ProductsPage() {
     async function loadData() {
       setLoading(true);
       try {
-        const [prodRes, catRes] = await Promise.all([
-          fetch('/api/products'),
-          fetch('/api/categories'),
+        const [prodData, catData] = await Promise.all([
+          fetchWithCache('/api/products'),
+          fetchWithCache('/api/categories'),
         ]);
-
-        const prodData = await prodRes.json();
-        const catData = await catRes.json();
 
         if (prodData.success) {
           setProducts(prodData.data || []);
@@ -117,7 +115,7 @@ export default function ProductsPage() {
           badge="Flooring Catalog & Materials"
           title="Explore Our Premium Flooring Products"
           subtitle="Browse our wide selection of commercial and residential flooring materials including Hardwood, Luxury Vinyl, Laminate, Carpet, and Specialty Tiles."
-          backgroundImage="/assets/images/hardwood-flooring/hardwood-flooring-01.jpg"
+          backgroundImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=2400&q=90"
         />
 
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 w-full">
@@ -243,11 +241,15 @@ export default function ProductsPage() {
                   className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/40 transition-all duration-300 flex flex-col justify-between group"
                 >
                   {/* Top Image Container */}
-                  <Link href={`/products/${product._id}`} className="relative h-60 w-full bg-stone-100 dark:bg-stone-800 overflow-hidden block">
+                  <div
+                    onClick={() => setActiveModalProduct(product)}
+                    className="relative h-60 w-full bg-stone-100 dark:bg-stone-800 overflow-hidden block cursor-pointer"
+                  >
                     <Image
                       src={product.image}
                       alt={product.title}
                       fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute top-3 left-3">
@@ -260,16 +262,17 @@ export default function ProductsPage() {
                         ${product.price.toFixed(2)} / sq.ft
                       </span>
                     </div>
-                  </Link>
+                  </div>
 
                   {/* Body Content */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div>
-                      <Link href={`/products/${product._id}`}>
-                        <h3 className="text-lg font-bold text-stone-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
-                          {product.title}
-                        </h3>
-                      </Link>
+                      <h3
+                        onClick={() => setActiveModalProduct(product)}
+                        className="text-lg font-bold text-stone-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1 cursor-pointer"
+                      >
+                        {product.title}
+                      </h3>
                       <p className="text-xs text-stone-600 dark:text-stone-400 mt-2 line-clamp-3 leading-relaxed">
                         {product.description}
                       </p>
@@ -279,16 +282,15 @@ export default function ProductsPage() {
                     <div className="pt-4 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between gap-2">
                       <button
                         onClick={() => setActiveModalProduct(product)}
-                        className="text-xs font-bold text-stone-700 dark:text-stone-300 hover:text-[#E85D04] transition-colors"
+                        className="text-xs font-bold text-[#E85D04] hover:underline cursor-pointer"
                       >
-                        Quick Details
+                        View Details →
                       </button>
 
                       <button
-                        onClick={() => openBookModal()}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-md shadow-[#E85D04]/20 transition-all"
+                        onClick={() => openBookModal(product.title)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-md shadow-[#E85D04]/20 transition-all cursor-pointer"
                       >
-                        <Sparkles className="w-3.5 h-3.5" />
                         <span>Get Quote</span>
                       </button>
                     </div>
@@ -329,6 +331,7 @@ export default function ProductsPage() {
                         src={selectedModalImage || activeModalProduct.image}
                         alt={activeModalProduct.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         className="object-cover transition-all duration-300"
                       />
                     </div>
@@ -364,6 +367,7 @@ export default function ProductsPage() {
                                   src={imgUrl}
                                   alt={`${activeModalProduct.title} photo ${idx + 1}`}
                                   fill
+                                  sizes="80px"
                                   className="object-cover"
                                 />
                               </button>
@@ -400,7 +404,6 @@ export default function ProductsPage() {
                         }}
                         className="w-full py-3 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 flex items-center justify-center gap-2"
                       >
-                        <Sparkles className="w-4 h-4" />
                         <span>Request Free Estimate for this Product</span>
                       </button>
                     </div>

@@ -9,11 +9,14 @@ import { TiltCard } from '@/components/interactive/TiltCard';
 
 const serviceIcons = [Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck];
 
+import Image from 'next/image';
+
 interface DynamicCategoryService {
   id: string;
   title: string;
   shortDesc: string;
   slug: string;
+  image?: string;
 }
 
 const getServiceVariant = (idx: number) => {
@@ -46,11 +49,12 @@ export function ServicesGridClient() {
         const res = await fetch('/api/categories');
         const data = await res.json();
         if (isMounted && data.success && Array.isArray(data.data)) {
-          const formatted = data.data.map((cat: { _id?: string; name: string; description?: string }) => {
+          const formatted = data.data.map((cat: { _id?: string; name: string; image?: string; description?: string }) => {
             const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
             return {
               id: cat._id || slug,
               title: cat.name,
+              image: cat.image || '',
               shortDesc: cat.description || `Professional ${cat.name} installation and craftsmanship tailored for Canadian residential and commercial spaces.`,
               slug: slug,
             };
@@ -119,16 +123,35 @@ export function ServicesGridClient() {
                 {/* Top Accent Line */}
                 <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500 absolute top-0 left-0 rounded-t-3xl`} />
 
-                {/* Card Header: Vector Icon + Number Badge */}
-                <div className="flex items-center justify-between">
-                  <div className={`w-12 h-12 rounded-2xl ${color.iconBg} border flex items-center justify-center font-bold shadow-md transition-all duration-500 group-hover:scale-110`}>
-                    <IconComponent className="w-6 h-6" />
+                {/* Category Banner Image if present */}
+                {service.image ? (
+                  <div className="relative h-44 w-full -mx-7 -mt-7 mb-2 overflow-hidden bg-slate-900">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+                    <div className="absolute top-3 right-3">
+                      <span className={`w-8 h-8 rounded-lg ${color.numBadge} font-extrabold text-xs flex items-center justify-center shadow-md`}>
+                        {stepNum}
+                      </span>
+                    </div>
                   </div>
+                ) : (
+                  /* Card Header: Vector Icon + Number Badge */
+                  <div className="flex items-center justify-between">
+                    <div className={`w-12 h-12 rounded-2xl ${color.iconBg} border flex items-center justify-center font-bold shadow-md transition-all duration-500 group-hover:scale-110`}>
+                      <IconComponent className="w-6 h-6" />
+                    </div>
 
-                  <span className={`w-9 h-9 rounded-xl ${color.numBadge} font-extrabold text-xs flex items-center justify-center shadow-md`}>
-                    {stepNum}
-                  </span>
-                </div>
+                    <span className={`w-9 h-9 rounded-xl ${color.numBadge} font-extrabold text-xs flex items-center justify-center shadow-md`}>
+                      {stepNum}
+                    </span>
+                  </div>
+                )}
 
                 {/* Content */}
                 <div className="space-y-2">

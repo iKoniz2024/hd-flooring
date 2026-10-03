@@ -26,6 +26,13 @@ export async function PUT(
       );
     }
 
+    if (!image || typeof image !== 'string' || !image.trim()) {
+      return NextResponse.json(
+        { success: false, error: 'Category cover image is required' },
+        { status: 400 }
+      );
+    }
+
     const trimmedName = name.trim();
     const categoriesCollection = await getCategoriesCollection();
     const categoryId = new ObjectId(id);

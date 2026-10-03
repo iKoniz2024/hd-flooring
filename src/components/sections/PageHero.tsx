@@ -69,11 +69,12 @@ export function PageHero({
       className={`relative w-full ${heightClass} flex items-center justify-center pt-36 sm:pt-40 pb-20 sm:pb-24 px-4 sm:px-6 lg:px-8 bg-stone-900 text-white`}
     >
       {/* 1. TRUE FIXED PARALLAX BACKGROUND IMAGE LAYER */}
-      <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
-        <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat brightness-[1.18] contrast-[1.02] saturate-[1.1] transform-gpu"
+      <div className="absolute inset-0 w-full h-full pointer-events-none z-0 overflow-hidden">
+        <motion.div
+          className="w-full h-[130%] -top-[15%] relative bg-cover bg-center bg-no-repeat bg-fixed brightness-[1.08] contrast-[1.05] saturate-[1.05] transform-gpu"
           style={{
-            backgroundImage: `url('${backgroundImage}')`,
+            backgroundImage: backgroundImage ? `url('${backgroundImage}')` : undefined,
+            y: backgroundY,
           }}
         />
       </div>

@@ -1,18 +1,112 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles, CheckCircle, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
-import { servicesData } from '@/data/services';
+import { servicesData, ServiceItem } from '@/data/services';
 import { TiltCard } from '@/components/interactive/TiltCard';
 import { useModal } from '@/lib/context/ModalContext';
 
 export function ServicesGrid() {
   const [showAll, setShowAll] = useState(false);
+  const [services, setServices] = useState<ServiceItem[]>(servicesData);
   const { openBookModal } = useModal();
 
-  const displayedServices = showAll ? servicesData : servicesData.slice(0, 3);
+  useEffect(() => {
+    let isMounted = true;
+    const fetchDynamicData = async () => {
+      try {
+        const [catRes, prodRes] = await Promise.all([
+          fetch('/api/categories'),
+          fetch('/api/products'),
+        ]);
+
+        const catData = await catRes.json();
+        const prodData = await prodRes.json();
+
+        const categories = catData.success && Array.isArray(catData.data) ? catData.data : [];
+        const products = prodData.success && Array.isArray(prodData.data) ? prodData.data : [];
+
+        if (isMounted && categories.length > 0) {
+          const dynamicServices: ServiceItem[] = categories.map((cat: { _id?: string; name: string; image?: string; description?: string }) => {
+            const catIdStr = cat._id ? String(cat._id) : '';
+            const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+            const existing = servicesData.find(
+              (s) =>
+                s.slug === slug ||
+                s.title.toLowerCase() === cat.name.toLowerCase() ||
+                s.id === slug
+            );
+
+            // Find matching product image under this category if cat.image is empty
+            const matchingProd = products.find(
+              (p: { category?: string | object; categoryName?: string; image?: string }) => {
+                if (!p.image) return false;
+                const pCatStr = p.category ? String(p.category) : '';
+                if (catIdStr && pCatStr === catIdStr) return true;
+                if (p.categoryName && p.categoryName.toLowerCase() === cat.name.toLowerCase()) return true;
+                return false;
+              }
+            );
+
+            const cardImage =
+              (cat.image && cat.image.trim()) ||
+              (matchingProd?.image && matchingProd.image.trim()) ||
+              '';
+
+            if (existing) {
+              return {
+                ...existing,
+                title: cat.name,
+                heroImage: cardImage,
+              };
+            }
+
+            return {
+              id: cat._id || slug,
+              slug: slug,
+              title: cat.name,
+              categoryTag: cat.name,
+              tagline: `Professional ${cat.name} Installation & Service`,
+              shortDesc:
+                cat.description ||
+                `Professional ${cat.name} installation and craftsmanship tailored for Canadian residential and commercial spaces.`,
+              fullDesc: `At HD Flooring, we provide top-tier ${cat.name} services with precision craftsmanship, moisture protection, and zero-squeak guarantee.`,
+              heroImage: cardImage,
+              benefits: [
+                'Professional commercial & residential installation',
+                'Canadian climate & moisture-tested durability',
+                'Expert layout & precision fitting',
+                'Comprehensive warranty coverage',
+              ],
+              idealFor: ['Residential & Commercial'],
+              process: [
+                'Site Assessment & Subfloor Prep',
+                'Underlayment Setup',
+                'Precision Fitting',
+                'Final Quality Inspection',
+              ],
+              faqs: [],
+            };
+          });
+
+          setServices(dynamicServices);
+        }
+      } catch (err) {
+        console.error('Error fetching dynamic categories/products in ServicesGrid:', err);
+      }
+    };
+
+    fetchDynamicData();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const displayedServices = showAll ? services : services.slice(0, 3);
 
   return (
     <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter overflow-hidden">
@@ -72,12 +166,16 @@ export function ServicesGrid() {
                     <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500`} />
 
                     {/* Image Banner */}
-                    <div className="relative h-52 overflow-hidden">
-                      <img
-                        src={service.heroImage}
-                        alt={service.title}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                    <div className="relative h-52 overflow-hidden bg-stone-900">
+                      {service.heroImage ? (
+                        <Image
+                          src={service.heroImage}
+                          alt={service.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                      ) : null}
                       <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-950/20 to-transparent" />
 
                       {/* Number Overlay Badge */}
@@ -145,7 +243,7 @@ export function ServicesGrid() {
       </motion.div>
 
       {/* Show More / Show Less Toggle Button */}
-      {servicesData.length > 3 && (
+      {services.length > 3 && (
         <div className="text-center pt-10">
           <button
             onClick={() => setShowAll((prev) => !prev)}

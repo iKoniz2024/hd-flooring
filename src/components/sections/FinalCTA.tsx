@@ -5,6 +5,8 @@ import { Sparkles, PhoneCall, ShieldCheck } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 import Link from 'next/link';
 
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
+
 export function FinalCTA() {
   const { openBookModal } = useModal();
 
@@ -44,9 +46,20 @@ export function FinalCTA() {
                 onClick={() => openBookModal()}
                 className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#E85D04] text-white font-manrope font-extrabold text-xs uppercase tracking-wider hover:bg-[#d45203] transition-colors shadow-xl shadow-[#E85D04]/25 inline-flex items-center justify-center gap-2 whitespace-nowrap cursor-pointer"
               >
-                <Sparkles className="w-4 h-4 text-white shrink-0" />
                 <span>Book Us Now</span>
               </motion.button>
+
+              <motion.a
+                whileHover={{ scale: 1.04 }}
+                whileTap={{ scale: 0.96 }}
+                href="https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20would%20like%20to%20get%20a%20quote."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 text-[#25D366] font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors inline-flex items-center justify-center gap-2 border border-[#25D366]/40 shadow-sm whitespace-nowrap"
+              >
+                <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+                <span>WhatsApp Us</span>
+              </motion.a>
 
               <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                 <Link

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, CheckCircle2, Calendar, MapPin, User, Phone, Mail, FileText } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
 export function BookUsModal() {
   const { isBookModalOpen, closeBookModal, selectedService } = useModal();
@@ -346,12 +347,25 @@ export function BookUsModal() {
                     {loading ? (
                       <span className="animate-pulse">Submitting Request...</span>
                     ) : (
-                      <>
-                        <Sparkles className="w-4 h-4" />
-                        <span>Request Free Consultation</span>
-                      </>
+                      <span>Request Free Consultation</span>
                     )}
                   </button>
+
+                  <div className="relative flex py-1 items-center">
+                    <div className="flex-grow border-t border-stone-200 dark:border-stone-800" />
+                    <span className="flex-shrink mx-3 text-[10px] font-bold uppercase text-stone-400">Or Chat Instantly</span>
+                    <div className="flex-grow border-t border-stone-200 dark:border-stone-800" />
+                  </div>
+
+                  <a
+                    href={`https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20would%20like%20to%20consult%20about%20${encodeURIComponent(formData.service || 'Flooring Installation')}.`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 px-4 rounded-xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                    <span>Chat Directly on WhatsApp</span>
+                  </a>
                 </form>
               )}
             </div>

@@ -435,7 +435,6 @@ export function AboutUsClient() {
             onClick={() => openBookModal()}
             className="px-6 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/20 flex items-center gap-2 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4 text-white" />
             <span>Book Free Measure</span>
           </motion.button>
         </motion.div>

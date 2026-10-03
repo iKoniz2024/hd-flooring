@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Phone, Mail, MapPin, Calendar, Lock } from 'lucide-react';
 import { BrandLogo } from '@/components/ui/BrandLogo';
 import { useModal } from '@/lib/context/ModalContext';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
 const FacebookIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg fill="currentColor" viewBox="0 0 24 24" {...props}>
@@ -127,14 +128,25 @@ export function Footer() {
                 </div>
                 <div className="flex items-center gap-3">
                   <Phone className="w-4 h-4 text-stone-400 shrink-0" />
-                  <a href="tel:+18005553566" className="hover:text-[#E85D04] transition-colors">
-                    +1 (800) 555-FLOOR
+                  <a href="tel:+13068808404" className="hover:text-[#E85D04] transition-colors">
+                    +1 (306) 880-8404
+                  </a>
+                </div>
+                <div className="flex items-center gap-3">
+                  <WhatsAppIcon className="w-4 h-4 text-[#25D366] shrink-0" />
+                  <a
+                    href="https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20would%20like%20to%20get%20in%20touch."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:text-[#25D366] transition-colors text-emerald-400 font-bold"
+                  >
+                    WhatsApp Chat (+1 306 880-8404)
                   </a>
                 </div>
                 <div className="flex items-center gap-3">
                   <Mail className="w-4 h-4 text-stone-400 shrink-0" />
-                  <a href="mailto:info@hdflooringca.com" className="hover:text-[#E85D04] transition-colors">
-                    info@hdflooringca.com
+                  <a href="mailto:hdflooring7@gmail.com" className="hover:text-[#E85D04] transition-colors">
+                    hdflooring7@gmail.com
                   </a>
                 </div>
               </div>

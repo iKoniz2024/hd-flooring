@@ -11,6 +11,7 @@ import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { PageHero } from '@/components/sections/PageHero';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { useModal } from '@/lib/context/ModalContext';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
 export default function ContactUsPage() {
   const [submitted, setSubmitted] = useState(false);
@@ -134,6 +135,7 @@ export default function ContactUsPage() {
 
               {/* Contact List */}
               <ul className="space-y-6 text-xs sm:text-sm font-manrope relative z-10">
+
                 <li className="flex items-start gap-4">
                   <div className="p-3 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] shrink-0">
                     <Phone className="w-5 h-5" />
@@ -141,6 +143,23 @@ export default function ContactUsPage() {
                   <div>
                     <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-extrabold">Phone Hotline</span>
                     <a href="tel:+13068808404" className="font-extrabold text-slate-900 dark:text-white hover:text-[#E85D04] transition-colors text-base">
+                      +1 (306) 880-8404
+                    </a>
+                  </div>
+                </li>
+
+                <li className="flex items-start gap-4">
+                  <div className="p-3 rounded-2xl bg-[#25D366]/10 border border-[#25D366]/30 text-[#25D366] shrink-0">
+                    <WhatsAppIcon className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <span className="block text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider font-extrabold">WhatsApp Support</span>
+                    <a
+                      href="https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20would%20like%20to%20get%20in%20touch."
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-extrabold text-[#25D366] hover:underline transition-colors text-base"
+                    >
                       +1 (306) 880-8404
                     </a>
                   </div>

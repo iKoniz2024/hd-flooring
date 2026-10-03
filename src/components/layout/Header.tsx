@@ -186,27 +186,6 @@ export function Header() {
             <div className="flex items-center gap-2.5">
               <DarkModeToggle />
 
-              {/* WhatsApp Button */}
-              <motion.a
-                href="https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20would%20like%20to%20get%20a%20quote%20for%20flooring%20installation."
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                className="flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-[#25D366]/20 transition-all duration-300 shrink-0"
-                aria-label="Chat on WhatsApp"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="w-4 h-4 text-white"
-                >
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l.999 1.597-1.059 3.868 3.963-1.04 1.547.942zm6.208-4.526c-.237.667-1.378 1.282-1.9 1.336-.503.053-1.157.075-1.859-.149-.425-.136-.973-.315-1.685-.623-2.997-1.296-4.945-4.341-5.096-4.542-.149-.2-1.226-1.631-1.226-3.111 0-1.479.774-2.207 1.05-2.507.275-.3.601-.375.801-.375.201 0 .401.002.576.01.188.008.438-.071.687.525.25.599.851 2.074.926 2.224.075.15.125.326.025.526-.1.2-.15.325-.301.5-.15.176-.314.394-.449.529-.15.15-.306.313-.131.613.175.3 0.778 1.284 1.669 2.077 1.144 1.02 2.109 1.337 2.409 1.487.3.15.476.126.652-.075.175-.201.751-.876.951-1.176.2-.3.401-.25.676-.15.275.1 1.752.826 2.052.976.3.15.5.225.576.35.075.126.075.726-.162 1.393z" />
-                </svg>
-                <span className="hidden sm:inline">WhatsApp</span>
-              </motion.a>
-
               {/* Primary Call to Action */}
               <motion.button
                 whileHover={{ scale: 1.04 }}
@@ -214,7 +193,6 @@ export function Header() {
                 onClick={() => openBookModal()}
                 className="flex items-center gap-1.5 px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider shadow-md shadow-[#E85D04]/20 transition-all duration-300 shrink-0 cursor-pointer"
               >
-                <Sparkles className="w-3.5 h-3.5 text-white" />
                 <span>Get Quote</span>
               </motion.button>
 

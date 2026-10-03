@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Sparkles, CheckCircle2, ShieldCheck, Tag, Maximize2 } from 'lucide-react';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 
 export interface QuickViewProduct {
   _id: string;
@@ -211,9 +212,20 @@ export function ProductQuickViewModal({
                       }}
                       className="w-full py-4 rounded-2xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
-                      <Sparkles className="w-4 h-4 text-white" />
                       <span>Get Free Estimate & Material Sample</span>
                     </motion.button>
+
+                    <motion.a
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      href={`https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20am%20interested%20in%20the%20product%20${encodeURIComponent(product.title)}.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full py-3.5 rounded-2xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] font-manrope font-extrabold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer"
+                    >
+                      <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                      <span>Chat on WhatsApp About Product</span>
+                    </motion.a>
                   </div>
                 </div>
 

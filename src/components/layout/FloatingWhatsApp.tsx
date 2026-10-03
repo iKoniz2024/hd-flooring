@@ -17,7 +17,7 @@ export function FloatingWhatsApp() {
         rel="noopener noreferrer"
         whileHover={{ scale: 1.15, y: -2 }}
         whileTap={{ scale: 0.9 }}
-        className="relative p-2.5 bg-white dark:bg-slate-900 rounded-full shadow-lg border-2 border-[#25D366]/40 flex items-center justify-center shrink-0 group/wa transition-all duration-300"
+        className="relative p-2.5 bg-white dark:bg-slate-900 rounded-full shadow-lg border-2 border-[#25D366]/40 flex items-center justify-center shrink-0 group/wa transition-all duration-300 cursor-pointer"
         aria-label="Chat on WhatsApp"
       >
         <span className="absolute inset-0 rounded-full bg-[#25D366]/20 opacity-75 animate-ping -z-10" />

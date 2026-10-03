@@ -1,114 +1,131 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Maximize2, X, MapPin, ChevronLeft, ChevronRight, Sparkles, Loader2, Image as ImageIcon } from 'lucide-react';
+import Link from 'next/link';
+import { useState, useEffect, useMemo } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import {
+  Camera,
+  Maximize2,
+  MapPin,
+  Sparkles,
+  Loader2,
+  Image as ImageIcon,
+  Images,
+  Search,
+  Filter,
+  X,
+  RotateCcw
+} from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingScrollBtns } from '@/components/layout/FloatingScrollBtns';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
-import { PageHero } from '@/components/sections/PageHero';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { useModal } from '@/lib/context/ModalContext';
-
-interface ProjectPhoto {
-  id: string;
-  src: string;
-  title: string;
-  location: string;
-  category?: string;
-  propertyType?: string;
-}
+import { ProjectDetailModal, ProjectDetailItem } from '@/components/modals/ProjectDetailModal';
+import { fetchWithCache } from '@/lib/utils/apiCache';
+import { PageHero } from '@/components/sections/PageHero';
 
 export default function ProjectsPage() {
   const { openBookModal } = useModal();
-  const [projectPhotos, setProjectPhotos] = useState<ProjectPhoto[]>([]);
+  const [projects, setProjects] = useState<ProjectDetailItem[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
-  const [visibleCount, setVisibleCount] = useState<number>(24);
+  const [selectedProject, setSelectedProject] = useState<ProjectDetailItem | null>(null);
+  const [visibleCount, setVisibleCount] = useState<number>(12);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   useEffect(() => {
-    async function fetchProjects() {
+    async function fetchProjectsAndCategories() {
       try {
         setLoading(true);
-        const res = await fetch('/api/projects');
-        const data = await res.json();
-        if (data.success && Array.isArray(data.data)) {
-          const formatted: ProjectPhoto[] = data.data.flatMap((item: {
-            _id: string;
-            title: string;
-            location: string;
-            coverImage: string;
-            galleryImages?: string[];
-            category?: string;
-            propertyType?: string;
-          }) => {
-            const allImages = Array.from(new Set([item.coverImage, ...(item.galleryImages || [])])).filter(Boolean);
-            return allImages.map((imgSrc, idx) => ({
-              id: `${item._id}-${idx}`,
-              src: imgSrc,
-              title: item.title,
-              location: item.location || 'Saskatoon & Area',
-              category: item.category || 'Flooring Project',
-              propertyType: item.propertyType || 'Residential',
-            }));
-          });
-          setProjectPhotos(formatted);
+        const [projData, catData] = await Promise.all([
+          fetchWithCache('/api/projects'),
+          fetchWithCache('/api/categories'),
+        ]);
+
+        let dbCatNames: string[] = [];
+        if (catData.success && Array.isArray(catData.data)) {
+          dbCatNames = catData.data.map((c: any) => c.name);
+        }
+
+        if (projData.success && Array.isArray(projData.data)) {
+          const formatted: ProjectDetailItem[] = projData.data.map((item: any) => ({
+            _id: item._id,
+            id: String(item._id),
+            title: item.title,
+            location: item.location || 'Saskatoon & Area',
+            category: item.category || 'Flooring Project',
+            propertyType: item.propertyType || 'Residential',
+            coverImage: item.coverImage,
+            galleryImages: item.galleryImages || [],
+            challenge: item.challenge || '',
+            solution: item.solution || '',
+            result: item.result || '',
+          }));
+          
+          setProjects(formatted);
+
+          const projCatNames = formatted.map((p) => p.category).filter(Boolean);
+          setCategories(Array.from(new Set([...dbCatNames, ...projCatNames])));
         }
       } catch (err) {
         console.error('Failed to fetch projects gallery:', err);
+        setProjects([]);
       } finally {
         setLoading(false);
       }
     }
 
-    fetchProjects();
+    fetchProjectsAndCategories();
   }, []);
 
-  const selectedPhoto = selectedIdx !== null && projectPhotos[selectedIdx] ? projectPhotos[selectedIdx] : null;
+  const filteredProjects = useMemo(() => {
+    return projects.filter((p) => {
+      const matchesCategory =
+        selectedCategory === 'all' ||
+        p.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
 
-  const handlePrev = () => {
-    if (selectedIdx === null || projectPhotos.length === 0) return;
-    setSelectedIdx((prev) => (prev! === 0 ? projectPhotos.length - 1 : prev! - 1));
-  };
+      const q = searchQuery.toLowerCase().trim();
+      const matchesSearch =
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        p.location.toLowerCase().includes(q) ||
+        p.category.toLowerCase().includes(q) ||
+        (p.challenge && p.challenge.toLowerCase().includes(q)) ||
+        (p.solution && p.solution.toLowerCase().includes(q));
 
-  const handleNext = () => {
-    if (selectedIdx === null || projectPhotos.length === 0) return;
-    setSelectedIdx((prev) => (prev! === projectPhotos.length - 1 ? 0 : prev! + 1));
-  };
+      return matchesCategory && matchesSearch;
+    });
+  }, [projects, selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-clip">
       {/* Dynamic Mouse Spotlight & Ambient Lighting */}
       <MouseSpotlight />
 
-      {/* Ambient Background Light Blob */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
-
       <Header />
 
-      {/* Hero Section */}
+      {/* High Quality Parallax Hero for Projects */}
       <PageHero
-        badge="HD Flooring Workmanship Gallery"
-        badgeIcon="camera"
+        badge="HD Flooring Workmanship Portfolio"
         title="Our Flooring Project Gallery"
-        backgroundImage="/assets/images/engineered-hardwood/engineered-hardwood-01.jpg"
+        subtitle="Explore real on-site flooring installations, sheet vinyl flash coving, hardwood laying, and subfloor preparation executed by HD Flooring craftsmen."
+        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2400&q=90"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Project Gallery' },
         ]}
-        primaryCta={{
-          label: 'Request Free Estimate',
-          onClick: openBookModal,
-        }}
       />
 
-      <main className="flex-1 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-10 relative z-10">
-        {/* Gallery Header Counter */}
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800/80 pb-6">
+      <main id="workmanship-gallery-section" className="flex-1 py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full space-y-8 relative z-10">
+        {/* Gallery Header Counter & Actions */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800/80 pb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] flex items-center justify-center shadow-sm">
-              <Camera className="w-5 h-5" />
+              <Camera className="w-5 h-5 text-[#E85D04]" />
             </div>
             <div>
               <h2 className="font-playfair text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-slate-100">
@@ -116,222 +133,268 @@ export default function ProjectsPage() {
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 font-inter font-medium">
                 {loading
-                  ? 'Loading project photos from database...'
-                  : `Showing ${Math.min(visibleCount, projectPhotos.length)} of ${projectPhotos.length} On-Site Photos`}
+                  ? 'Loading project portfolio...'
+                  : `Showing ${Math.min(visibleCount, filteredProjects.length)} of ${filteredProjects.length} Real On-Site Projects`}
               </p>
             </div>
           </div>
 
           <button
             onClick={() => openBookModal('Project Gallery')}
-            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#E85D04] to-[#f06810] text-white font-manrope font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-lg shadow-[#E85D04]/30 cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-[#E85D04] to-[#f06810] text-[#FFFFFF] font-manrope font-bold text-xs uppercase tracking-wider hover:brightness-110 transition-all shadow-lg shadow-[#E85D04]/30 cursor-pointer"
           >
-            <Sparkles className="w-4 h-4" />
             <span>Book Installation</span>
           </button>
         </div>
+
+        {/* SEARCH & CATEGORY FILTER BAR */}
+        {!loading && (
+          <div className="space-y-4 p-5 rounded-3xl bg-slate-50/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 backdrop-blur-md shadow-sm">
+            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
+              {/* Search Bar */}
+              <div className="relative flex-1">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  placeholder="Search by project title, location (e.g. Saskatoon), category..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setVisibleCount(12);
+                  }}
+                  className="w-full pl-10 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-[#E85D04] transition-all shadow-inner"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setVisibleCount(12);
+                    }}
+                    className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
+
+              {/* Category Dropdown (Mobile + Desktop quick select) */}
+              <div className="flex items-center gap-2 shrink-0">
+                <Filter className="w-4 h-4 text-[#E85D04]" />
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => {
+                    setSelectedCategory(e.target.value);
+                    setVisibleCount(12);
+                  }}
+                  className="w-full md:w-auto px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-[#E85D04] transition-all cursor-pointer shadow-sm"
+                >
+                  <option value="all">All Categories ({projects.length})</option>
+                  {categories.map((cat) => {
+                    const count = projects.filter((p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
+                    return (
+                      <option key={cat} value={cat}>
+                        {cat} ({count})
+                      </option>
+                    );
+                  })}
+                </select>
+              </div>
+            </div>
+
+            {/* Category Filter Pills (Horizontal Scrollable Tabs) */}
+            {categories.length > 0 && (
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-1 border-t border-slate-200/60 dark:border-slate-800/60">
+                <button
+                  onClick={() => {
+                    setSelectedCategory('all');
+                    setVisibleCount(12);
+                  }}
+                  className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                    selectedCategory === 'all'
+                      ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/20'
+                      : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/50'
+                  }`}
+                >
+                  All Projects ({projects.length})
+                </button>
+
+                {categories.map((cat) => {
+                  const count = projects.filter((p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
+                  const isSelected = selectedCategory.toLowerCase().trim() === cat.toLowerCase().trim();
+                  return (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setSelectedCategory(cat);
+                        setVisibleCount(12);
+                      }}
+                      className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/20'
+                          : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/50'
+                      }`}
+                    >
+                      {cat} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Gallery State Views */}
         {loading ? (
           <div className="py-24 flex flex-col items-center justify-center space-y-3">
             <Loader2 className="w-9 h-9 text-[#E85D04] animate-spin" />
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
-              Fetching project gallery...
+              Fetching project portfolio...
             </p>
           </div>
-        ) : projectPhotos.length === 0 ? (
-          <div className="py-20 text-center bg-slate-50 dark:bg-slate-900/60 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-4 max-w-xl mx-auto">
+        ) : filteredProjects.length === 0 ? (
+          <div className="py-16 text-center bg-slate-50 dark:bg-slate-900/60 rounded-3xl border border-slate-200 dark:border-slate-800 p-8 space-y-4 max-w-xl mx-auto">
             <div className="w-14 h-14 mx-auto rounded-2xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center">
               <ImageIcon className="w-7 h-7" />
             </div>
             <div>
-              <h3 className="text-xl font-bold font-playfair">No Project Photos Available Yet</h3>
+              <h3 className="text-xl font-bold font-playfair">No Matching Projects Found</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                Our team is currently updating our project portfolio. Check back soon or request a free estimate today to view our material samples!
+                No projects matched your search criteria or selected category filter. Try resetting your filter to view all projects.
               </p>
             </div>
             <button
-              onClick={() => openBookModal('Project Gallery Empty')}
-              className="px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#E85D04]/20 cursor-pointer"
+              onClick={() => {
+                setSearchQuery('');
+                setSelectedCategory('all');
+                setVisibleCount(12);
+              }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#E85D04]/20 cursor-pointer"
             >
-              Request Free Estimate & Samples
+              <RotateCcw className="w-4 h-4" />
+              <span>Reset Search & Filters</span>
             </button>
           </div>
         ) : (
-          /* Pure Photo Gallery Grid (Glassmorphism & Glowing Hover Accents) */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {projectPhotos.slice(0, visibleCount).map((photo, index) => (
-              <motion.div
-                key={photo.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: (index % 12) * 0.03 }}
-                whileHover={{ y: -6 }}
-                onClick={() => setSelectedIdx(index)}
-                className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 bg-slate-100 dark:bg-slate-900/90 backdrop-blur-md cursor-pointer shadow-lg hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 transform-gpu"
-              >
-                {/* Top Glowing Orange Accent Line on Hover */}
-                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
+          /* Pure Project Card Grid (Glassmorphism & Interactive Detail Modal Trigger) */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects.slice(0, visibleCount).map((proj, index) => {
+              const allPhotos = Array.from(new Set([proj.coverImage, ...(proj.galleryImages || [])])).filter(Boolean);
+              return (
+                <motion.div
+                  key={proj.id || proj._id || index}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: (index % 6) * 0.05 }}
+                  onClick={() => setSelectedProject(proj)}
+                  className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
+                >
+                  {/* Image Container */}
+                  <div className="relative h-64 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden block">
+                    <Image
+                      src={proj.coverImage}
+                      alt={proj.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-108 transition-transform duration-700"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent opacity-75 group-hover:opacity-90 transition-opacity" />
 
-                {/* Photo Image */}
-                <img
-                  src={photo.src}
-                  alt={photo.title}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
-                  loading="lazy"
-                  decoding="async"
-                />
-
-                {/* Dark Hover Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
-
-                {/* Zoom Button Icon */}
-                <div className="absolute top-3 right-3 pointer-events-none z-20">
-                  <div className="w-9 h-9 rounded-full bg-slate-950/80 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md shadow-md">
-                    <Maximize2 className="w-4 h-4" />
-                  </div>
-                </div>
-
-                {/* Bottom Content */}
-                <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left z-20">
-                  <div className="flex items-center justify-between gap-1 text-[11px] font-manrope text-[#E85D04] font-bold">
-                    <div className="flex items-center gap-1">
-                      <MapPin className="w-3 h-3" />
-                      <span>{photo.location}</span>
-                    </div>
-                    {photo.category && (
-                      <span className="px-2 py-0.5 rounded bg-slate-900/80 text-white text-[10px] font-extrabold uppercase tracking-wider">
-                        {photo.category}
+                    {/* Photo Count Badge */}
+                    <div className="absolute top-3 right-3 flex items-center gap-2">
+                      <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-black/75 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center gap-1.5">
+                        <Images className="w-3.5 h-3.5 text-[#E85D04]" />
+                        <span>{allPhotos.length} {allPhotos.length === 1 ? 'Photo' : 'Photos'}</span>
                       </span>
-                    )}
+                    </div>
+
+                    {/* Zoom Icon on Hover */}
+                    <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                      <div className="w-8 h-8 rounded-full bg-black/70 border border-white/20 flex items-center justify-center text-white backdrop-blur-md">
+                        <Maximize2 className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <div className="absolute bottom-3 left-4 right-4 text-white space-y-1">
+                      <div className="flex items-center gap-2 text-[11px] font-manrope font-extrabold text-[#E85D04]">
+                        <MapPin className="w-3 h-3 text-[#E85D04]" />
+                        <span>{proj.location}</span>
+                        {proj.propertyType && (
+                          <span className="ml-auto px-2 py-0.5 rounded bg-black/60 text-white text-[10px] uppercase tracking-wider font-extrabold border border-white/20">
+                            {proj.propertyType}
+                          </span>
+                        )}
+                      </div>
+                      <h3 className="font-playfair text-base sm:text-lg font-bold leading-tight group-hover:text-[#E85D04] transition-colors line-clamp-1">
+                        {proj.title}
+                      </h3>
+                    </div>
                   </div>
-                  <h3 className="font-playfair text-sm sm:text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
-                    {photo.title}
-                  </h3>
-                </div>
-              </motion.div>
-            ))}
+
+                  {/* Card Bottom Details */}
+                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed font-inter">
+                      {proj.challenge || proj.solution || `Professional ${proj.category} installation completed with precision craftsman finish.`}
+                    </p>
+
+                    <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                      <span className="text-xs font-manrope font-extrabold text-[#E85D04] group-hover:underline flex items-center gap-1">
+                        <span>View Project Details →</span>
+                      </span>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openBookModal(proj.title);
+                        }}
+                        className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-[#E85D04] hover:text-white text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
+                      >
+                        Get Quote
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         )}
 
-        {/* Load More & Show Less Buttons */}
-        {!loading && projectPhotos.length > 24 && (
+        {/* Load More & Show Less Toggle Buttons */}
+        {!loading && filteredProjects.length > 12 && (
           <div className="flex flex-wrap items-center justify-center gap-4 pt-8">
-            {visibleCount < projectPhotos.length && (
+            {visibleCount < filteredProjects.length ? (
               <button
-                onClick={() => setVisibleCount((prev) => Math.min(prev + 24, projectPhotos.length))}
+                onClick={() => setVisibleCount((prev) => Math.min(prev + 12, filteredProjects.length))}
                 className="px-8 py-3.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-xl shadow-[#E85D04]/20 cursor-pointer"
               >
-                Load More Photos ({projectPhotos.length - visibleCount} Remaining)
+                Show More Projects ({filteredProjects.length - visibleCount} Remaining) ↓
               </button>
-            )}
-
-            {visibleCount > 24 && (
+            ) : (
               <button
                 onClick={() => {
-                  setVisibleCount(24);
-                  window.scrollTo({ top: 350, behavior: 'smooth' });
+                  setVisibleCount(12);
+                  const el = document.getElementById('workmanship-gallery-section');
+                  if (el) {
+                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  } else {
+                    window.scrollTo({ top: 250, behavior: 'smooth' });
+                  }
                 }}
                 className="px-8 py-3.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300 dark:border-slate-700 cursor-pointer shadow-lg"
               >
-                Show Less / Hide Extra Photos ↑
+                Show Less Projects ↑
               </button>
             )}
           </div>
         )}
       </main>
 
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {selectedIdx !== null && selectedPhoto && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
-            onClick={() => setSelectedIdx(null)}
-          >
-            {/* Modal Box */}
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]"
-            >
-              {/* Top Glowing Orange Accent Line */}
-              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90 rounded-t-3xl z-30" />
-              {/* Top Header Bar */}
-              <div className="p-4 sm:p-6 flex items-center justify-between border-b border-slate-800 bg-slate-950/80">
-                <div className="space-y-0.5">
-                  <div className="flex items-center gap-1.5 text-xs text-[#E85D04] font-semibold font-manrope">
-                    <MapPin className="w-3.5 h-3.5" />
-                    <span>{selectedPhoto.location}</span>
-                    {selectedPhoto.category && (
-                      <span className="ml-2 px-2 py-0.5 rounded bg-slate-800 text-white text-[10px] uppercase font-bold">
-                        {selectedPhoto.category}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-playfair text-lg sm:text-xl font-bold text-white">
-                    {selectedPhoto.title}
-                  </h3>
-                </div>
-
-                <button
-                  onClick={() => setSelectedIdx(null)}
-                  className="w-9 h-9 rounded-full bg-slate-800 text-slate-300 hover:text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* Main Image Display */}
-              <div className="relative flex-1 bg-slate-950 flex items-center justify-center overflow-hidden min-h-[350px] sm:min-h-[450px]">
-                <img
-                  src={selectedPhoto.src}
-                  alt={selectedPhoto.title}
-                  className="max-h-[60vh] sm:max-h-[70vh] w-auto object-contain select-none"
-                />
-
-                {/* Left/Right Navigation Arrows */}
-                <button
-                  onClick={handlePrev}
-                  className="absolute left-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
-                >
-                  <ChevronLeft className="w-6 h-6" />
-                </button>
-
-                <button
-                  onClick={handleNext}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-slate-900/80 border border-slate-700 text-white hover:bg-[#E85D04] transition-colors flex items-center justify-center shadow-lg backdrop-blur-md"
-                >
-                  <ChevronRight className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Bottom Actions Bar */}
-              <div className="p-4 sm:p-5 bg-slate-950 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-                <span className="text-xs text-slate-400 font-manrope font-semibold">
-                  Photo {selectedIdx + 1} of {projectPhotos.length}
-                </span>
-
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => {
-                      setSelectedIdx(null);
-                      openBookModal(selectedPhoto.title);
-                    }}
-                    className="px-6 py-2.5 rounded-full bg-[#E85D04] text-white text-xs font-manrope font-bold uppercase tracking-wider hover:bg-[#d45203] transition-colors shadow-lg shadow-[#E85D04]/20"
-                  >
-                    Get Free Estimate For Similar Work
-                  </button>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Interactive Project Detail Modal */}
+      <ProjectDetailModal
+        project={selectedProject}
+        isOpen={Boolean(selectedProject)}
+        onClose={() => setSelectedProject(null)}
+        onGetEstimate={(title) => openBookModal(title)}
+      />
 
       <FloatingScrollBtns />
       <FloatingWhatsApp />

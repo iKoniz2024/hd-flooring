@@ -190,6 +190,7 @@ export function TeamPhotoGallery() {
                   src={selectedPhoto.src}
                   alt={selectedPhoto.title}
                   fill
+                  sizes="100vw"
                   className="object-contain"
                 />
               </div>

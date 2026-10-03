@@ -20,7 +20,8 @@ import {
   Phone,
   Package,
   Loader2,
-  Tag
+  Tag,
+  MapPin
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
@@ -33,6 +34,8 @@ import { PageHero } from '@/components/sections/PageHero';
 import { Accordion } from '@/components/ui/Accordion';
 import { useModal } from '@/lib/context/ModalContext';
 import { servicesData, ServiceItem } from '@/data/services';
+import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 import { ProductQuickViewModal, QuickViewProduct } from '@/components/modals/ProductQuickViewModal';
 
 interface CategoryDoc {
@@ -59,6 +62,9 @@ interface ProjectDoc {
   category: string;
   coverImage: string;
   galleryImages?: string[];
+  challenge?: string;
+  solution?: string;
+  result?: string;
 }
 
 const localCategoryGalleryMap: Record<string, string[]> = {
@@ -145,15 +151,11 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
     async function loadDynamicData() {
       setLoading(true);
       try {
-        const [catRes, prodRes, projRes] = await Promise.all([
-          fetch('/api/categories'),
-          fetch('/api/products'),
-          fetch('/api/projects'),
+        const [catData, prodData, projData] = await Promise.all([
+          fetchWithCache('/api/categories'),
+          fetchWithCache('/api/products'),
+          fetchWithCache('/api/projects'),
         ]);
-
-        const catData = await catRes.json();
-        const prodData = await prodRes.json();
-        const projData = await projRes.json();
 
         let targetCategory: CategoryDoc | null = null;
 
@@ -215,34 +217,48 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
     loadDynamicData();
   }, [slug]);
 
+  const [visibleProjectCount, setVisibleProjectCount] = useState<number>(12);
+
+  const activeTitle = categoryData ? categoryData.name : fallbackService.title;
+
+  // Dynamic projects from DB matching this category
+  const allCategoryProjects = useMemo(() => {
+    return projects.map((p) => ({
+      id: p._id,
+      title: p.title,
+      location: p.location || 'Saskatoon, SK',
+      category: p.category || activeTitle,
+      coverImage: p.coverImage,
+      galleryImages: p.galleryImages || [],
+      challenge: p.challenge || '',
+      solution: p.solution || '',
+    }));
+  }, [projects, activeTitle]);
+
+  const displayedProjects = useMemo(() => {
+    return allCategoryProjects.slice(0, visibleProjectCount);
+  }, [visibleProjectCount, allCategoryProjects]);
+
   // Category Photo Gallery is strictly for Project Installation Photos (from admin Projects) or Category Cover image
   const galleryPhotos = useMemo(() => {
-    const dynamicProjectPhotos = projects.flatMap((p) => [p.coverImage, ...(p.galleryImages || [])]).filter(Boolean);
+    const dynamicProjectPhotos = allCategoryProjects.flatMap((p) => [p.coverImage, ...(p.galleryImages || [])]).filter(Boolean);
     const categoryCover = categoryData && (categoryData as any).image ? [(categoryData as any).image] : [];
     
-    const projectDynamicPhotos = Array.from(new Set([...categoryCover, ...dynamicProjectPhotos]));
-
-    if (projectDynamicPhotos.length > 0) {
-      return projectDynamicPhotos;
-    }
-
-    const localPhotos = localCategoryGalleryMap[slug] || [];
-    if (localPhotos.length > 0) {
-      return localPhotos;
-    }
-
-    return [fallbackService.heroImage];
-  }, [projects, categoryData, slug, fallbackService.heroImage]);
+    return Array.from(new Set([...categoryCover, ...dynamicProjectPhotos]));
+  }, [allCategoryProjects, categoryData]);
 
   const heroImageToDisplay = useMemo(() => {
-    if (projects.length > 0 && projects[0].coverImage) {
-      return projects[0].coverImage;
+    if (categoryData && (categoryData as any).image && typeof (categoryData as any).image === 'string' && (categoryData as any).image.trim()) {
+      return (categoryData as any).image.trim();
     }
-    if (categoryData && (categoryData as any).image) {
-      return (categoryData as any).image;
+    if (products.length > 0 && products[0].image && typeof products[0].image === 'string' && products[0].image.trim()) {
+      return products[0].image.trim();
     }
-    return fallbackService.heroImage;
-  }, [projects, categoryData, fallbackService.heroImage]);
+    if (allCategoryProjects.length > 0 && allCategoryProjects[0].coverImage && typeof allCategoryProjects[0].coverImage === 'string' && allCategoryProjects[0].coverImage.trim()) {
+      return allCategoryProjects[0].coverImage.trim();
+    }
+    return '';
+  }, [categoryData, products, allCategoryProjects]);
 
   const displayedPhotos = showAllPhotos ? galleryPhotos : galleryPhotos.slice(0, 16);
 
@@ -257,8 +273,6 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
   const prevImage = () => {
     setActiveImageIdx((prev) => (prev - 1 + galleryPhotos.length) % galleryPhotos.length);
   };
-
-  const activeTitle = categoryData ? categoryData.name : fallbackService.title;
 
   if (loading) {
     return (
@@ -344,7 +358,6 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                         onClick={() => openBookModal(activeTitle)}
                         className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/30 inline-flex items-center gap-2 transition-all cursor-pointer"
                       >
-                        <Sparkles className="w-4 h-4 text-white" />
                         <span>Book {activeTitle} Installation</span>
                       </motion.button>
 
@@ -357,18 +370,32 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                         <Phone className="w-4 h-4 text-[#E85D04]" />
                         <span>Call +1 (306) 880-8404</span>
                       </motion.a>
+
+                      <motion.a
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        href={`https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20am%20interested%20in%20${encodeURIComponent(activeTitle)}.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-6 py-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold flex items-center gap-2 transition-all"
+                      >
+                        <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
+                        <span>WhatsApp Us</span>
+                      </motion.a>
                     </div>
                   </div>
 
-                  <div className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 bg-slate-900">
-                    <img
-                      src={heroImageToDisplay}
-                      alt={activeTitle}
-                      loading="lazy"
-                      decoding="async"
-                      className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-700"
-                    />
-                  </div>
+                  {heroImageToDisplay ? (
+                    <div className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 bg-slate-900">
+                      <Image
+                        src={heroImageToDisplay}
+                        alt={activeTitle}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 40vw"
+                        className="object-cover group-hover/img:scale-105 transition-transform duration-700"
+                      />
+                    </div>
+                  ) : null}
                 </div>
               </div>
             </TiltCard>
@@ -457,6 +484,150 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                   </div>
                 ))}
               </div>
+            </motion.div>
+          )}
+
+          {/* DYNAMIC CATEGORY PROJECTS & WORKMANSHIP SHOWCASE */}
+          {allCategoryProjects.length > 0 && (
+            <motion.div
+              id="category-projects-section"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.15 }}
+              transition={{ duration: 0.6 }}
+              className="space-y-8"
+            >
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-6">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 text-xs font-manrope font-extrabold text-[#E85D04] uppercase tracking-wider">
+                    <Camera className="w-4 h-4 text-[#E85D04]" />
+                    <span>Real On-Site Workmanship</span>
+                  </div>
+                  <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+                    {activeTitle} Project Portfolio
+                  </h2>
+                </div>
+
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900 dark:bg-slate-900/95 border border-[#E85D04]/40 text-slate-100 shadow-xl shrink-0">
+                  <Images className="w-4 h-4 text-[#E85D04]" />
+                  <span className="text-xs font-manrope font-extrabold text-slate-200">
+                    Showing <span className="text-[#E85D04] font-black text-sm">{displayedProjects.length}</span> of <span className="text-[#E85D04] font-black text-sm">{allCategoryProjects.length}</span> Projects
+                  </span>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {displayedProjects.map((project, idx) => {
+                  const totalPhotos = Array.from(new Set([project.coverImage, ...(project.galleryImages || [])])).filter(Boolean);
+                  return (
+                    <div
+                      key={project.id}
+                      className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 flex flex-col justify-between group"
+                    >
+                      <div
+                        onClick={() => {
+                          const photos = totalPhotos;
+                          if (photos.length > 0) {
+                            const globalIdx = galleryPhotos.findIndex((img) => img === photos[0]);
+                            if (globalIdx !== -1) {
+                              setActiveImageIdx(globalIdx);
+                            }
+                            setLightboxOpen(true);
+                          }
+                        }}
+                        className="relative h-60 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden cursor-pointer block"
+                      >
+                        <Image
+                          src={project.coverImage}
+                          alt={project.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                          className="object-cover group-hover:scale-108 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+
+                        <div className="absolute top-3 right-3 flex items-center gap-2">
+                          <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-black/75 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center gap-1.5">
+                            <Images className="w-3.5 h-3.5 text-[#E85D04]" />
+                            <span>{totalPhotos.length} {totalPhotos.length === 1 ? 'Photo' : 'Photos'}</span>
+                          </span>
+                        </div>
+
+                        <div className="absolute bottom-3 left-4 right-4 text-white space-y-1">
+                          <div className="flex items-center gap-1.5 text-[11px] font-manrope font-extrabold text-[#E85D04]">
+                            <MapPin className="w-3 h-3 text-[#E85D04]" />
+                            <span>{project.location}</span>
+                          </div>
+                          <h3 className="font-playfair text-base sm:text-lg font-bold leading-tight group-hover:text-[#E85D04] transition-colors line-clamp-1">
+                            {project.title}
+                          </h3>
+                        </div>
+                      </div>
+
+                      <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed font-inter">
+                          {project.challenge || project.solution || `Custom ${activeTitle} installation completed with precision craftsman finish.`}
+                        </p>
+
+                        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                          <button
+                            onClick={() => {
+                              const photos = totalPhotos;
+                              if (photos.length > 0) {
+                                const globalIdx = galleryPhotos.findIndex((img) => img === photos[0]);
+                                if (globalIdx !== -1) {
+                                  setActiveImageIdx(globalIdx);
+                                }
+                                setLightboxOpen(true);
+                              }
+                            }}
+                            className="text-xs font-manrope font-extrabold text-[#E85D04] hover:underline flex items-center gap-1 cursor-pointer"
+                          >
+                            <Maximize2 className="w-3.5 h-3.5" />
+                            <span>View Full Gallery →</span>
+                          </button>
+
+                          <button
+                            onClick={() => openBookModal(project.title)}
+                            className="px-3.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-[#E85D04] hover:text-white text-slate-800 dark:text-slate-200 text-xs font-bold transition-all cursor-pointer"
+                          >
+                            Get Quote
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* SHOW MORE / SHOW LESS TOGGLE BUTTON */}
+              {!loading && allCategoryProjects.length > 12 && (
+                <div className="flex items-center justify-center pt-6">
+                  {visibleProjectCount < allCategoryProjects.length ? (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setVisibleProjectCount((prev) => Math.min(prev + 12, allCategoryProjects.length))}
+                      className="px-8 py-3.5 rounded-full bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/30 flex items-center gap-2 cursor-pointer transition-all"
+                    >
+                      <span>Show More Projects ({allCategoryProjects.length - visibleProjectCount} Remaining) ↓</span>
+                    </motion.button>
+                  ) : (
+                    <motion.button
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => {
+                        setVisibleProjectCount(12);
+                        const el = document.getElementById('category-projects-section');
+                        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      }}
+                      className="px-8 py-3.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-manrope font-bold text-xs uppercase tracking-wider hover:bg-slate-300 dark:hover:bg-slate-700 transition-all border border-slate-300 dark:border-slate-700 cursor-pointer shadow-lg"
+                    >
+                      <span>Show Less Projects ↑</span>
+                    </motion.button>
+                  )}
+                </div>
+              )}
             </motion.div>
           )}
 
@@ -601,7 +772,6 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
               onClick={() => openBookModal(activeTitle)}
               className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider transition-colors shrink-0 shadow-xl shadow-[#E85D04]/25 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <Sparkles className="w-4 h-4 text-white" />
               <span>Get Free Quote</span>
             </motion.button>
           </motion.div>
@@ -625,11 +795,15 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
 
             <div className="relative max-w-4xl w-full max-h-[85vh] flex flex-col items-center justify-center space-y-4">
               <div className="relative w-full h-[60vh] sm:h-[70vh] rounded-2xl overflow-hidden border border-slate-800 shadow-2xl">
-                <img
-                  src={galleryPhotos[activeImageIdx]}
-                  alt={activeTitle}
-                  className="w-full h-full object-contain"
-                />
+                {galleryPhotos[activeImageIdx] ? (
+                  <Image
+                    src={galleryPhotos[activeImageIdx]}
+                    alt={activeTitle}
+                    fill
+                    sizes="(max-width: 1200px) 100vw, 80vw"
+                    className="object-contain"
+                  />
+                ) : null}
               </div>
 
               <div className="flex items-center justify-between w-full font-manrope text-slate-300 text-xs px-2">

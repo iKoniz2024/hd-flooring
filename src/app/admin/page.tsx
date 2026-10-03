@@ -29,12 +29,15 @@ import {
   Image as ImageIcon,
   FolderKanban,
   MapPin,
-  Building2
+  Building2,
+  Sparkles
 } from 'lucide-react';
+import { invalidateApiCache } from '@/lib/utils/apiCache';
 
 interface Category {
   _id: string;
   name: string;
+  image?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -104,6 +107,8 @@ export default function AdminPage() {
   const [categoryModalMode, setCategoryModalMode] = useState<'add' | 'edit'>('add');
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryNameInput, setCategoryNameInput] = useState('');
+  const [categoryImageFile, setCategoryImageFile] = useState<File | null>(null);
+  const [categoryImagePreview, setCategoryImagePreview] = useState<string>('');
   const [submittingCategory, setSubmittingCategory] = useState(false);
 
   // Product Modal state
@@ -160,10 +165,11 @@ export default function AdminPage() {
   const fetchCategories = useCallback(async () => {
     setLoadingCategories(true);
     try {
-      const res = await fetch('/api/categories');
+      const res = await fetch('/api/categories', { cache: 'no-store' });
       const data = await res.json();
       if (data.success) {
         setCategories(data.data || []);
+        invalidateApiCache('/api/categories');
       } else {
         showFeedback(data.error || 'Failed to fetch categories', 'error');
       }
@@ -179,10 +185,11 @@ export default function AdminPage() {
   const fetchProducts = useCallback(async () => {
     setLoadingProducts(true);
     try {
-      const res = await fetch('/api/products');
+      const res = await fetch('/api/products', { cache: 'no-store' });
       const data = await res.json();
       if (data.success) {
         setProducts(data.data || []);
+        invalidateApiCache('/api/products');
       } else {
         showFeedback(data.error || 'Failed to fetch products', 'error');
       }
@@ -198,10 +205,11 @@ export default function AdminPage() {
   const fetchProjects = useCallback(async () => {
     setLoadingProjects(true);
     try {
-      const res = await fetch('/api/projects');
+      const res = await fetch('/api/projects', { cache: 'no-store' });
       const data = await res.json();
       if (data.success) {
         setProjects(data.data || []);
+        invalidateApiCache('/api/projects');
       } else {
         showFeedback(data.error || 'Failed to fetch projects', 'error');
       }
@@ -283,6 +291,8 @@ export default function AdminPage() {
     setCategoryModalMode('add');
     setEditingCategory(null);
     setCategoryNameInput('');
+    setCategoryImageFile(null);
+    setCategoryImagePreview('');
     setIsCategoryModalOpen(true);
   };
 
@@ -290,6 +300,8 @@ export default function AdminPage() {
     setCategoryModalMode('edit');
     setEditingCategory(cat);
     setCategoryNameInput(cat.name);
+    setCategoryImageFile(null);
+    setCategoryImagePreview(cat.image || '');
     setIsCategoryModalOpen(true);
   };
 
@@ -301,8 +313,39 @@ export default function AdminPage() {
       return;
     }
 
+    if (!categoryImageFile && !categoryImagePreview) {
+      showFeedback('Category cover image is strictly required. Please upload an image.', 'error');
+      return;
+    }
+
     setSubmittingCategory(true);
     try {
+      let finalCategoryImageUrl = categoryImagePreview;
+
+      if (categoryImageFile) {
+        const uploadFormData = new FormData();
+        uploadFormData.append('file', categoryImageFile);
+
+        const uploadRes = await fetch('/api/upload', {
+          method: 'POST',
+          body: uploadFormData,
+        });
+
+        const uploadData = await uploadRes.json();
+        if (!uploadData.success) {
+          showFeedback(uploadData.error || 'Failed to upload category image.', 'error');
+          setSubmittingCategory(false);
+          return;
+        }
+        finalCategoryImageUrl = uploadData.url;
+      }
+
+      if (!finalCategoryImageUrl) {
+        showFeedback('Category cover image is strictly required. Please upload an image.', 'error');
+        setSubmittingCategory(false);
+        return;
+      }
+
       const isEdit = categoryModalMode === 'edit' && editingCategory;
       const url = isEdit ? `/api/categories/${editingCategory._id}` : '/api/categories';
       const method = isEdit ? 'PUT' : 'POST';
@@ -310,7 +353,10 @@ export default function AdminPage() {
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: categoryNameInput.trim() }),
+        body: JSON.stringify({
+          name: categoryNameInput.trim(),
+          image: finalCategoryImageUrl,
+        }),
       });
 
       const data = await res.json();
@@ -319,6 +365,8 @@ export default function AdminPage() {
         showFeedback(data.message || (isEdit ? 'Category updated successfully.' : 'Category added successfully.'), 'success');
         setIsCategoryModalOpen(false);
         setCategoryNameInput('');
+        setCategoryImageFile(null);
+        setCategoryImagePreview('');
         fetchCategories();
         fetchProducts();
       } else {
@@ -531,7 +579,7 @@ export default function AdminPage() {
     setProjectModalMode('add');
     setEditingProject(null);
     setProjectTitle('');
-    setProjectCategory(categories.length > 0 ? categories[0].name : 'Luxury Vinyl Flooring');
+    setProjectCategory(categories.length > 0 ? categories[0].name : '');
     setProjectPropertyType('Residential');
     setProjectLocation('');
     setProjectChallenge('');
@@ -548,7 +596,7 @@ export default function AdminPage() {
     setProjectModalMode('edit');
     setEditingProject(proj);
     setProjectTitle(proj.title);
-    setProjectCategory(proj.category || 'Luxury Vinyl Flooring');
+    setProjectCategory(proj.category || (categories.length > 0 ? categories[0].name : ''));
     setProjectPropertyType(proj.propertyType || 'Residential');
     setProjectLocation(proj.location || '');
     setProjectChallenge(proj.challenge || '');
@@ -1115,6 +1163,7 @@ export default function AdminPage() {
                           src={product.image}
                           alt={product.title}
                           fill
+                          sizes="(max-width: 768px) 100vw, 300px"
                           className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       ) : (
@@ -1249,9 +1298,15 @@ export default function AdminPage() {
                             className="hover:bg-stone-50/80 dark:hover:bg-stone-800/40 transition-colors"
                           >
                             <td className="py-4 px-6 font-bold text-stone-900 dark:text-stone-100 flex items-center gap-3">
-                              <div className="w-8 h-8 rounded-lg bg-orange-100 dark:bg-stone-800 text-[#E85D04] flex items-center justify-center shrink-0">
-                                <Layers className="w-4 h-4" />
-                              </div>
+                              {category.image ? (
+                                <div className="relative w-10 h-10 rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shrink-0 bg-stone-100 dark:bg-stone-800">
+                                  <Image src={category.image} alt={category.name} fill sizes="40px" className="object-cover" />
+                                </div>
+                              ) : (
+                                <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-stone-800 text-[#E85D04] flex items-center justify-center shrink-0">
+                                  <Layers className="w-5 h-5" />
+                                </div>
+                              )}
                               <span>{category.name}</span>
                             </td>
 
@@ -1368,6 +1423,7 @@ export default function AdminPage() {
                             src={project.coverImage}
                             alt={project.title}
                             fill
+                            sizes="(max-width: 768px) 100vw, 300px"
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                           />
                         ) : (
@@ -1475,6 +1531,61 @@ export default function AdminPage() {
                   <p className="text-[11px] text-stone-500 mt-1.5">
                     Category name must be unique.
                   </p>
+                </div>
+
+                {/* Category Banner Image Upload */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
+                    Category Main Cover Image <span className="text-rose-500">*</span>
+                  </label>
+                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                    <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
+                    <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
+                      Click to upload Category Cover Image
+                    </span>
+                    <span className="text-[11px] text-stone-500 mt-0.5 text-center">
+                      This image will be displayed on the page hero & service cards
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          if (!file.type.startsWith('image/')) {
+                            showFeedback('Please select a valid image file', 'error');
+                            return;
+                          }
+                          setCategoryImageFile(file);
+                          setCategoryImagePreview(URL.createObjectURL(file));
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {categoryImagePreview && (
+                    <div className="relative mt-3 rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-36 bg-stone-100 dark:bg-stone-800">
+                      <Image
+                        src={categoryImagePreview}
+                        alt="Category cover preview"
+                        fill
+                        sizes="300px"
+                        className="object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setCategoryImageFile(null);
+                          setCategoryImagePreview('');
+                        }}
+                        className="absolute top-2 right-2 p-1.5 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors shadow-md"
+                        title="Remove image"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
@@ -1631,6 +1742,7 @@ export default function AdminPage() {
                           src={productImagePreview}
                           alt="Main Product preview"
                           fill
+                          sizes="(max-width: 768px) 100vw, 300px"
                           className="object-cover"
                         />
                         <div className="absolute bottom-2 left-2 px-2.5 py-0.5 bg-black/70 backdrop-blur-md rounded-lg text-white text-[10px] font-bold uppercase tracking-wider">
@@ -1677,6 +1789,7 @@ export default function AdminPage() {
                               src={previewUrl}
                               alt={`Additional photo ${idx + 1}`}
                               fill
+                              sizes="100px"
                               className="object-cover"
                             />
                             <button
@@ -1729,7 +1842,7 @@ export default function AdminPage() {
         {/* PROJECT ADD/EDIT MODAL */}
         {isProjectModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-6 my-8">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-6 my-8">
               <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
                 <div className="flex items-center gap-3">
                   <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
@@ -1747,157 +1860,238 @@ export default function AdminPage() {
                 </button>
               </div>
 
-              <form onSubmit={handleProjectSubmit} className="space-y-4">
-                {/* Title */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Project Title <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Modern Luxury Sheet Vinyl Installation in Dental Clinic"
-                    value={projectTitle}
-                    onChange={(e) => setProjectTitle(e.target.value)}
-                    className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                  />
-                </div>
-
-                {/* Category & Property Type Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Category */}
-                  <div>
-                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                      Category / Flooring Type <span className="text-rose-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Luxury Vinyl, Hardwood, Tile"
-                      value={projectCategory}
-                      onChange={(e) => setProjectCategory(e.target.value)}
-                      className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                    />
-                  </div>
-
-                  {/* Property Type */}
-                  <div>
-                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                      Property Type <span className="text-rose-500">*</span>
-                    </label>
-                    <select
-                      value={projectPropertyType}
-                      onChange={(e) => setProjectPropertyType(e.target.value as 'Residential' | 'Commercial')}
-                      className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                    >
-                      <option value="Residential">Residential</option>
-                      <option value="Commercial">Commercial</option>
-                    </select>
-                  </div>
-                </div>
-
-                {/* Location */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Location / City <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Saskatoon & Area, Regina, SK"
-                      value={projectLocation}
-                      onChange={(e) => setProjectLocation(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                    />
-                  </div>
-                </div>
-
-                {/* Cover Image Upload */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Project Cover Photo <span className="text-rose-500">*</span>
-                  </label>
-
-                  <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
-                      <Upload className="w-6 h-6 text-[#E85D04] mb-1" />
-                      <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
-                        {projectImageFile
-                          ? projectImageFile.name
-                          : 'Click to select or drop project photo'}
-                      </span>
-                      <span className="text-[11px] text-stone-500 mt-0.5">
-                        PNG, JPG, WEBP or GIF supported
-                      </span>
+              <form onSubmit={handleProjectSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                  
+                  {/* Left Column: Details & WH-Descriptions */}
+                  <div className="lg:col-span-7 space-y-4">
+                    {/* Title */}
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                        Project Title <span className="text-rose-500">*</span>
+                      </label>
                       <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleProjectImageFileChange}
-                        className="hidden"
+                        type="text"
+                        required
+                        placeholder="e.g. Modern Luxury Sheet Vinyl Installation in Dental Clinic"
+                        value={projectTitle}
+                        onChange={(e) => setProjectTitle(e.target.value)}
+                        className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
                       />
-                    </label>
+                    </div>
 
-                    {/* Preview Container */}
-                    {projectImagePreview && (
-                      <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-40 bg-stone-100 dark:bg-stone-800">
-                        <Image
-                          src={projectImagePreview}
-                          alt="Project photo preview"
-                          fill
-                          className="object-cover"
-                        />
-                        <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg text-white text-[11px] font-semibold">
-                          Project Main Cover Photo
-                        </div>
+                    {/* Category & Property Type Grid */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* Category */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                          Category / Flooring Type <span className="text-rose-500">*</span>
+                        </label>
+                        <select
+                          required
+                          value={projectCategory}
+                          onChange={(e) => setProjectCategory(e.target.value)}
+                          className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        >
+                          <option value="" disabled>
+                            Select Category...
+                          </option>
+                          {categories.map((c) => (
+                            <option key={c._id} value={c.name}>
+                              {c.name}
+                            </option>
+                          ))}
+                          {projectCategory && !categories.some((c) => c.name === projectCategory) && (
+                            <option value={projectCategory}>{projectCategory}</option>
+                          )}
+                        </select>
                       </div>
-                    )}
+
+                      {/* Property Type */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                          Property Type <span className="text-rose-500">*</span>
+                        </label>
+                        <select
+                          value={projectPropertyType}
+                          onChange={(e) => setProjectPropertyType(e.target.value as 'Residential' | 'Commercial')}
+                          className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        >
+                          <option value="Residential">Residential</option>
+                          <option value="Commercial">Commercial</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    {/* Location */}
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                        Location / City <span className="text-rose-500">*</span>
+                      </label>
+                      <div className="relative">
+                        <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. Saskatoon & Area, Regina, SK"
+                          value={projectLocation}
+                          onChange={(e) => setProjectLocation(e.target.value)}
+                          className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Project Description & Case Study Details (WH-Questions Guidance) */}
+                    <div className="p-4 rounded-2xl bg-[#FAF6F0] dark:bg-stone-800/80 border border-stone-200 dark:border-stone-700/80 space-y-4">
+                      <div className="flex items-center gap-2 text-xs font-bold text-[#E85D04] uppercase tracking-wider">
+                        <Sparkles className="w-4 h-4 text-[#E85D04]" />
+                        <span>Project Description & Story (WH-Question Format)</span>
+                      </div>
+
+                      {/* 1. What & Why (Challenge / Scope) */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                          1. Project Scope & Challenge <span className="text-stone-400 font-normal">(WHAT & WHY)</span>
+                        </label>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
+                          💡 <strong>What</strong> was the project and <strong>Why</strong> was it needed? Describe client requirement or site condition.
+                        </p>
+                        <textarea
+                          rows={2}
+                          placeholder="e.g. High-hygiene commercial dental clinic needed 100% watertight flooring compliant with SK health regulations..."
+                          value={projectChallenge}
+                          onChange={(e) => setProjectChallenge(e.target.value)}
+                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        />
+                      </div>
+
+                      {/* 2. How (Solution & Execution) */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                          2. HD Flooring Execution <span className="text-stone-400 font-normal">(HOW & SYSTEM)</span>
+                        </label>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
+                          💡 <strong>How</strong> did HD Flooring install/solve it? Mention floor prep, installation method, or materials.
+                        </p>
+                        <textarea
+                          rows={2}
+                          placeholder="e.g. Installed heat-welded PVC sheet vinyl over self-leveled subfloor with seamless wall flash coving..."
+                          value={projectSolution}
+                          onChange={(e) => setProjectSolution(e.target.value)}
+                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        />
+                      </div>
+
+                      {/* 3. Outcome & Result */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                          3. Final Result & Benefits <span className="text-stone-400 font-normal">(OUTCOME)</span>
+                        </label>
+                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
+                          💡 What was the <strong>final result</strong> and benefit to the property owner?
+                        </p>
+                        <textarea
+                          rows={2}
+                          placeholder="e.g. Flawless anti-bacterial floor, easy to sanitize, 100% watertight with zero foot noise."
+                          value={projectResult}
+                          onChange={(e) => setProjectResult(e.target.value)}
+                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                        />
+                      </div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Additional Project Gallery Photos */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Additional Project Gallery Photos (Optional)
-                  </label>
-                  <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-3 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all">
-                      <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
-                      <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
-                        Click to select multiple gallery photos
-                      </span>
-                      <input
-                        type="file"
-                        multiple
-                        accept="image/*"
-                        onChange={handleProjectAdditionalImagesChange}
-                        className="hidden"
-                      />
-                    </label>
+                  {/* Right Column: Photo Uploads & Previews */}
+                  <div className="lg:col-span-5 space-y-4">
+                    {/* Cover Image Upload */}
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                        Project Cover Photo <span className="text-rose-500">*</span>
+                      </label>
 
-                    {projectAdditionalPreviews.length > 0 && (
-                      <div className="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
-                        {projectAdditionalPreviews.map((imgUrl, idx) => (
-                          <div key={idx} className="relative group rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 h-24 bg-stone-100 dark:bg-stone-800">
+                      <div className="space-y-3">
+                        <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                          <Upload className="w-6 h-6 text-[#E85D04] mb-1" />
+                          <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
+                            {projectImageFile
+                              ? projectImageFile.name
+                              : 'Click to select or drop project photo'}
+                          </span>
+                          <span className="text-[11px] text-stone-500 mt-0.5">
+                            PNG, JPG, WEBP or GIF supported
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleProjectImageFileChange}
+                            className="hidden"
+                          />
+                        </label>
+
+                        {/* Preview Container */}
+                        {projectImagePreview && (
+                          <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-44 bg-stone-100 dark:bg-stone-800">
                             <Image
-                              src={imgUrl}
-                              alt={`Project gallery preview ${idx + 1}`}
+                              src={projectImagePreview}
+                              alt="Project photo preview"
                               fill
+                              sizes="(max-width: 768px) 100vw, 400px"
                               className="object-cover"
                             />
-                            <button
-                              type="button"
-                              onClick={() => removeProjectAdditionalImage(idx)}
-                              className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 transition-opacity"
-                            >
-                              <X className="w-3.5 h-3.5" />
-                            </button>
+                            <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg text-white text-[11px] font-semibold">
+                              Main Cover Photo Preview
+                            </div>
                           </div>
-                        ))}
+                        )}
                       </div>
-                    )}
+                    </div>
+
+                    {/* Additional Project Gallery Photos */}
+                    <div>
+                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                        Additional Project Gallery Photos (Optional)
+                      </label>
+                      <div className="space-y-3">
+                        <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all">
+                          <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
+                          <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
+                            Click to select multiple gallery photos
+                          </span>
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleProjectAdditionalImagesChange}
+                            className="hidden"
+                          />
+                        </label>
+
+                        {projectAdditionalPreviews.length > 0 && (
+                          <div className="grid grid-cols-3 gap-2.5 max-h-48 overflow-y-auto pr-1">
+                            {projectAdditionalPreviews.map((imgUrl, idx) => (
+                              <div key={idx} className="relative group rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 h-20 bg-stone-100 dark:bg-stone-800">
+                                <Image
+                                  src={imgUrl}
+                                  alt={`Project gallery preview ${idx + 1}`}
+                                  fill
+                                  sizes="100px"
+                                  className="object-cover"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => removeProjectAdditionalImage(idx)}
+                                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 transition-opacity"
+                                >
+                                  <X className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
+
                 </div>
 
                 {/* Buttons */}
