@@ -6,102 +6,6 @@ import { Camera, ChevronLeft, ChevronRight, Layers, Hammer, Grid, Wrench, Shield
 import { HeroSearch } from '@/components/interactive/HeroSearch';
 import Link from 'next/link';
 
-const heroServices = [
-  {
-    title: 'Hardwood Flooring',
-    subtitle: 'Solid & Engineered',
-    icon: Hammer,
-    href: '/services/hardwood-flooring',
-    barBg: 'bg-[#E85D04]',
-    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-    activeText: 'text-[#E85D04]',
-    btnBg: 'bg-[#E85D04] text-white',
-    activeBorder: 'border-[#E85D04]',
-    glowColor: 'shadow-[#E85D04]/20',
-  },
-  {
-    title: 'Luxury Vinyl (LVP)',
-    subtitle: '100% Waterproof',
-    icon: Layers,
-    href: '/services/luxury-vinyl-flooring',
-    barBg: 'bg-[#E85D04]',
-    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-    activeText: 'text-[#E85D04]',
-    btnBg: 'bg-[#E85D04] text-white',
-    activeBorder: 'border-[#E85D04]',
-    glowColor: 'shadow-[#E85D04]/20',
-  },
-  {
-    title: 'Tile & Porcelain',
-    subtitle: 'Kitchen & Bathroom',
-    icon: Grid,
-    href: '/services/tile-flooring',
-    barBg: 'bg-[#E85D04]',
-    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-    activeText: 'text-[#E85D04]',
-    btnBg: 'bg-[#E85D04] text-white',
-    activeBorder: 'border-[#E85D04]',
-    glowColor: 'shadow-[#E85D04]/20',
-  },
-  {
-    title: 'Laminate Floors',
-    subtitle: 'High Durability',
-    icon: Shield,
-    href: '/services/laminate-flooring',
-    barBg: 'bg-[#E85D04]',
-    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-    activeText: 'text-[#E85D04]',
-    btnBg: 'bg-[#E85D04] text-white',
-    activeBorder: 'border-[#E85D04]',
-    glowColor: 'shadow-[#E85D04]/20',
-  },
-  {
-    title: 'Subfloor & Stairs',
-    subtitle: 'Leveling & Capping',
-    icon: Wrench,
-    href: '/services/stair-flooring',
-    barBg: 'bg-[#E85D04]',
-    iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-    activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-    activeText: 'text-[#E85D04]',
-    btnBg: 'bg-[#E85D04] text-white',
-    activeBorder: 'border-[#E85D04]',
-    glowColor: 'shadow-[#E85D04]/20',
-  },
-];
-
-const categorySlides = [
-  {
-    name: 'Solid Hardwood Flooring',
-    tag: 'Real Wood Grain',
-    image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyxINtJQD3XQadk70xqCM3l-FSzMJQCjjjf6FRIhas_Qe4mD8E4zVyxog&s=10',
-  },
-  {
-    name: 'Luxury Vinyl Plank (LVP)',
-    tag: '100% Waterproof',
-    image: 'https://res.cloudinary.com/znet-flooring/images/c_limit,dpr_2.0,f_auto,q_auto/v1/media/catalog/product/e/6/e6e5c524498e680a3596e40ef01fd2dfc75c5fb02a9a6464d55a245830a7d92b.jpeg/LI-DP05-Lions-Floor-District-Pro-LVP-Sun-Valley-1',
-  },
-  {
-    name: 'Tile & Porcelain Installation',
-    tag: 'Kitchen & Bathroom',
-    image: 'https://app.dropinblog.com/uploaded/blogs/34246798/files/Royal_Statuario_Porcelain_Tiles.png',
-  },
-  {
-    name: 'Premium Laminate Flooring',
-    tag: 'Herringbone & Planks',
-    image: 'https://media.tarkett-image.com/large/IN-Floor-Laminate-WoodstockAquaBlock-SheffieldOakSpring_510043033_001.jpg',
-  },
-  {
-    name: 'Stair Capping & Subfloor Prep',
-    tag: 'Wood Treads & Leveling',
-    image: 'https://pro-tek-flooring.com/wp-content/uploads/2026/04/LVT-on-Stairs.jpg',
-  },
-];
-
 import { fetchWithCache } from '@/lib/utils/apiCache';
 
 const serviceIcons = [Hammer, Layers, Grid, Shield, Wrench];
@@ -128,70 +32,65 @@ export function Hero() {
     };
   }, []);
 
-  // Construct dynamic category items if available, else fallback
-  const activeServices = dynamicCats.length > 0
-    ? dynamicCats.slice(0, 5).map((cat, idx) => {
-        const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        const Icon = serviceIcons[idx % serviceIcons.length];
-        return {
-          title: cat.name,
-          subtitle: cat.description || 'Flooring Collection',
-          icon: Icon,
-          href: `/services/${slug}`,
-          image: cat.image || categorySlides[idx % categorySlides.length].image,
-          barBg: 'bg-[#E85D04]',
-          iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
-          activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
-          activeText: 'text-[#E85D04]',
-          btnBg: 'bg-[#E85D04] text-white',
-          activeBorder: 'border-[#E85D04]',
-          glowColor: 'shadow-[#E85D04]/20',
-        };
-      })
-    : heroServices.map((srv, idx) => ({
-        ...srv,
-        image: categorySlides[idx % categorySlides.length].image,
-      }));
+  // Construct dynamic category items purely from DB categories
+  const activeServices = dynamicCats.slice(0, 5).map((cat, idx) => {
+    const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const Icon = serviceIcons[idx % serviceIcons.length];
+    return {
+      title: cat.name,
+      subtitle: cat.description || 'Flooring Collection',
+      icon: Icon,
+      href: `/services/${slug}`,
+      image: cat.image || '',
+      barBg: 'bg-[#E85D04]',
+      iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+      activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+      activeText: 'text-[#E85D04]',
+      btnBg: 'bg-[#E85D04] text-white',
+      activeBorder: 'border-[#E85D04]',
+      glowColor: 'shadow-[#E85D04]/20',
+    };
+  });
 
-  const activeSlides = dynamicCats.length > 0
-    ? dynamicCats.slice(0, 5).map((cat, idx) => ({
-        name: cat.name,
-        tag: 'Flooring Collection',
-        description: cat.description ? cat.description : `${cat.name} installation & premium material supply for Canadian homes and businesses.`,
-        image: cat.image || categorySlides[idx % categorySlides.length].image,
-      }))
-    : categorySlides.map((s) => ({
-        ...s,
-        description: `${s.name} installation & premium material supply.`,
-      }));
+  const activeSlides = dynamicCats.slice(0, 5).map((cat) => ({
+    name: cat.name,
+    tag: 'Flooring Collection',
+    description: cat.description ? cat.description : `${cat.name} installation & premium material supply for Canadian homes and businesses.`,
+    image: cat.image || '',
+  }));
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
-    }, 5500);
-    return () => clearInterval(timer);
+    if (activeSlides.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
+      }, 5500);
+      return () => clearInterval(timer);
+    }
   }, [activeSlides.length]);
 
   const nextSlide = () => {
-    setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
+    if (activeSlides.length > 0) {
+      setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
+    }
   };
 
   const prevSlide = () => {
-    setCurrentSlideIdx((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
+    if (activeSlides.length > 0) {
+      setCurrentSlideIdx((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
+    }
   };
 
-  const currentSlide = activeSlides[currentSlideIdx] || activeSlides[0];
+  const currentSlide = activeSlides[currentSlideIdx] || activeSlides[0] || { name: 'HD Flooring', tag: '', description: '', image: '' };
 
   return (
     <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
-      {/* Background Slideshow with Smooth Zoom Animation */}
       <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-95 transition-opacity">
         {activeSlides.map((slide, idx) => {
           const isActive = currentSlideIdx === idx;
           return (
             <motion.div
-              key={slide.image}
+              key={slide.image || idx}
               initial={{
                 opacity: idx === 0 ? 1 : 0,
                 scale: 1.0,
@@ -204,15 +103,19 @@ export function Hero() {
                 opacity: { duration: 1.2, ease: 'easeInOut' },
                 scale: { duration: isActive ? 6.5 : 0, ease: 'easeOut' },
               }}
-              className="absolute inset-0 pointer-events-none transform-gpu will-change-transform"
+              className="absolute inset-0 pointer-events-none transform-gpu will-change-transform bg-stone-950"
             >
-              <img
-                src={slide.image}
-                alt={slide.name}
-                loading={idx === 0 ? 'eager' : 'lazy'}
-                fetchPriority={idx === 0 ? 'high' : 'low'}
-                className="w-full h-full object-cover object-center"
-              />
+              {slide.image ? (
+                <img
+                  src={slide.image}
+                  alt={slide.name}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={idx === 0 ? 'high' : 'low'}
+                  className="w-full h-full object-cover object-center"
+                />
+              ) : (
+                <div className="w-full h-full bg-gradient-to-br from-stone-900 via-stone-950 to-stone-900" />
+              )}
             </motion.div>
           );
         })}

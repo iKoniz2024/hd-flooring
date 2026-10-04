@@ -14,7 +14,7 @@ import { fetchWithCache } from '@/lib/utils/apiCache';
 export function ServicesGrid() {
   const router = useRouter();
   const [showAll, setShowAll] = useState(false);
-  const [services, setServices] = useState<ServiceItem[]>(servicesData);
+  const [services, setServices] = useState<ServiceItem[]>([]);
   const { openBookModal } = useModal();
 
   useEffect(() => {
@@ -29,71 +29,75 @@ export function ServicesGrid() {
         const categories = catData.success && Array.isArray(catData.data) ? catData.data : [];
         const products = prodData.success && Array.isArray(prodData.data) ? prodData.data : [];
 
-        if (isMounted && categories.length > 0) {
-          const dynamicServices: ServiceItem[] = categories.map((cat: { _id?: string; name: string; image?: string; description?: string }) => {
-            const catIdStr = cat._id ? String(cat._id) : '';
-            const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        if (isMounted) {
+          if (categories.length > 0) {
+            const dynamicServices: ServiceItem[] = categories.map((cat: { _id?: string; name: string; image?: string; description?: string }) => {
+              const catIdStr = cat._id ? String(cat._id) : '';
+              const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-            const existing = servicesData.find(
-              (s) =>
-                s.slug === slug ||
-                s.title.toLowerCase() === cat.name.toLowerCase() ||
-                s.id === slug
-            );
+              const existing = servicesData.find(
+                (s) =>
+                  s.slug === slug ||
+                  s.title.toLowerCase() === cat.name.toLowerCase() ||
+                  s.id === slug
+              );
 
-            // Find matching product image under this category if cat.image is empty
-            const matchingProd = products.find(
-              (p: { category?: string | object; categoryName?: string; image?: string }) => {
-                if (!p.image) return false;
-                const pCatStr = p.category ? String(p.category) : '';
-                if (catIdStr && pCatStr === catIdStr) return true;
-                if (p.categoryName && p.categoryName.toLowerCase() === cat.name.toLowerCase()) return true;
-                return false;
+              // Find matching product image under this category if cat.image is empty
+              const matchingProd = products.find(
+                (p: { category?: string | object; categoryName?: string; image?: string }) => {
+                  if (!p.image) return false;
+                  const pCatStr = p.category ? String(p.category) : '';
+                  if (catIdStr && pCatStr === catIdStr) return true;
+                  if (p.categoryName && p.categoryName.toLowerCase() === cat.name.toLowerCase()) return true;
+                  return false;
+                }
+              );
+
+              const cardImage =
+                (cat.image && cat.image.trim()) ||
+                (matchingProd?.image && matchingProd.image.trim()) ||
+                '';
+
+              if (existing) {
+                return {
+                  ...existing,
+                  title: cat.name,
+                  heroImage: cardImage,
+                };
               }
-            );
 
-            const cardImage =
-              (cat.image && cat.image.trim()) ||
-              (matchingProd?.image && matchingProd.image.trim()) ||
-              '';
-
-            if (existing) {
               return {
-                ...existing,
+                id: cat._id || slug,
+                slug: slug,
                 title: cat.name,
+                categoryTag: cat.name,
+                tagline: `Professional ${cat.name} Installation & Service`,
+                shortDesc:
+                  cat.description ||
+                  `Professional ${cat.name} installation and craftsmanship tailored for Canadian residential and commercial spaces.`,
+                fullDesc: `At HD Flooring, we provide top-tier ${cat.name} services with precision craftsmanship, moisture protection, and zero-squeak guarantee.`,
                 heroImage: cardImage,
+                benefits: [
+                  'Professional commercial & residential installation',
+                  'Canadian climate & moisture-tested durability',
+                  'Expert layout & precision fitting',
+                  'Comprehensive warranty coverage',
+                ],
+                idealFor: ['Residential & Commercial'],
+                process: [
+                  'Site Assessment & Subfloor Prep',
+                  'Underlayment Setup',
+                  'Precision Fitting',
+                  'Final Quality Inspection',
+                ],
+                faqs: [],
               };
-            }
+            });
 
-            return {
-              id: cat._id || slug,
-              slug: slug,
-              title: cat.name,
-              categoryTag: cat.name,
-              tagline: `Professional ${cat.name} Installation & Service`,
-              shortDesc:
-                cat.description ||
-                `Professional ${cat.name} installation and craftsmanship tailored for Canadian residential and commercial spaces.`,
-              fullDesc: `At HD Flooring, we provide top-tier ${cat.name} services with precision craftsmanship, moisture protection, and zero-squeak guarantee.`,
-              heroImage: cardImage,
-              benefits: [
-                'Professional commercial & residential installation',
-                'Canadian climate & moisture-tested durability',
-                'Expert layout & precision fitting',
-                'Comprehensive warranty coverage',
-              ],
-              idealFor: ['Residential & Commercial'],
-              process: [
-                'Site Assessment & Subfloor Prep',
-                'Underlayment Setup',
-                'Precision Fitting',
-                'Final Quality Inspection',
-              ],
-              faqs: [],
-            };
-          });
-
-          setServices(dynamicServices);
+            setServices(dynamicServices);
+          } else {
+            setServices([]);
+          }
         }
       } catch (err) {
         console.error('Error fetching dynamic categories/products in ServicesGrid:', err);
