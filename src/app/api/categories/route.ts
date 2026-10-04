@@ -38,7 +38,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, image, isActive = true } = body;
+    const { name, image, description, isActive = true } = body;
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       return NextResponse.json(
@@ -72,6 +72,7 @@ export async function POST(request: Request) {
     const now = new Date();
     const result = await categoriesCollection.insertOne({
       name: trimmedName,
+      description: typeof description === 'string' ? description.trim() : '',
       image: typeof image === 'string' ? image.trim() : undefined,
       isActive: Boolean(isActive),
       createdAt: now,

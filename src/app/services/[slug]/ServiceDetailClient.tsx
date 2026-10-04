@@ -41,6 +41,8 @@ import { ProductQuickViewModal, QuickViewProduct } from '@/components/modals/Pro
 interface CategoryDoc {
   _id: string;
   name: string;
+  description?: string;
+  image?: string;
   isActive?: boolean;
 }
 
@@ -343,12 +345,12 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                       </h1>
 
                       <p className="text-[#E85D04] font-manrope font-extrabold text-base sm:text-lg">
-                        {fallbackService.tagline}
+                        {categoryData?.description ? `${activeTitle} Services & Material Supply` : fallbackService.tagline}
                       </p>
                     </div>
 
                     <p className="text-slate-600 dark:text-slate-300 text-xs sm:text-sm leading-relaxed font-inter font-normal">
-                      {fallbackService.fullDesc}
+                      {categoryData?.description || fallbackService.fullDesc}
                     </p>
 
                     <div className="pt-2 flex flex-wrap items-center gap-4">

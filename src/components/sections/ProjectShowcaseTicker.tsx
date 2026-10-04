@@ -117,42 +117,67 @@ export function ProjectShowcaseTicker() {
                     whileInView={motionVariant.whileInView}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: 0.6, delay: index * 0.1, type: 'spring', stiffness: 120 }}
-                    whileHover={{ y: -8, scale: 1.02 }}
                     onClick={() => setSelectedProject(project)}
-                    className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-lg transform-gpu"
+                    className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-3xl overflow-hidden shadow-md hover:shadow-2xl hover:border-[#E85D04]/60 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
                   >
-                    {/* Photo Image */}
-                    <Image
-                      src={project.coverImage}
-                      alt={project.title}
-                      fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    />
+                    {/* Image Container */}
+                    <div className="relative h-52 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden block">
+                      <Image
+                        src={project.coverImage}
+                        alt={project.title}
+                        fill
+                        className="object-cover group-hover:scale-108 transition-transform duration-700"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
-                    {/* Gradient Overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-65 group-hover:opacity-90 transition-opacity duration-300" />
+                      {/* Property Type Pill Badge */}
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-slate-950/80 text-white backdrop-blur-md border border-white/20">
+                          {project.propertyType || project.category || 'Workmanship'}
+                        </span>
+                      </div>
 
-                    {/* Top Action Icon & Photo Count */}
-                    <div className="absolute top-3 right-3 flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-black/75 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center gap-1">
-                        <Images className="w-3 h-3 text-[#E85D04]" />
-                        <span>{totalPhotos.length}</span>
-                      </span>
-                      <div className="w-7 h-7 rounded-full bg-slate-900/90 border border-slate-700/60 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
-                        <Maximize2 className="w-3.5 h-3.5" />
+                      {/* Photo Count Badge */}
+                      <div className="absolute top-3 right-3">
+                        <span className="px-2.5 py-1 rounded-full text-[11px] font-extrabold bg-[#E85D04] text-white shadow-lg flex items-center gap-1">
+                          <Images className="w-3 h-3 text-white" />
+                          <span>{totalPhotos.length} {totalPhotos.length === 1 ? 'Photo' : 'Photos'}</span>
+                        </span>
+                      </div>
+
+                      {/* Location Badge on Image Bottom */}
+                      <div className="absolute bottom-3 left-3">
+                        <span className="px-2.5 py-1 rounded-lg bg-black/75 backdrop-blur-md text-white text-[11px] font-bold flex items-center gap-1 border border-white/20">
+                          <MapPin className="w-3 h-3 text-[#E85D04]" />
+                          <span>{project.location}</span>
+                        </span>
                       </div>
                     </div>
 
-                    {/* Bottom Content */}
-                    <div className="absolute bottom-3 left-3 right-3 space-y-1 text-left">
-                      <div className="flex items-center gap-1 text-[11px] font-manrope text-[#E85D04]">
-                        <MapPin className="w-3 h-3" />
-                        <span>{project.location}</span>
+                    {/* Card Bottom Details */}
+                    <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                      <div>
+                        <h3 className="font-playfair text-base font-bold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
+                          {project.title}
+                        </h3>
                       </div>
-                      <h3 className="font-playfair text-base font-bold text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
-                        {project.title}
-                      </h3>
+
+                      <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 font-manrope">
+                        <span className="text-xs font-extrabold text-[#E85D04] group-hover:underline flex items-center gap-1">
+                          <span>View Details →</span>
+                        </span>
+
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openBookModal(project.title);
+                          }}
+                          className="px-3 py-1.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-[11px] font-extrabold uppercase tracking-wider shadow-md shadow-[#E85D04]/20 transition-all cursor-pointer"
+                        >
+                          Get Quote
+                        </button>
+                      </div>
                     </div>
                   </motion.div>
                 );

@@ -102,32 +102,92 @@ const categorySlides = [
   },
 ];
 
+import { fetchWithCache } from '@/lib/utils/apiCache';
+
+const serviceIcons = [Hammer, Layers, Grid, Shield, Wrench];
+
 export function Hero() {
   const [currentSlideIdx, setCurrentSlideIdx] = useState(0);
+  const [dynamicCats, setDynamicCats] = useState<any[]>([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchCats = async () => {
+      try {
+        const data = await fetchWithCache('/api/categories');
+        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          setDynamicCats(data.data);
+        }
+      } catch (err) {
+        console.error('Failed to load categories for Hero:', err);
+      }
+    };
+    fetchCats();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Construct dynamic category items if available, else fallback
+  const activeServices = dynamicCats.length > 0
+    ? dynamicCats.slice(0, 5).map((cat, idx) => {
+        const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const Icon = serviceIcons[idx % serviceIcons.length];
+        return {
+          title: cat.name,
+          subtitle: cat.description || 'Flooring Collection',
+          icon: Icon,
+          href: `/services/${slug}`,
+          image: cat.image || categorySlides[idx % categorySlides.length].image,
+          barBg: 'bg-[#E85D04]',
+          iconBg: 'bg-[#E85D04]/10 border-[#E85D04]/30 text-[#E85D04] group-hover:bg-[#E85D04] group-hover:text-white',
+          activeIconBg: 'bg-[#E85D04] text-white border-[#E85D04] shadow-md shadow-[#E85D04]/30',
+          activeText: 'text-[#E85D04]',
+          btnBg: 'bg-[#E85D04] text-white',
+          activeBorder: 'border-[#E85D04]',
+          glowColor: 'shadow-[#E85D04]/20',
+        };
+      })
+    : heroServices.map((srv, idx) => ({
+        ...srv,
+        image: categorySlides[idx % categorySlides.length].image,
+      }));
+
+  const activeSlides = dynamicCats.length > 0
+    ? dynamicCats.slice(0, 5).map((cat, idx) => ({
+        name: cat.name,
+        tag: 'Flooring Collection',
+        description: cat.description ? cat.description : `${cat.name} installation & premium material supply for Canadian homes and businesses.`,
+        image: cat.image || categorySlides[idx % categorySlides.length].image,
+      }))
+    : categorySlides.map((s) => ({
+        ...s,
+        description: `${s.name} installation & premium material supply.`,
+      }));
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlideIdx((prev) => (prev + 1) % categorySlides.length);
+      setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
     }, 5500);
     return () => clearInterval(timer);
-  }, []);
+  }, [activeSlides.length]);
 
   const nextSlide = () => {
-    setCurrentSlideIdx((prev) => (prev + 1) % categorySlides.length);
+    setCurrentSlideIdx((prev) => (prev + 1) % activeSlides.length);
   };
 
   const prevSlide = () => {
-    setCurrentSlideIdx((prev) => (prev - 1 + categorySlides.length) % categorySlides.length);
+    setCurrentSlideIdx((prev) => (prev - 1 + activeSlides.length) % activeSlides.length);
   };
 
-  const currentSlide = categorySlides[currentSlideIdx];
+  const currentSlide = activeSlides[currentSlideIdx] || activeSlides[0];
 
   return (
     <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
       {/* Background Slideshow with Smooth Zoom Animation */}
       <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-95 transition-opacity">
-        {categorySlides.map((slide, idx) => {
+        {activeSlides.map((slide, idx) => {
           const isActive = currentSlideIdx === idx;
           return (
             <motion.div
@@ -208,15 +268,21 @@ export function Hero() {
             </div>
           </motion.h1>
 
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="text-stone-200 text-sm sm:text-base font-semibold max-w-2xl"
-          >
-            Hardwood, luxury vinyl plank, laminate, carpet & tile installation for Canadian homes and businesses.
-          </motion.p>
+          {/* Subtitle - Dynamically changes with active category slide */}
+          <div className="text-stone-200 text-sm sm:text-base font-semibold max-w-2xl min-h-[44px]">
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={currentSlideIdx}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.35 }}
+                className="line-clamp-2"
+              >
+                {currentSlide.description}
+              </motion.p>
+            </AnimatePresence>
+          </div>
 
           {/* Interactive Search Bar Widget */}
           <motion.div
@@ -243,76 +309,79 @@ export function Hero() {
 
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {heroServices.map((srv, idx) => {
+            {activeServices.map((srv, idx) => {
               const Icon = srv.icon;
               const isActive = currentSlideIdx === idx;
               return (
-                <motion.div
+                <Link
                   key={idx}
-                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.65 + idx * 0.08 }}
+                  href={srv.href}
                   onMouseEnter={() => setCurrentSlideIdx(idx)}
-                  onClick={() => setCurrentSlideIdx(idx)}
-                  className={`group relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
-                    ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
-                    : 'bg-white/85 dark:bg-stone-900/85 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
-                    }`}
+                  className="block group"
                 >
-                  {/* Floor Background Image Overlay - Only Visible on Active Card */}
-                  <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-3xl">
-                    <img
-                      src={categorySlides[idx].image}
-                      alt={srv.title}
-                      className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'scale-105 opacity-25 dark:opacity-30' : 'opacity-0 scale-100'
-                        }`}
-                    />
-                    {isActive && (
-                      <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/70 to-white/30 dark:from-stone-900/95 dark:via-stone-900/80 dark:to-stone-900/40" />
-                    )}
-                  </div>
-
-                  {/* Top Animated Brand Color Accent Bar */}
-                  <div
-                    className={`h-1.5 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 z-10 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
-                      }`}
-                  />
-
-                  <div className="space-y-3 relative z-10">
-                    {/* Icon Box with Brand Color Mix */}
-                    <div
-                      className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
-                        }`}
-                    >
-                      <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
-                    </div>
-
-                    {/* Title & Subtitle */}
-                    <div>
-                      <h3
-                        className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-[#E85D04] dark:group-hover:text-[#E85D04]'
-                          }`}
-                      >
-                        {srv.title}
-                      </h3>
-                      <p
-                        className={`text-xs font-semibold transition-colors duration-300 mt-1 ${isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'
-                          }`}
-                      >
-                        {srv.subtitle}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Bottom Right Corner Brand Color Action Box */}
-                  <Link
-                    href={srv.href}
-                    className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl z-10 ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
+                  <motion.div
+                    initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.65 + idx * 0.08 }}
+                    className={`relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
+                      ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
+                      : 'bg-white/85 dark:bg-stone-900/85 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
                       }`}
                   >
-                    <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </motion.div>
+                    {/* Floor Background Image Overlay - Only Visible on Active Card */}
+                    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-3xl">
+                      <img
+                        src={activeSlides[idx % activeSlides.length].image}
+                        alt={srv.title}
+                        className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'scale-105 opacity-25 dark:opacity-30' : 'opacity-0 scale-100'
+                          }`}
+                      />
+                      {isActive && (
+                        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/70 to-white/30 dark:from-stone-900/95 dark:via-stone-900/80 dark:to-stone-900/40" />
+                      )}
+                    </div>
+
+                    {/* Top Animated Brand Color Accent Bar */}
+                    <div
+                      className={`h-1.5 ${srv.barBg} transition-all duration-500 absolute top-0 left-0 z-10 ${isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                        }`}
+                    />
+
+                    <div className="space-y-3 relative z-10">
+                      {/* Icon Box with Brand Color Mix */}
+                      <div
+                        className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
+                          }`}
+                      >
+                        <Icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                      </div>
+
+                      {/* Title & Subtitle */}
+                      <div>
+                        <h3
+                          className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-[#E85D04] dark:group-hover:text-[#E85D04]'
+                            }`}
+                        >
+                          {srv.title}
+                        </h3>
+                        <p
+                          className={`text-xs font-semibold transition-colors duration-300 mt-1 ${isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'
+                            }`}
+                        >
+                          {srv.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Bottom Right Corner Brand Color Action Box */}
+                    <div
+                      className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl z-10 ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
+                        }`}
+                    >
+                      <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </div>
+                  </motion.div>
+                </Link>
               );
             })}
           </div>

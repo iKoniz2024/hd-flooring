@@ -37,6 +37,7 @@ import { invalidateApiCache } from '@/lib/utils/apiCache';
 interface Category {
   _id: string;
   name: string;
+  description?: string;
   image?: string;
   createdAt?: string;
   updatedAt?: string;
@@ -107,6 +108,7 @@ export default function AdminPage() {
   const [categoryModalMode, setCategoryModalMode] = useState<'add' | 'edit'>('add');
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [categoryNameInput, setCategoryNameInput] = useState('');
+  const [categoryDescriptionInput, setCategoryDescriptionInput] = useState('');
   const [categoryImageFile, setCategoryImageFile] = useState<File | null>(null);
   const [categoryImagePreview, setCategoryImagePreview] = useState<string>('');
   const [submittingCategory, setSubmittingCategory] = useState(false);
@@ -291,6 +293,7 @@ export default function AdminPage() {
     setCategoryModalMode('add');
     setEditingCategory(null);
     setCategoryNameInput('');
+    setCategoryDescriptionInput('');
     setCategoryImageFile(null);
     setCategoryImagePreview('');
     setIsCategoryModalOpen(true);
@@ -300,9 +303,63 @@ export default function AdminPage() {
     setCategoryModalMode('edit');
     setEditingCategory(cat);
     setCategoryNameInput(cat.name);
+    setCategoryDescriptionInput(cat.description || '');
     setCategoryImageFile(null);
     setCategoryImagePreview(cat.image || '');
     setIsCategoryModalOpen(true);
+  };
+
+  // Helper to upload any File, blob: URL, or base64 data: string, returning a clean server URL
+  const uploadImageIfNeeded = async (fileOrUrl: File | string | null | undefined): Promise<string> => {
+    if (!fileOrUrl) return '';
+
+    if (fileOrUrl instanceof File) {
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', fileOrUrl);
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadFormData,
+      });
+      const uploadData = await uploadRes.json();
+      if (!uploadData.success) {
+        throw new Error(uploadData.error || 'Failed to upload image file.');
+      }
+      return uploadData.url;
+    }
+
+    if (typeof fileOrUrl === 'string') {
+      const trimmed = fileOrUrl.trim();
+      if (!trimmed) return '';
+
+      if (trimmed.startsWith('data:') || trimmed.startsWith('blob:')) {
+        try {
+          const resBlob = await fetch(trimmed);
+          const blob = await resBlob.blob();
+          const mimeType = blob.type || 'image/jpeg';
+          const ext = mimeType.split('/')[1] || 'jpg';
+          const fileObj = new File([blob], `upload-${Date.now()}.${ext}`, { type: mimeType });
+
+          const uploadFormData = new FormData();
+          uploadFormData.append('file', fileObj);
+          const uploadRes = await fetch('/api/upload', {
+            method: 'POST',
+            body: uploadFormData,
+          });
+          const uploadData = await uploadRes.json();
+          if (!uploadData.success) {
+            throw new Error(uploadData.error || 'Failed to upload image preview.');
+          }
+          return uploadData.url;
+        } catch (err) {
+          console.error('Blob upload error:', err);
+          throw new Error('Failed to process image preview. Please re-select the image file.');
+        }
+      }
+
+      return trimmed;
+    }
+
+    return '';
   };
 
   // Submit Category
@@ -320,25 +377,7 @@ export default function AdminPage() {
 
     setSubmittingCategory(true);
     try {
-      let finalCategoryImageUrl = categoryImagePreview;
-
-      if (categoryImageFile) {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', categoryImageFile);
-
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-
-        const uploadData = await uploadRes.json();
-        if (!uploadData.success) {
-          showFeedback(uploadData.error || 'Failed to upload category image.', 'error');
-          setSubmittingCategory(false);
-          return;
-        }
-        finalCategoryImageUrl = uploadData.url;
-      }
+      const finalCategoryImageUrl = await uploadImageIfNeeded(categoryImageFile || categoryImagePreview);
 
       if (!finalCategoryImageUrl) {
         showFeedback('Category cover image is strictly required. Please upload an image.', 'error');
@@ -355,6 +394,7 @@ export default function AdminPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: categoryNameInput.trim(),
+          description: categoryDescriptionInput.trim(),
           image: finalCategoryImageUrl,
         }),
       });
@@ -365,13 +405,14 @@ export default function AdminPage() {
         showFeedback(data.message || (isEdit ? 'Category updated successfully.' : 'Category added successfully.'), 'success');
         setIsCategoryModalOpen(false);
         setCategoryNameInput('');
+        setCategoryDescriptionInput('');
         setCategoryImageFile(null);
         setCategoryImagePreview('');
         
         // Optimistic state update for instant UI feedback
         if (isEdit && editingCategory) {
           setCategories((prev) =>
-            prev.map((cat) => (cat._id === editingCategory._id ? { ...cat, name: categoryNameInput.trim(), image: finalCategoryImageUrl } : cat))
+            prev.map((cat) => (cat._id === editingCategory._id ? { ...cat, name: categoryNameInput.trim(), description: categoryDescriptionInput.trim(), image: finalCategoryImageUrl } : cat))
           );
         } else if (data.data) {
           setCategories((prev) => [data.data, ...prev]);
@@ -501,52 +542,18 @@ export default function AdminPage() {
     setSubmittingProduct(true);
 
     try {
-      let finalMainImageUrl = productImagePreview;
-
-      // 1. Prepare main image upload promise if file provided
-      const mainImagePromise = productImageFile
-        ? (async () => {
-            const uploadFormData = new FormData();
-            uploadFormData.append('file', productImageFile);
-            const uploadRes = await fetch('/api/upload', {
-              method: 'POST',
-              body: uploadFormData,
-            });
-            const uploadData = await uploadRes.json();
-            if (!uploadData.success) {
-              throw new Error(uploadData.error || 'Failed to upload main image.');
-            }
-            return uploadData.url;
-          })()
-        : Promise.resolve(productImagePreview);
-
-      // 2. Prepare additional images upload promises
-      const retainedAdditionalImages = productAdditionalPreviews.filter(
-        (p) => !p.startsWith('blob:')
-      );
-
-      const additionalUploadPromises = productAdditionalFiles.map(async (file) => {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', file);
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-        const uploadData = await uploadRes.json();
-        return uploadData.success && uploadData.url ? uploadData.url : null;
+      const mainImageUrlPromise = uploadImageIfNeeded(productImageFile || productImagePreview);
+      const additionalImagesPromises = productAdditionalPreviews.map((prevStr, idx) => {
+        const fileObj = productAdditionalFiles[idx];
+        return uploadImageIfNeeded(fileObj || prevStr);
       });
 
-      // Execute main image and additional image uploads concurrently in parallel
-      const [mainUrl, newAdditionalUrls] = await Promise.all([
-        mainImagePromise,
-        Promise.all(additionalUploadPromises),
+      const [finalMainImageUrl, rawAdditionalImages] = await Promise.all([
+        mainImageUrlPromise,
+        Promise.all(additionalImagesPromises),
       ]);
 
-      finalMainImageUrl = mainUrl;
-      const finalAdditionalImages = [
-        ...retainedAdditionalImages,
-        ...newAdditionalUrls.filter((u): u is string => Boolean(u)),
-      ];
+      const finalAdditionalImages = rawAdditionalImages.filter((u): u is string => Boolean(u));
 
       const isEdit = productModalMode === 'edit' && editingProduct;
       const url = isEdit ? `/api/products/${editingProduct._id}` : '/api/products';
@@ -683,49 +690,18 @@ export default function AdminPage() {
     setSubmittingProject(true);
 
     try {
-      // 1. Prepare cover image upload promise if file provided
-      const coverImagePromise = projectImageFile
-        ? (async () => {
-            const uploadFormData = new FormData();
-            uploadFormData.append('file', projectImageFile);
-            const uploadRes = await fetch('/api/upload', {
-              method: 'POST',
-              body: uploadFormData,
-            });
-            const uploadData = await uploadRes.json();
-            if (!uploadData.success) {
-              throw new Error(uploadData.error || 'Failed to upload cover image.');
-            }
-            return uploadData.url;
-          })()
-        : Promise.resolve(projectImagePreview);
-
-      // 2. Prepare additional images upload promises
-      const retainedAdditionalImageUrls = projectAdditionalPreviews.filter(
-        (url) => !url.startsWith('blob:')
-      );
-
-      const additionalUploadPromises = projectAdditionalFiles.map(async (addFile) => {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', addFile);
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-        const uploadData = await uploadRes.json();
-        return uploadData.success && uploadData.url ? uploadData.url : null;
+      const coverImageUrlPromise = uploadImageIfNeeded(projectImageFile || projectImagePreview);
+      const additionalImagesPromises = projectAdditionalPreviews.map((prevStr, idx) => {
+        const fileObj = projectAdditionalFiles[idx];
+        return uploadImageIfNeeded(fileObj || prevStr);
       });
 
-      // Execute all file uploads concurrently in parallel
-      const [finalImageUrl, newAdditionalUrls] = await Promise.all([
-        coverImagePromise,
-        Promise.all(additionalUploadPromises),
+      const [finalImageUrl, rawAdditionalImages] = await Promise.all([
+        coverImageUrlPromise,
+        Promise.all(additionalImagesPromises),
       ]);
 
-      const finalAdditionalImageUrls = [
-        ...retainedAdditionalImageUrls,
-        ...newAdditionalUrls.filter((u): u is string => Boolean(u)),
-      ];
+      const finalAdditionalImageUrls = rawAdditionalImages.filter((u): u is string => Boolean(u));
 
       const allGalleryImages = Array.from(
         new Set([finalImageUrl, ...finalAdditionalImageUrls].filter(Boolean))
@@ -1557,6 +1533,20 @@ export default function AdminPage() {
                   <p className="text-[11px] text-stone-500 mt-1.5">
                     Category name must be unique.
                   </p>
+                </div>
+
+                {/* Category Short Description */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
+                    Category Short Description (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Brief tagline or description to display on Hero banner & services (e.g. Solid & Engineered hardwood flooring installation)"
+                    value={categoryDescriptionInput}
+                    onChange={(e) => setCategoryDescriptionInput(e.target.value)}
+                    className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all resize-none"
+                  />
                 </div>
 
                 {/* Category Banner Image Upload */}

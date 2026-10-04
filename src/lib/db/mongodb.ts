@@ -64,12 +64,6 @@ declare global {
 }
 
 export async function getMongoClient(): Promise<MongoClient> {
-  if (process.env.NODE_ENV === 'development') {
-    try {
-      dns.setServers(['8.8.8.8', '1.1.1.1']);
-    } catch {}
-  }
-
   const currentUri = process.env.MONGODB_URI || uri;
 
   if (!global._mongoClientPromise) {

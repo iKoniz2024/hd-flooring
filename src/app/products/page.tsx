@@ -31,6 +31,8 @@ import { fetchWithCache } from '@/lib/utils/apiCache';
 interface Category {
   _id: string;
   name: string;
+  description?: string;
+  image?: string;
 }
 
 interface Product {

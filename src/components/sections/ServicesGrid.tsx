@@ -195,47 +195,29 @@ export function ServicesGrid() {
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 space-y-4 flex-1 flex flex-col justify-between">
-                      <div className="space-y-2">
-                        <h3 className={`font-jakarta text-xl font-extrabold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors duration-300`}>
+                    <div className="p-5 space-y-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className={`font-playfair text-xl font-extrabold text-stone-900 dark:text-stone-100 ${color.titleHover} transition-colors duration-300`}>
                           {service.title}
                         </h3>
-                        <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed line-clamp-2">
-                          {service.shortDesc}
-                        </p>
                       </div>
 
-                      {/* Key Benefits */}
-                      <ul className="space-y-1.5 pt-3 border-t border-stone-100 dark:border-stone-800/80">
-                        {service.benefits.slice(0, 2).map((benefit, bIdx) => (
-                          <li
-                            key={bIdx}
-                            className="text-xs text-stone-600 dark:text-stone-300 flex items-start gap-2"
-                          >
-                            <CheckCircle className={`w-3.5 h-3.5 ${color.checkIcon} shrink-0 mt-0.5`} />
-                            <span className="line-clamp-1">{benefit}</span>
-                          </li>
-                        ))}
-                      </ul>
-
                       {/* Action Bar */}
-                      <div className="pt-4 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80">
+                      <div className="pt-3 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80">
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
                             openBookModal(service.title);
                           }}
-                          className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer`}
+                          className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer shadow-md`}
                         >
                           <ShieldCheck className="w-3.5 h-3.5" />
-                          Book Us
+                          Request Quote
                         </button>
 
-                        <div
-                          className={`w-9 h-9 rounded-xl ${color.arrowBg} flex items-center justify-center font-extrabold shadow-md group-hover:scale-110 transition-all duration-300`}
-                          title="Explore Service"
-                        >
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                        <div className="text-xs font-bold text-[#E85D04] group-hover:underline flex items-center gap-1">
+                          <span>Details</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>

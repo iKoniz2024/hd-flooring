@@ -17,7 +17,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, image, isActive } = body;
+    const { name, image, description, isActive } = body;
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       return NextResponse.json(
@@ -63,6 +63,10 @@ export async function PUT(
       name: trimmedName,
       updatedAt: new Date(),
     };
+
+    if (typeof description === 'string') {
+      updateData.description = description.trim();
+    }
 
     if (typeof image === 'string') {
       updateData.image = image.trim();
