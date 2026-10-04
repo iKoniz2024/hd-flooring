@@ -44,10 +44,17 @@ export async function GET() {
       updatedAt: item.updatedAt,
     }));
 
-    return NextResponse.json({
-      success: true,
-      data: formattedProducts,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: formattedProducts,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      }
+    );
   } catch (error: unknown) {
     const errMessage = error instanceof Error ? error.message : 'Failed to fetch products';
     console.error('GET /api/products error:', error);

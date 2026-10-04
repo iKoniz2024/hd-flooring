@@ -1,10 +1,6 @@
 import { MongoClient, Db, Collection, ObjectId, ServerApiVersion } from 'mongodb';
 import dns from 'dns';
 
-try {
-  dns.setServers(['8.8.8.8', '1.1.1.1']);
-} catch {}
-
 export interface CategoryDoc {
   _id?: ObjectId;
   name: string;
@@ -68,29 +64,24 @@ declare global {
 }
 
 export async function getMongoClient(): Promise<MongoClient> {
-  try {
-    dns.setServers(['8.8.8.8', '1.1.1.1']);
-  } catch {}
+  if (process.env.NODE_ENV === 'development') {
+    try {
+      dns.setServers(['8.8.8.8', '1.1.1.1']);
+    } catch {}
+  }
 
   const currentUri = process.env.MONGODB_URI || uri;
 
-  if (process.env.NODE_ENV === 'development') {
-    if (!global._mongoClientPromise) {
-      client = new MongoClient(currentUri, {
-        serverApi: { version: ServerApiVersion.v1, strict: false, deprecationErrors: true },
-      });
-      global._mongoClientPromise = client.connect();
-    }
-    return global._mongoClientPromise;
-  } else {
-    if (!clientPromise) {
-      client = new MongoClient(currentUri, {
-        serverApi: { version: ServerApiVersion.v1, strict: false, deprecationErrors: true },
-      });
-      clientPromise = client.connect();
-    }
-    return clientPromise;
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(currentUri, {
+      serverApi: { version: ServerApiVersion.v1, strict: false, deprecationErrors: true },
+      maxPoolSize: 10,
+      minPoolSize: 1,
+      connectTimeoutMS: 5000,
+    });
+    global._mongoClientPromise = client.connect();
   }
+  return global._mongoClientPromise;
 }
 
 export async function connectDB(): Promise<Db> {

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles, Clock, ArrowRight, Tag, Calendar, User, Phone, CheckCircle2 } from 'lucide-react';
 import { TiltCard } from '@/components/interactive/TiltCard';
@@ -19,6 +20,7 @@ const categories = [
 ];
 
 export function BlogGridClient() {
+  const router = useRouter();
   const { openBookModal } = useModal();
   const [selectedCategory, setSelectedCategory] = useState('All Articles');
 
@@ -45,13 +47,19 @@ export function BlogGridClient() {
           </div>
 
           <TiltCard className="w-full">
-            <div className="p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 hover:border-[#E85D04]/60 shadow-2xl shadow-slate-900/10 dark:shadow-[#E85D04]/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden group">
+            <div
+              onClick={() => {
+                smoothScrollToTop(750);
+                router.push(`/blog/${featuredPost.slug}`);
+              }}
+              className="p-6 sm:p-8 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border border-slate-200/80 dark:border-slate-800/80 hover:border-[#E85D04]/60 shadow-2xl shadow-slate-900/10 dark:shadow-[#E85D04]/10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden group cursor-pointer"
+            >
               <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90 rounded-t-3xl" />
               <div className="absolute top-0 right-0 w-80 h-80 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
               <motion.div
                 whileHover={{ scale: 1.02 }}
-                className="lg:col-span-6 h-64 sm:h-80 lg:h-[340px] rounded-2xl overflow-hidden relative group/img cursor-pointer"
+                className="lg:col-span-6 h-64 sm:h-80 lg:h-[340px] rounded-2xl overflow-hidden relative group/img"
               >
                 <img
                   src={featuredPost.coverImage}
@@ -97,14 +105,10 @@ export function BlogGridClient() {
                     </div>
                   </div>
 
-                  <Link
-                    href={`/blog/${featuredPost.slug}`}
-                    onClick={() => smoothScrollToTop(750)}
-                    className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#E85D04] to-[#f06810] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all hover:scale-105 active:scale-95"
-                  >
+                  <div className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#E85D04] to-[#f06810] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-[#E85D04]/30 transition-all hover:scale-105 active:scale-95">
                     <span>Read Master Guide</span>
                     <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -176,7 +180,13 @@ export function BlogGridClient() {
                 transition={{ duration: 0.5, delay: idx * 0.08 }}
               >
                 <TiltCard className="h-full">
-                  <article className="group relative rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 hover:border-[#E85D04]/60 shadow-lg hover:shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300 h-full">
+                  <article
+                    onClick={() => {
+                      smoothScrollToTop(750);
+                      router.push(`/blog/${post.slug}`);
+                    }}
+                    className="group relative rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 hover:border-[#E85D04]/60 shadow-lg hover:shadow-2xl flex flex-col justify-between overflow-hidden transition-all duration-300 h-full cursor-pointer"
+                  >
                     <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-20" />
 
                     <div className="h-52 w-full relative overflow-hidden bg-slate-200 dark:bg-slate-800">
@@ -216,14 +226,10 @@ export function BlogGridClient() {
                           </span>
                         </div>
 
-                        <Link
-                          href={`/blog/${post.slug}`}
-                          onClick={() => smoothScrollToTop(750)}
-                          className="text-xs font-manrope font-extrabold text-[#E85D04] hover:text-[#d05203] flex items-center gap-1 group/link"
-                        >
+                        <div className="text-xs font-manrope font-extrabold text-[#E85D04] group-hover:text-[#d05203] flex items-center gap-1 group/link">
                           <span>Read Article</span>
                           <ArrowRight className="w-3.5 h-3.5 text-[#E85D04] group-hover/link:translate-x-1 transition-transform" />
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   </article>

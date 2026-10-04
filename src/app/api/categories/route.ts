@@ -14,10 +14,17 @@ export async function GET(request: Request) {
       .sort({ name: 1 })
       .toArray();
 
-    return NextResponse.json({
-      success: true,
-      data: categories,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: categories,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      }
+    );
   } catch (error: unknown) {
     const errMessage = error instanceof Error ? error.message : 'Failed to fetch categories';
     console.error('GET /api/categories error:', error);

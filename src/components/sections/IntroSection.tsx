@@ -113,6 +113,7 @@ export function IntroSection() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.15 + idx * 0.08 }}
                     whileHover={{ y: -4 }}
+                    onClick={() => { window.location.href = '/services'; }}
                     className="group p-4 rounded-2xl bg-white dark:bg-stone-950 border border-stone-200/90 dark:border-stone-800 hover:border-[#E85D04] shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between space-y-3 cursor-pointer relative overflow-hidden"
                   >
                     {/* Hover Top Accent Bar */}

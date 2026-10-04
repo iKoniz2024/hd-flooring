@@ -367,14 +367,24 @@ export default function AdminPage() {
         setCategoryNameInput('');
         setCategoryImageFile(null);
         setCategoryImagePreview('');
+        
+        // Optimistic state update for instant UI feedback
+        if (isEdit && editingCategory) {
+          setCategories((prev) =>
+            prev.map((cat) => (cat._id === editingCategory._id ? { ...cat, name: categoryNameInput.trim(), image: finalCategoryImageUrl } : cat))
+          );
+        } else if (data.data) {
+          setCategories((prev) => [data.data, ...prev]);
+        }
+        
         fetchCategories();
         fetchProducts();
       } else {
         showFeedback(data.error || 'Failed to save category', 'error');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Category submit error:', error);
-      showFeedback('An error occurred while saving category', 'error');
+      showFeedback(error?.message || 'An error occurred while saving category', 'error');
     } finally {
       setSubmittingCategory(false);
     }
@@ -493,50 +503,50 @@ export default function AdminPage() {
     try {
       let finalMainImageUrl = productImagePreview;
 
-      // 1. Upload Main Image if changed
-      if (productImageFile) {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', productImageFile);
+      // 1. Prepare main image upload promise if file provided
+      const mainImagePromise = productImageFile
+        ? (async () => {
+            const uploadFormData = new FormData();
+            uploadFormData.append('file', productImageFile);
+            const uploadRes = await fetch('/api/upload', {
+              method: 'POST',
+              body: uploadFormData,
+            });
+            const uploadData = await uploadRes.json();
+            if (!uploadData.success) {
+              throw new Error(uploadData.error || 'Failed to upload main image.');
+            }
+            return uploadData.url;
+          })()
+        : Promise.resolve(productImagePreview);
 
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
+      // 2. Prepare additional images upload promises
+      const retainedAdditionalImages = productAdditionalPreviews.filter(
+        (p) => !p.startsWith('blob:')
+      );
 
-        const uploadData = await uploadRes.json();
-        if (!uploadData.success) {
-          showFeedback(uploadData.error || 'Failed to upload main image.', 'error');
-          setSubmittingProduct(false);
-          return;
-        }
-        finalMainImageUrl = uploadData.url;
-      }
-
-      // 2. Upload Additional Images
-      const finalAdditionalImages: string[] = [];
-
-      // Retain existing uploaded URLs (that don't start with blob:)
-      for (const preview of productAdditionalPreviews) {
-        if (!preview.startsWith('blob:')) {
-          finalAdditionalImages.push(preview);
-        }
-      }
-
-      // Upload newly added File objects
-      for (const file of productAdditionalFiles) {
+      const additionalUploadPromises = productAdditionalFiles.map(async (file) => {
         const uploadFormData = new FormData();
         uploadFormData.append('file', file);
-
         const uploadRes = await fetch('/api/upload', {
           method: 'POST',
           body: uploadFormData,
         });
-
         const uploadData = await uploadRes.json();
-        if (uploadData.success && uploadData.url) {
-          finalAdditionalImages.push(uploadData.url);
-        }
-      }
+        return uploadData.success && uploadData.url ? uploadData.url : null;
+      });
+
+      // Execute main image and additional image uploads concurrently in parallel
+      const [mainUrl, newAdditionalUrls] = await Promise.all([
+        mainImagePromise,
+        Promise.all(additionalUploadPromises),
+      ]);
+
+      finalMainImageUrl = mainUrl;
+      const finalAdditionalImages = [
+        ...retainedAdditionalImages,
+        ...newAdditionalUrls.filter((u): u is string => Boolean(u)),
+      ];
 
       const isEdit = productModalMode === 'edit' && editingProduct;
       const url = isEdit ? `/api/products/${editingProduct._id}` : '/api/products';
@@ -566,9 +576,9 @@ export default function AdminPage() {
       } else {
         showFeedback(data.error || 'Failed to save product.', 'error');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Product submit error:', error);
-      showFeedback('An error occurred while saving product.', 'error');
+      showFeedback(error?.message || 'An error occurred while saving product.', 'error');
     } finally {
       setSubmittingProduct(false);
     }
@@ -673,50 +683,53 @@ export default function AdminPage() {
     setSubmittingProject(true);
 
     try {
-      let finalImageUrl = projectImagePreview;
+      // 1. Prepare cover image upload promise if file provided
+      const coverImagePromise = projectImageFile
+        ? (async () => {
+            const uploadFormData = new FormData();
+            uploadFormData.append('file', projectImageFile);
+            const uploadRes = await fetch('/api/upload', {
+              method: 'POST',
+              body: uploadFormData,
+            });
+            const uploadData = await uploadRes.json();
+            if (!uploadData.success) {
+              throw new Error(uploadData.error || 'Failed to upload cover image.');
+            }
+            return uploadData.url;
+          })()
+        : Promise.resolve(projectImagePreview);
 
-      if (projectImageFile) {
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', projectImageFile);
+      // 2. Prepare additional images upload promises
+      const retainedAdditionalImageUrls = projectAdditionalPreviews.filter(
+        (url) => !url.startsWith('blob:')
+      );
 
-        const uploadRes = await fetch('/api/upload', {
-          method: 'POST',
-          body: uploadFormData,
-        });
-
-        const uploadData = await uploadRes.json();
-        if (!uploadData.success) {
-          showFeedback(uploadData.error || 'Failed to upload project image.', 'error');
-          setSubmittingProject(false);
-          return;
-        }
-        finalImageUrl = uploadData.url;
-      }
-
-      // Upload additional gallery images if selected
-      const finalAdditionalImageUrls: string[] = [];
-      for (const previewUrl of projectAdditionalPreviews) {
-        if (!previewUrl.startsWith('blob:')) {
-          finalAdditionalImageUrls.push(previewUrl);
-        }
-      }
-
-      for (const addFile of projectAdditionalFiles) {
+      const additionalUploadPromises = projectAdditionalFiles.map(async (addFile) => {
         const uploadFormData = new FormData();
         uploadFormData.append('file', addFile);
-
         const uploadRes = await fetch('/api/upload', {
           method: 'POST',
           body: uploadFormData,
         });
-
         const uploadData = await uploadRes.json();
-        if (uploadData.success && uploadData.url) {
-          finalAdditionalImageUrls.push(uploadData.url);
-        }
-      }
+        return uploadData.success && uploadData.url ? uploadData.url : null;
+      });
 
-      const allGalleryImages = Array.from(new Set([finalImageUrl, ...finalAdditionalImageUrls]));
+      // Execute all file uploads concurrently in parallel
+      const [finalImageUrl, newAdditionalUrls] = await Promise.all([
+        coverImagePromise,
+        Promise.all(additionalUploadPromises),
+      ]);
+
+      const finalAdditionalImageUrls = [
+        ...retainedAdditionalImageUrls,
+        ...newAdditionalUrls.filter((u): u is string => Boolean(u)),
+      ];
+
+      const allGalleryImages = Array.from(
+        new Set([finalImageUrl, ...finalAdditionalImageUrls].filter(Boolean))
+      );
 
       const isEdit = projectModalMode === 'edit' && editingProject;
       const url = isEdit ? `/api/projects/${editingProject._id}` : '/api/projects';
@@ -743,15 +756,18 @@ export default function AdminPage() {
       const data = await res.json();
 
       if (data.success) {
-        showFeedback(data.message || (isEdit ? 'Project updated successfully.' : 'Project added successfully.'), 'success');
+        showFeedback(
+          data.message || (isEdit ? 'Project updated successfully.' : 'Project added successfully.'),
+          'success'
+        );
         setIsProjectModalOpen(false);
         fetchProjects();
       } else {
         showFeedback(data.error || 'Failed to save project.', 'error');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Project submit error:', error);
-      showFeedback('An error occurred while saving project.', 'error');
+      showFeedback(error?.message || 'An error occurred while saving project.', 'error');
     } finally {
       setSubmittingProject(false);
     }
@@ -762,32 +778,49 @@ export default function AdminPage() {
     if (!deleteModalState.id) return;
     setDeletingItem(true);
 
+    const deleteId = deleteModalState.id;
+    const deleteType = deleteModalState.type;
+
     try {
-      const endpoint = deleteModalState.type === 'category'
-        ? `/api/categories/${deleteModalState.id}`
-        : deleteModalState.type === 'project'
-        ? `/api/projects/${deleteModalState.id}`
-        : `/api/products/${deleteModalState.id}`;
+      const endpoint = deleteType === 'category'
+        ? `/api/categories/${deleteId}`
+        : deleteType === 'project'
+        ? `/api/projects/${deleteId}`
+        : `/api/products/${deleteId}`;
+
+      // Optimistic UI update: Remove item instantly from UI
+      if (deleteType === 'category') {
+        setCategories((prev) => prev.filter((c) => c._id !== deleteId));
+      } else if (deleteType === 'project') {
+        setProjects((prev) => prev.filter((p) => p._id !== deleteId));
+      } else {
+        setProducts((prev) => prev.filter((p) => p._id !== deleteId));
+      }
+
+      setDeleteModalState({ isOpen: false, type: 'product', id: '', title: '' });
 
       const res = await fetch(endpoint, { method: 'DELETE' });
       const data = await res.json();
 
       if (data.success) {
         showFeedback(
-          data.message || `${deleteModalState.type.charAt(0).toUpperCase() + deleteModalState.type.slice(1)} deleted successfully.`,
+          data.message || `${deleteType.charAt(0).toUpperCase() + deleteType.slice(1)} deleted successfully.`,
           'success'
         );
-        setDeleteModalState({ isOpen: false, type: 'product', id: '', title: '' });
-        if (deleteModalState.type === 'category') {
+        if (deleteType === 'category') {
           fetchCategories();
           fetchProducts();
-        } else if (deleteModalState.type === 'project') {
+        } else if (deleteType === 'project') {
           fetchProjects();
         } else {
           fetchProducts();
         }
       } else {
         showFeedback(data.error || 'Failed to delete item.', 'error');
+        // Re-fetch to restore state if delete failed on server
+        if (deleteType === 'category') fetchCategories();
+        else if (deleteType === 'project') fetchProjects();
+        else fetchProducts();
       }
     } catch (error) {
       console.error('Delete error:', error);
@@ -803,10 +836,7 @@ export default function AdminPage() {
   );
 
   const filteredProducts = products.filter((p) => {
-    const matchesSearch =
-      p.title.toLowerCase().includes(productSearch.toLowerCase()) ||
-      p.description.toLowerCase().includes(productSearch.toLowerCase()) ||
-      (p.categoryName && p.categoryName.toLowerCase().includes(productSearch.toLowerCase()));
+    const matchesSearch = p.title.toLowerCase().includes(productSearch.toLowerCase());
 
     const matchesCategory =
       selectedCategoryFilter === 'all' || p.category === selectedCategoryFilter;
@@ -1090,7 +1120,7 @@ export default function AdminPage() {
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
-                  placeholder="Search products by title, description, or category..."
+                  placeholder="Search products by title..."
                   value={productSearch}
                   onChange={(e) => setProductSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] transition-all"
@@ -1363,7 +1393,7 @@ export default function AdminPage() {
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
-                  placeholder="Search projects by title, location, or category..."
+                  placeholder="Search projects by title..."
                   value={projectSearch}
                   onChange={(e) => setProjectSearch(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] transition-all"
@@ -1378,9 +1408,7 @@ export default function AdminPage() {
                 <p className="text-sm text-stone-500">Loading project gallery from database...</p>
               </div>
             ) : projects.filter((p) =>
-                p.title.toLowerCase().includes(projectSearch.toLowerCase()) ||
-                p.location.toLowerCase().includes(projectSearch.toLowerCase()) ||
-                p.category.toLowerCase().includes(projectSearch.toLowerCase())
+                p.title.toLowerCase().includes(projectSearch.toLowerCase())
               ).length === 0 ? (
               <div className="py-16 text-center bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 space-y-4">
                 <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-100 dark:bg-stone-800 flex items-center justify-center text-[#E85D04]">
@@ -1407,9 +1435,7 @@ export default function AdminPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {projects
                   .filter((p) =>
-                    p.title.toLowerCase().includes(projectSearch.toLowerCase()) ||
-                    p.location.toLowerCase().includes(projectSearch.toLowerCase()) ||
-                    p.category.toLowerCase().includes(projectSearch.toLowerCase())
+                    p.title.toLowerCase().includes(projectSearch.toLowerCase())
                   )
                   .map((project) => (
                     <div

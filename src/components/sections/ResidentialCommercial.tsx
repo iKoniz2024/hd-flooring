@@ -65,7 +65,8 @@ export function ResidentialCommercial() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="p-6 rounded-2xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800 hover:border-[#E85D04] shadow-md space-y-4 group transition-all duration-300 relative"
+            onClick={() => openBookModal('Residential Flooring')}
+            className="p-6 rounded-2xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800 hover:border-[#E85D04] shadow-md space-y-4 group transition-all duration-300 relative cursor-pointer"
           >
             <div className="flex items-center justify-between">
               <div className="w-10 h-10 rounded-xl bg-[#E85D04] text-white flex items-center justify-center font-bold shadow-md shadow-[#E85D04]/30">
@@ -87,8 +88,11 @@ export function ResidentialCommercial() {
 
             <div className="pt-2 flex items-center justify-between border-t border-stone-100 dark:border-stone-800">
               <button
-                onClick={() => openBookModal('Residential Flooring')}
-                className="py-2.5 px-5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md shadow-[#E85D04]/20 hover:scale-105"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openBookModal('Residential Flooring');
+                }}
+                className="py-2.5 px-5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md shadow-[#E85D04]/20 hover:scale-105 cursor-pointer"
               >
                 <ShieldCheck className="w-4 h-4" />
                 Book Home Measure
@@ -102,7 +106,8 @@ export function ResidentialCommercial() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="p-6 rounded-2xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800 hover:border-[#E85D04] shadow-md space-y-4 group transition-all duration-300 relative"
+            onClick={() => openBookModal('Commercial Flooring')}
+            className="p-6 rounded-2xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-xl border border-stone-200/90 dark:border-stone-800 hover:border-[#E85D04] shadow-md space-y-4 group transition-all duration-300 relative cursor-pointer"
           >
             <div className="flex items-center justify-between">
               <div className="w-10 h-10 rounded-xl bg-[#E85D04] text-white flex items-center justify-center font-bold shadow-md shadow-[#E85D04]/30">
@@ -135,8 +140,11 @@ export function ResidentialCommercial() {
 
             <div className="pt-2 flex items-center justify-between border-t border-stone-100 dark:border-stone-800">
               <button
-                onClick={() => openBookModal('Commercial Flooring')}
-                className="py-2.5 px-5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md shadow-[#E85D04]/20 hover:scale-105"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  openBookModal('Commercial Flooring');
+                }}
+                className="py-2.5 px-5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-extrabold text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-md shadow-[#E85D04]/20 hover:scale-105 cursor-pointer"
               >
                 <ShieldCheck className="w-4 h-4" />
                 Book Commercial Measure

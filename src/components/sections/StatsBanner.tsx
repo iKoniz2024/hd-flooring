@@ -1,8 +1,10 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { AnimatedCounter } from '@/components/animations/AnimatedCounter';
 import { Award, ShieldCheck, ThumbsUp, Calendar, CheckCircle, Sparkles } from 'lucide-react';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 
 const qualityProgress = [
   { name: 'Subfloor Leveling Precision', value: 99.8 },
@@ -12,6 +14,28 @@ const qualityProgress = [
 ];
 
 export function StatsBanner() {
+  const [projectCount, setProjectCount] = useState<number>(0);
+
+  useEffect(() => {
+    let isMounted = true;
+    const fetchDynamicProjectCount = async () => {
+      try {
+        const data = await fetchWithCache('/api/projects');
+        if (isMounted && data.success && Array.isArray(data.data)) {
+          const dbProjectsCount = data.data.length;
+          setProjectCount(dbProjectsCount);
+        }
+      } catch (err) {
+        console.error('Failed to fetch dynamic projects count for StatsBanner:', err);
+      }
+    };
+
+    fetchDynamicProjectCount();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <section className="py-20 bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 border-y border-stone-200 dark:border-stone-800 font-inter relative overflow-hidden">
       {/* Brand Ambient Glows */}
@@ -33,7 +57,7 @@ export function StatsBanner() {
               <Award className="w-6 h-6" />
             </div>
             <div className="text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">
-              <AnimatedCounter to={500} suffix="+" />
+              <AnimatedCounter key={projectCount} to={projectCount} suffix="+" />
             </div>
             <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 font-semibold">
               Flooring Projects Installed

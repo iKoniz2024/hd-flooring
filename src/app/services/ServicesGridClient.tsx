@@ -2,10 +2,12 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { ArrowRight, Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck, Loader2 } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 import { TiltCard } from '@/components/interactive/TiltCard';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 
 const serviceIcons = [Layers, Hammer, Footprints, Grid, Maximize2, Shield, Flame, Paintbrush, ShieldCheck];
 
@@ -38,6 +40,7 @@ const getServiceVariant = (idx: number) => {
 };
 
 export function ServicesGridClient() {
+  const router = useRouter();
   const { openBookModal } = useModal();
   const [services, setServices] = useState<DynamicCategoryService[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,8 +49,7 @@ export function ServicesGridClient() {
     let isMounted = true;
     const fetchActiveCategories = async () => {
       try {
-        const res = await fetch('/api/categories');
-        const data = await res.json();
+        const data = await fetchWithCache('/api/categories');
         if (isMounted && data.success && Array.isArray(data.data)) {
           const formatted = data.data.map((cat: { _id?: string; name: string; image?: string; description?: string }) => {
             const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
@@ -119,7 +121,10 @@ export function ServicesGridClient() {
             transition={{ duration: 0.6, delay: 0.05 }}
           >
             <TiltCard>
-              <div className="p-7 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 h-full cursor-pointer relative space-y-4">
+              <div 
+                onClick={() => router.push(`/services/${service.slug}`)}
+                className="p-7 rounded-3xl bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 h-full cursor-pointer relative space-y-4"
+              >
                 {/* Top Accent Line */}
                 <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500 absolute top-0 left-0 rounded-t-3xl`} />
 
@@ -166,20 +171,20 @@ export function ServicesGridClient() {
                 {/* Footer Actions */}
                 <div className="pt-4 flex items-center justify-between gap-2.5 border-t border-slate-100 dark:border-slate-800/80 font-manrope">
                   <button
-                    onClick={() => openBookModal(service.title)}
-                    className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openBookModal(service.title);
+                    }}
+                    className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md cursor-pointer`}
                   >
                     <ShieldCheck className="w-3.5 h-3.5" />
                     Request Quote
                   </button>
 
-                  <Link
-                    href={`/services/${service.slug}`}
-                    className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#E85D04] flex items-center gap-1 group/link shrink-0"
-                  >
+                  <div className="text-xs font-semibold text-slate-700 dark:text-slate-300 hover:text-[#E85D04] flex items-center gap-1 group/link shrink-0">
                     Details
                     <ArrowRight className="w-3.5 h-3.5 group-hover/link:translate-x-1 transition-transform text-[#E85D04]" />
-                  </Link>
+                  </div>
                 </div>
               </div>
             </TiltCard>

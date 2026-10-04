@@ -14,10 +14,8 @@ export function HeroSearch() {
     e.preventDefault();
     if (!query.trim()) return;
 
-    const match = servicesData.find(
-      (s) =>
-        s.title.toLowerCase().includes(query.toLowerCase()) ||
-        s.slug.toLowerCase().includes(query.toLowerCase())
+    const match = servicesData.find((s) =>
+      s.title.toLowerCase().includes(query.toLowerCase())
     );
 
     if (match) {

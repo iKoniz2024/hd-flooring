@@ -3,13 +3,16 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Sparkles, CheckCircle, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
 import { servicesData, ServiceItem } from '@/data/services';
 import { TiltCard } from '@/components/interactive/TiltCard';
 import { useModal } from '@/lib/context/ModalContext';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 
 export function ServicesGrid() {
+  const router = useRouter();
   const [showAll, setShowAll] = useState(false);
   const [services, setServices] = useState<ServiceItem[]>(servicesData);
   const { openBookModal } = useModal();
@@ -18,13 +21,10 @@ export function ServicesGrid() {
     let isMounted = true;
     const fetchDynamicData = async () => {
       try {
-        const [catRes, prodRes] = await Promise.all([
-          fetch('/api/categories'),
-          fetch('/api/products'),
+        const [catData, prodData] = await Promise.all([
+          fetchWithCache('/api/categories'),
+          fetchWithCache('/api/products'),
         ]);
-
-        const catData = await catRes.json();
-        const prodData = await prodRes.json();
 
         const categories = catData.success && Array.isArray(catData.data) ? catData.data : [];
         const products = prodData.success && Array.isArray(prodData.data) ? prodData.data : [];
@@ -161,7 +161,10 @@ export function ServicesGrid() {
                 transition={{ duration: 0.6, delay: (idx % 3) * 0.1, type: 'spring', stiffness: 120 }}
               >
                 <TiltCard>
-                  <div className={`h-full rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 relative cursor-pointer`}>
+                  <div 
+                    onClick={() => router.push(`/services/${service.slug}`)}
+                    className={`h-full rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.hoverBorder} shadow-xl hover:shadow-2xl overflow-hidden flex flex-col justify-between group transition-all duration-500 ease-out hover:-translate-y-2 relative cursor-pointer`}
+                  >
                     {/* Top Brand Accent Line */}
                     <div className={`h-1.5 w-0 group-hover:w-full ${color.topBar} transition-all duration-500`} />
 
@@ -218,20 +221,22 @@ export function ServicesGrid() {
                       {/* Action Bar */}
                       <div className="pt-4 flex items-center justify-between gap-3 border-t border-stone-100 dark:border-stone-800/80">
                         <button
-                          onClick={() => openBookModal(service.title)}
-                          className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openBookModal(service.title);
+                          }}
+                          className={`px-4 py-2 rounded-xl ${color.btnBg} font-bold text-xs uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer`}
                         >
                           <ShieldCheck className="w-3.5 h-3.5" />
                           Book Us
                         </button>
 
-                        <Link
-                          href={`/services/${service.slug}`}
+                        <div
                           className={`w-9 h-9 rounded-xl ${color.arrowBg} flex items-center justify-center font-extrabold shadow-md group-hover:scale-110 transition-all duration-300`}
                           title="Explore Service"
                         >
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-                        </Link>
+                        </div>
                       </div>
                     </div>
                   </div>

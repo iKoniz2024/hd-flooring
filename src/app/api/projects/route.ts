@@ -9,10 +9,17 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .toArray();
 
-    return NextResponse.json({
-      success: true,
-      data: projects,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: projects,
+      },
+      {
+        headers: {
+          'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        },
+      }
+    );
   } catch (error: unknown) {
     const errMessage = error instanceof Error ? error.message : 'Failed to fetch project gallery items';
     console.error('GET /api/projects error:', error);

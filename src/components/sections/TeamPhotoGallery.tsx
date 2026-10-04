@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Camera, Maximize2, X, Users, MapPin, HardHat, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
+import { fetchWithCache } from '@/lib/utils/apiCache';
 
 interface TeamPhoto {
   id: string;
@@ -75,8 +76,35 @@ const teamPhotos: TeamPhoto[] = [
 export function TeamPhotoGallery() {
   const [selectedPhoto, setSelectedPhoto] = useState<TeamPhoto | null>(null);
   const [showAll, setShowAll] = useState(false);
+  const [photos, setPhotos] = useState<TeamPhoto[]>(teamPhotos);
 
-  const displayedPhotos = showAll ? teamPhotos : teamPhotos.slice(0, 4);
+  useEffect(() => {
+    let isMounted = true;
+    const fetchDynamicProjects = async () => {
+      try {
+        const data = await fetchWithCache('/api/projects');
+        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
+          const dynamicPhotos: TeamPhoto[] = data.data.map((item: any, idx: number) => ({
+            id: item._id || `proj-${idx}`,
+            src: item.coverImage || teamPhotos[idx % teamPhotos.length].src,
+            title: item.title,
+            subtitle: item.location ? `${item.location} • ${item.propertyType || 'On-Site Work'}` : (item.challenge || 'Expert installation by HD Flooring specialists'),
+            badge: item.category || 'On-Site Specialist',
+          }));
+          setPhotos(dynamicPhotos);
+        }
+      } catch (err) {
+        console.error('Failed to fetch dynamic projects for team gallery:', err);
+      }
+    };
+
+    fetchDynamicProjects();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const displayedPhotos = showAll ? photos : photos.slice(0, 4);
 
   return (
     <section className="space-y-8 font-inter">
@@ -145,7 +173,7 @@ export function TeamPhotoGallery() {
       </motion.div>
 
       {/* Show More / Show Less Toggle Button */}
-      {teamPhotos.length > 4 && (
+      {photos.length > 4 && (
         <div className="text-center pt-4">
           <button
             onClick={() => setShowAll((prev) => !prev)}

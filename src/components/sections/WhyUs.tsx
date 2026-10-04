@@ -149,7 +149,10 @@ export function WhyUs() {
                   onMouseEnter={() => setActiveIdx(idx)}
                 >
                   <TiltCard>
-                    <div className={`h-full p-6 sm:p-7 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.border} ${isHovered ? 'ring-2 ring-[#E85D04]/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl transition-all duration-500 space-y-3 group relative overflow-hidden cursor-pointer`}>
+                    <div 
+                      onClick={() => { window.location.href = '/about-us'; }}
+                      className={`h-full p-6 sm:p-7 rounded-3xl bg-white/80 dark:bg-stone-900/80 backdrop-blur-xl hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 ${color.border} ${isHovered ? 'ring-2 ring-[#E85D04]/50 shadow-2xl -translate-y-1.5' : ''} shadow-xl transition-all duration-500 space-y-3 group relative overflow-hidden cursor-pointer`}
+                    >
 
                       {/* Hover Photo Preview Background Overlay */}
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none -z-0">

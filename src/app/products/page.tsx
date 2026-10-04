@@ -16,7 +16,8 @@ import {
   PhoneCall,
   ShoppingBag,
   ArrowRight,
-  Filter
+  Filter,
+  MessageCircle
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -90,11 +91,7 @@ export default function ProductsPage() {
     .filter((product) => {
       const matchesCategory =
         selectedCategory === 'all' || product.category === selectedCategory;
-      const matchesSearch =
-        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (product.categoryName &&
-          product.categoryName.toLowerCase().includes(searchQuery.toLowerCase()));
+      const matchesSearch = product.title.toLowerCase().includes(searchQuery.toLowerCase());
 
       return matchesCategory && matchesSearch;
     })
@@ -115,7 +112,7 @@ export default function ProductsPage() {
           badge="Flooring Catalog & Materials"
           title="Explore Our Premium Flooring Products"
           subtitle="Browse our wide selection of commercial and residential flooring materials including Hardwood, Luxury Vinyl, Laminate, Carpet, and Specialty Tiles."
-          backgroundImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=2400&q=90"
+          backgroundImage="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=75&fm=webp"
         />
 
         <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 w-full">
@@ -127,7 +124,7 @@ export default function ProductsPage() {
                 <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" />
                 <input
                   type="text"
-                  placeholder="Search flooring materials by title, style or keyword..."
+                  placeholder="Search flooring materials by title..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-3 text-sm bg-stone-100/70 dark:bg-stone-800/70 border border-stone-200 dark:border-stone-700 rounded-2xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
@@ -238,13 +235,11 @@ export default function ProductsPage() {
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/40 transition-all duration-300 flex flex-col justify-between group"
+                  onClick={() => setActiveModalProduct(product)}
+                  className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/40 transition-all duration-300 flex flex-col justify-between group cursor-pointer"
                 >
                   {/* Top Image Container */}
-                  <div
-                    onClick={() => setActiveModalProduct(product)}
-                    className="relative h-60 w-full bg-stone-100 dark:bg-stone-800 overflow-hidden block cursor-pointer"
-                  >
+                  <div className="relative h-60 w-full bg-stone-100 dark:bg-stone-800 overflow-hidden block">
                     <Image
                       src={product.image}
                       alt={product.title}
@@ -265,30 +260,24 @@ export default function ProductsPage() {
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
+                  <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                     <div>
-                      <h3
-                        onClick={() => setActiveModalProduct(product)}
-                        className="text-lg font-bold text-stone-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1 cursor-pointer"
-                      >
+                      <h3 className="text-base font-bold text-stone-900 dark:text-white group-hover:text-[#E85D04] transition-colors line-clamp-1">
                         {product.title}
                       </h3>
-                      <p className="text-xs text-stone-600 dark:text-stone-400 mt-2 line-clamp-3 leading-relaxed">
-                        {product.description}
-                      </p>
                     </div>
 
                     {/* Bottom CTA Row */}
-                    <div className="pt-4 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between gap-2">
-                      <button
-                        onClick={() => setActiveModalProduct(product)}
-                        className="text-xs font-bold text-[#E85D04] hover:underline cursor-pointer"
-                      >
+                    <div className="pt-3 border-t border-stone-100 dark:border-stone-800/80 flex items-center justify-between gap-2">
+                      <span className="text-xs font-bold text-[#E85D04] group-hover:underline">
                         View Details →
-                      </button>
+                      </span>
 
                       <button
-                        onClick={() => openBookModal(product.title)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          openBookModal(product.title);
+                        }}
                         className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-md shadow-[#E85D04]/20 transition-all cursor-pointer"
                       >
                         <span>Get Quote</span>
@@ -406,6 +395,18 @@ export default function ProductsPage() {
                       >
                         <span>Request Free Estimate for this Product</span>
                       </button>
+
+                      <a
+                        href={`https://wa.me/13068808404?text=${encodeURIComponent(
+                          `Hi HD Flooring, I am interested in getting a quote for product: "${activeModalProduct.title}" ($${activeModalProduct.price.toFixed(2)}/sq.ft).`
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-extrabold uppercase tracking-wider shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
+                      >
+                        <MessageCircle className="w-4 h-4 fill-white stroke-none" />
+                        <span>Chat Directly on WhatsApp</span>
+                      </a>
                     </div>
                   </div>
                 </div>

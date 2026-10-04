@@ -89,13 +89,7 @@ export default function ProjectsPage() {
         p.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
 
       const q = searchQuery.toLowerCase().trim();
-      const matchesSearch =
-        !q ||
-        p.title.toLowerCase().includes(q) ||
-        p.location.toLowerCase().includes(q) ||
-        p.category.toLowerCase().includes(q) ||
-        (p.challenge && p.challenge.toLowerCase().includes(q)) ||
-        (p.solution && p.solution.toLowerCase().includes(q));
+      const matchesSearch = !q || p.title.toLowerCase().includes(q);
 
       return matchesCategory && matchesSearch;
     });
@@ -113,7 +107,7 @@ export default function ProjectsPage() {
         badge="HD Flooring Workmanship Portfolio"
         title="Our Flooring Project Gallery"
         subtitle="Explore real on-site flooring installations, sheet vinyl flash coving, hardwood laying, and subfloor preparation executed by HD Flooring craftsmen."
-        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=2400&q=90"
+        backgroundImage="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=75&fm=webp"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'Project Gallery' },
@@ -156,7 +150,7 @@ export default function ProjectsPage() {
                 <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
                   type="text"
-                  placeholder="Search by project title, location (e.g. Saskatoon), category..."
+                  placeholder="Search by project title..."
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -331,12 +325,8 @@ export default function ProjectsPage() {
                   </div>
 
                   {/* Card Bottom Details */}
-                  <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
-                    <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed font-inter">
-                      {proj.challenge || proj.solution || `Professional ${proj.category} installation completed with precision craftsman finish.`}
-                    </p>
-
-                    <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                    <div className="pt-1 flex items-center justify-between">
                       <span className="text-xs font-manrope font-extrabold text-[#E85D04] group-hover:underline flex items-center gap-1">
                         <span>View Project Details →</span>
                       </span>
