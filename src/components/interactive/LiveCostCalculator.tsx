@@ -47,8 +47,8 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
   const [selectedProduct, setSelectedProduct] = useState<DbProduct | null>(null);
 
   const [loading, setLoading] = useState<boolean>(true);
-  const [sqft, setSqft] = useState(500);
-  const [includePrep, setIncludePrep] = useState(true);
+  const [sqft, setSqft] = useState(0);
+  const [includePrep, setIncludePrep] = useState(false);
   const [includeRemoval, setIncludeRemoval] = useState(false);
   const { openBookModal } = useModal();
 
@@ -102,7 +102,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
   const totalRate = selectedProduct ? baseRate + prepRate + removalRate : 0;
 
   const exactTotalCost = selectedProduct ? Math.round(sqft * totalRate) : 0;
-  const estimatedDays = sqft < 400 ? '1 Day' : sqft < 1200 ? '1 - 2 Days' : '2 - 4 Days';
+  const estimatedDays = sqft === 0 ? 'N/A' : sqft < 400 ? '1 Day' : sqft < 1200 ? '1 - 2 Days' : '2 - 4 Days';
 
   return (
     <section className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto font-inter relative">
@@ -235,10 +235,10 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                   <div className="flex items-center gap-1.5">
                     <input
                       type="number"
-                      min="100"
+                      min="0"
                       max="5000"
                       value={sqft}
-                      onChange={(e) => setSqft(Math.max(100, Number(e.target.value)))}
+                      onChange={(e) => setSqft(Math.max(0, Number(e.target.value)))}
                       className="w-20 px-2.5 py-1 text-center font-manrope font-extrabold text-sm text-[#E85D04] bg-white dark:bg-slate-900 rounded-lg border border-[#E85D04]/40 outline-none"
                     />
                     <span className="text-xs font-bold text-slate-600 dark:text-slate-300">sq.ft</span>
@@ -249,7 +249,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                 <div className="space-y-1.5">
                   <input
                     type="range"
-                    min="100"
+                    min="0"
                     max="3000"
                     step="25"
                     value={sqft}
@@ -257,7 +257,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                     className="w-full h-2.5 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-[#E85D04]"
                   />
                   <div className="flex justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400">
-                    <span>100 sq.ft</span>
+                    <span>0 sq.ft</span>
                     <span>1,500 sq.ft</span>
                     <span>3,000+ sq.ft</span>
                   </div>
