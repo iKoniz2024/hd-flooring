@@ -97,9 +97,11 @@ body {
   border: 1px solid var(--glass-border);
 }
 
-/* Smooth Scrolling */
-html {
+/* Smooth Scrolling & Stable Layout (Prevents horizontal layout shifting) */
+html, body {
   scroll-behavior: smooth;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 /* Custom Scrollbar matching Red & Blue theme */

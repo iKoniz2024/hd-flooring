@@ -32,7 +32,7 @@ import {
   Building2,
   Sparkles
 } from 'lucide-react';
-import { invalidateApiCache } from '@/lib/utils/apiCache';
+import { invalidateApiCache, updateApiCache } from '@/lib/utils/apiCache';
 
 interface Category {
   _id: string;
@@ -103,6 +103,9 @@ export default function AdminPage() {
   // Feedback banner state
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
 
+  // Global Refreshing state
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
   // Category Modal state
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [categoryModalMode, setCategoryModalMode] = useState<'add' | 'edit'>('add');
@@ -163,65 +166,116 @@ export default function AdminPage() {
     }, 5000);
   };
 
-  // Fetch Categories
-  const fetchCategories = useCallback(async () => {
-    setLoadingCategories(true);
+  // Fetch Categories without triggering loading skeleton if data already exists
+  const fetchCategories = useCallback(async (silent = false) => {
+    if (!silent) {
+      setCategories((prev) => {
+        if (prev.length === 0) setLoadingCategories(true);
+        return prev;
+      });
+    }
     try {
-      const res = await fetch('/api/categories', { cache: 'no-store' });
+      const res = await fetch(`/api/categories?all=true&_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
         setCategories(data.data || []);
-        invalidateApiCache('/api/categories');
-      } else {
+        updateApiCache('/api/categories', data);
+      } else if (!silent) {
         showFeedback(data.error || 'Failed to fetch categories', 'error');
       }
     } catch (error) {
       console.error('Error fetching categories:', error);
-      showFeedback('Database connection or network error fetching categories', 'error');
+      if (!silent) {
+        showFeedback('Database connection or network error fetching categories', 'error');
+      }
     } finally {
       setLoadingCategories(false);
     }
   }, []);
 
-  // Fetch Products
-  const fetchProducts = useCallback(async () => {
-    setLoadingProducts(true);
+  // Fetch Products without triggering loading skeleton if data already exists
+  const fetchProducts = useCallback(async (silent = false) => {
+    if (!silent) {
+      setProducts((prev) => {
+        if (prev.length === 0) setLoadingProducts(true);
+        return prev;
+      });
+    }
     try {
-      const res = await fetch('/api/products', { cache: 'no-store' });
+      const res = await fetch(`/api/products?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
-        setProducts(data.data || []);
-        invalidateApiCache('/api/products');
-      } else {
+        setCategories((currentCats) => {
+          const formatted = (data.data || []).map((prod: Product) => {
+            if (!prod.categoryName || prod.categoryName === 'Uncategorized') {
+              const matched = currentCats.find((c) => c._id === prod.category);
+              if (matched) return { ...prod, categoryName: matched.name };
+            }
+            return prod;
+          });
+          setProducts(formatted);
+          return currentCats;
+        });
+        updateApiCache('/api/products', data);
+      } else if (!silent) {
         showFeedback(data.error || 'Failed to fetch products', 'error');
       }
     } catch (error) {
       console.error('Error fetching products:', error);
-      showFeedback('Database connection or network error fetching products', 'error');
+      if (!silent) {
+        showFeedback('Database connection or network error fetching products', 'error');
+      }
     } finally {
       setLoadingProducts(false);
     }
   }, []);
 
-  // Fetch Projects
-  const fetchProjects = useCallback(async () => {
-    setLoadingProjects(true);
+  // Fetch Projects without triggering loading skeleton if data already exists
+  const fetchProjects = useCallback(async (silent = false) => {
+    if (!silent) {
+      setProjects((prev) => {
+        if (prev.length === 0) setLoadingProjects(true);
+        return prev;
+      });
+    }
     try {
-      const res = await fetch('/api/projects', { cache: 'no-store' });
+      const res = await fetch(`/api/projects?_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+      });
       const data = await res.json();
       if (data.success) {
         setProjects(data.data || []);
-        invalidateApiCache('/api/projects');
-      } else {
+        updateApiCache('/api/projects', data);
+      } else if (!silent) {
         showFeedback(data.error || 'Failed to fetch projects', 'error');
       }
     } catch (error) {
       console.error('Error fetching projects:', error);
-      showFeedback('Database connection or network error fetching projects', 'error');
+      if (!silent) {
+        showFeedback('Database connection or network error fetching projects', 'error');
+      }
     } finally {
       setLoadingProjects(false);
     }
   }, []);
+
+  // Refresh all data silently
+  const handleRefreshAll = useCallback(async () => {
+    setIsRefreshing(true);
+    await Promise.all([
+      fetchCategories(true),
+      fetchProducts(true),
+      fetchProjects(true),
+    ]);
+    setIsRefreshing(false);
+  }, [fetchCategories, fetchProducts, fetchProjects]);
 
   // Initial Auth Check
   useEffect(() => {
@@ -376,6 +430,10 @@ export default function AdminPage() {
     }
 
     setSubmittingCategory(true);
+    const isEdit = categoryModalMode === 'edit' && editingCategory;
+    const previousCategories = [...categories];
+    const previousProducts = [...products];
+
     try {
       const finalCategoryImageUrl = await uploadImageIfNeeded(categoryImageFile || categoryImagePreview);
 
@@ -385,16 +443,33 @@ export default function AdminPage() {
         return;
       }
 
-      const isEdit = categoryModalMode === 'edit' && editingCategory;
+      const trimmedName = categoryNameInput.trim();
+      const trimmedDesc = categoryDescriptionInput.trim();
+
       const url = isEdit ? `/api/categories/${editingCategory._id}` : '/api/categories';
       const method = isEdit ? 'PUT' : 'POST';
+
+      // Instant optimistic local state update for instant UI feedback
+      if (isEdit && editingCategory) {
+        setCategories((prev) =>
+          prev.map((cat) =>
+            cat._id === editingCategory._id
+              ? { ...cat, name: trimmedName, description: trimmedDesc, image: finalCategoryImageUrl }
+              : cat
+          )
+        );
+        // Synchronize product category names in local state instantly!
+        setProducts((prev) =>
+          prev.map((p) => (p.category === editingCategory._id ? { ...p, categoryName: trimmedName } : p))
+        );
+      }
 
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: categoryNameInput.trim(),
-          description: categoryDescriptionInput.trim(),
+          name: trimmedName,
+          description: trimmedDesc,
           image: finalCategoryImageUrl,
         }),
       });
@@ -407,23 +482,33 @@ export default function AdminPage() {
         setCategoryNameInput('');
         setCategoryDescriptionInput('');
         setCategoryImageFile(null);
+        setCategoryModalMode('add');
         setCategoryImagePreview('');
-        
-        // Optimistic state update for instant UI feedback
-        if (isEdit && editingCategory) {
+
+        if (!isEdit && data.data) {
+          setCategories((prev) => {
+            const exists = prev.some((c) => c._id === data.data._id);
+            return exists ? prev : [data.data, ...prev];
+          });
+        } else if (isEdit && data.data) {
           setCategories((prev) =>
-            prev.map((cat) => (cat._id === editingCategory._id ? { ...cat, name: categoryNameInput.trim(), description: categoryDescriptionInput.trim(), image: finalCategoryImageUrl } : cat))
+            prev.map((cat) => (cat._id === data.data._id ? { ...cat, ...data.data } : cat))
           );
-        } else if (data.data) {
-          setCategories((prev) => [data.data, ...prev]);
         }
-        
-        fetchCategories();
-        fetchProducts();
+
+        invalidateApiCache('/api/categories');
+        invalidateApiCache('/api/products');
+        fetchCategories(true);
+        fetchProducts(true);
       } else {
+        // Rollback state on server failure
+        setCategories(previousCategories);
+        setProducts(previousProducts);
         showFeedback(data.error || 'Failed to save category', 'error');
       }
     } catch (error: any) {
+      setCategories(previousCategories);
+      setProducts(previousProducts);
       console.error('Category submit error:', error);
       showFeedback(error?.message || 'An error occurred while saving category', 'error');
     } finally {
@@ -559,6 +644,9 @@ export default function AdminPage() {
       const url = isEdit ? `/api/products/${editingProduct._id}` : '/api/products';
       const method = isEdit ? 'PUT' : 'POST';
 
+      const selectedCatDoc = categories.find((c) => c._id === productCategory);
+      const categoryName = selectedCatDoc ? selectedCatDoc.name : 'Uncategorized';
+
       const payload = {
         title: productTitle.trim(),
         description: productDescription.trim(),
@@ -567,6 +655,15 @@ export default function AdminPage() {
         image: finalMainImageUrl,
         images: finalAdditionalImages,
       };
+
+      const previousProducts = [...products];
+
+      // Instant optimistic local state update for edit
+      if (isEdit && editingProduct) {
+        setProducts((prev) =>
+          prev.map((p) => (p._id === editingProduct._id ? { ...p, ...payload, categoryName } : p))
+        );
+      }
 
       const res = await fetch(url, {
         method,
@@ -579,8 +676,26 @@ export default function AdminPage() {
       if (data.success) {
         showFeedback(data.message || (isEdit ? 'Product updated successfully.' : 'Product added successfully.'), 'success');
         setIsProductModalOpen(false);
-        fetchProducts();
+
+        if (!isEdit && data.data) {
+          const newProduct: Product = {
+            ...data.data,
+            categoryName,
+          };
+          setProducts((prev) => {
+            const exists = prev.some((p) => p._id === newProduct._id);
+            return exists ? prev : [newProduct, ...prev];
+          });
+        } else if (isEdit && data.data) {
+          setProducts((prev) =>
+            prev.map((p) => (p._id === data.data._id ? { ...p, ...data.data, categoryName } : p))
+          );
+        }
+
+        invalidateApiCache('/api/products');
+        fetchProducts(true);
       } else {
+        setProducts(previousProducts);
         showFeedback(data.error || 'Failed to save product.', 'error');
       }
     } catch (error: any) {
@@ -688,6 +803,7 @@ export default function AdminPage() {
     }
 
     setSubmittingProject(true);
+    const previousProjects = [...projects];
 
     try {
       const coverImageUrlPromise = uploadImageIfNeeded(projectImageFile || projectImagePreview);
@@ -723,6 +839,12 @@ export default function AdminPage() {
         result: projectResult.trim(),
       };
 
+      if (isEdit && editingProject) {
+        setProjects((prev) =>
+          prev.map((proj) => (proj._id === editingProject._id ? { ...proj, ...payload } : proj))
+        );
+      }
+
       const res = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -737,11 +859,26 @@ export default function AdminPage() {
           'success'
         );
         setIsProjectModalOpen(false);
-        fetchProjects();
+
+        if (!isEdit && data.data) {
+          setProjects((prev) => {
+            const exists = prev.some((p) => p._id === data.data._id);
+            return exists ? prev : [data.data, ...prev];
+          });
+        } else if (isEdit && data.data) {
+          setProjects((prev) =>
+            prev.map((proj) => (proj._id === data.data._id ? { ...proj, ...data.data } : proj))
+          );
+        }
+
+        invalidateApiCache('/api/projects');
+        fetchProjects(true);
       } else {
+        setProjects(previousProjects);
         showFeedback(data.error || 'Failed to save project.', 'error');
       }
     } catch (error: any) {
+      setProjects(previousProjects);
       console.error('Project submit error:', error);
       showFeedback(error?.message || 'An error occurred while saving project.', 'error');
     } finally {
@@ -757,6 +894,10 @@ export default function AdminPage() {
     const deleteId = deleteModalState.id;
     const deleteType = deleteModalState.type;
 
+    const previousCategories = [...categories];
+    const previousProducts = [...products];
+    const previousProjects = [...projects];
+
     try {
       const endpoint = deleteType === 'category'
         ? `/api/categories/${deleteId}`
@@ -767,6 +908,9 @@ export default function AdminPage() {
       // Optimistic UI update: Remove item instantly from UI
       if (deleteType === 'category') {
         setCategories((prev) => prev.filter((c) => c._id !== deleteId));
+        if (selectedCategoryFilter === deleteId) {
+          setSelectedCategoryFilter('all');
+        }
       } else if (deleteType === 'project') {
         setProjects((prev) => prev.filter((p) => p._id !== deleteId));
       } else {
@@ -784,21 +928,32 @@ export default function AdminPage() {
           'success'
         );
         if (deleteType === 'category') {
-          fetchCategories();
-          fetchProducts();
+          invalidateApiCache('/api/categories');
+          invalidateApiCache('/api/products');
+          fetchCategories(true);
+          fetchProducts(true);
         } else if (deleteType === 'project') {
-          fetchProjects();
+          invalidateApiCache('/api/projects');
+          fetchProjects(true);
         } else {
-          fetchProducts();
+          invalidateApiCache('/api/products');
+          fetchProducts(true);
         }
       } else {
+        // Rollback on server failure (e.g., category deletion rejected due to dependent products)
+        if (deleteType === 'category') {
+          setCategories(previousCategories);
+        } else if (deleteType === 'project') {
+          setProjects(previousProjects);
+        } else {
+          setProducts(previousProducts);
+        }
         showFeedback(data.error || 'Failed to delete item.', 'error');
-        // Re-fetch to restore state if delete failed on server
-        if (deleteType === 'category') fetchCategories();
-        else if (deleteType === 'project') fetchProjects();
-        else fetchProducts();
       }
     } catch (error) {
+      if (deleteType === 'category') setCategories(previousCategories);
+      else if (deleteType === 'project') setProjects(previousProjects);
+      else setProducts(previousProducts);
       console.error('Delete error:', error);
       showFeedback('An error occurred while deleting item.', 'error');
     } finally {
@@ -961,15 +1116,12 @@ export default function AdminPage() {
 
           <div className="flex items-center gap-3">
             <button
-              onClick={() => {
-                fetchCategories();
-                fetchProducts();
-                fetchProjects();
-              }}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-200/80 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-semibold transition-all"
+              onClick={handleRefreshAll}
+              disabled={isRefreshing}
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-stone-200/80 dark:bg-stone-800 hover:bg-stone-300 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 text-xs font-semibold transition-all disabled:opacity-50"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>Refresh</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-[#E85D04]' : ''}`} />
+              <span>{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
             </button>
 
             <button
@@ -983,29 +1135,41 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Global Feedback Banner */}
+        {/* Sweet Floating Toast Notification Overlay (Fixed overlay, Zero Layout Shift) */}
         {feedback && (
-          <div
-            className={`p-4 rounded-2xl flex items-center justify-between border shadow-md transition-all ${
-              feedback.type === 'success'
-                ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-700 dark:text-emerald-400'
-                : 'bg-rose-500/10 border-rose-500/30 text-rose-700 dark:text-rose-400'
-            }`}
-          >
-            <div className="flex items-center gap-3">
-              {feedback.type === 'success' ? (
-                <CheckCircle2 className="w-5 h-5 shrink-0" />
-              ) : (
-                <AlertCircle className="w-5 h-5 shrink-0" />
-              )}
-              <span className="text-sm font-semibold">{feedback.message}</span>
-            </div>
-            <button
-              onClick={() => setFeedback(null)}
-              className="p-1 rounded-lg hover:bg-black/10 dark:hover:bg-white/10"
+          <div className="fixed bottom-6 right-6 z-50 max-w-sm sm:max-w-md w-full px-4 pointer-events-none transition-all">
+            <div
+              className={`pointer-events-auto p-4 rounded-2xl flex items-center justify-between gap-4 border shadow-2xl backdrop-blur-xl transition-all animate-bounce-short ${
+                feedback.type === 'success'
+                  ? 'bg-stone-900/95 text-white border-emerald-500/40 dark:bg-stone-900/95'
+                  : 'bg-stone-900/95 text-white border-rose-500/40 dark:bg-stone-900/95'
+              }`}
             >
-              <X className="w-4 h-4" />
-            </button>
+              <div className="flex items-center gap-3">
+                <div
+                  className={`p-2 rounded-xl shrink-0 ${
+                    feedback.type === 'success'
+                      ? 'bg-emerald-500/20 text-emerald-400'
+                      : 'bg-rose-500/20 text-rose-400'
+                  }`}
+                >
+                  {feedback.type === 'success' ? (
+                    <CheckCircle2 className="w-5 h-5" />
+                  ) : (
+                    <AlertCircle className="w-5 h-5" />
+                  )}
+                </div>
+                <span className="text-xs sm:text-sm font-bold tracking-tight text-stone-100">
+                  {feedback.message}
+                </span>
+              </div>
+              <button
+                onClick={() => setFeedback(null)}
+                className="p-1.5 rounded-xl hover:bg-white/10 text-stone-400 hover:text-white transition-colors shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
 
@@ -1089,7 +1253,7 @@ export default function AdminPage() {
 
         {/* PRODUCTS TAB CONTENT */}
         {activeTab === 'products' && (
-          <div className="space-y-6">
+          <div className="space-y-6 min-h-[480px]">
             {/* Filter & Search Bar */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs">
               <div className="relative flex-1">
@@ -1240,7 +1404,7 @@ export default function AdminPage() {
 
         {/* CATEGORIES TAB CONTENT */}
         {activeTab === 'categories' && (
-          <div className="space-y-6">
+          <div className="space-y-6 min-h-[480px]">
             {/* Filter & Search Bar */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs">
               <div className="relative flex-1">
@@ -1362,7 +1526,7 @@ export default function AdminPage() {
 
         {/* PROJECTS TAB CONTENT */}
         {activeTab === 'projects' && (
-          <div className="space-y-6">
+          <div className="space-y-6 min-h-[480px]">
             {/* Search & Filter Bar */}
             <div className="flex flex-col sm:flex-row gap-4 justify-between items-stretch sm:items-center bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs">
               <div className="relative flex-1">
@@ -1552,15 +1716,18 @@ export default function AdminPage() {
                 {/* Category Banner Image Upload */}
                 <div>
                   <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
-                    Category Main Cover Image <span className="text-rose-500">*</span>
+                    Category Cover & Hero Banner Image <span className="text-rose-500">*</span>
                   </label>
-                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
                     <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
                     <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
                       Click to upload Category Cover Image
                     </span>
-                    <span className="text-[11px] text-stone-500 mt-0.5 text-center">
-                      This image will be displayed on the page hero & service cards
+                    <span className="text-[11px] font-bold text-[#E85D04] dark:text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                      📐 Recommended Ratio: 16:9 or 21:9 Widescreen (1920×1080 or 2560×1080)
+                    </span>
+                    <span className="text-[11px] text-stone-500 mt-1.5">
+                      Used for full-width website Hero Banners & service cards
                     </span>
                     <input
                       type="file"

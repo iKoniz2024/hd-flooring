@@ -1,4 +1,27 @@
+type CacheListener = (url: string, data: any) => void;
+
 const memoryCache = new Map<string, { data: any; timestamp: number }>();
+const listeners = new Set<CacheListener>();
+
+/**
+ * Subscribe to API cache updates / invalidations
+ */
+export function subscribeApiCache(listener: CacheListener): () => void {
+  listeners.add(listener);
+  return () => {
+    listeners.delete(listener);
+  };
+}
+
+function notifyCacheListeners(url: string, data?: any) {
+  listeners.forEach((listener) => {
+    try {
+      listener(url, data);
+    } catch (err) {
+      console.error('Cache listener error:', err);
+    }
+  });
+}
 
 /**
  * Lightning-fast memory cached fetch helper.
@@ -17,6 +40,7 @@ export async function fetchWithCache<T = any>(url: string): Promise<T> {
         .then((data) => {
           if (data && data.success !== false) {
             memoryCache.set(url, { data, timestamp: Date.now() });
+            notifyCacheListeners(url, data);
           }
         })
         .catch(() => {});
@@ -29,8 +53,17 @@ export async function fetchWithCache<T = any>(url: string): Promise<T> {
   const data = await res.json();
   if (data && data.success !== false) {
     memoryCache.set(url, { data, timestamp: Date.now() });
+    notifyCacheListeners(url, data);
   }
   return data as T;
+}
+
+/**
+ * Manually update cache memory data for a specific URL (useful for optimistic updates)
+ */
+export function updateApiCache<T = any>(url: string, data: T) {
+  memoryCache.set(url, { data, timestamp: Date.now() });
+  notifyCacheListeners(url, data);
 }
 
 /**
@@ -39,7 +72,10 @@ export async function fetchWithCache<T = any>(url: string): Promise<T> {
 export function invalidateApiCache(url?: string) {
   if (url) {
     memoryCache.delete(url);
+    notifyCacheListeners(url, null);
   } else {
     memoryCache.clear();
+    notifyCacheListeners('*', null);
   }
 }
+
