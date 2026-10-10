@@ -96,12 +96,12 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
   });
 
   // Calculations
-  const baseRate = selectedProduct ? Number(selectedProduct.price) || 5.0 : 5.0;
+  const baseRate = selectedProduct ? Number(selectedProduct.price) || 0 : 0;
   const prepRate = includePrep ? 1.5 : 0;
   const removalRate = includeRemoval ? 1.2 : 0;
-  const totalRate = baseRate + prepRate + removalRate;
+  const totalRate = selectedProduct ? baseRate + prepRate + removalRate : 0;
 
-  const exactTotalCost = Math.round(sqft * totalRate);
+  const exactTotalCost = selectedProduct ? Math.round(sqft * totalRate) : 0;
   const estimatedDays = sqft < 400 ? '1 Day' : sqft < 1200 ? '1 - 2 Days' : '2 - 4 Days';
 
   return (
@@ -171,9 +171,7 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                         const matching = products.filter(
                           (p) => newCat === 'all' || (p.categoryName && p.categoryName.toLowerCase().trim() === newCat.toLowerCase().trim())
                         );
-                        if (matching.length > 0) {
-                          setSelectedProduct(matching[0]);
-                        }
+                        setSelectedProduct(matching[0] || null);
                       }}
                       className="w-full px-3.5 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 font-bold text-xs focus:outline-none focus:border-[#E85D04] transition-all cursor-pointer shadow-sm"
                     >
@@ -362,7 +360,11 @@ export function LiveCostCalculator({ hideHeader = false }: { hideHeader?: boolea
                     ${exactTotalCost.toLocaleString()}
                   </motion.div>
                   <span className="text-xs font-semibold text-slate-400 block pt-0.5">
-                    Rate: <strong className="text-white">${totalRate.toFixed(2)}</strong> / sq.ft installed
+                    {selectedProduct ? (
+                      <>Rate: <strong className="text-white">${totalRate.toFixed(2)}</strong> / sq.ft installed</>
+                    ) : (
+                      <span className="text-slate-400 font-normal">Select a product to view live rate</span>
+                    )}
                   </span>
                 </div>
 

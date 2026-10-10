@@ -2,10 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, ChevronLeft, ChevronRight, Layers, Hammer, Grid, Wrench, Shield } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Layers, Hammer, Grid, Wrench, Shield } from 'lucide-react';
 import { HeroSearch } from '@/components/interactive/HeroSearch';
 import Link from 'next/link';
-
 import { fetchWithCache } from '@/lib/utils/apiCache';
 
 const serviceIcons = [Hammer, Layers, Grid, Shield, Wrench];
@@ -13,17 +12,39 @@ const serviceIcons = [Hammer, Layers, Grid, Shield, Wrench];
 export function Hero() {
   const [currentSlideIdx, setCurrentSlideIdx] = useState(0);
   const [dynamicCats, setDynamicCats] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
+
+    try {
+      const saved = localStorage.getItem('hd_hero_categories');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setDynamicCats(parsed);
+          setLoading(false);
+        }
+      }
+    } catch (e) {
+      // Ignore storage errors
+    }
+
     const fetchCats = async () => {
       try {
         const data = await fetchWithCache('/api/categories');
         if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
           setDynamicCats(data.data);
+          try {
+            localStorage.setItem('hd_hero_categories', JSON.stringify(data.data));
+          } catch (e) {
+            // Storage quota or disabled
+          }
         }
       } catch (err) {
         console.error('Failed to load categories for Hero:', err);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
     fetchCats();
@@ -32,13 +53,19 @@ export function Hero() {
     };
   }, []);
 
-  // Construct dynamic category items purely from DB categories
+  const activeSlides = dynamicCats.slice(0, 5).map((cat) => ({
+    name: cat.name,
+    tag: 'Flooring Collection',
+    description: cat.description || `${cat.name} installation & premium material supply for Canadian spaces.`,
+    image: cat.image || '',
+  }));
+
   const activeServices = dynamicCats.slice(0, 5).map((cat, idx) => {
-    const slug = cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    const slug = (cat.name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const Icon = serviceIcons[idx % serviceIcons.length];
     return {
       title: cat.name,
-      subtitle: cat.description || 'Flooring Collection',
+      subtitle: cat.description || `${cat.name} Collection`,
       icon: Icon,
       href: `/services/${slug}`,
       image: cat.image || '',
@@ -51,13 +78,6 @@ export function Hero() {
       glowColor: 'shadow-[#E85D04]/20',
     };
   });
-
-  const activeSlides = dynamicCats.slice(0, 5).map((cat) => ({
-    name: cat.name,
-    tag: 'Flooring Collection',
-    description: cat.description ? cat.description : `${cat.name} installation & premium material supply for Canadian homes and businesses.`,
-    image: cat.image || '',
-  }));
 
   useEffect(() => {
     if (activeSlides.length > 0) {
@@ -81,6 +101,8 @@ export function Hero() {
   };
 
   const currentSlide = activeSlides[currentSlideIdx] || activeSlides[0] || { name: 'HD Flooring', tag: '', description: '', image: '' };
+
+
 
   return (
     <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
@@ -121,32 +143,33 @@ export function Hero() {
         })}
       </div>
 
-      {/* Premium Smoked Blackish Glass Overlay - Left side 15%, Right side 75% smoked black glass */}
+      {/* Premium Smoked Blackish Glass Overlay */}
       <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 backdrop-blur-[3px] bg-gradient-to-l from-black/75 via-black/45 to-black/15 pointer-events-none z-10" />
 
       {/* Left Slide Control Button */}
-      <button
-        onClick={prevSlide}
-        className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
-        aria-label="Previous Slide"
-      >
-        <ChevronLeft className="w-5 h-5" />
-      </button>
+      {activeSlides.length > 1 && (
+        <button
+          onClick={prevSlide}
+          className="hidden md:flex absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+          aria-label="Previous Slide"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+      )}
 
       {/* Right Slide Control Button */}
-      <button
-        onClick={nextSlide}
-        className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
-        aria-label="Next Slide"
-      >
-        <ChevronRight className="w-5 h-5" />
-      </button>
+      {activeSlides.length > 1 && (
+        <button
+          onClick={nextSlide}
+          className="hidden md:flex absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-30 p-3 rounded-full bg-white/90 dark:bg-stone-900/90 hover:bg-[#E85D04] text-stone-900 dark:text-white hover:text-white border border-stone-300 dark:border-stone-700 shadow-xl transition-all hover:scale-110 pointer-events-auto"
+          aria-label="Next Slide"
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+      )}
 
       <div className="max-w-7xl mx-auto w-full relative z-20 space-y-8">
         <div className="max-w-4xl text-left space-y-6 pb-8">
-          {/* Minimal Badge - Logo Red & Sky Mixed */}
-
-
           {/* Hero Headline with Coral Red & Teal Brand Gradient */}
           <motion.h1
             initial={{ opacity: 0, y: 35 }}
@@ -195,10 +218,6 @@ export function Hero() {
             className="pt-1 max-w-3xl relative z-50 space-y-4"
           >
             <HeroSearch />
-
-
-
-
           </motion.div>
         </div>
 
@@ -209,8 +228,6 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.55 }}
           className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32"
         >
-
-
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {activeServices.map((srv, idx) => {
               const Icon = srv.icon;
@@ -233,12 +250,14 @@ export function Hero() {
                   >
                     {/* Floor Background Image Overlay - Only Visible on Active Card */}
                     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none rounded-3xl">
-                      <img
-                        src={activeSlides[idx % activeSlides.length].image}
-                        alt={srv.title}
-                        className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'scale-105 opacity-25 dark:opacity-30' : 'opacity-0 scale-100'
-                          }`}
-                      />
+                      {activeSlides[idx % activeSlides.length]?.image ? (
+                        <img
+                          src={activeSlides[idx % activeSlides.length].image}
+                          alt={srv.title}
+                          className={`w-full h-full object-cover transition-all duration-700 ${isActive ? 'scale-105 opacity-25 dark:opacity-30' : 'opacity-0 scale-100'
+                            }`}
+                        />
+                      ) : null}
                       {isActive && (
                         <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/70 to-white/30 dark:from-stone-900/95 dark:via-stone-900/80 dark:to-stone-900/40" />
                       )}
@@ -251,7 +270,7 @@ export function Hero() {
                     />
 
                     <div className="space-y-3 relative z-10">
-                      {/* Icon Box with Brand Color Mix */}
+                      {/* Icon Box */}
                       <div
                         className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
                           }`}
@@ -276,7 +295,7 @@ export function Hero() {
                       </div>
                     </div>
 
-                    {/* Bottom Right Corner Brand Color Action Box */}
+                    {/* Bottom Right Action Box */}
                     <div
                       className={`absolute bottom-0 right-0 w-11 h-11 rounded-tl-2xl z-10 ${srv.btnBg} flex items-center justify-center font-black shadow-lg transition-all duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'
                         }`}
