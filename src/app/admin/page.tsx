@@ -2335,13 +2335,7 @@ export default function AdminPage() {
                       Click to upload Category Cover Image
                     </span>
                     <span className="text-[11px] font-bold text-[#E85D04] dark:text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                      📐 Recommended Ratio: 16:9 or 21:9 Widescreen (1920×1080 or 2560×1080)
-                    </span>
-                    <span className="text-[11px] text-stone-500 mt-1.5">
-                      Used for full-width website Hero Banners & service cards
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                      ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                      📐 Recommended: 1920 × 1080 px (16:9 Widescreen)
                     </span>
                     <input
                       type="file"
@@ -2535,13 +2529,7 @@ export default function AdminPage() {
                           : 'Select main primary product photo'}
                       </span>
                       <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                        📐 Recommended Size: 800 × 800 px or 1000 × 1000 px (1:1 Square)
-                      </span>
-                      <span className="text-[11px] text-stone-500 mt-1">
-                        Square 1:1 ratio ensures perfect matching across catalog & quick-view modals
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                        ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                        📐 Recommended: 800 × 800 px or 1000 × 1000 px (1:1 Square)
                       </span>
                       <input
                         type="file"
@@ -2583,13 +2571,7 @@ export default function AdminPage() {
                         Click to add multiple additional photos
                       </span>
                       <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                        📐 Recommended Size: 800 × 800 px or 1200 × 900 px (1:1 or 4:3)
-                      </span>
-                      <span className="text-[11px] text-stone-500 mt-1">
-                        Select multiple high-resolution photos for the interactive product gallery
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                        ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                        📐 Recommended: 800 × 800 px or 1200 × 900 px
                       </span>
                       <input
                         type="file"
@@ -2841,13 +2823,7 @@ export default function AdminPage() {
                               : 'Click to select or drop project photo'}
                           </span>
                           <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                            📐 Recommended Size: 1200 × 800 px or 1920 × 1080 px (16:9 / 3:2 Landscape)
-                          </span>
-                          <span className="text-[11px] text-stone-500 mt-1">
-                            Landscape photo ensures perfect matching in on-site gallery & portfolio showcase
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                            ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                            📐 Recommended: 1200 × 800 px or 1920 × 1080 px (Landscape)
                           </span>
                           <input
                             type="file"
@@ -2888,13 +2864,7 @@ export default function AdminPage() {
                             Click to select multiple gallery photos
                           </span>
                           <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                            📐 Recommended Size: 1200 × 800 px (3:2 / 16:9 Landscape)
-                          </span>
-                          <span className="text-[11px] text-stone-500 mt-1">
-                            Select multiple before/after & progress photos for project detail modal
-                          </span>
-                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                            ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                            📐 Recommended: 1200 × 800 px (Landscape)
                           </span>
                           <input
                             type="file"
@@ -3056,13 +3026,7 @@ export default function AdminPage() {
                       Click to upload Brand / Partner / Certification Logo
                     </span>
                     <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                      📐 Recommended Size: 400 × 250 px (16:10 / 16:9) | Transparent PNG / SVG
-                    </span>
-                    <span className="text-[11px] text-stone-500 mt-1">
-                      Transparent PNG or SVG ensures perfect uniform matching across website grid cards
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
-                      ⚡ Auto WebP Compression Active (Transparent & Crisp)
+                      📐 Recommended: 400 × 250 px (Transparent PNG / SVG)
                     </span>
                     <input
                       type="file"
