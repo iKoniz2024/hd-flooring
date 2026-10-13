@@ -33,6 +33,11 @@ const ResidentialCommercial = nextDynamic(
   { ssr: true }
 );
 
+const PartnersAndCertifications = nextDynamic(
+  () => import('@/components/sections/PartnersAndCertifications').then((mod) => mod.PartnersAndCertifications),
+  { ssr: true }
+);
+
 const ProcessTimeline = nextDynamic(
   () => import('@/components/sections/ProcessTimeline').then((mod) => mod.ProcessTimeline),
   { ssr: true }
@@ -65,25 +70,31 @@ export default function Home() {
         {/* 2. Introduction Section */}
         <IntroSection />
 
-        {/* 3. Before / After Transformation */}
+        {/* 3. Industry Memberships & Quality Certifications */}
+        <PartnersAndCertifications showMembershipsOnly className="pt-0 pb-12 sm:pb-16" />
+
+        {/* 4. Before / After Transformation */}
         <BeforeAfterSlider />
 
-        {/* 4. Flooring Categories */}
+        {/* 5. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 5. On-Site Real Project Photo Gallery */}
+        {/* 6. On-Site Real Project Photo Gallery */}
         <ProjectShowcaseTicker />
 
-        {/* 6. Statistics Banner */}
+        {/* 7. Statistics Banner */}
         <StatsBanner />
 
-        {/* 7. Why HD Flooring */}
+        {/* 8. Why HD Flooring */}
         <WhyUs />
 
-        {/* 8. Residential & Commercial Solutions */}
+        {/* 9. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 9. Installation Process */}
+        {/* 10. Manufacturer Partners */}
+        <PartnersAndCertifications showManufacturersOnly />
+
+        {/* 11. Installation Process */}
         <ProcessTimeline />
 
         {/* 10. Customer Testimonials */}

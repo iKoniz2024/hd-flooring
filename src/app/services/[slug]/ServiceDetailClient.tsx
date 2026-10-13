@@ -69,29 +69,6 @@ interface ProjectDoc {
   result?: string;
 }
 
-const localCategoryGalleryMap: Record<string, string[]> = {
-  'hardwood-flooring': [
-    '/assets/images/hardwood-flooring/hardwood-flooring-01.jpg',
-    '/assets/images/hardwood-flooring/hardwood-flooring-02.jpg',
-    '/assets/images/hardwood-flooring/hardwood-flooring-03.jpg',
-  ],
-  'engineered-hardwood-flooring': [
-    '/assets/images/engineered-hardwood/engineered-hardwood-01.jpg',
-    '/assets/images/engineered-hardwood/engineered-hardwood-02.jpg',
-  ],
-  'luxury-vinyl-flooring': Array.from({ length: 67 }, (_, i) => `/assets/images/luxury-vinyl-flooring/luxury-vinyl-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
-  'laminate-flooring': Array.from({ length: 17 }, (_, i) => `/assets/images/laminate-flooring/laminate-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
-  'carpet-flooring': Array.from({ length: 15 }, (_, i) => `/assets/images/carpet-flooring/carpet-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
-  'tile-flooring': Array.from({ length: 18 }, (_, i) => `/assets/images/tile-flooring/tile-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
-  'stair-flooring': Array.from({ length: 5 }, (_, i) => `/assets/images/stair-flooring/stair-flooring-${String(i + 1).padStart(2, '0')}.jpg`),
-  'flooring-replacement': [
-    '/assets/images/flooring-replacement/flooring-replacement-01.jpg',
-    '/assets/images/flooring-replacement/flooring-replacement-02.jpg',
-  ],
-  'floor-preparation': [
-    '/assets/images/floor-preparation/floor-preparation-01.jpg',
-  ],
-};
 
 export function ServiceDetailClient({ slug }: { slug: string }) {
   const { openBookModal } = useModal();

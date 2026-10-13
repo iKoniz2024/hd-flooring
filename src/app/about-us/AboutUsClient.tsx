@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { TiltCard } from '@/components/interactive/TiltCard';
 import { TeamPhotoGallery } from '@/components/sections/TeamPhotoGallery';
+import { PartnersAndCertifications } from '@/components/sections/PartnersAndCertifications';
 import { useModal } from '@/lib/context/ModalContext';
 
 const founderSpeech = {
@@ -408,6 +409,9 @@ export function AboutUsClient() {
           })}
         </div>
       </div>
+
+      {/* Manufacturer Partners & Accreditations */}
+      <PartnersAndCertifications />
 
       {/* Bottom CTA Banner */}
       <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">

@@ -162,7 +162,7 @@ export function Header() {
                 className={`transition-colors duration-200 hover:text-[#E85D04] ${pathname.startsWith('/projects') ? 'text-[#E85D04] font-bold' : 'text-stone-700 dark:text-stone-300 hover:text-stone-950 dark:hover:text-white'
                   }`}
               >
-                Project Gallery
+                Our Gallery
               </Link>
 
               <Link
@@ -325,7 +325,7 @@ export function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className="block text-sm font-medium hover:text-[#E85D04]"
               >
-                Project Gallery
+                Our Gallery
               </Link>
               <Link
                 href="/blog"

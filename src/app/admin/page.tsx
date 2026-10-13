@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback, ChangeEvent, FormEvent } from 'react';
+import { useState, useEffect, useCallback, useMemo, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -30,9 +30,14 @@ import {
   FolderKanban,
   MapPin,
   Building2,
-  Sparkles
+  Sparkles,
+  Handshake,
+  ExternalLink,
+  Globe,
+  Award
 } from 'lucide-react';
 import { invalidateApiCache, updateApiCache } from '@/lib/utils/apiCache';
+import { compressImageFile, formatFileSize } from '@/lib/utils/imageCompression';
 
 interface Category {
   _id: string;
@@ -71,6 +76,18 @@ interface ProjectItem {
   updatedAt?: string;
 }
 
+interface PartnerItem {
+  _id: string;
+  name: string;
+  type: 'manufacturer' | 'membership' | 'certification';
+  logo: string;
+  websiteUrl?: string;
+  isActive: boolean;
+  order: number;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export default function AdminPage() {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -81,7 +98,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState('');
   const [authenticating, setAuthenticating] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'projects'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'projects' | 'partners'>('products');
 
   // Categories state
   const [categories, setCategories] = useState<Category[]>([]);
@@ -99,6 +116,12 @@ export default function AdminPage() {
   const [loadingProjects, setLoadingProjects] = useState(true);
   const [projectSearch, setProjectSearch] = useState('');
   const [selectedProjectCategoryFilter, setSelectedProjectCategoryFilter] = useState<string>('all');
+
+  // Partners & Brands state
+  const [partners, setPartners] = useState<PartnerItem[]>([]);
+  const [loadingPartners, setLoadingPartners] = useState(true);
+  const [partnerSearch, setPartnerSearch] = useState('');
+  const [selectedPartnerTypeFilter, setSelectedPartnerTypeFilter] = useState<'all' | 'manufacturer' | 'membership' | 'certification'>('all');
 
   // Feedback banner state
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -149,10 +172,23 @@ export default function AdminPage() {
   const [projectAdditionalPreviews, setProjectAdditionalPreviews] = useState<string[]>([]);
   const [submittingProject, setSubmittingProject] = useState(false);
 
+  // Partner Modal state
+  const [isPartnerModalOpen, setIsPartnerModalOpen] = useState(false);
+  const [partnerModalMode, setPartnerModalMode] = useState<'add' | 'edit'>('add');
+  const [editingPartner, setEditingPartner] = useState<PartnerItem | null>(null);
+  const [partnerNameInput, setPartnerNameInput] = useState('');
+  const [partnerTypeInput, setPartnerTypeInput] = useState<'manufacturer' | 'membership' | 'certification'>('manufacturer');
+  const [partnerLogoFile, setPartnerLogoFile] = useState<File | null>(null);
+  const [partnerLogoPreview, setPartnerLogoPreview] = useState<string>('');
+  const [partnerWebsiteInput, setPartnerWebsiteInput] = useState('');
+  const [partnerOrderInput, setPartnerOrderInput] = useState<number>(0);
+  const [partnerIsActiveInput, setPartnerIsActiveInput] = useState<boolean>(true);
+  const [submittingPartner, setSubmittingPartner] = useState(false);
+
   // Delete confirmation modal state
   const [deleteModalState, setDeleteModalState] = useState<{
     isOpen: boolean;
-    type: 'product' | 'category' | 'project';
+    type: 'product' | 'category' | 'project' | 'partner';
     id: string;
     title: string;
   }>({ isOpen: false, type: 'product', id: '', title: '' });
@@ -266,6 +302,36 @@ export default function AdminPage() {
     }
   }, []);
 
+  // Fetch Partners without triggering loading skeleton if data already exists
+  const fetchPartners = useCallback(async (silent = false) => {
+    if (!silent) {
+      setPartners((prev) => {
+        if (prev.length === 0) setLoadingPartners(true);
+        return prev;
+      });
+    }
+    try {
+      const res = await fetch(`/api/partners?all=true&_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPartners(data.data || []);
+        updateApiCache('/api/partners', data);
+      } else if (!silent) {
+        showFeedback(data.error || 'Failed to fetch partners', 'error');
+      }
+    } catch (error) {
+      console.error('Error fetching partners:', error);
+      if (!silent) {
+        showFeedback('Database connection or network error fetching partners', 'error');
+      }
+    } finally {
+      setLoadingPartners(false);
+    }
+  }, []);
+
   // Refresh all data silently
   const handleRefreshAll = useCallback(async () => {
     setIsRefreshing(true);
@@ -273,9 +339,10 @@ export default function AdminPage() {
       fetchCategories(true),
       fetchProducts(true),
       fetchProjects(true),
+      fetchPartners(true),
     ]);
     setIsRefreshing(false);
-  }, [fetchCategories, fetchProducts, fetchProjects]);
+  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners]);
 
   // Initial Auth Check
   useEffect(() => {
@@ -285,9 +352,10 @@ export default function AdminPage() {
       fetchCategories();
       fetchProducts();
       fetchProjects();
+      fetchPartners();
     }
     setCheckingAuth(false);
-  }, [fetchCategories, fetchProducts, fetchProjects]);
+  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners]);
 
   // Clean up ObjectURL preview memory leak
   useEffect(() => {
@@ -298,8 +366,11 @@ export default function AdminPage() {
       if (projectImagePreview && projectImagePreview.startsWith('blob:')) {
         URL.revokeObjectURL(projectImagePreview);
       }
+      if (partnerLogoPreview && partnerLogoPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(partnerLogoPreview);
+      }
     };
-  }, [productImagePreview, projectImagePreview]);
+  }, [productImagePreview, projectImagePreview, partnerLogoPreview]);
 
   // Login Submit Handler
   const handleLoginSubmit = async (e: FormEvent) => {
@@ -320,11 +391,15 @@ export default function AdminPage() {
 
       if (data.success) {
         sessionStorage.setItem('admin_authenticated', 'true');
+        if (data.token) {
+          sessionStorage.setItem('admin_token', data.token);
+        }
         setIsAuthenticated(true);
         setPasswordInput('');
         fetchCategories();
         fetchProducts();
         fetchProjects();
+        fetchPartners();
       } else {
         setLoginError(data.error || 'Incorrect email or password.');
       }
@@ -339,6 +414,8 @@ export default function AdminPage() {
   // Logout Handler
   const handleLogout = () => {
     sessionStorage.removeItem('admin_authenticated');
+    sessionStorage.removeItem('admin_token');
+    document.cookie = 'adminToken=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
     setIsAuthenticated(false);
   };
 
@@ -363,13 +440,31 @@ export default function AdminPage() {
     setIsCategoryModalOpen(true);
   };
 
-  // Helper to upload any File, blob: URL, or base64 data: string, returning a clean server URL
-  const uploadImageIfNeeded = async (fileOrUrl: File | string | null | undefined): Promise<string> => {
+  // Helper to upload any File, blob: URL, or base64 data: string, returning a clean server URL with automatic compression
+  const uploadImageIfNeeded = async (
+    fileOrUrl: File | string | null | undefined,
+    preset: 'logo' | 'cover' | 'photo' = 'photo'
+  ): Promise<string> => {
     if (!fileOrUrl) return '';
 
+    const compressionOpts =
+      preset === 'logo'
+        ? { maxWidth: 600, maxHeight: 400, quality: 0.85, targetFormat: 'image/webp' as const }
+        : preset === 'cover'
+        ? { maxWidth: 1920, maxHeight: 1080, quality: 0.82, targetFormat: 'image/webp' as const }
+        : { maxWidth: 1400, maxHeight: 1400, quality: 0.82, targetFormat: 'image/webp' as const };
+
     if (fileOrUrl instanceof File) {
+      let finalFile: File = fileOrUrl;
+      try {
+        const compressed = await compressImageFile(fileOrUrl, compressionOpts);
+        finalFile = compressed.file;
+      } catch (err) {
+        console.warn('Image compression fallback to original:', err);
+      }
+
       const uploadFormData = new FormData();
-      uploadFormData.append('file', fileOrUrl);
+      uploadFormData.append('file', finalFile);
       const uploadRes = await fetch('/api/upload', {
         method: 'POST',
         body: uploadFormData,
@@ -393,8 +488,16 @@ export default function AdminPage() {
           const ext = mimeType.split('/')[1] || 'jpg';
           const fileObj = new File([blob], `upload-${Date.now()}.${ext}`, { type: mimeType });
 
+          let finalFile: File = fileObj;
+          try {
+            const compressed = await compressImageFile(fileObj, compressionOpts);
+            finalFile = compressed.file;
+          } catch (err) {
+            console.warn('Image compression fallback to original:', err);
+          }
+
           const uploadFormData = new FormData();
-          uploadFormData.append('file', fileObj);
+          uploadFormData.append('file', finalFile);
           const uploadRes = await fetch('/api/upload', {
             method: 'POST',
             body: uploadFormData,
@@ -435,7 +538,7 @@ export default function AdminPage() {
     const previousProducts = [...products];
 
     try {
-      const finalCategoryImageUrl = await uploadImageIfNeeded(categoryImageFile || categoryImagePreview);
+      const finalCategoryImageUrl = await uploadImageIfNeeded(categoryImageFile || categoryImagePreview, 'cover');
 
       if (!finalCategoryImageUrl) {
         showFeedback('Category cover image is strictly required. Please upload an image.', 'error');
@@ -546,21 +649,29 @@ export default function AdminPage() {
   };
 
   // Handle Main Image File Selection
-  const handleImageFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
         showFeedback('Please select a valid image file (JPG, PNG, WEBP, etc.)', 'error');
         return;
       }
-      setProductImageFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setProductImagePreview(previewUrl);
+      try {
+        const res = await compressImageFile(file, { maxWidth: 1400, maxHeight: 1400, quality: 0.82 });
+        setProductImageFile(res.file);
+        setProductImagePreview(URL.createObjectURL(res.file));
+        if (res.savingsPercent > 0) {
+          showFeedback(`⚡ Image optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+        }
+      } catch {
+        setProductImageFile(file);
+        setProductImagePreview(URL.createObjectURL(file));
+      }
     }
   };
 
   // Handle Additional Images File Selection
-  const handleAdditionalImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleAdditionalImagesChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
@@ -569,8 +680,14 @@ export default function AdminPage() {
 
     for (const file of files) {
       if (file.type.startsWith('image/')) {
-        validFiles.push(file);
-        validPreviews.push(URL.createObjectURL(file));
+        try {
+          const res = await compressImageFile(file, { maxWidth: 1200, maxHeight: 1200, quality: 0.80 });
+          validFiles.push(res.file);
+          validPreviews.push(URL.createObjectURL(res.file));
+        } catch {
+          validFiles.push(file);
+          validPreviews.push(URL.createObjectURL(file));
+        }
       }
     }
 
@@ -627,10 +744,10 @@ export default function AdminPage() {
     setSubmittingProduct(true);
 
     try {
-      const mainImageUrlPromise = uploadImageIfNeeded(productImageFile || productImagePreview);
+      const mainImageUrlPromise = uploadImageIfNeeded(productImageFile || productImagePreview, 'photo');
       const additionalImagesPromises = productAdditionalPreviews.map((prevStr, idx) => {
         const fileObj = productAdditionalFiles[idx];
-        return uploadImageIfNeeded(fileObj || prevStr);
+        return uploadImageIfNeeded(fileObj || prevStr, 'photo');
       });
 
       const [finalMainImageUrl, rawAdditionalImages] = await Promise.all([
@@ -742,21 +859,29 @@ export default function AdminPage() {
   };
 
   // Handle Project Main Image File Selection
-  const handleProjectImageFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleProjectImageFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       if (!file.type.startsWith('image/')) {
         showFeedback('Please select a valid image file (JPG, PNG, WEBP, etc.)', 'error');
         return;
       }
-      setProjectImageFile(file);
-      const previewUrl = URL.createObjectURL(file);
-      setProjectImagePreview(previewUrl);
+      try {
+        const res = await compressImageFile(file, { maxWidth: 1920, maxHeight: 1080, quality: 0.82 });
+        setProjectImageFile(res.file);
+        setProjectImagePreview(URL.createObjectURL(res.file));
+        if (res.savingsPercent > 0) {
+          showFeedback(`⚡ Cover optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+        }
+      } catch {
+        setProjectImageFile(file);
+        setProjectImagePreview(URL.createObjectURL(file));
+      }
     }
   };
 
   // Handle Project Additional Images File Selection
-  const handleProjectAdditionalImagesChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleProjectAdditionalImagesChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
 
@@ -765,8 +890,14 @@ export default function AdminPage() {
 
     for (const file of files) {
       if (file.type.startsWith('image/')) {
-        validFiles.push(file);
-        validPreviews.push(URL.createObjectURL(file));
+        try {
+          const res = await compressImageFile(file, { maxWidth: 1400, maxHeight: 1000, quality: 0.80 });
+          validFiles.push(res.file);
+          validPreviews.push(URL.createObjectURL(res.file));
+        } catch {
+          validFiles.push(file);
+          validPreviews.push(URL.createObjectURL(file));
+        }
       }
     }
 
@@ -806,10 +937,10 @@ export default function AdminPage() {
     const previousProjects = [...projects];
 
     try {
-      const coverImageUrlPromise = uploadImageIfNeeded(projectImageFile || projectImagePreview);
+      const coverImageUrlPromise = uploadImageIfNeeded(projectImageFile || projectImagePreview, 'cover');
       const additionalImagesPromises = projectAdditionalPreviews.map((prevStr, idx) => {
         const fileObj = projectAdditionalFiles[idx];
-        return uploadImageIfNeeded(fileObj || prevStr);
+        return uploadImageIfNeeded(fileObj || prevStr, 'photo');
       });
 
       const [finalImageUrl, rawAdditionalImages] = await Promise.all([
@@ -886,6 +1017,195 @@ export default function AdminPage() {
     }
   };
 
+  // Handle Partner Modal Open
+  const openAddPartnerModal = () => {
+    setPartnerModalMode('add');
+    setEditingPartner(null);
+    setPartnerNameInput('');
+    setPartnerTypeInput('manufacturer');
+    setPartnerLogoFile(null);
+    setPartnerLogoPreview('');
+    setPartnerWebsiteInput('');
+    setPartnerOrderInput(partners.length + 1);
+    setPartnerIsActiveInput(true);
+    setIsPartnerModalOpen(true);
+  };
+
+  const openEditPartnerModal = (partner: PartnerItem) => {
+    setPartnerModalMode('edit');
+    setEditingPartner(partner);
+    setPartnerNameInput(partner.name);
+    setPartnerTypeInput(partner.type || 'manufacturer');
+    setPartnerLogoFile(null);
+    setPartnerLogoPreview(partner.logo || '');
+    setPartnerWebsiteInput(partner.websiteUrl || '');
+    setPartnerOrderInput(partner.order ?? 0);
+    setPartnerIsActiveInput(partner.isActive !== false);
+    setIsPartnerModalOpen(true);
+  };
+
+  // Submit Partner
+  const handlePartnerSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!partnerNameInput.trim()) {
+      showFeedback('Partner / brand name is required.', 'error');
+      return;
+    }
+
+    if (!partnerLogoFile && !partnerLogoPreview) {
+      showFeedback('Partner logo image is required. Please upload a logo.', 'error');
+      return;
+    }
+
+    setSubmittingPartner(true);
+    const isEdit = partnerModalMode === 'edit' && editingPartner;
+    const previousPartners = [...partners];
+
+    try {
+      const finalLogoUrl = await uploadImageIfNeeded(partnerLogoFile || partnerLogoPreview, 'logo');
+
+      if (!finalLogoUrl) {
+        showFeedback('Logo image upload failed. Please try again.', 'error');
+        setSubmittingPartner(false);
+        return;
+      }
+
+      const trimmedName = partnerNameInput.trim();
+      const trimmedWebsite = partnerWebsiteInput.trim();
+      const numericOrder = Number(partnerOrderInput) || 0;
+
+      const url = isEdit ? `/api/partners/${editingPartner._id}` : '/api/partners';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      // Instant optimistic UI update
+      if (isEdit && editingPartner) {
+        setPartners((prev) =>
+          prev.map((p) =>
+            p._id === editingPartner._id
+              ? {
+                  ...p,
+                  name: trimmedName,
+                  type: partnerTypeInput,
+                  logo: finalLogoUrl,
+                  websiteUrl: trimmedWebsite,
+                  order: numericOrder,
+                  isActive: partnerIsActiveInput,
+                }
+              : p
+          )
+        );
+      }
+
+      const token = sessionStorage.getItem('admin_token') || '';
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          type: partnerTypeInput,
+          logo: finalLogoUrl,
+          websiteUrl: trimmedWebsite || undefined,
+          order: numericOrder,
+          isActive: partnerIsActiveInput,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        showFeedback(
+          data.message || (isEdit ? 'Partner updated successfully.' : 'Partner added successfully.'),
+          'success'
+        );
+        setIsPartnerModalOpen(false);
+        setPartnerNameInput('');
+        setPartnerLogoFile(null);
+        setPartnerLogoPreview('');
+        setPartnerWebsiteInput('');
+        setPartnerOrderInput(0);
+
+        if (!isEdit && data.data) {
+          setPartners((prev) => [data.data, ...prev]);
+        } else if (isEdit && data.data) {
+          setPartners((prev) =>
+            prev.map((p) => (p._id === data.data._id ? { ...p, ...data.data } : p))
+          );
+        }
+
+        invalidateApiCache('/api/partners');
+        fetchPartners(true);
+      } else {
+        setPartners(previousPartners);
+        showFeedback(data.error || 'Failed to save partner', 'error');
+      }
+    } catch (error: any) {
+      setPartners(previousPartners);
+      console.error('Partner submit error:', error);
+      showFeedback(error?.message || 'An error occurred while saving partner', 'error');
+    } finally {
+      setSubmittingPartner(false);
+    }
+  };
+
+  // Quick Toggle Partner Active
+  const handleTogglePartnerActive = async (partner: PartnerItem) => {
+    const previousPartners = [...partners];
+    const newStatus = !partner.isActive;
+
+    // Optimistic UI update
+    setPartners((prev) =>
+      prev.map((p) => (p._id === partner._id ? { ...p, isActive: newStatus } : p))
+    );
+
+    try {
+      const token = sessionStorage.getItem('admin_token') || '';
+      const res = await fetch(`/api/partners/${partner._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ isActive: newStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        invalidateApiCache('/api/partners');
+        showFeedback(`${partner.name} visibility updated.`, 'success');
+      } else {
+        setPartners(previousPartners);
+        showFeedback(data.error || 'Failed to update partner visibility', 'error');
+      }
+    } catch (err) {
+      setPartners(previousPartners);
+      showFeedback('Failed to update partner visibility', 'error');
+    }
+  };
+
+  // Quick Update Partner Order
+  const handlePartnerOrderChange = async (partnerId: string, newOrder: number) => {
+    setPartners((prev) =>
+      prev.map((p) => (p._id === partnerId ? { ...p, order: newOrder } : p))
+    );
+
+    try {
+      const token = sessionStorage.getItem('admin_token') || '';
+      await fetch(`/api/partners/${partnerId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ order: newOrder }),
+      });
+      invalidateApiCache('/api/partners');
+    } catch {
+      // Background update
+    }
+  };
+
   // Handle Delete Confirmation
   const confirmDelete = async () => {
     if (!deleteModalState.id) return;
@@ -897,12 +1217,15 @@ export default function AdminPage() {
     const previousCategories = [...categories];
     const previousProducts = [...products];
     const previousProjects = [...projects];
+    const previousPartners = [...partners];
 
     try {
       const endpoint = deleteType === 'category'
         ? `/api/categories/${deleteId}`
         : deleteType === 'project'
         ? `/api/projects/${deleteId}`
+        : deleteType === 'partner'
+        ? `/api/partners/${deleteId}`
         : `/api/products/${deleteId}`;
 
       // Optimistic UI update: Remove item instantly from UI
@@ -913,13 +1236,19 @@ export default function AdminPage() {
         }
       } else if (deleteType === 'project') {
         setProjects((prev) => prev.filter((p) => p._id !== deleteId));
+      } else if (deleteType === 'partner') {
+        setPartners((prev) => prev.filter((p) => p._id !== deleteId));
       } else {
         setProducts((prev) => prev.filter((p) => p._id !== deleteId));
       }
 
       setDeleteModalState({ isOpen: false, type: 'product', id: '', title: '' });
 
-      const res = await fetch(endpoint, { method: 'DELETE' });
+      const token = sessionStorage.getItem('admin_token') || '';
+      const res = await fetch(endpoint, {
+        method: 'DELETE',
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
       const data = await res.json();
 
       if (data.success) {
@@ -935,16 +1264,21 @@ export default function AdminPage() {
         } else if (deleteType === 'project') {
           invalidateApiCache('/api/projects');
           fetchProjects(true);
+        } else if (deleteType === 'partner') {
+          invalidateApiCache('/api/partners');
+          fetchPartners(true);
         } else {
           invalidateApiCache('/api/products');
           fetchProducts(true);
         }
       } else {
-        // Rollback on server failure (e.g., category deletion rejected due to dependent products)
+        // Rollback on server failure
         if (deleteType === 'category') {
           setCategories(previousCategories);
         } else if (deleteType === 'project') {
           setProjects(previousProjects);
+        } else if (deleteType === 'partner') {
+          setPartners(previousPartners);
         } else {
           setProducts(previousProducts);
         }
@@ -953,6 +1287,7 @@ export default function AdminPage() {
     } catch (error) {
       if (deleteType === 'category') setCategories(previousCategories);
       else if (deleteType === 'project') setProjects(previousProjects);
+      else if (deleteType === 'partner') setPartners(previousPartners);
       else setProducts(previousProducts);
       console.error('Delete error:', error);
       showFeedback('An error occurred while deleting item.', 'error');
@@ -964,6 +1299,31 @@ export default function AdminPage() {
   // Filtered lists for UI search
   const filteredCategories = categories.filter((c) =>
     c.name.toLowerCase().includes(categorySearch.toLowerCase())
+  );
+
+  const filteredPartners = useMemo(() => {
+    return partners
+      .filter((p) => {
+        const matchesType =
+          selectedPartnerTypeFilter === 'all' || p.type === selectedPartnerTypeFilter;
+        const q = partnerSearch.toLowerCase().trim();
+        const matchesSearch = !q || p.name.toLowerCase().includes(q);
+        return matchesType && matchesSearch;
+      })
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }, [partners, selectedPartnerTypeFilter, partnerSearch]);
+
+  const manufacturerCount = useMemo(
+    () => partners.filter((p) => p.type === 'manufacturer').length,
+    [partners]
+  );
+  const membershipCount = useMemo(
+    () => partners.filter((p) => p.type === 'membership').length,
+    [partners]
+  );
+  const certificationCount = useMemo(
+    () => partners.filter((p) => p.type === 'certification').length,
+    [partners]
   );
 
   const filteredProducts = products.filter((p) => {
@@ -1222,13 +1582,27 @@ export default function AdminPage() {
                 {projects.length}
               </span>
             </button>
+            <button
+              onClick={() => setActiveTab('partners')}
+              className={`flex items-center gap-2 px-5 py-3 font-bold text-sm border-b-2 transition-all cursor-pointer ${
+                activeTab === 'partners'
+                  ? 'border-[#E85D04] text-[#E85D04]'
+                  : 'border-transparent text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
+              }`}
+            >
+              <Handshake className="w-4 h-4" />
+              <span>Partners & Brands</span>
+              <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-stone-200 dark:bg-stone-800 font-semibold text-stone-700 dark:text-stone-300">
+                {partners.length}
+              </span>
+            </button>
           </div>
 
           <div>
             {activeTab === 'products' ? (
               <button
                 onClick={openAddProductModal}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Product</span>
@@ -1236,18 +1610,26 @@ export default function AdminPage() {
             ) : activeTab === 'categories' ? (
               <button
                 onClick={openAddCategoryModal}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Category</span>
               </button>
-            ) : (
+            ) : activeTab === 'projects' ? (
               <button
                 onClick={openAddProjectModal}
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all"
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Project</span>
+              </button>
+            ) : (
+              <button
+                onClick={openAddPartnerModal}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Partner / Brand</span>
               </button>
             )}
           </div>
@@ -1659,6 +2041,233 @@ export default function AdminPage() {
           </div>
         )}
 
+        {/* PARTNERS & BRANDS TAB CONTENT */}
+        {activeTab === 'partners' && (
+          <div className="space-y-6 min-h-[480px]">
+            {/* Filter & Search Bar */}
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs">
+              <div className="relative flex-1 max-w-md">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="text"
+                  placeholder="Search partners & brands by name..."
+                  value={partnerSearch}
+                  onChange={(e) => setPartnerSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] transition-all"
+                />
+              </div>
+
+              {/* Type Filter Pills */}
+              <div className="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+                <button
+                  type="button"
+                  onClick={() => setSelectedPartnerTypeFilter('all')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    selectedPartnerTypeFilter === 'all'
+                      ? 'bg-stone-900 dark:bg-stone-100 text-white dark:text-stone-900 shadow-xs'
+                      : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  }`}
+                >
+                  All ({partners.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPartnerTypeFilter('manufacturer')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    selectedPartnerTypeFilter === 'manufacturer'
+                      ? 'bg-[#E85D04] text-white shadow-xs'
+                      : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  }`}
+                >
+                  Manufacturers ({manufacturerCount})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPartnerTypeFilter('membership')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    selectedPartnerTypeFilter === 'membership'
+                      ? 'bg-amber-600 text-white shadow-xs'
+                      : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  }`}
+                >
+                  Memberships ({membershipCount})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedPartnerTypeFilter('certification')}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                    selectedPartnerTypeFilter === 'certification'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  }`}
+                >
+                  Certifications ({certificationCount})
+                </button>
+              </div>
+            </div>
+
+            {/* Partners Grid */}
+            {loadingPartners ? (
+              <div className="py-20 flex flex-col items-center justify-center space-y-3">
+                <Loader2 className="w-8 h-8 text-[#E85D04] animate-spin" />
+                <p className="text-sm text-stone-500">Loading partners & brands from database...</p>
+              </div>
+            ) : filteredPartners.length === 0 ? (
+              <div className="py-16 text-center bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 space-y-4">
+                <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-100 dark:bg-stone-800 flex items-center justify-center text-[#E85D04]">
+                  <Handshake className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">No Partners or Brands Found</h3>
+                  <p className="text-sm text-stone-500 max-w-md mx-auto mt-1">
+                    {partnerSearch
+                      ? 'No partners match your search criteria.'
+                      : 'Add your manufacturer brands, certifications, and industry memberships to showcase trust.'}
+                  </p>
+                </div>
+                <div>
+                  <button
+                    onClick={openAddPartnerModal}
+                    className="px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer"
+                  >
+                    + Add Partner / Brand Now
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+                {filteredPartners.map((partner: PartnerItem) => (
+                  <div
+                    key={partner._id}
+                    className={`bg-white dark:bg-stone-900 border rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group ${
+                      partner.isActive
+                        ? 'border-stone-200 dark:border-stone-800'
+                        : 'border-stone-200/50 dark:border-stone-800/50 opacity-75'
+                    }`}
+                  >
+                    {/* Top: Logo Display Area */}
+                    <div className="relative h-36 w-full bg-stone-50 dark:bg-stone-950/60 p-4 flex items-center justify-center border-b border-stone-100 dark:border-stone-800">
+                      {partner.logo ? (
+                        <div className="relative w-full h-full max-h-24">
+                          <Image
+                            src={partner.logo}
+                            alt={partner.name}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 250px"
+                            className="object-contain filter transition-transform duration-300 group-hover:scale-105"
+                          />
+                        </div>
+                      ) : (
+                        <div className="text-stone-300 dark:text-stone-700 flex flex-col items-center">
+                          <ImageIcon className="w-8 h-8" />
+                          <span className="text-[10px] mt-1">No Logo</span>
+                        </div>
+                      )}
+
+                      {/* Type Badge */}
+                      <div className="absolute top-3 left-3">
+                        <span
+                          className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                            partner.type === 'membership'
+                              ? 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
+                              : partner.type === 'certification'
+                              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                              : 'bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20'
+                          }`}
+                        >
+                          {partner.type}
+                        </span>
+                      </div>
+
+                      {/* Active Status Quick Toggle */}
+                      <button
+                        type="button"
+                        onClick={() => handleTogglePartnerActive(partner)}
+                        title={partner.isActive ? 'Active (Click to disable)' : 'Inactive (Click to activate)'}
+                        className={`absolute top-3 right-3 flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold transition-all cursor-pointer ${
+                          partner.isActive
+                            ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 hover:bg-rose-500/15 hover:text-rose-600'
+                            : 'bg-stone-200 dark:bg-stone-800 text-stone-500 border border-stone-300 dark:border-stone-700 hover:bg-emerald-500/15 hover:text-emerald-600'
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            partner.isActive ? 'bg-emerald-500' : 'bg-stone-400'
+                          }`}
+                        />
+                        <span>{partner.isActive ? 'Active' : 'Inactive'}</span>
+                      </button>
+                    </div>
+
+                    {/* Middle: Content Info */}
+                    <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
+                      <div>
+                        <h4 className="font-bold text-sm text-stone-900 dark:text-white line-clamp-1">
+                          {partner.name}
+                        </h4>
+                        <div className="mt-1 flex items-center gap-1.5 text-xs text-stone-500">
+                          <Globe className="w-3.5 h-3.5 shrink-0 text-stone-400" />
+                          {partner.websiteUrl ? (
+                            <a
+                              href={partner.websiteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#E85D04] hover:underline flex items-center gap-1 truncate text-xs"
+                            >
+                              <span className="truncate">{partner.websiteUrl.replace(/^https?:\/\/(www\.)?/, '')}</span>
+                              <ExternalLink className="w-3 h-3 shrink-0" />
+                            </a>
+                          ) : (
+                            <span className="text-stone-400 italic text-[11px]">No website URL</span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Card Footer */}
+                      <div className="pt-2 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs">
+                        <span className="text-[11px] font-medium text-stone-400 capitalize">
+                          {partner.type}
+                        </span>
+                        <span className="text-[10px] text-stone-400">
+                          ID: {partner._id.substring(partner._id.length - 4)}
+                        </span>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="pt-2 flex items-center justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => openEditPartnerModal(partner)}
+                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-stone-800 hover:bg-[#E85D04] hover:text-white text-stone-700 dark:text-stone-300 text-xs font-semibold transition-all cursor-pointer"
+                        >
+                          <Pencil className="w-3 h-3" />
+                          <span>Edit</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setDeleteModalState({
+                              isOpen: true,
+                              type: 'partner',
+                              id: partner._id,
+                              title: partner.name,
+                            })
+                          }
+                          className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-600 hover:text-white text-rose-600 dark:text-rose-400 text-xs font-semibold transition-all cursor-pointer"
+                        >
+                          <Trash2 className="w-3 h-3" />
+                          <span>Delete</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* CATEGORY ADD/EDIT MODAL */}
         {isCategoryModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
@@ -1731,18 +2340,30 @@ export default function AdminPage() {
                     <span className="text-[11px] text-stone-500 mt-1.5">
                       Used for full-width website Hero Banners & service cards
                     </span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                      ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
+                    </span>
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => {
+                      onChange={async (e) => {
                         const file = e.target.files?.[0];
                         if (file) {
                           if (!file.type.startsWith('image/')) {
                             showFeedback('Please select a valid image file', 'error');
                             return;
                           }
-                          setCategoryImageFile(file);
-                          setCategoryImagePreview(URL.createObjectURL(file));
+                          try {
+                            const res = await compressImageFile(file, { maxWidth: 1920, maxHeight: 1080, quality: 0.82 });
+                            setCategoryImageFile(res.file);
+                            setCategoryImagePreview(URL.createObjectURL(res.file));
+                            if (res.savingsPercent > 0) {
+                              showFeedback(`⚡ Cover optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+                            }
+                          } catch {
+                            setCategoryImageFile(file);
+                            setCategoryImagePreview(URL.createObjectURL(file));
+                          }
                         }
                       }}
                       className="hidden"
@@ -1755,6 +2376,7 @@ export default function AdminPage() {
                         src={categoryImagePreview}
                         alt="Category cover preview"
                         fill
+                        priority
                         sizes="300px"
                         className="object-cover"
                       />
@@ -1905,12 +2527,21 @@ export default function AdminPage() {
                   </label>
 
                   <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
                       <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
                       <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
                         {productImageFile
                           ? productImageFile.name
-                          : 'Select main primary image file'}
+                          : 'Select main primary product photo'}
+                      </span>
+                      <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                        📐 Recommended Size: 800 × 800 px or 1000 × 1000 px (1:1 Square)
+                      </span>
+                      <span className="text-[11px] text-stone-500 mt-1">
+                        Square 1:1 ratio ensures perfect matching across catalog & quick-view modals
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                        ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
                       </span>
                       <input
                         type="file"
@@ -1927,6 +2558,7 @@ export default function AdminPage() {
                           src={productImagePreview}
                           alt="Main Product preview"
                           fill
+                          priority
                           sizes="(max-width: 768px) 100vw, 300px"
                           className="object-cover"
                         />
@@ -1945,13 +2577,19 @@ export default function AdminPage() {
                   </label>
 
                   <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
                       <ImageIcon className="w-5 h-5 text-[#E85D04] mb-1" />
                       <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
                         Click to add multiple additional photos
                       </span>
-                      <span className="text-[11px] text-stone-500 mt-0.5">
-                        Select one or more images for the product detail gallery
+                      <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                        📐 Recommended Size: 800 × 800 px or 1200 × 900 px (1:1 or 4:3)
+                      </span>
+                      <span className="text-[11px] text-stone-500 mt-1">
+                        Select multiple high-resolution photos for the interactive product gallery
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                        ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
                       </span>
                       <input
                         type="file"
@@ -2195,15 +2833,21 @@ export default function AdminPage() {
                       </label>
 
                       <div className="space-y-3">
-                        <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all">
+                        <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
                           <Upload className="w-6 h-6 text-[#E85D04] mb-1" />
                           <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
                             {projectImageFile
                               ? projectImageFile.name
                               : 'Click to select or drop project photo'}
                           </span>
-                          <span className="text-[11px] text-stone-500 mt-0.5">
-                            PNG, JPG, WEBP or GIF supported
+                          <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                            📐 Recommended Size: 1200 × 800 px or 1920 × 1080 px (16:9 / 3:2 Landscape)
+                          </span>
+                          <span className="text-[11px] text-stone-500 mt-1">
+                            Landscape photo ensures perfect matching in on-site gallery & portfolio showcase
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                            ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
                           </span>
                           <input
                             type="file"
@@ -2220,6 +2864,7 @@ export default function AdminPage() {
                               src={projectImagePreview}
                               alt="Project photo preview"
                               fill
+                              priority
                               sizes="(max-width: 768px) 100vw, 400px"
                               className="object-cover"
                             />
@@ -2237,10 +2882,19 @@ export default function AdminPage() {
                         Additional Project Gallery Photos (Optional)
                       </label>
                       <div className="space-y-3">
-                        <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all">
+                        <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all text-center">
                           <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
                           <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
                             Click to select multiple gallery photos
+                          </span>
+                          <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                            📐 Recommended Size: 1200 × 800 px (3:2 / 16:9 Landscape)
+                          </span>
+                          <span className="text-[11px] text-stone-500 mt-1">
+                            Select multiple before/after & progress photos for project detail modal
+                          </span>
+                          <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                            ⚡ Auto WebP Compression Active (Ultra-fast loading & lightweight)
                           </span>
                           <input
                             type="file"
@@ -2300,6 +2954,231 @@ export default function AdminPage() {
                       </>
                     ) : (
                       <span>{projectModalMode === 'edit' ? 'Update Project' : 'Save Project'}</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* PARTNER / BRAND ADD/EDIT MODAL */}
+        {isPartnerModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
+                    <Handshake className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-stone-900 dark:text-white">
+                    {partnerModalMode === 'edit' ? 'Edit Partner / Brand' : 'Add New Partner / Brand'}
+                  </h3>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsPartnerModalOpen(false)}
+                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handlePartnerSubmit} className="space-y-4">
+                {/* Partner Name */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Partner / Brand Name <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Mannington Commercial, Shaw Contract, NWFA"
+                    value={partnerNameInput}
+                    onChange={(e) => setPartnerNameInput(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                  />
+                </div>
+
+                {/* Partner Type */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Type / Category <span className="text-rose-500">*</span>
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setPartnerTypeInput('manufacturer')}
+                      className={`p-2.5 rounded-xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                        partnerTypeInput === 'manufacturer'
+                          ? 'border-[#E85D04] bg-[#E85D04]/10 text-[#E85D04]'
+                          : 'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800'
+                      }`}
+                    >
+                      <Building2 className="w-4 h-4" />
+                      <span>Manufacturer</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPartnerTypeInput('membership')}
+                      className={`p-2.5 rounded-xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                        partnerTypeInput === 'membership'
+                          ? 'border-amber-600 bg-amber-500/10 text-amber-600 dark:text-amber-400'
+                          : 'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800'
+                      }`}
+                    >
+                      <Handshake className="w-4 h-4" />
+                      <span>Membership</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setPartnerTypeInput('certification')}
+                      className={`p-2.5 rounded-xl border text-xs font-bold flex flex-col items-center justify-center gap-1 transition-all cursor-pointer ${
+                        partnerTypeInput === 'certification'
+                          ? 'border-emerald-600 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          : 'border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800'
+                      }`}
+                    >
+                      <Award className="w-4 h-4" />
+                      <span>Certification</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Logo Upload */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Logo Image <span className="text-rose-500">*</span>
+                  </label>
+                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all text-center">
+                    <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
+                    <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
+                      Click to upload Brand / Partner / Certification Logo
+                    </span>
+                    <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                      📐 Recommended Size: 400 × 250 px (16:10 / 16:9) | Transparent PNG / SVG
+                    </span>
+                    <span className="text-[11px] text-stone-500 mt-1">
+                      Transparent PNG or SVG ensures perfect uniform matching across website grid cards
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/50 px-2.5 py-0.5 rounded-md mt-1">
+                      ⚡ Auto WebP Compression Active (Transparent & Crisp)
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          if (!file.type.startsWith('image/')) {
+                            showFeedback('Please select a valid image file', 'error');
+                            return;
+                          }
+                          try {
+                            const res = await compressImageFile(file, { maxWidth: 600, maxHeight: 400, quality: 0.85 });
+                            setPartnerLogoFile(res.file);
+                            setPartnerLogoPreview(URL.createObjectURL(res.file));
+                            if (res.savingsPercent > 0) {
+                              showFeedback(`⚡ Logo optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+                            }
+                          } catch {
+                            setPartnerLogoFile(file);
+                            setPartnerLogoPreview(URL.createObjectURL(file));
+                          }
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {partnerLogoPreview && (
+                    <div className="relative mt-3 rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-28 bg-stone-100 dark:bg-stone-800/60 p-2 flex items-center justify-center">
+                      <div className="relative w-full h-full max-h-24">
+                        <Image
+                          src={partnerLogoPreview}
+                          alt="Partner logo preview"
+                          fill
+                          sizes="300px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setPartnerLogoFile(null);
+                          setPartnerLogoPreview('');
+                        }}
+                        className="absolute top-2 right-2 p-1.5 bg-rose-500 text-white rounded-xl shadow-md hover:bg-rose-600 transition-all"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Optional Website URL */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Official Website URL (Optional)
+                  </label>
+                  <div className="relative">
+                    <Globe className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                    <input
+                      type="url"
+                      placeholder="https://www.example.com"
+                      value={partnerWebsiteInput}
+                      onChange={(e) => setPartnerWebsiteInput(e.target.value)}
+                      className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                    />
+                  </div>
+                  <p className="text-[11px] text-stone-500 mt-1">
+                    If provided, visitors can click this brand logo to visit the official website.
+                  </p>
+                </div>
+
+                {/* Visibility Status */}
+                <div className="pt-1">
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Visibility Status
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => setPartnerIsActiveInput(!partnerIsActiveInput)}
+                    className={`w-full py-2.5 px-4 rounded-xl border text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      partnerIsActiveInput
+                        ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                        : 'border-stone-300 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-stone-500'
+                    }`}
+                  >
+                    <span className={`w-2 h-2 rounded-full ${partnerIsActiveInput ? 'bg-emerald-500' : 'bg-stone-400'}`} />
+                    <span>{partnerIsActiveInput ? 'Active (Visible on website)' : 'Inactive (Hidden from website)'}</span>
+                  </button>
+                  <p className="text-[10px] text-stone-500 mt-1">
+                    Only active partners and brands will appear on your website.
+                  </p>
+                </div>
+
+                {/* Form Buttons */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+                  <button
+                    type="button"
+                    onClick={() => setIsPartnerModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submittingPartner}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 disabled:opacity-50 cursor-pointer"
+                  >
+                    {submittingPartner ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving Partner...</span>
+                      </>
+                    ) : (
+                      <span>{partnerModalMode === 'edit' ? 'Update Partner' : 'Save Partner'}</span>
                     )}
                   </button>
                 </div>

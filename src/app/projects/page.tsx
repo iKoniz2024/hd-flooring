@@ -15,7 +15,10 @@ import {
   Search,
   Filter,
   X,
-  RotateCcw
+  RotateCcw,
+  Building2,
+  Home,
+  Layers,
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -36,6 +39,7 @@ export default function ProjectsPage() {
   const [visibleCount, setVisibleCount] = useState<number>(12);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [selectedPropertyType, setSelectedPropertyType] = useState<'all' | 'Residential' | 'Commercial'>('all');
 
   useEffect(() => {
     async function fetchProjectsAndCategories() {
@@ -82,18 +86,39 @@ export default function ProjectsPage() {
     fetchProjectsAndCategories();
   }, []);
 
+  const residentialCount = useMemo(
+    () => projects.filter((p) => (p.propertyType || '').toLowerCase() === 'residential').length,
+    [projects]
+  );
+
+  const commercialCount = useMemo(
+    () => projects.filter((p) => (p.propertyType || '').toLowerCase() === 'commercial').length,
+    [projects]
+  );
+
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
+      // 1. Property Type filter (All | Residential | Commercial)
+      const matchesPropertyType =
+        selectedPropertyType === 'all' ||
+        (p.propertyType || 'Residential').toLowerCase() === selectedPropertyType.toLowerCase();
+
+      // 2. Flooring Category filter
       const matchesCategory =
         selectedCategory === 'all' ||
         p.category.toLowerCase().trim() === selectedCategory.toLowerCase().trim();
 
+      // 3. Search query filter
       const q = searchQuery.toLowerCase().trim();
-      const matchesSearch = !q || p.title.toLowerCase().includes(q);
+      const matchesSearch =
+        !q ||
+        p.title.toLowerCase().includes(q) ||
+        (p.location && p.location.toLowerCase().includes(q)) ||
+        (p.category && p.category.toLowerCase().includes(q));
 
-      return matchesCategory && matchesSearch;
+      return matchesPropertyType && matchesCategory && matchesSearch;
     });
-  }, [projects, selectedCategory, searchQuery]);
+  }, [projects, selectedPropertyType, selectedCategory, searchQuery]);
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-inter relative overflow-x-clip">
@@ -144,76 +169,166 @@ export default function ProjectsPage() {
         {/* SEARCH & CATEGORY FILTER BAR */}
         {!loading && (
           <div className="space-y-4 p-5 rounded-3xl bg-slate-50/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800 backdrop-blur-md shadow-sm">
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4">
-              {/* Search Bar */}
-              <div className="relative flex-1">
-                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  placeholder="Search by project title..."
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
+            {/* Top Row: Property Type Switcher (Tabs) + Search + Category Selector */}
+            <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+              {/* Property Type Segmented Filter (All Spaces | Residential | Commercial) */}
+              <div className="inline-flex p-1 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 shadow-sm self-start sm:self-auto w-full sm:w-auto">
+                <button
+                  onClick={() => {
+                    setSelectedPropertyType('all');
                     setVisibleCount(12);
                   }}
-                  className="w-full pl-10 pr-10 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-[#E85D04] transition-all shadow-inner"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setVisibleCount(12);
-                    }}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    selectedPropertyType === 'all'
+                      ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/25'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <Layers className="w-3.5 h-3.5" />
+                  <span>All Spaces</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                      selectedPropertyType === 'all'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                    }`}
                   >
-                    <X className="w-4 h-4" />
-                  </button>
-                )}
+                    {projects.length}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedPropertyType('Residential');
+                    setVisibleCount(12);
+                  }}
+                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    selectedPropertyType === 'Residential'
+                      ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/25'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <Home className="w-3.5 h-3.5" />
+                  <span>Residential</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                      selectedPropertyType === 'Residential'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                    }`}
+                  >
+                    {residentialCount}
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    setSelectedPropertyType('Commercial');
+                    setVisibleCount(12);
+                  }}
+                  className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    selectedPropertyType === 'Commercial'
+                      ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/25'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <Building2 className="w-3.5 h-3.5" />
+                  <span>Commercial</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.5 rounded-full font-extrabold ${
+                      selectedPropertyType === 'Commercial'
+                        ? 'bg-white/20 text-white'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                    }`}
+                  >
+                    {commercialCount}
+                  </span>
+                </button>
               </div>
 
-              {/* Category Dropdown (Mobile + Desktop quick select) */}
-              <div className="flex items-center gap-2 shrink-0">
-                <Filter className="w-4 h-4 text-[#E85D04]" />
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => {
-                    setSelectedCategory(e.target.value);
-                    setVisibleCount(12);
-                  }}
-                  className="w-full md:w-auto px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-[#E85D04] transition-all cursor-pointer shadow-sm"
-                >
-                  <option value="all">All Categories ({projects.length})</option>
-                  {categories.map((cat) => {
-                    const count = projects.filter((p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
-                    return (
-                      <option key={cat} value={cat}>
-                        {cat} ({count})
-                      </option>
-                    );
-                  })}
-                </select>
+              {/* Search Bar & Category Dropdown */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 flex-1 lg:max-w-xl">
+                {/* Search Bar */}
+                <div className="relative flex-1">
+                  <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search by title, location or type..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setVisibleCount(12);
+                    }}
+                    className="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:border-[#E85D04] transition-all shadow-inner"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setVisibleCount(12);
+                      }}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Category Dropdown */}
+                <div className="flex items-center gap-2 shrink-0">
+                  <Filter className="w-4 h-4 text-[#E85D04]" />
+                  <select
+                    value={selectedCategory}
+                    onChange={(e) => {
+                      setSelectedCategory(e.target.value);
+                      setVisibleCount(12);
+                    }}
+                    className="w-full sm:w-auto px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-xs font-bold text-slate-800 dark:text-slate-200 focus:outline-none focus:border-[#E85D04] transition-all cursor-pointer shadow-sm"
+                  >
+                    <option value="all">All Flooring ({projects.length})</option>
+                    {categories.map((cat) => {
+                      const count = projects.filter(
+                        (p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()
+                      ).length;
+                      return (
+                        <option key={cat} value={cat}>
+                          {cat} ({count})
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
               </div>
             </div>
 
-            {/* Category Filter Pills (Horizontal Scrollable Tabs) */}
+            {/* Bottom Row: Flooring Category Pills (Horizontal Scrollable Tabs) */}
             {categories.length > 0 && (
-              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-1 border-t border-slate-200/60 dark:border-slate-800/60">
+              <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none pt-2 border-t border-slate-200/60 dark:border-slate-800/60">
+                <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider shrink-0 mr-1 flex items-center gap-1">
+                  Flooring:
+                </span>
                 <button
                   onClick={() => {
                     setSelectedCategory('all');
                     setVisibleCount(12);
                   }}
-                  className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                     selectedCategory === 'all'
-                      ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/20'
+                      ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
                       : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/50'
                   }`}
                 >
-                  All Projects ({projects.length})
+                  All ({selectedPropertyType === 'all' ? projects.length : projects.filter(p => (p.propertyType || 'Residential').toLowerCase() === selectedPropertyType.toLowerCase()).length})
                 </button>
 
                 {categories.map((cat) => {
-                  const count = projects.filter((p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()).length;
+                  const count = projects.filter((p) => {
+                    const matchesProp =
+                      selectedPropertyType === 'all' ||
+                      (p.propertyType || 'Residential').toLowerCase() === selectedPropertyType.toLowerCase();
+                    const matchesCat = p.category.toLowerCase().trim() === cat.toLowerCase().trim();
+                    return matchesProp && matchesCat;
+                  }).length;
                   const isSelected = selectedCategory.toLowerCase().trim() === cat.toLowerCase().trim();
                   return (
                     <button
@@ -222,9 +337,9 @@ export default function ProjectsPage() {
                         setSelectedCategory(cat);
                         setVisibleCount(12);
                       }}
-                      className={`px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+                      className={`px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
                         isSelected
-                          ? 'bg-[#E85D04] text-white shadow-md shadow-[#E85D04]/20'
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-sm'
                           : 'bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/50'
                       }`}
                     >
@@ -232,6 +347,21 @@ export default function ProjectsPage() {
                     </button>
                   );
                 })}
+
+                {(selectedPropertyType !== 'all' || selectedCategory !== 'all' || searchQuery) && (
+                  <button
+                    onClick={() => {
+                      setSelectedPropertyType('all');
+                      setSelectedCategory('all');
+                      setSearchQuery('');
+                      setVisibleCount(12);
+                    }}
+                    className="ml-auto inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold text-[#E85D04] hover:bg-[#E85D04]/10 transition-all cursor-pointer shrink-0"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>Clear Filters</span>
+                  </button>
+                )}
               </div>
             )}
           </div>
@@ -253,13 +383,14 @@ export default function ProjectsPage() {
             <div>
               <h3 className="text-xl font-bold font-playfair">No Matching Projects Found</h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
-                No projects matched your search criteria or selected category filter. Try resetting your filter to view all projects.
+                No projects matched your search criteria or selected filters. Try resetting your filters to view all projects.
               </p>
             </div>
             <button
               onClick={() => {
                 setSearchQuery('');
                 setSelectedCategory('all');
+                setSelectedPropertyType('all');
                 setVisibleCount(12);
               }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-bold text-xs uppercase tracking-wider transition-all shadow-lg shadow-[#E85D04]/20 cursor-pointer"

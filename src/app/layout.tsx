@@ -36,6 +36,7 @@ const dmSans = DM_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hdflooringca.com'),
   title: 'HD Flooring | Professional Flooring Installation in Saskatoon, SK Canada',
   description:
     'HD Flooring by Habibur Rahman (Habib). Specialized in Sheet Vinyl coving, PVC, LVP, LVT, VCT, Hardwood, Laminate, Carpet, Tiles & Self Leveling in Saskatoon, SK. Call +1 (306) 880-8404.',

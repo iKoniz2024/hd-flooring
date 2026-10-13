@@ -51,6 +51,18 @@ export interface ProjectGalleryDoc {
   updatedAt: Date;
 }
 
+export interface PartnerDoc {
+  _id?: ObjectId;
+  name: string;
+  type: 'manufacturer' | 'membership' | 'certification';
+  logo: string;
+  websiteUrl?: string;
+  isActive: boolean;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/hd-flooring';
 const dbName = process.env.MONGODB_DB_NAME || 'hdFlooring';
 
@@ -74,7 +86,10 @@ export async function getMongoClient(): Promise<MongoClient> {
       minPoolSize: 1,
       connectTimeoutMS: 5000,
     });
-    global._mongoClientPromise = client.connect();
+    global._mongoClientPromise = client.connect().catch((err) => {
+      global._mongoClientPromise = undefined;
+      throw err;
+    });
   }
   return global._mongoClientPromise;
 }
@@ -88,7 +103,11 @@ export async function connectDB(): Promise<Db> {
       db = mongoClient.db(dbName);
       console.log('MongoDB Connected');
       return db;
-    })();
+    })().catch((err) => {
+      connectPromise = null;
+      db = null;
+      throw err;
+    });
   }
 
   return connectPromise;
@@ -120,6 +139,11 @@ export async function getUsersCollection(): Promise<Collection<UserDoc>> {
 export async function getProjectGalleryCollection(): Promise<Collection<ProjectGalleryDoc>> {
   const database = await connectDB();
   return database.collection<ProjectGalleryDoc>('project_gallery');
+}
+
+export async function getPartnersCollection(): Promise<Collection<PartnerDoc>> {
+  const database = await connectDB();
+  return database.collection<PartnerDoc>('partners');
 }
 
 export function getMimeTypeFromExt(filename: string): string {
