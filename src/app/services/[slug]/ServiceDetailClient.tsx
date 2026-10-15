@@ -21,7 +21,9 @@ import {
   Package,
   Loader2,
   Tag,
-  MapPin
+  MapPin,
+  Play,
+  Video as VideoIcon
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Header } from '@/components/layout/Header';
@@ -37,12 +39,15 @@ import { servicesData, ServiceItem } from '@/data/services';
 import { WhatsAppIcon } from '@/components/icons/WhatsAppIcon';
 import { fetchWithCache } from '@/lib/utils/apiCache';
 import { ProductQuickViewModal, QuickViewProduct } from '@/components/modals/ProductQuickViewModal';
+import { ProjectDetailModal, ProjectDetailItem } from '@/components/modals/ProjectDetailModal';
+import { UniversalVideoPlayer } from '@/components/video/UniversalVideoPlayer';
 
 interface CategoryDoc {
   _id: string;
   name: string;
   description?: string;
   image?: string;
+  videoUrl?: string;
   isActive?: boolean;
 }
 
@@ -55,6 +60,7 @@ interface ProductDoc {
   price: number;
   image: string;
   images?: string[];
+  videoUrl?: string;
 }
 
 interface ProjectDoc {
@@ -64,6 +70,7 @@ interface ProjectDoc {
   category: string;
   coverImage: string;
   galleryImages?: string[];
+  videoUrl?: string;
   challenge?: string;
   solution?: string;
   result?: string;
@@ -82,6 +89,8 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [showAllPhotos, setShowAllPhotos] = useState(false);
   const [selectedQuickViewProduct, setSelectedQuickViewProduct] = useState<QuickViewProduct | null>(null);
+  const [selectedProjectForModal, setSelectedProjectForModal] = useState<ProjectDetailItem | null>(null);
+  const [heroMediaType, setHeroMediaType] = useState<'video' | 'image'>('video');
 
   // Fallback service data matching slug
   const fallbackService: ServiceItem = useMemo(() => {
@@ -203,14 +212,17 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
   // Dynamic projects from DB matching this category
   const allCategoryProjects = useMemo(() => {
     return projects.map((p) => ({
+      _id: p._id,
       id: p._id,
       title: p.title,
       location: p.location || 'Saskatoon, SK',
       category: p.category || activeTitle,
       coverImage: p.coverImage,
       galleryImages: p.galleryImages || [],
+      videoUrl: p.videoUrl || '',
       challenge: p.challenge || '',
       solution: p.solution || '',
+      result: p.result || '',
     }));
   }, [projects, activeTitle]);
 
@@ -287,12 +299,12 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
         ]}
       />
 
-      <main className="flex-1 py-14 w-full space-y-20 relative z-10">
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20">
+      <main className="flex-1 py-8 sm:py-14 w-full space-y-12 sm:space-y-16 lg:space-y-20 relative z-10">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-12 sm:space-y-16 lg:space-y-20">
           <div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d45203] px-4 py-2 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 text-xs font-manrope font-bold text-[#E85D04] hover:text-[#d45203] px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 transition-all hover:scale-105"
             >
               <ArrowLeft className="w-4 h-4 text-[#E85D04]" />
               Back to All Services
@@ -305,23 +317,23 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
             transition={{ duration: 0.7, type: 'spring', stiffness: 160 }}
           >
             <TiltCard className="w-full">
-              <div className="p-8 sm:p-12 rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 shadow-2xl shadow-[#E85D04]/10 relative overflow-hidden group">
+              <div className="p-4 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-2xl border-2 border-stone-200/90 dark:border-slate-800 hover:border-[#E85D04]/60 shadow-2xl shadow-[#E85D04]/10 relative overflow-hidden group">
                 <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-95 group-hover:h-2 transition-all duration-300" />
                 <div className="absolute top-0 right-0 w-80 h-80 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
-                  <div className="lg:col-span-7 space-y-6 text-left">
-                    <div className="space-y-3">
-                      <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
-                        <Sparkles className="w-4 h-4 text-[#E85D04]" />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10 items-center relative z-10">
+                  <div className="lg:col-span-7 space-y-4 sm:space-y-6 text-left">
+                    <div className="space-y-2.5 sm:space-y-3">
+                      <span className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[11px] sm:text-xs font-manrope font-extrabold uppercase tracking-wider">
+                        <Sparkles className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E85D04]" />
                         Specialized Flooring Service
                       </span>
 
-                      <h1 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
+                      <h1 className="font-playfair text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight">
                         {activeTitle}
                       </h1>
 
-                      <p className="text-[#E85D04] font-manrope font-extrabold text-base sm:text-lg">
+                      <p className="text-[#E85D04] font-manrope font-extrabold text-sm sm:text-base lg:text-lg">
                         {categoryData?.description ? `${activeTitle} Services & Material Supply` : fallbackService.tagline}
                       </p>
                     </div>
@@ -330,49 +342,109 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                       {categoryData?.description || fallbackService.fullDesc}
                     </p>
 
-                    <div className="pt-2 flex flex-wrap items-center gap-4">
+                    <div className="pt-2 flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3.5">
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => openBookModal(activeTitle)}
-                        className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-xl shadow-[#E85D04]/30 inline-flex items-center gap-2 transition-all cursor-pointer"
+                        className="w-full sm:w-auto px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#E85D04] via-[#f06810] to-[#E85D04] hover:brightness-110 text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 inline-flex items-center justify-center gap-2 transition-all cursor-pointer text-center"
                       >
+                        <Sparkles className="hidden sm:inline-block w-4 h-4 shrink-0" />
                         <span>Book {activeTitle} Installation</span>
                       </motion.button>
 
-                      <motion.a
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        href="tel:+13068808404"
-                        className="px-6 py-4 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-extrabold flex items-center gap-2 transition-all"
-                      >
-                        <Phone className="w-4 h-4 text-[#E85D04]" />
-                        <span>Call +1 (306) 880-8404</span>
-                      </motion.a>
+                      <div className="grid grid-cols-2 gap-2 sm:flex sm:items-center sm:gap-3 w-full sm:w-auto">
+                        <motion.a
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          href="tel:+13068808404"
+                          className="px-3 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 text-xs font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all text-center"
+                        >
+                          <Phone className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E85D04] shrink-0" />
+                          <span className="truncate">Call Us</span>
+                        </motion.a>
 
-                      <motion.a
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        href={`https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20am%20interested%20in%20${encodeURIComponent(activeTitle)}.`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-6 py-4 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 text-xs font-extrabold flex items-center gap-2 transition-all"
-                      >
-                        <WhatsAppIcon className="w-4 h-4 text-[#25D366]" />
-                        <span>WhatsApp Us</span>
-                      </motion.a>
+                        <motion.a
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          href={`https://wa.me/13068808404?text=Hi%20HD%20Flooring%2C%20I%20am%20interested%20in%20${encodeURIComponent(activeTitle)}.`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-3 sm:px-5 sm:py-4 rounded-xl sm:rounded-2xl bg-[#25D366]/10 hover:bg-[#25D366]/20 border border-[#25D366]/40 text-[#25D366] text-xs font-bold flex items-center justify-center gap-1.5 sm:gap-2 transition-all text-center"
+                        >
+                          <WhatsAppIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#25D366] shrink-0" />
+                          <span>WhatsApp</span>
+                        </motion.a>
+                      </div>
                     </div>
                   </div>
 
-                  {heroImageToDisplay ? (
-                    <div className="lg:col-span-5 relative group/img rounded-3xl overflow-hidden shadow-2xl border-2 border-[#E85D04]/50 h-[340px] sm:h-[380px] shrink-0 bg-slate-900">
-                      <Image
-                        src={heroImageToDisplay}
-                        alt={activeTitle}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 40vw"
-                        className="object-cover group-hover/img:scale-105 transition-transform duration-700"
-                      />
+                  {/* Hero Media Container: Video Player or Banner Photo */}
+                  {(categoryData?.videoUrl || heroImageToDisplay) ? (
+                    <div className="lg:col-span-5 flex flex-col space-y-2.5 w-full">
+                      {/* Media Switcher Tab (Cleanly separated above media box to never overlap video title) */}
+                      {categoryData?.videoUrl && heroImageToDisplay && (
+                        <div className="flex items-center justify-between px-1">
+                          <span className="text-[11px] font-manrope font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                            <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
+                            <span>Service Showcase</span>
+                          </span>
+
+                          <div className="flex items-center gap-1 p-1 rounded-xl sm:rounded-full bg-stone-100 dark:bg-slate-800 border border-stone-200/90 dark:border-slate-700 shadow-xs">
+                            <button
+                              type="button"
+                              onClick={() => setHeroMediaType('video')}
+                              className={`px-3 py-1 rounded-lg sm:rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                heroMediaType === 'video'
+                                  ? 'bg-[#E85D04] text-white shadow-sm'
+                                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                              }`}
+                            >
+                              <Play className="w-3 h-3 fill-current" />
+                              <span>Video</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setHeroMediaType('image')}
+                              className={`px-3 py-1 rounded-lg sm:rounded-full text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ${
+                                heroMediaType === 'image'
+                                  ? 'bg-[#E85D04] text-white shadow-sm'
+                                  : 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-white'
+                              }`}
+                            >
+                              <Images className="w-3 h-3" />
+                              <span>Photo</span>
+                            </button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Video Player or Photo Box */}
+                      <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border-2 border-[#E85D04]/40 bg-black w-full">
+                        {categoryData?.videoUrl && heroMediaType === 'video' ? (
+                          <div className="w-full aspect-video flex items-center justify-center bg-black">
+                            <UniversalVideoPlayer
+                              url={categoryData.videoUrl}
+                              title={`${activeTitle} Video Showcase`}
+                              poster={heroImageToDisplay || undefined}
+                              autoPlay={false}
+                              muted={false}
+                              className="w-full h-full !rounded-2xl sm:!rounded-3xl border-0 shadow-none"
+                            />
+                          </div>
+                        ) : heroImageToDisplay ? (
+                          <div className="relative aspect-video w-full group/img">
+                            <Image
+                              src={heroImageToDisplay}
+                              alt={activeTitle}
+                              fill
+                              priority
+                              sizes="(max-width: 1024px) 100vw, 40vw"
+                              className="object-cover group-hover/img:scale-105 transition-transform duration-700"
+                            />
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
                   ) : null}
                 </div>
@@ -430,6 +502,15 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                           ${product.price.toFixed(2)} / sq.ft
                         </span>
                       </div>
+
+                      {product.videoUrl && (
+                        <div className="absolute bottom-3 left-3">
+                          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-black/85 text-white backdrop-blur-md border border-[#E85D04]/40 shadow-lg">
+                            <Play className="w-2.5 h-2.5 fill-[#E85D04] text-[#E85D04]" />
+                            <span>Watch Video</span>
+                          </span>
+                        </div>
+                      )}
                     </div>
 
                     <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -448,9 +529,10 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                       <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                         <button
                           onClick={() => setSelectedQuickViewProduct(product)}
-                          className="text-xs font-bold text-[#E85D04] hover:underline cursor-pointer"
+                          className="text-xs font-bold text-[#E85D04] hover:underline cursor-pointer flex items-center gap-1"
                         >
-                          View Details →
+                          {product.videoUrl && <Play className="w-3 h-3 fill-current" />}
+                          <span>View Details →</span>
                         </button>
 
                         <button
@@ -497,7 +579,7 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {displayedProjects.map((project, idx) => {
+                {displayedProjects.map((project) => {
                   const totalPhotos = Array.from(new Set([project.coverImage, ...(project.galleryImages || [])])).filter(Boolean);
                   return (
                     <div
@@ -505,16 +587,7 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                       className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800/80 rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl hover:border-[#E85D04]/50 transition-all duration-300 flex flex-col justify-between group"
                     >
                       <div
-                        onClick={() => {
-                          const photos = totalPhotos;
-                          if (photos.length > 0) {
-                            const globalIdx = galleryPhotos.findIndex((img) => img === photos[0]);
-                            if (globalIdx !== -1) {
-                              setActiveImageIdx(globalIdx);
-                            }
-                            setLightboxOpen(true);
-                          }
-                        }}
+                        onClick={() => setSelectedProjectForModal(project as unknown as ProjectDetailItem)}
                         className="relative h-60 w-full bg-slate-100 dark:bg-slate-800 overflow-hidden cursor-pointer block"
                       >
                         <Image
@@ -525,6 +598,16 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                           className="object-cover group-hover:scale-108 transition-transform duration-700"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-70 group-hover:opacity-90 transition-opacity" />
+
+                        {/* Video Tour Badge if video exists */}
+                        {project.videoUrl && (
+                          <div className="absolute top-3 left-3">
+                            <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-slate-950/85 text-white backdrop-blur-md border border-[#E85D04]/40 shadow-lg flex items-center gap-1">
+                              <Play className="w-3 h-3 fill-[#E85D04] text-[#E85D04]" />
+                              <span>Video Tour</span>
+                            </span>
+                          </div>
+                        )}
 
                         <div className="absolute top-3 right-3 flex items-center gap-2">
                           <span className="px-3 py-1 rounded-full text-[11px] font-extrabold bg-black/75 backdrop-blur-md text-white border border-white/20 shadow-md flex items-center gap-1.5">
@@ -551,20 +634,11 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
 
                         <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                           <button
-                            onClick={() => {
-                              const photos = totalPhotos;
-                              if (photos.length > 0) {
-                                const globalIdx = galleryPhotos.findIndex((img) => img === photos[0]);
-                                if (globalIdx !== -1) {
-                                  setActiveImageIdx(globalIdx);
-                                }
-                                setLightboxOpen(true);
-                              }
-                            }}
-                            className="text-xs font-manrope font-extrabold text-[#E85D04] hover:underline flex items-center gap-1 cursor-pointer"
+                            onClick={() => setSelectedProjectForModal(project as unknown as ProjectDetailItem)}
+                            className="text-xs font-manrope font-extrabold text-[#E85D04] hover:underline flex items-center gap-1.5 cursor-pointer"
                           >
-                            <Maximize2 className="w-3.5 h-3.5" />
-                            <span>View Full Gallery →</span>
+                            {project.videoUrl && <Play className="w-3 h-3 fill-current" />}
+                            <span>View Details & Tour →</span>
                           </button>
 
                           <button
@@ -664,7 +738,7 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
         </div>
 
         {/* PROCESS & FAQ SECTIONS */}
-        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-20 mt-12">
+        <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full space-y-12 sm:space-y-16 lg:space-y-20 mt-8 sm:mt-12">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -677,12 +751,12 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                 <Wrench className="w-4 h-4 text-[#E85D04]" />
                 <span>Step-By-Step Execution</span>
               </div>
-              <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+              <h2 className="font-playfair text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
                 Our Professional <span className="text-[#E85D04]">Installation Process</span>
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3.5 sm:gap-5">
               {fallbackService.process.map((stepName, idx) => (
                 <motion.div
                   key={idx}
@@ -692,9 +766,9 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
                   transition={{ duration: 0.4, delay: idx * 0.08 }}
                 >
                   <TiltCard className="h-full">
-                    <div className="p-6 rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl text-center space-y-3 h-full flex flex-col justify-between group transition-all duration-300 relative overflow-hidden">
+                    <div className="p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/90 dark:border-slate-800 hover:border-[#E85D04] shadow-xl text-center space-y-2.5 sm:space-y-3 h-full flex flex-col justify-between group transition-all duration-300 relative overflow-hidden">
                       <div className="h-1.5 w-0 group-hover:w-full bg-[#E85D04] transition-all duration-500 absolute top-0 left-0" />
-                      <div className="w-10 h-10 mx-auto rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center font-playfair font-black text-[#E85D04] text-lg group-hover:scale-110 transition-transform">
+                      <div className="w-9 h-9 sm:w-10 sm:h-10 mx-auto rounded-xl sm:rounded-2xl bg-[#E85D04]/10 border border-[#E85D04]/30 flex items-center justify-center font-playfair font-black text-[#E85D04] text-base sm:text-lg group-hover:scale-110 transition-transform">
                         0{idx + 1}
                       </div>
                       <p className="text-xs sm:text-sm font-manrope font-extrabold text-slate-900 dark:text-slate-100 leading-snug">
@@ -713,14 +787,14 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6 }}
-              className="space-y-8"
+              className="space-y-6 sm:space-y-8"
             >
-              <div className="text-center space-y-3">
-                <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
+              <div className="text-center space-y-2 sm:space-y-3">
+                <div className="inline-flex items-center gap-1.5 px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-manrope font-extrabold uppercase tracking-wider">
                   <HelpCircle className="w-4 h-4 text-[#E85D04] shrink-0" />
                   <span>Got Questions?</span>
                 </div>
-                <h2 className="font-playfair text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
+                <h2 className="font-playfair text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">
                   Frequently Asked Questions
                 </h2>
               </div>
@@ -733,7 +807,7 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.6 }}
-            className="p-8 sm:p-12 rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden"
+            className="p-5 sm:p-8 lg:p-12 rounded-2xl sm:rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200 dark:border-stone-800 text-stone-900 dark:text-white flex flex-col sm:flex-row items-center justify-between gap-5 sm:gap-6 shadow-xl relative overflow-hidden"
           >
             <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-90" />
 
@@ -816,6 +890,13 @@ export function ServiceDetailClient({ slug }: { slug: string }) {
         isOpen={Boolean(selectedQuickViewProduct)}
         onClose={() => setSelectedQuickViewProduct(null)}
         onGetQuote={openBookModal}
+      />
+
+      <ProjectDetailModal
+        project={selectedProjectForModal}
+        isOpen={Boolean(selectedProjectForModal)}
+        onClose={() => setSelectedProjectForModal(null)}
+        onGetEstimate={(title) => openBookModal(title)}
       />
 
       <FloatingScrollBtns />

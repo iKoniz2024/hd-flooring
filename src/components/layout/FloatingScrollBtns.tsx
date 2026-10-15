@@ -36,18 +36,19 @@ export function FloatingScrollBtns() {
   };
 
   return (
-    <div className="fixed right-4 bottom-8 z-50 flex flex-col gap-2.5 items-center pointer-events-auto">
+    // Hidden on mobile devices (< md) to avoid blocking cards and video players; shown on desktop
+    <div className="hidden md:flex fixed right-4 bottom-[92px] z-30 flex-col gap-2 items-center pointer-events-auto">
       <AnimatePresence>
         {showScrollTop && (
           <motion.button
             initial={{ opacity: 0, y: 15, scale: 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.8 }}
-            whileHover={{ scale: 1.15, y: -2 }}
+            whileHover={{ scale: 1.1, y: -2 }}
             whileTap={{ scale: 0.9 }}
             onClick={scrollToTop}
             aria-label="Scroll to top"
-            className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-[#E85D04]/40 text-[#E85D04] hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-lg shadow-[#E85D04]/10 transition-all duration-300 group"
+            className="w-10 h-10 rounded-full bg-stone-900/90 dark:bg-stone-900/90 border border-stone-700/80 hover:border-[#E85D04] text-stone-300 hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-md flex items-center justify-center transition-all duration-300 group cursor-pointer"
           >
             <ChevronUp className="w-5 h-5 group-hover:-translate-y-0.5 transition-transform duration-200" />
           </motion.button>
@@ -55,11 +56,11 @@ export function FloatingScrollBtns() {
       </AnimatePresence>
 
       <motion.button
-        whileHover={{ scale: 1.15, y: 2 }}
+        whileHover={{ scale: 1.1, y: 2 }}
         whileTap={{ scale: 0.9 }}
         onClick={scrollToBottom}
         aria-label="Scroll to bottom"
-        className="p-3 rounded-full bg-slate-900/90 dark:bg-slate-900/90 border border-[#E85D04]/40 text-[#E85D04] hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-lg shadow-[#E85D04]/10 transition-all duration-300 group"
+        className="w-10 h-10 rounded-full bg-stone-900/90 dark:bg-stone-900/90 border border-stone-700/80 hover:border-[#E85D04] text-stone-300 hover:text-white hover:bg-[#E85D04] backdrop-blur-md shadow-md flex items-center justify-center transition-all duration-300 group cursor-pointer"
       >
         <ChevronDown className="w-5 h-5 group-hover:translate-y-0.5 transition-transform duration-200" />
       </motion.button>

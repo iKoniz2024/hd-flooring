@@ -64,6 +64,7 @@ export async function PUT(
       location,
       coverImage,
       galleryImages,
+      videoUrl,
       challenge,
       solution,
       result,
@@ -93,6 +94,7 @@ export async function PUT(
     if (location) updateDoc.location = String(location).trim();
     if (coverImage) updateDoc.coverImage = String(coverImage).trim();
     if (Array.isArray(galleryImages)) updateDoc.galleryImages = galleryImages;
+    if (videoUrl !== undefined) updateDoc.videoUrl = typeof videoUrl === 'string' ? videoUrl.trim() : '';
     if (challenge !== undefined) updateDoc.challenge = String(challenge).trim();
     if (solution !== undefined) updateDoc.solution = String(solution).trim();
     if (result !== undefined) updateDoc.result = String(result).trim();

@@ -34,16 +34,19 @@ import {
   Handshake,
   ExternalLink,
   Globe,
-  Award
+  Award,
+  Video as VideoIcon
 } from 'lucide-react';
 import { invalidateApiCache, updateApiCache } from '@/lib/utils/apiCache';
 import { compressImageFile, formatFileSize } from '@/lib/utils/imageCompression';
+import { VideoInputPicker } from '@/components/admin/VideoInputPicker';
 
 interface Category {
   _id: string;
   name: string;
   description?: string;
   image?: string;
+  videoUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -57,6 +60,7 @@ interface Product {
   price: number;
   image: string;
   images?: string[];
+  videoUrl?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -68,6 +72,7 @@ interface ProjectItem {
   propertyType: 'Residential' | 'Commercial';
   location: string;
   coverImage: string;
+  videoUrl?: string;
   challenge?: string;
   solution?: string;
   result?: string;
@@ -137,6 +142,7 @@ export default function AdminPage() {
   const [categoryDescriptionInput, setCategoryDescriptionInput] = useState('');
   const [categoryImageFile, setCategoryImageFile] = useState<File | null>(null);
   const [categoryImagePreview, setCategoryImagePreview] = useState<string>('');
+  const [categoryVideoUrl, setCategoryVideoUrl] = useState('');
   const [submittingCategory, setSubmittingCategory] = useState(false);
 
   // Product Modal state
@@ -152,6 +158,7 @@ export default function AdminPage() {
   const [productImagePreview, setProductImagePreview] = useState('');
   const [productAdditionalFiles, setProductAdditionalFiles] = useState<File[]>([]);
   const [productAdditionalPreviews, setProductAdditionalPreviews] = useState<string[]>([]);
+  const [productVideoUrl, setProductVideoUrl] = useState('');
   const [submittingProduct, setSubmittingProduct] = useState(false);
 
   // Project Modal state
@@ -170,6 +177,7 @@ export default function AdminPage() {
   const [projectImagePreview, setProjectImagePreview] = useState('');
   const [projectAdditionalFiles, setProjectAdditionalFiles] = useState<File[]>([]);
   const [projectAdditionalPreviews, setProjectAdditionalPreviews] = useState<string[]>([]);
+  const [projectVideoUrl, setProjectVideoUrl] = useState('');
   const [submittingProject, setSubmittingProject] = useState(false);
 
   // Partner Modal state
@@ -427,6 +435,7 @@ export default function AdminPage() {
     setCategoryDescriptionInput('');
     setCategoryImageFile(null);
     setCategoryImagePreview('');
+    setCategoryVideoUrl('');
     setIsCategoryModalOpen(true);
   };
 
@@ -437,6 +446,7 @@ export default function AdminPage() {
     setCategoryDescriptionInput(cat.description || '');
     setCategoryImageFile(null);
     setCategoryImagePreview(cat.image || '');
+    setCategoryVideoUrl(cat.videoUrl || '');
     setIsCategoryModalOpen(true);
   };
 
@@ -552,12 +562,14 @@ export default function AdminPage() {
       const url = isEdit ? `/api/categories/${editingCategory._id}` : '/api/categories';
       const method = isEdit ? 'PUT' : 'POST';
 
+      const cleanVideoUrl = categoryVideoUrl.trim();
+
       // Instant optimistic local state update for instant UI feedback
       if (isEdit && editingCategory) {
         setCategories((prev) =>
           prev.map((cat) =>
             cat._id === editingCategory._id
-              ? { ...cat, name: trimmedName, description: trimmedDesc, image: finalCategoryImageUrl }
+              ? { ...cat, name: trimmedName, description: trimmedDesc, image: finalCategoryImageUrl, videoUrl: cleanVideoUrl }
               : cat
           )
         );
@@ -574,6 +586,7 @@ export default function AdminPage() {
           name: trimmedName,
           description: trimmedDesc,
           image: finalCategoryImageUrl,
+          videoUrl: cleanVideoUrl,
         }),
       });
 
@@ -587,6 +600,7 @@ export default function AdminPage() {
         setCategoryImageFile(null);
         setCategoryModalMode('add');
         setCategoryImagePreview('');
+        setCategoryVideoUrl('');
 
         if (!isEdit && data.data) {
           setCategories((prev) => {
@@ -631,6 +645,7 @@ export default function AdminPage() {
     setProductImagePreview('');
     setProductAdditionalFiles([]);
     setProductAdditionalPreviews([]);
+    setProductVideoUrl('');
     setIsProductModalOpen(true);
   };
 
@@ -645,6 +660,7 @@ export default function AdminPage() {
     setProductImagePreview(prod.image);
     setProductAdditionalFiles([]);
     setProductAdditionalPreviews(Array.isArray(prod.images) ? prod.images : []);
+    setProductVideoUrl(prod.videoUrl || '');
     setIsProductModalOpen(true);
   };
 
@@ -771,6 +787,7 @@ export default function AdminPage() {
         price: priceNum,
         image: finalMainImageUrl,
         images: finalAdditionalImages,
+        videoUrl: productVideoUrl.trim(),
       };
 
       const previousProducts = [...products];
@@ -838,6 +855,7 @@ export default function AdminPage() {
     setProjectImagePreview('');
     setProjectAdditionalFiles([]);
     setProjectAdditionalPreviews([]);
+    setProjectVideoUrl('');
     setIsProjectModalOpen(true);
   };
 
@@ -855,6 +873,7 @@ export default function AdminPage() {
     setProjectImagePreview(proj.coverImage);
     setProjectAdditionalFiles([]);
     setProjectAdditionalPreviews((proj as any).galleryImages || []);
+    setProjectVideoUrl(proj.videoUrl || (proj as any).videoUrl || '');
     setIsProjectModalOpen(true);
   };
 
@@ -965,6 +984,7 @@ export default function AdminPage() {
         location: projectLocation.trim(),
         coverImage: finalImageUrl,
         galleryImages: allGalleryImages,
+        videoUrl: projectVideoUrl.trim(),
         challenge: projectChallenge.trim(),
         solution: projectSolution.trim(),
         result: projectResult.trim(),
@@ -1861,7 +1881,15 @@ export default function AdminPage() {
                                   <Layers className="w-5 h-5" />
                                 </div>
                               )}
-                              <span>{category.name}</span>
+                              <div className="flex items-center gap-2">
+                                <span>{category.name}</span>
+                                {category.videoUrl && (
+                                  <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-orange-100 text-[#E85D04] dark:bg-[#E85D04]/20 border border-[#E85D04]/30 shadow-xs">
+                                    <VideoIcon className="w-2.5 h-2.5" />
+                                    Video
+                                  </span>
+                                )}
+                              </div>
                             </td>
 
                             <td className="py-4 px-6 text-stone-600 dark:text-stone-400 font-medium">
@@ -2270,147 +2298,243 @@ export default function AdminPage() {
 
         {/* CATEGORY ADD/EDIT MODAL */}
         {isCategoryModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-6">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fade-in">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl max-w-4xl w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
+              {/* Sticky Header */}
+              <div className="px-6 py-5 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#E85D04]/20 to-[#F48C06]/10 text-[#E85D04] border border-[#E85D04]/20 flex items-center justify-center shadow-xs">
                     <Layers className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-stone-900 dark:text-white">
-                    {categoryModalMode === 'edit' ? 'Edit Category' : 'Add New Category'}
-                  </h3>
+                  <div>
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-white">
+                      {categoryModalMode === 'edit' ? 'Edit Category' : 'Add New Category'}
+                    </h3>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      Manage category details, 16:9 hero banner, and video showcase.
+                    </p>
+                  </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsCategoryModalOpen(false)}
-                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                  className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleCategorySubmit} className="space-y-5">
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
-                    Category Name <span className="text-rose-500">*</span>
-                  </label>
-                  <div className="relative">
-                    <Tag className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Hardwood Flooring, Vinyl Planks"
-                      value={categoryNameInput}
-                      onChange={(e) => setCategoryNameInput(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                    />
-                  </div>
-                  <p className="text-[11px] text-stone-500 mt-1.5">
-                    Category name must be unique.
-                  </p>
-                </div>
+              {/* Form with scrollable body and sticky footer */}
+              <form onSubmit={handleCategorySubmit} className="flex flex-col flex-1 overflow-hidden">
+                <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    
+                    {/* Left Column: Basic Info & Banner */}
+                    <div className="space-y-5">
+                      <div className="bg-stone-50/80 dark:bg-stone-850 p-4 sm:p-5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80 space-y-4">
+                        <div className="flex items-center gap-2 text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
+                          <Tag className="w-3.5 h-3.5 text-[#E85D04]" />
+                          <span>General Information</span>
+                        </div>
 
-                {/* Category Short Description */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
-                    Category Short Description (Optional)
-                  </label>
-                  <textarea
-                    rows={2}
-                    placeholder="Brief tagline or description to display on Hero banner & services (e.g. Solid & Engineered hardwood flooring installation)"
-                    value={categoryDescriptionInput}
-                    onChange={(e) => setCategoryDescriptionInput(e.target.value)}
-                    className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all resize-none"
-                  />
-                </div>
+                        {/* Category Name */}
+                        <div>
+                          <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                            Category Name <span className="text-rose-500">*</span>
+                          </label>
+                          <div className="relative">
+                            <Tag className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+                            <input
+                              type="text"
+                              required
+                              placeholder="e.g. Hardwood Flooring"
+                              value={categoryNameInput}
+                              onChange={(e) => setCategoryNameInput(e.target.value)}
+                              className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] focus:ring-2 focus:ring-[#E85D04]/20 font-medium transition-all"
+                            />
+                          </div>
+                          <p className="text-[11px] text-stone-400 mt-1">
+                            Must be unique (e.g. Vinyl Planks, Sheet Vinyl, Carpet).
+                          </p>
+                        </div>
 
-                {/* Category Banner Image Upload */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-2">
-                    Category Cover & Hero Banner Image <span className="text-rose-500">*</span>
-                  </label>
-                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
-                    <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
-                    <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
-                      Click to upload Category Cover Image
-                    </span>
-                    <span className="text-[11px] font-bold text-[#E85D04] dark:text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                      📐 Recommended: 1920 × 1080 px (16:9 Widescreen)
-                    </span>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={async (e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          if (!file.type.startsWith('image/')) {
-                            showFeedback('Please select a valid image file', 'error');
-                            return;
-                          }
-                          try {
-                            const res = await compressImageFile(file, { maxWidth: 1920, maxHeight: 1080, quality: 0.82 });
-                            setCategoryImageFile(res.file);
-                            setCategoryImagePreview(URL.createObjectURL(res.file));
-                            if (res.savingsPercent > 0) {
-                              showFeedback(`⚡ Cover optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
-                            }
-                          } catch {
-                            setCategoryImageFile(file);
-                            setCategoryImagePreview(URL.createObjectURL(file));
-                          }
-                        }
-                      }}
-                      className="hidden"
-                    />
-                  </label>
+                        {/* Category Short Description */}
+                        <div>
+                          <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                            Short Description / Tagline (Optional)
+                          </label>
+                          <textarea
+                            rows={3}
+                            placeholder="Brief tagline to display on service pages and hero banners..."
+                            value={categoryDescriptionInput}
+                            onChange={(e) => setCategoryDescriptionInput(e.target.value)}
+                            className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] focus:ring-2 focus:ring-[#E85D04]/20 font-medium transition-all resize-none"
+                          />
+                        </div>
+                      </div>
 
-                  {categoryImagePreview && (
-                    <div className="relative mt-3 rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-36 bg-stone-100 dark:bg-stone-800">
-                      <Image
-                        src={categoryImagePreview}
-                        alt="Category cover preview"
-                        fill
-                        priority
-                        sizes="300px"
-                        className="object-cover"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setCategoryImageFile(null);
-                          setCategoryImagePreview('');
-                        }}
-                        className="absolute top-2 right-2 p-1.5 bg-rose-600 text-white rounded-full hover:bg-rose-700 transition-colors shadow-md"
-                        title="Remove image"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
+                      {/* Category Cover Image Card */}
+                      <div className="bg-stone-50/80 dark:bg-stone-850 p-4 sm:p-5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-2">
+                            <span className="w-6 h-6 rounded-lg bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center">
+                              <ImageIcon className="w-3.5 h-3.5" />
+                            </span>
+                            <span>Cover & Hero Banner <span className="text-rose-500">*</span></span>
+                          </label>
+                          <span className="text-[10px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2 py-0.5 rounded-md border border-[#E85D04]/20">
+                            16:9 Widescreen
+                          </span>
+                        </div>
+
+                        {categoryImagePreview ? (
+                          <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 aspect-video bg-stone-900 group shadow-md">
+                            <Image
+                              src={categoryImagePreview}
+                              alt="Category cover preview"
+                              fill
+                              priority
+                              sizes="500px"
+                              className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                              <label className="px-3 py-1.5 bg-white text-stone-800 text-xs font-bold rounded-lg cursor-pointer hover:bg-stone-100 transition-colors shadow">
+                                Change Image
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  onChange={async (e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      if (!file.type.startsWith('image/')) {
+                                        showFeedback('Please select a valid image file', 'error');
+                                        return;
+                                      }
+                                      try {
+                                        const res = await compressImageFile(file, { maxWidth: 1920, maxHeight: 1080, quality: 0.82 });
+                                        setCategoryImageFile(res.file);
+                                        setCategoryImagePreview(URL.createObjectURL(res.file));
+                                        if (res.savingsPercent > 0) {
+                                          showFeedback(`⚡ Cover optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+                                        }
+                                      } catch {
+                                        setCategoryImageFile(file);
+                                        setCategoryImagePreview(URL.createObjectURL(file));
+                                      }
+                                    }
+                                  }}
+                                  className="hidden"
+                                />
+                              </label>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setCategoryImageFile(null);
+                                  setCategoryImagePreview('');
+                                }}
+                                className="p-1.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors shadow"
+                                title="Remove image"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                            <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg text-white text-[10px] font-bold">
+                              Cover Banner Preview
+                            </div>
+                          </div>
+                        ) : (
+                          <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-white dark:bg-stone-900/60 hover:bg-[#E85D04]/5 transition-all text-center aspect-video">
+                            <div className="w-11 h-11 rounded-full bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center mb-2 shadow-xs">
+                              <Upload className="w-5 h-5" />
+                            </div>
+                            <span className="text-xs font-bold text-stone-800 dark:text-stone-200">
+                              Click to upload Category Cover Image
+                            </span>
+                            <span className="text-[11px] text-stone-400 mt-1">
+                              Recommended: 1920 × 1080 px (16:9 Widescreen)
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  if (!file.type.startsWith('image/')) {
+                                    showFeedback('Please select a valid image file', 'error');
+                                    return;
+                                  }
+                                  try {
+                                    const res = await compressImageFile(file, { maxWidth: 1920, maxHeight: 1080, quality: 0.82 });
+                                    setCategoryImageFile(res.file);
+                                    setCategoryImagePreview(URL.createObjectURL(res.file));
+                                    if (res.savingsPercent > 0) {
+                                      showFeedback(`⚡ Cover optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+                                    }
+                                  } catch {
+                                    setCategoryImageFile(file);
+                                    setCategoryImagePreview(URL.createObjectURL(file));
+                                  }
+                                }
+                              }}
+                              className="hidden"
+                            />
+                          </label>
+                        )}
+                      </div>
                     </div>
-                  )}
+
+                    {/* Right Column: Showcase Video */}
+                    <div className="space-y-5">
+                      <VideoInputPicker
+                        label="Category Showcase Video (Optional)"
+                        helperText="Add an introduction, materials guide, or installation video for this flooring category."
+                        value={categoryVideoUrl}
+                        onChange={setCategoryVideoUrl}
+                      />
+
+                      {/* Helpful Pro Tip Card */}
+                      <div className="p-4 rounded-2xl bg-amber-500/5 dark:bg-amber-500/10 border border-amber-500/20 text-stone-700 dark:text-stone-300 space-y-1.5">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-[#E85D04]">
+                          <Sparkles className="w-3.5 h-3.5" />
+                          <span>Video Showcase Feature</span>
+                        </div>
+                        <p className="text-[11px] text-stone-600 dark:text-stone-400 leading-relaxed">
+                          Adding a video here automatically attaches a <strong>▶ Video Tour</strong> badge to the service card and unlocks a full responsive video player on the public Category Service page.
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
                 </div>
 
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
-                  <button
-                    type="button"
-                    onClick={() => setIsCategoryModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submittingCategory}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 disabled:opacity-50"
-                  >
-                    {submittingCategory ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Saving...</span>
-                      </>
-                    ) : (
-                      <span>{categoryModalMode === 'edit' ? 'Update Category' : 'Save Category'}</span>
-                    )}
-                  </button>
+                {/* Sticky Bottom Actions */}
+                <div className="p-4 sm:p-5 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-stone-50/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                  <span className="text-[11px] text-stone-500 hidden sm:inline">
+                    Changes sync immediately across customer pages.
+                  </span>
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => setIsCategoryModalOpen(false)}
+                      className="px-5 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submittingCategory}
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#E85D04] to-[#F48C06] hover:from-[#d95b16] hover:to-[#e07e03] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 disabled:opacity-50 transition-all hover:scale-[1.01]"
+                    >
+                      {submittingCategory ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Saving...</span>
+                        </>
+                      ) : (
+                        <span>{categoryModalMode === 'edit' ? 'Update Category' : 'Save Category'}</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -2419,225 +2543,260 @@ export default function AdminPage() {
 
         {/* PRODUCT ADD/EDIT MODAL */}
         {isProductModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-xl w-full shadow-2xl space-y-6 my-8">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fade-in">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl max-w-4xl w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
+              {/* Sticky Header */}
+              <div className="px-6 py-5 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#E85D04]/20 to-[#F48C06]/10 text-[#E85D04] border border-[#E85D04]/20 flex items-center justify-center shadow-xs">
                     <Package className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-stone-900 dark:text-white">
-                    {productModalMode === 'edit' ? 'Edit Product' : 'Add New Product'}
-                  </h3>
+                  <div>
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-white">
+                      {productModalMode === 'edit' ? 'Edit Product' : 'Add New Product'}
+                    </h3>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      Manage pricing, specs, photo gallery, and demonstration video.
+                    </p>
+                  </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsProductModalOpen(false)}
-                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                  className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleProductSubmit} className="space-y-4">
-                {/* Title */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Product Title <span className="text-rose-500">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    placeholder="e.g. Premium White Oak Hardwood Plank"
-                    value={productTitle}
-                    onChange={(e) => setProductTitle(e.target.value)}
-                    className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                  />
-                </div>
+              {/* Form with scrollable body and sticky footer */}
+              <form onSubmit={handleProductSubmit} className="flex flex-col flex-1 overflow-hidden">
+                <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+                    
+                    {/* Left Column: Product Info & Pricing */}
+                    <div className="space-y-5">
+                      <div className="bg-stone-50/80 dark:bg-stone-850 p-4 sm:p-5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80 space-y-4">
+                        <div className="flex items-center gap-2 text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
+                          <Package className="w-3.5 h-3.5 text-[#E85D04]" />
+                          <span>Product Details</span>
+                        </div>
 
-                {/* Category & Price Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Category */}
-                  <div>
-                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                      Category <span className="text-rose-500">*</span>
-                    </label>
-                    <select
-                      required
-                      value={productCategory}
-                      onChange={(e) => setProductCategory(e.target.value)}
-                      className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                    >
-                      <option value="" disabled>
-                        Select Category...
-                      </option>
-                      {categories.map((c) => (
-                        <option key={c._id} value={c._id}>
-                          {c.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                        {/* Title */}
+                        <div>
+                          <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                            Product Title <span className="text-rose-500">*</span>
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Premium White Oak Hardwood Plank"
+                            value={productTitle}
+                            onChange={(e) => setProductTitle(e.target.value)}
+                            className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] focus:ring-2 focus:ring-[#E85D04]/20 font-medium transition-all"
+                          />
+                        </div>
 
-                  {/* Price */}
-                  <div>
-                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                      Price ($) <span className="text-rose-500">*</span>
-                    </label>
-                    <div className="relative">
-                      <DollarSign className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
-                      <input
-                        type="number"
-                        step="0.01"
-                        min="0.01"
-                        required
-                        placeholder="e.g. 7.99"
-                        value={productPrice}
-                        onChange={(e) => setProductPrice(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                      />
-                    </div>
-                  </div>
-                </div>
+                        {/* Category & Price Grid */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                          {/* Category */}
+                          <div>
+                            <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                              Category <span className="text-rose-500">*</span>
+                            </label>
+                            <select
+                              required
+                              value={productCategory}
+                              onChange={(e) => setProductCategory(e.target.value)}
+                              className="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                            >
+                              <option value="" disabled>
+                                Select Category...
+                              </option>
+                              {categories.map((c) => (
+                                <option key={c._id} value={c._id}>
+                                  {c.name}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
 
-                {/* Description */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Description <span className="text-rose-500">*</span>
-                  </label>
-                  <textarea
-                    required
-                    rows={3}
-                    placeholder="Enter detailed description of flooring material, dimensions, finish, durability..."
-                    value={productDescription}
-                    onChange={(e) => setProductDescription(e.target.value)}
-                    className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                  />
-                </div>
+                          {/* Price */}
+                          <div>
+                            <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                              Price ($) <span className="text-rose-500">*</span>
+                            </label>
+                            <div className="relative">
+                              <DollarSign className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+                              <input
+                                type="number"
+                                step="0.01"
+                                min="0.01"
+                                required
+                                placeholder="7.99"
+                                value={productPrice}
+                                onChange={(e) => setProductPrice(e.target.value)}
+                                className="w-full pl-9 pr-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                              />
+                            </div>
+                          </div>
+                        </div>
 
-                {/* 1. Main Primary Image */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Main Primary Image <span className="text-rose-500">*</span>
-                  </label>
-
-                  <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
-                      <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
-                      <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
-                        {productImageFile
-                          ? productImageFile.name
-                          : 'Select main primary product photo'}
-                      </span>
-                      <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                        📐 Recommended: 800 × 800 px or 1000 × 1000 px (1:1 Square)
-                      </span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageFileChange}
-                        className="hidden"
-                      />
-                    </label>
-
-                    {/* Main Preview Container */}
-                    {productImagePreview && (
-                      <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-32 bg-stone-100 dark:bg-stone-800">
-                        <Image
-                          src={productImagePreview}
-                          alt="Main Product preview"
-                          fill
-                          priority
-                          sizes="(max-width: 768px) 100vw, 300px"
-                          className="object-cover"
-                        />
-                        <div className="absolute bottom-2 left-2 px-2.5 py-0.5 bg-black/70 backdrop-blur-md rounded-lg text-white text-[10px] font-bold uppercase tracking-wider">
-                          Primary Image Preview
+                        {/* Description */}
+                        <div>
+                          <label className="block text-xs font-semibold text-stone-700 dark:text-stone-300 mb-1.5">
+                            Description <span className="text-rose-500">*</span>
+                          </label>
+                          <textarea
+                            required
+                            rows={4}
+                            placeholder="Enter detailed description of flooring material, dimensions, finish, durability..."
+                            value={productDescription}
+                            onChange={(e) => setProductDescription(e.target.value)}
+                            className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all resize-none"
+                          />
                         </div>
                       </div>
-                    )}
-                  </div>
-                </div>
+                    </div>
 
-                {/* 2. Additional Gallery Images */}
-                <div>
-                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                    Additional Gallery Images (Optional)
-                  </label>
+                    {/* Right Column: Media (Photos & Video) */}
+                    <div className="space-y-5">
+                      {/* 1. Main Primary Image */}
+                      <div className="bg-stone-50/80 dark:bg-stone-850 p-4 sm:p-5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80 space-y-3">
+                        <div className="flex items-center justify-between">
+                          <label className="text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <ImageIcon className="w-3.5 h-3.5 text-[#E85D04]" />
+                            <span>Primary Photo <span className="text-rose-500">*</span></span>
+                          </label>
+                          <span className="text-[10px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2 py-0.5 rounded-md border border-[#E85D04]/20">
+                            1:1 Square
+                          </span>
+                        </div>
 
-                  <div className="space-y-3">
-                    <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
-                      <ImageIcon className="w-5 h-5 text-[#E85D04] mb-1" />
-                      <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
-                        Click to add multiple additional photos
-                      </span>
-                      <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                        📐 Recommended: 800 × 800 px or 1200 × 900 px
-                      </span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={handleAdditionalImagesChange}
-                        className="hidden"
-                      />
-                    </label>
+                        <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-white dark:bg-stone-900/60 hover:bg-[#E85D04]/5 transition-all text-center">
+                          <Upload className="w-4 h-4 text-[#E85D04] mb-1" />
+                          <span className="text-xs font-semibold text-stone-700 dark:text-stone-300 truncate max-w-xs">
+                            {productImageFile ? productImageFile.name : 'Click to select main photo'}
+                          </span>
+                          <span className="text-[10px] text-stone-400 mt-0.5">
+                            800 × 800 px or 1000 × 1000 px recommended
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageFileChange}
+                            className="hidden"
+                          />
+                        </label>
 
-                    {/* Additional Images Grid Previews */}
-                    {productAdditionalPreviews.length > 0 && (
-                      <div className="grid grid-cols-4 gap-2 pt-1">
-                        {productAdditionalPreviews.map((previewUrl, idx) => (
-                          <div
-                            key={idx}
-                            className="relative h-20 rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 group bg-stone-100 dark:bg-stone-800"
-                          >
+                        {/* Main Preview */}
+                        {productImagePreview && (
+                          <div className="relative rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 h-28 bg-stone-100 dark:bg-stone-800">
                             <Image
-                              src={previewUrl}
-                              alt={`Additional photo ${idx + 1}`}
+                              src={productImagePreview}
+                              alt="Main Product preview"
                               fill
-                              sizes="100px"
+                              priority
+                              sizes="300px"
                               className="object-cover"
                             />
-                            <button
-                              type="button"
-                              onClick={() => removeAdditionalImage(idx)}
-                              className="absolute top-1 right-1 p-1 rounded-full bg-rose-600 text-white opacity-80 group-hover:opacity-100 hover:bg-rose-700 transition-all shadow-md"
-                              title="Remove image"
-                            >
-                              <X className="w-3 h-3" />
-                            </button>
-                            <span className="absolute bottom-1 left-1 text-[9px] font-black text-white bg-black/60 px-1.5 py-0.5 rounded backdrop-blur-xs">
-                              #{idx + 1}
-                            </span>
+                            <div className="absolute bottom-1.5 left-2 px-2 py-0.5 bg-black/70 backdrop-blur-md rounded text-white text-[9px] font-bold">
+                              Primary Image Preview
+                            </div>
                           </div>
-                        ))}
+                        )}
                       </div>
-                    )}
+
+                      {/* 2. Additional Gallery Images */}
+                      <div className="bg-stone-50/80 dark:bg-stone-850 p-4 sm:p-5 rounded-2xl border border-stone-200/80 dark:border-stone-700/80 space-y-3">
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider">
+                          Additional Gallery Photos (Optional)
+                        </label>
+
+                        <label className="flex flex-col items-center justify-center p-3 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-white dark:bg-stone-900/60 hover:bg-[#E85D04]/5 transition-all text-center">
+                          <span className="text-xs font-semibold text-stone-700 dark:text-stone-300">
+                            + Add multiple extra photos
+                          </span>
+                          <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            onChange={handleAdditionalImagesChange}
+                            className="hidden"
+                          />
+                        </label>
+
+                        {productAdditionalPreviews.length > 0 && (
+                          <div className="grid grid-cols-4 gap-2 pt-1 max-h-36 overflow-y-auto pr-1">
+                            {productAdditionalPreviews.map((previewUrl, idx) => (
+                              <div
+                                key={idx}
+                                className="relative h-16 rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 group bg-stone-100 dark:bg-stone-800"
+                              >
+                                <Image
+                                  src={previewUrl}
+                                  alt={`Additional photo ${idx + 1}`}
+                                  fill
+                                  sizes="100px"
+                                  className="object-cover"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => removeAdditionalImage(idx)}
+                                  className="absolute top-1 right-1 p-1 rounded-full bg-rose-600 text-white opacity-80 group-hover:opacity-100 hover:bg-rose-700 transition-all shadow-md"
+                                  title="Remove image"
+                                >
+                                  <X className="w-3 h-3" />
+                                </button>
+                                <span className="absolute bottom-1 left-1 text-[9px] font-bold text-white bg-black/60 px-1 py-0.5 rounded">
+                                  #{idx + 1}
+                                </span>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 3. Product Video Picker */}
+                      <VideoInputPicker
+                        label="Product Video Demo (Optional)"
+                        helperText="Add a demo, finish showcase, or installation video for this product."
+                        value={productVideoUrl}
+                        onChange={setProductVideoUrl}
+                      />
+                    </div>
+
                   </div>
                 </div>
 
-                {/* Form Buttons */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
-                  <button
-                    type="button"
-                    onClick={() => setIsProductModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submittingProduct}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 disabled:opacity-50"
-                  >
-                    {submittingProduct ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Uploading & Saving...</span>
-                      </>
-                    ) : (
-                      <span>{productModalMode === 'edit' ? 'Update Product' : 'Save Product'}</span>
-                    )}
-                  </button>
+                {/* Sticky Footer */}
+                <div className="p-4 sm:p-5 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-stone-50/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                  <span className="text-[11px] text-stone-500 hidden sm:inline">
+                    Products display in the public catalog and category filters.
+                  </span>
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => setIsProductModalOpen(false)}
+                      className="px-5 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submittingProduct}
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#E85D04] to-[#F48C06] hover:from-[#d95b16] hover:to-[#e07e03] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 disabled:opacity-50 transition-all hover:scale-[1.01]"
+                    >
+                      {submittingProduct ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Saving Product...</span>
+                        </>
+                      ) : (
+                        <span>{productModalMode === 'edit' ? 'Update Product' : 'Save Product'}</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>
@@ -2646,286 +2805,297 @@ export default function AdminPage() {
 
         {/* PROJECT ADD/EDIT MODAL */}
         {isProjectModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm overflow-y-auto">
-            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-4xl w-full shadow-2xl space-y-6 my-8">
-              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
+          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-3 sm:p-6 bg-black/75 backdrop-blur-md animate-fade-in">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl max-w-4xl w-full shadow-2xl my-auto max-h-[92vh] flex flex-col overflow-hidden">
+              {/* Sticky Header */}
+              <div className="px-6 py-5 border-b border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-white/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                <div className="flex items-center gap-3.5">
+                  <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-[#E85D04]/20 to-[#F48C06]/10 text-[#E85D04] border border-[#E85D04]/20 flex items-center justify-center shadow-xs">
                     <FolderKanban className="w-5 h-5" />
                   </div>
-                  <h3 className="text-lg font-bold text-stone-900 dark:text-white">
-                    {projectModalMode === 'edit' ? 'Edit Project Gallery Item' : 'Add New Project'}
-                  </h3>
+                  <div>
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-white">
+                      {projectModalMode === 'edit' ? 'Edit Project Gallery Item' : 'Add New Project'}
+                    </h3>
+                    <p className="text-xs text-stone-500 dark:text-stone-400">
+                      Showcase case study stories, jobsite photos, and walkthrough videos.
+                    </p>
+                  </div>
                 </div>
                 <button
+                  type="button"
                   onClick={() => setIsProjectModalOpen(false)}
-                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200"
+                  className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              <form onSubmit={handleProjectSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                  
-                  {/* Left Column: Details & WH-Descriptions */}
-                  <div className="lg:col-span-7 space-y-4">
-                    {/* Title */}
-                    <div>
-                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                        Project Title <span className="text-rose-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. Modern Luxury Sheet Vinyl Installation in Dental Clinic"
-                        value={projectTitle}
-                        onChange={(e) => setProjectTitle(e.target.value)}
-                        className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                      />
-                    </div>
-
-                    {/* Category & Property Type Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Category */}
+              {/* Form with internal scroll and sticky footer */}
+              <form onSubmit={handleProjectSubmit} className="flex flex-col flex-1 overflow-hidden">
+                <div className="p-6 overflow-y-auto flex-1 space-y-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    
+                    {/* Left Column: Details & WH-Descriptions */}
+                    <div className="lg:col-span-7 space-y-4">
+                      {/* Title */}
                       <div>
                         <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                          Category / Flooring Type <span className="text-rose-500">*</span>
+                          Project Title <span className="text-rose-500">*</span>
                         </label>
-                        <select
-                          required
-                          value={projectCategory}
-                          onChange={(e) => setProjectCategory(e.target.value)}
-                          className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                        >
-                          <option value="" disabled>
-                            Select Category...
-                          </option>
-                          {categories.map((c) => (
-                            <option key={c._id} value={c.name}>
-                              {c.name}
-                            </option>
-                          ))}
-                          {projectCategory && !categories.some((c) => c.name === projectCategory) && (
-                            <option value={projectCategory}>{projectCategory}</option>
-                          )}
-                        </select>
-                      </div>
-
-                      {/* Property Type */}
-                      <div>
-                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                          Property Type <span className="text-rose-500">*</span>
-                        </label>
-                        <select
-                          value={projectPropertyType}
-                          onChange={(e) => setProjectPropertyType(e.target.value as 'Residential' | 'Commercial')}
-                          className="w-full px-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                        >
-                          <option value="Residential">Residential</option>
-                          <option value="Commercial">Commercial</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    {/* Location */}
-                    <div>
-                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                        Location / City <span className="text-rose-500">*</span>
-                      </label>
-                      <div className="relative">
-                        <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
                         <input
                           type="text"
                           required
-                          placeholder="e.g. Saskatoon & Area, Regina, SK"
-                          value={projectLocation}
-                          onChange={(e) => setProjectLocation(e.target.value)}
-                          className="w-full pl-10 pr-4 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Project Description & Case Study Details (WH-Questions Guidance) */}
-                    <div className="p-4 rounded-2xl bg-[#FAF6F0] dark:bg-stone-800/80 border border-stone-200 dark:border-stone-700/80 space-y-4">
-                      <div className="flex items-center gap-2 text-xs font-bold text-[#E85D04] uppercase tracking-wider">
-                        <Sparkles className="w-4 h-4 text-[#E85D04]" />
-                        <span>Project Description & Story (WH-Question Format)</span>
-                      </div>
-
-                      {/* 1. What & Why (Challenge / Scope) */}
-                      <div>
-                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                          1. Project Scope & Challenge <span className="text-stone-400 font-normal">(WHAT & WHY)</span>
-                        </label>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
-                          💡 <strong>What</strong> was the project and <strong>Why</strong> was it needed? Describe client requirement or site condition.
-                        </p>
-                        <textarea
-                          rows={2}
-                          placeholder="e.g. High-hygiene commercial dental clinic needed 100% watertight flooring compliant with SK health regulations..."
-                          value={projectChallenge}
-                          onChange={(e) => setProjectChallenge(e.target.value)}
-                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          placeholder="e.g. Modern Luxury Sheet Vinyl Installation in Dental Clinic"
+                          value={projectTitle}
+                          onChange={(e) => setProjectTitle(e.target.value)}
+                          className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] focus:ring-2 focus:ring-[#E85D04]/20 font-medium transition-all"
                         />
                       </div>
 
-                      {/* 2. How (Solution & Execution) */}
-                      <div>
-                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                          2. HD Flooring Execution <span className="text-stone-400 font-normal">(HOW & SYSTEM)</span>
-                        </label>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
-                          💡 <strong>How</strong> did HD Flooring install/solve it? Mention floor prep, installation method, or materials.
-                        </p>
-                        <textarea
-                          rows={2}
-                          placeholder="e.g. Installed heat-welded PVC sheet vinyl over self-leveled subfloor with seamless wall flash coving..."
-                          value={projectSolution}
-                          onChange={(e) => setProjectSolution(e.target.value)}
-                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                        />
-                      </div>
-
-                      {/* 3. Outcome & Result */}
-                      <div>
-                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
-                          3. Final Result & Benefits <span className="text-stone-400 font-normal">(OUTCOME)</span>
-                        </label>
-                        <p className="text-[11px] text-stone-500 dark:text-stone-400 mb-1.5 leading-relaxed">
-                          💡 What was the <strong>final result</strong> and benefit to the property owner?
-                        </p>
-                        <textarea
-                          rows={2}
-                          placeholder="e.g. Flawless anti-bacterial floor, easy to sanitize, 100% watertight with zero foot noise."
-                          value={projectResult}
-                          onChange={(e) => setProjectResult(e.target.value)}
-                          className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Photo Uploads & Previews */}
-                  <div className="lg:col-span-5 space-y-4">
-                    {/* Cover Image Upload */}
-                    <div>
-                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                        Project Cover Photo <span className="text-rose-500">*</span>
-                      </label>
-
-                      <div className="space-y-3">
-                        <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
-                          <Upload className="w-6 h-6 text-[#E85D04] mb-1" />
-                          <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
-                            {projectImageFile
-                              ? projectImageFile.name
-                              : 'Click to select or drop project photo'}
-                          </span>
-                          <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                            📐 Recommended: 1200 × 800 px or 1920 × 1080 px (Landscape)
-                          </span>
-                          <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleProjectImageFileChange}
-                            className="hidden"
-                          />
-                        </label>
-
-                        {/* Preview Container */}
-                        {projectImagePreview && (
-                          <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-44 bg-stone-100 dark:bg-stone-800">
-                            <Image
-                              src={projectImagePreview}
-                              alt="Project photo preview"
-                              fill
-                              priority
-                              sizes="(max-width: 768px) 100vw, 400px"
-                              className="object-cover"
-                            />
-                            <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg text-white text-[11px] font-semibold">
-                              Main Cover Photo Preview
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Additional Project Gallery Photos */}
-                    <div>
-                      <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
-                        Additional Project Gallery Photos (Optional)
-                      </label>
-                      <div className="space-y-3">
-                        <label className="flex flex-col items-center justify-center p-3.5 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all text-center">
-                          <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
-                          <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
-                            Click to select multiple gallery photos
-                          </span>
-                          <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
-                            📐 Recommended: 1200 × 800 px (Landscape)
-                          </span>
-                          <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={handleProjectAdditionalImagesChange}
-                            className="hidden"
-                          />
-                        </label>
-
-                        {projectAdditionalPreviews.length > 0 && (
-                          <div className="grid grid-cols-3 gap-2.5 max-h-48 overflow-y-auto pr-1">
-                            {projectAdditionalPreviews.map((imgUrl, idx) => (
-                              <div key={idx} className="relative group rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 h-20 bg-stone-100 dark:bg-stone-800">
-                                <Image
-                                  src={imgUrl}
-                                  alt={`Project gallery preview ${idx + 1}`}
-                                  fill
-                                  sizes="100px"
-                                  className="object-cover"
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => removeProjectAdditionalImage(idx)}
-                                  className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 transition-opacity"
-                                >
-                                  <X className="w-3.5 h-3.5" />
-                                </button>
-                              </div>
+                      {/* Category & Property Type Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Category */}
+                        <div>
+                          <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                            Category / Flooring Type <span className="text-rose-500">*</span>
+                          </label>
+                          <select
+                            required
+                            value={projectCategory}
+                            onChange={(e) => setProjectCategory(e.target.value)}
+                            className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          >
+                            <option value="" disabled>
+                              Select Category...
+                            </option>
+                            {categories.map((c) => (
+                              <option key={c._id} value={c.name}>
+                                {c.name}
+                              </option>
                             ))}
-                          </div>
-                        )}
+                            {projectCategory && !categories.some((c) => c.name === projectCategory) && (
+                              <option value={projectCategory}>{projectCategory}</option>
+                            )}
+                          </select>
+                        </div>
+
+                        {/* Property Type */}
+                        <div>
+                          <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                            Property Type <span className="text-rose-500">*</span>
+                          </label>
+                          <select
+                            value={projectPropertyType}
+                            onChange={(e) => setProjectPropertyType(e.target.value as 'Residential' | 'Commercial')}
+                            className="w-full px-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          >
+                            <option value="Residential">Residential</option>
+                            <option value="Commercial">Commercial</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      {/* Location */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                          Location / City <span className="text-rose-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <MapPin className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                          <input
+                            type="text"
+                            required
+                            placeholder="e.g. Saskatoon & Area, Regina, SK"
+                            value={projectLocation}
+                            onChange={(e) => setProjectLocation(e.target.value)}
+                            className="w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Project Description & Case Study Details (WH-Questions Guidance) */}
+                      <div className="p-4 rounded-2xl bg-[#FAF6F0] dark:bg-stone-800/80 border border-stone-200 dark:border-stone-700/80 space-y-4">
+                        <div className="flex items-center gap-2 text-xs font-bold text-[#E85D04] uppercase tracking-wider">
+                          <Sparkles className="w-4 h-4 text-[#E85D04]" />
+                          <span>Project Story & Case Study</span>
+                        </div>
+
+                        {/* 1. What & Why (Challenge / Scope) */}
+                        <div>
+                          <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                            1. Scope & Challenge <span className="text-stone-400 font-normal">(WHAT & WHY)</span>
+                          </label>
+                          <textarea
+                            rows={2}
+                            placeholder="e.g. High-hygiene commercial dental clinic needed 100% watertight flooring compliant with SK health regulations..."
+                            value={projectChallenge}
+                            onChange={(e) => setProjectChallenge(e.target.value)}
+                            className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          />
+                        </div>
+
+                        {/* 2. How (Solution & Execution) */}
+                        <div>
+                          <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                            2. HD Flooring Execution <span className="text-stone-400 font-normal">(HOW & SYSTEM)</span>
+                          </label>
+                          <textarea
+                            rows={2}
+                            placeholder="e.g. Installed heat-welded PVC sheet vinyl over self-leveled subfloor with seamless wall flash coving..."
+                            value={projectSolution}
+                            onChange={(e) => setProjectSolution(e.target.value)}
+                            className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          />
+                        </div>
+
+                        {/* 3. Outcome & Result */}
+                        <div>
+                          <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 mb-1">
+                            3. Final Result & Benefits <span className="text-stone-400 font-normal">(OUTCOME)</span>
+                          </label>
+                          <textarea
+                            rows={2}
+                            placeholder="e.g. Flawless anti-bacterial floor, easy to sanitize, 100% watertight with zero foot noise."
+                            value={projectResult}
+                            onChange={(e) => setProjectResult(e.target.value)}
+                            className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                          />
+                        </div>
                       </div>
                     </div>
+
+                    {/* Right Column: Photo Uploads & Previews */}
+                    <div className="lg:col-span-5 space-y-4">
+                      {/* Cover Image Upload */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                          Project Cover Photo <span className="text-rose-500">*</span>
+                        </label>
+
+                        <div className="space-y-3">
+                          <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] dark:hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all text-center">
+                            <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
+                            <span className="text-xs font-bold text-stone-700 dark:text-stone-300 text-center">
+                              {projectImageFile
+                                ? projectImageFile.name
+                                : 'Click to select project photo'}
+                            </span>
+                            <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                              📐 Recommended: 1200 × 800 px (Landscape)
+                            </span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleProjectImageFileChange}
+                              className="hidden"
+                            />
+                          </label>
+
+                          {/* Preview Container */}
+                          {projectImagePreview && (
+                            <div className="relative rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-40 bg-stone-100 dark:bg-stone-800">
+                              <Image
+                                src={projectImagePreview}
+                                alt="Project photo preview"
+                                fill
+                                priority
+                                sizes="(max-width: 768px) 100vw, 400px"
+                                className="object-cover"
+                              />
+                              <div className="absolute bottom-2 left-2 px-2.5 py-1 bg-black/70 backdrop-blur-md rounded-lg text-white text-[11px] font-semibold">
+                                Main Cover Photo Preview
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Additional Project Gallery Photos */}
+                      <div>
+                        <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                          Additional Project Photos (Optional)
+                        </label>
+                        <div className="space-y-3">
+                          <label className="flex flex-col items-center justify-center p-3 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all text-center">
+                            <Upload className="w-4 h-4 text-[#E85D04] mb-1" />
+                            <span className="text-xs font-semibold text-stone-700 dark:text-stone-300">
+                              Click to select multiple gallery photos
+                            </span>
+                            <input
+                              type="file"
+                              multiple
+                              accept="image/*"
+                              onChange={handleProjectAdditionalImagesChange}
+                              className="hidden"
+                            />
+                          </label>
+
+                          {projectAdditionalPreviews.length > 0 && (
+                            <div className="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1">
+                              {projectAdditionalPreviews.map((imgUrl, idx) => (
+                                <div key={idx} className="relative group rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 h-16 bg-stone-100 dark:bg-stone-800">
+                                  <Image
+                                    src={imgUrl}
+                                    alt={`Project gallery preview ${idx + 1}`}
+                                    fill
+                                    sizes="100px"
+                                    className="object-cover"
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={() => removeProjectAdditionalImage(idx)}
+                                    className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full opacity-90 hover:opacity-100 transition-opacity"
+                                  >
+                                    <X className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
 
+                  {/* Project Video Picker */}
+                  <VideoInputPicker
+                    label="Project Walkthrough Video (Optional)"
+                    helperText="Add a real jobsite walkthrough, before/after video, or client tour (YouTube link, direct MP4, or upload from device)."
+                    value={projectVideoUrl}
+                    onChange={setProjectVideoUrl}
+                  />
                 </div>
 
-                {/* Buttons */}
-                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
-                  <button
-                    type="button"
-                    onClick={() => setIsProjectModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800"
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="submit"
-                    disabled={submittingProject}
-                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 disabled:opacity-50"
-                  >
-                    {submittingProject ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Saving Project...</span>
-                      </>
-                    ) : (
-                      <span>{projectModalMode === 'edit' ? 'Update Project' : 'Save Project'}</span>
-                    )}
-                  </button>
+                {/* Sticky Footer */}
+                <div className="p-4 sm:p-5 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between shrink-0 bg-stone-50/95 dark:bg-stone-900/95 backdrop-blur-sm">
+                  <span className="text-[11px] text-stone-500 hidden sm:inline">
+                    Projects appear in the gallery with video tour badges.
+                  </span>
+                  <div className="flex items-center gap-3 ml-auto">
+                    <button
+                      type="button"
+                      onClick={() => setIsProjectModalOpen(false)}
+                      className="px-5 py-2.5 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={submittingProject}
+                      className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-[#E85D04] to-[#F48C06] hover:from-[#d95b16] hover:to-[#e07e03] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/25 disabled:opacity-50 transition-all hover:scale-[1.01]"
+                    >
+                      {submittingProject ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span>Saving Project...</span>
+                        </>
+                      ) : (
+                        <span>{projectModalMode === 'edit' ? 'Update Project' : 'Save Project'}</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
               </form>
             </div>

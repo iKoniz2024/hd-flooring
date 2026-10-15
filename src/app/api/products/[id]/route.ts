@@ -57,6 +57,7 @@ export async function GET(
       price: item.price,
       image: item.image,
       images: Array.isArray(item.images) ? item.images : [],
+      videoUrl: item.videoUrl || '',
       createdAt: item.createdAt,
       updatedAt: item.updatedAt,
     };
@@ -90,7 +91,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { title, description, category, price, image, images } = body;
+    const { title, description, category, price, image, images, videoUrl } = body;
 
     // Validation
     if (!title || typeof title !== 'string' || !title.trim()) {
@@ -133,6 +134,8 @@ export async function PUT(
       ? images.filter((img): img is string => typeof img === 'string' && Boolean(img.trim())).map((img) => img.trim())
       : [];
 
+    const cleanVideoUrl = typeof videoUrl === 'string' ? videoUrl.trim() : '';
+
     const productId = new ObjectId(id);
     const categoryObjectId = new ObjectId(category);
 
@@ -165,6 +168,7 @@ export async function PUT(
           price: numericPrice,
           image: image.trim(),
           images: additionalImages,
+          videoUrl: cleanVideoUrl,
           updatedAt: updatedAt,
         },
       }
@@ -181,6 +185,7 @@ export async function PUT(
         price: numericPrice,
         image: image.trim(),
         images: additionalImages,
+        videoUrl: cleanVideoUrl,
         updatedAt: updatedAt,
       },
     });

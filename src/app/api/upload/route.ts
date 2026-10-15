@@ -12,14 +12,31 @@ export async function POST(request: Request) {
 
     if (!file) {
       return NextResponse.json(
-        { success: false, error: 'No image file provided' },
+        { success: false, error: 'No file provided' },
         { status: 400 }
       );
     }
 
-    if (!file.type.startsWith('image/')) {
+    const isImage = file.type.startsWith('image/');
+    const isVideo = file.type.startsWith('video/') || /\.(mp4|webm|ogg|ogv|mov|m4v|mkv)$/i.test(file.name);
+
+    if (!isImage && !isVideo) {
       return NextResponse.json(
-        { success: false, error: 'Only image files are allowed' },
+        { success: false, error: 'Only image or video files are allowed (MP4, WebM, MOV, JPG, PNG, WEBP)' },
+        { status: 400 }
+      );
+    }
+
+    // Size limits: 20MB for images, 100MB for videos
+    const maxSizeBytes = isVideo ? 100 * 1024 * 1024 : 20 * 1024 * 1024;
+    if (file.size > maxSizeBytes) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: isVideo
+            ? 'Video file is too large. Maximum allowed size is 100MB.'
+            : 'Image file is too large. Maximum allowed size is 20MB.',
+        },
         { status: 400 }
       );
     }
@@ -28,17 +45,20 @@ export async function POST(request: Request) {
     const buffer = Buffer.from(bytes);
 
     // Generate clean unique filename
-    const fileExt = path.extname(file.name) || '.jpg';
+    const fileExt = path.extname(file.name) || (isVideo ? '.mp4' : '.jpg');
     const sanitizeBaseName = path
       .basename(file.name, fileExt)
       .toLowerCase()
       .replace(/[^a-z0-9]/g, '-');
     const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e4)}`;
-    const filename = `${sanitizeBaseName || 'image'}-${uniqueSuffix}${fileExt}`;
+    const filename = `${sanitizeBaseName || (isVideo ? 'video' : 'image')}-${uniqueSuffix}${fileExt}`;
+
+    // Determine contentType
+    const determinedType = file.type || (isVideo ? 'video/mp4' : 'image/jpeg');
 
     // 1. Primary storage: Save directly to MongoDB Atlas GridFS
     // This works everywhere (Vercel, cPanel, VPS, localhost) and has ZERO filesystem dependency
-    await uploadToGridFS(filename, buffer, file.type || 'image/jpeg');
+    await uploadToGridFS(filename, buffer, determinedType);
 
     // 2. Local filesystem write (optional cache, strictly non-blocking)
     // On serverless environments (Vercel Lambda) the filesystem is read-only (EROFS).
@@ -52,15 +72,16 @@ export async function POST(request: Request) {
       // Safely ignore filesystem errors on read-only environments
     }
 
-    const imageUrl = `/uploads/${filename}`;
+    const mediaUrl = `/uploads/${filename}`;
 
     return NextResponse.json({
       success: true,
-      url: imageUrl,
-      message: 'Image uploaded successfully',
+      url: mediaUrl,
+      isVideo,
+      message: isVideo ? 'Video uploaded successfully' : 'Image uploaded successfully',
     });
   } catch (error: unknown) {
-    const errMessage = error instanceof Error ? error.message : 'Image upload failed';
+    const errMessage = error instanceof Error ? error.message : 'Media upload failed';
     console.error('POST /api/upload error:', error);
     return NextResponse.json(
       { success: false, error: errMessage },

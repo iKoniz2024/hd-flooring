@@ -169,29 +169,41 @@ export function Hero() {
       )}
 
       <div className="max-w-7xl mx-auto w-full relative z-20 space-y-8">
-        <div className="max-w-4xl text-left space-y-6 pb-8">
-          {/* Hero Headline with Coral Red & Teal Brand Gradient */}
-          <motion.h1
-            initial={{ opacity: 0, y: 35 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.15 }}
-            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.15] [text-shadow:_0_3px_12px_rgba(0,0,0,0.9)]"
+        <div className="max-w-4xl text-left space-y-5 pb-8">
+          {/* Top Pill Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: -15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 rounded-full bg-black/45 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm font-semibold shadow-xl"
           >
-            Professional Flooring Installation
-            <div className="text-xl sm:text-3xl font-extrabold text-stone-200 flex items-center gap-2 pt-1 flex-wrap">
-              <span>Built for Canadian Spaces —</span>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={currentSlideIdx}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -5 }}
-                  className="text-[#E85D04] font-black inline-flex items-center"
-                >
-                  {currentSlide.name}
-                </motion.span>
-              </AnimatePresence>
-            </div>
+            <span className="text-sm sm:text-base leading-none">🍁</span>
+            <span className="font-medium tracking-wide">Built for Canadian Spaces</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-[#E85D04] animate-pulse" />
+            <span className="text-[#E85D04] font-bold text-[11px] sm:text-xs uppercase tracking-wider">
+              Expert Installation
+            </span>
+          </motion.div>
+
+          {/* Hero Headline */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.18 }}
+            className="font-jakarta text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white leading-[1.12] [text-shadow:_0_3px_14px_rgba(0,0,0,0.95)]"
+          >
+            <AnimatePresence mode="wait">
+              <motion.span
+                key={currentSlideIdx}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -14 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="block text-white"
+              >
+                {currentSlide.name || 'Professional Flooring Installation'}
+              </motion.span>
+            </AnimatePresence>
           </motion.h1>
 
           {/* Subtitle - Dynamically changes with active category slide */}

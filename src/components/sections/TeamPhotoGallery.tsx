@@ -113,19 +113,19 @@ export function TeamPhotoGallery() {
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        className="text-center mb-12 space-y-3"
+        className="text-center mb-8 sm:mb-12 space-y-2.5 sm:space-y-3"
       >
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-md bg-stone-100 dark:bg-slate-900 border border-stone-300 dark:border-slate-800 text-stone-800 dark:text-slate-200 text-xs font-bold uppercase tracking-wider">
+        <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1 rounded-md bg-stone-100 dark:bg-slate-900 border border-stone-300 dark:border-slate-800 text-stone-800 dark:text-slate-200 text-[11px] sm:text-xs font-bold uppercase tracking-wider">
           <HardHat className="w-3.5 h-3.5 text-[#E85D04]" />
           <span>On-Site Specialists</span>
         </div>
-        <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
+        <h2 className="font-playfair text-2xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-slate-100">
           Meet Our Team <span className="text-[#E85D04]">In Action</span>
         </h2>
       </motion.div>
 
       {/* Grid of Team Photos */}
-      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <motion.div layout className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <AnimatePresence mode="popLayout">
           {displayedPhotos.map((photo, idx) => (
             <motion.div
@@ -138,7 +138,7 @@ export function TeamPhotoGallery() {
               transition={{ duration: 0.4, delay: idx * 0.05 }}
               whileHover={{ y: -6 }}
               onClick={() => setSelectedPhoto(photo)}
-              className="group relative h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl transform-gpu"
+              className="group relative h-64 sm:h-72 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 cursor-pointer shadow-xl transform-gpu"
             >
               <Image
                 src={photo.src}
@@ -218,6 +218,7 @@ export function TeamPhotoGallery() {
                   src={selectedPhoto.src}
                   alt={selectedPhoto.title}
                   fill
+                  priority
                   sizes="100vw"
                   className="object-contain"
                 />

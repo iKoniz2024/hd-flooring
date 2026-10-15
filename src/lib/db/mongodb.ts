@@ -8,6 +8,7 @@ export interface CategoryDoc {
   slug?: string;
   description?: string;
   image?: string;
+  videoUrl?: string;
   isActive?: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -21,6 +22,7 @@ export interface ProductDoc {
   price: number;
   image: string;
   images?: string[];
+  videoUrl?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -44,6 +46,7 @@ export interface ProjectGalleryDoc {
   location: string;
   coverImage: string;
   galleryImages?: string[];
+  videoUrl?: string;
   challenge?: string;
   solution?: string;
   result?: string;
@@ -164,6 +167,19 @@ export function getMimeTypeFromExt(filename: string): string {
       return 'image/avif';
     case 'ico':
       return 'image/x-icon';
+    case 'mp4':
+      return 'video/mp4';
+    case 'webm':
+      return 'video/webm';
+    case 'ogg':
+    case 'ogv':
+      return 'video/ogg';
+    case 'mov':
+      return 'video/quicktime';
+    case 'm4v':
+      return 'video/x-m4v';
+    case 'mkv':
+      return 'video/x-matroska';
     default:
       return 'application/octet-stream';
   }

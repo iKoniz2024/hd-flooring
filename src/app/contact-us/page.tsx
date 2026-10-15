@@ -109,25 +109,33 @@ export default function ContactUsPage() {
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#E85D04]/10 rounded-full blur-3xl pointer-events-none" />
 
               {/* Founder Header Profile */}
-              <div className="flex items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-800/80 relative z-10">
-                <div className="relative w-16 h-16 rounded-2xl bg-slate-950 p-0.5 border-2 border-[#E85D04] shadow-md shrink-0 overflow-hidden">
+              <div className="flex flex-col sm:flex-row items-center sm:items-center gap-4 sm:gap-6 pb-6 border-b border-slate-200 dark:border-slate-800/80 relative z-10 text-center sm:text-left">
+                <div className="relative w-28 h-36 sm:w-36 sm:h-44 rounded-2xl sm:rounded-3xl bg-slate-950 p-1 border-2 border-[#E85D04] shadow-xl shadow-[#E85D04]/25 shrink-0 overflow-hidden group/founder cursor-pointer">
                   <Image
                     src="/assets/images/personal-photos/habib-photo.jpg"
                     alt="Habibur Rahman (Habib)"
                     fill
-                    sizes="64px"
-                    className="object-cover"
+                    priority
+                    loading="eager"
+                    sizes="(max-width: 640px) 112px, 144px"
+                    className="object-cover object-top group-hover/founder:scale-105 transition-transform duration-500"
                   />
-                </div>
-                <div>
-                  <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-[10px] font-extrabold uppercase tracking-wider border border-[#E85D04]/30">
-                    <UserCheck className="w-3 h-3" />
-                    Managing Director
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute bottom-2 inset-x-2 text-center sm:hidden">
+                    <span className="px-2 py-0.5 rounded-full bg-[#E85D04] text-white text-[9px] font-bold uppercase tracking-wider">
+                      Founder
+                    </span>
                   </div>
-                  <h3 className="font-playfair text-xl font-extrabold text-slate-900 dark:text-white">
+                </div>
+                <div className="space-y-1.5 flex-1">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E85D04]/10 text-[#E85D04] text-[11px] font-extrabold uppercase tracking-wider border border-[#E85D04]/30">
+                    <UserCheck className="w-3.5 h-3.5 text-[#E85D04]" />
+                    <span>Managing Director & Founder</span>
+                  </div>
+                  <h3 className="font-playfair text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white leading-tight">
                     Habibur Rahman (Habib)
                   </h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 font-manrope font-medium">
+                  <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-manrope font-medium">
                     Lead Installation Specialist & Founder
                   </p>
                 </div>

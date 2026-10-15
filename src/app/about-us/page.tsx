@@ -29,7 +29,7 @@ export default function AboutUsPage() {
         ]}
       />
 
-      <main className="flex-1 py-16 w-full space-y-20 relative z-10">
+      <main className="flex-1 py-10 sm:py-16 w-full space-y-12 sm:space-y-20 relative z-10">
         <AboutUsClient />
       </main>
 

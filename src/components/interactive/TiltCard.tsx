@@ -14,7 +14,7 @@ export function TiltCard({
   const [transition, setTransition] = useState('transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)');
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || (typeof window !== 'undefined' && window.innerWidth < 768)) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;

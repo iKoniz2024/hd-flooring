@@ -17,7 +17,10 @@ import {
   ShoppingBag,
   ArrowRight,
   Filter,
-  MessageCircle
+  MessageCircle,
+  Play,
+  Video as VideoIcon,
+  Image as ImageIcon
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -27,6 +30,8 @@ import { PageHero } from '@/components/sections/PageHero';
 import { MouseSpotlight } from '@/components/animations/MouseSpotlight';
 import { useModal } from '@/lib/context/ModalContext';
 import { fetchWithCache } from '@/lib/utils/apiCache';
+import { UniversalVideoPlayer } from '@/components/video/UniversalVideoPlayer';
+import { ProductQuickViewModal } from '@/components/modals/ProductQuickViewModal';
 
 interface Category {
   _id: string;
@@ -44,6 +49,7 @@ interface Product {
   price: number;
   image: string;
   images?: string[];
+  videoUrl?: string;
 }
 
 export default function ProductsPage() {
@@ -55,12 +61,14 @@ export default function ProductsPage() {
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc'>('featured');
   const [activeModalProduct, setActiveModalProduct] = useState<Product | null>(null);
   const [selectedModalImage, setSelectedModalImage] = useState<string>('');
+  const [modalMediaTab, setModalMediaTab] = useState<'photos' | 'video'>('photos');
 
   const { openBookModal } = useModal();
 
   useEffect(() => {
     if (activeModalProduct) {
       setSelectedModalImage(activeModalProduct.image);
+      setModalMediaTab(activeModalProduct.videoUrl ? 'video' : 'photos');
     }
   }, [activeModalProduct]);
 
@@ -230,7 +238,7 @@ export default function ProductsPage() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
+              {filteredProducts.map((product, idx) => (
                 <motion.div
                   key={product._id}
                   layout
@@ -246,6 +254,7 @@ export default function ProductsPage() {
                       src={product.image}
                       alt={product.title}
                       fill
+                      priority={idx < 2}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -259,6 +268,14 @@ export default function ProductsPage() {
                         ${product.price.toFixed(2)} / sq.ft
                       </span>
                     </div>
+                    {product.videoUrl && (
+                      <div className="absolute bottom-3 left-3">
+                        <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-black/85 text-white backdrop-blur-md border border-[#E85D04]/40 shadow-lg">
+                          <Play className="w-2.5 h-2.5 fill-[#E85D04] text-[#E85D04]" />
+                          <span>Watch Video</span>
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                   {/* Body Content */}
@@ -292,130 +309,16 @@ export default function ProductsPage() {
           )}
         </section>
 
-        {/* PRODUCT DETAIL MODAL */}
-        <AnimatePresence>
-          {activeModalProduct && (
-            <div
-              className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md overflow-y-auto"
-              onClick={() => setActiveModalProduct(null)}
-            >
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                onClick={(e) => e.stopPropagation()}
-                className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl relative my-8"
-              >
-                <button
-                  onClick={() => setActiveModalProduct(null)}
-                  className="absolute top-4 right-4 z-20 p-2 rounded-full bg-stone-900/70 text-white hover:bg-[#E85D04] transition-all shadow-md"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-
-                <div className="grid grid-cols-1 md:grid-cols-2">
-                  {/* Image & Gallery Column */}
-                  <div className="p-4 sm:p-6 bg-stone-100 dark:bg-stone-950 flex flex-col justify-between space-y-4">
-                    {/* Primary Image View */}
-                    <div className="relative h-64 sm:h-72 w-full rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-800 shadow-md">
-                      <Image
-                        src={selectedModalImage || activeModalProduct.image}
-                        alt={activeModalProduct.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-cover transition-all duration-300"
-                      />
-                    </div>
-
-                    {/* Gallery Thumbnails List */}
-                    {(() => {
-                      const allImages = Array.from(
-                        new Set([
-                          activeModalProduct.image,
-                          ...(Array.isArray(activeModalProduct.images) ? activeModalProduct.images : []),
-                        ])
-                      ).filter(Boolean);
-
-                      if (allImages.length <= 1) return null;
-
-                      return (
-                        <div className="space-y-1.5">
-                          <p className="text-[11px] font-bold text-stone-500 uppercase tracking-wider">
-                            Product Image Gallery ({allImages.length} Photos)
-                          </p>
-                          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-                            {allImages.map((imgUrl, idx) => (
-                              <button
-                                key={idx}
-                                onClick={() => setSelectedModalImage(imgUrl)}
-                                className={`relative h-16 w-16 shrink-0 rounded-xl overflow-hidden border-2 transition-all ${
-                                  (selectedModalImage || activeModalProduct.image) === imgUrl
-                                    ? 'border-[#E85D04] scale-105 shadow-md'
-                                    : 'border-transparent opacity-70 hover:opacity-100'
-                                }`}
-                              >
-                                <Image
-                                  src={imgUrl}
-                                  alt={`${activeModalProduct.title} photo ${idx + 1}`}
-                                  fill
-                                  sizes="80px"
-                                  className="object-cover"
-                                />
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-                      );
-                    })()}
-                  </div>
-
-                  {/* Details Column */}
-                  <div className="p-6 sm:p-8 space-y-5 flex flex-col justify-between">
-                    <div className="space-y-3">
-                      <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E85D04]/10 text-[#E85D04] border border-[#E85D04]/20">
-                        {activeModalProduct.categoryName || 'Flooring Material'}
-                      </span>
-                      <h3 className="text-xl font-extrabold text-stone-900 dark:text-white leading-tight">
-                        {activeModalProduct.title}
-                      </h3>
-                      <div className="text-2xl font-black text-[#E85D04]">
-                        ${activeModalProduct.price.toFixed(2)}{' '}
-                        <span className="text-xs font-semibold text-stone-500">/ sq.ft</span>
-                      </div>
-                      <p className="text-xs text-stone-600 dark:text-stone-300 leading-relaxed whitespace-pre-line">
-                        {activeModalProduct.description}
-                      </p>
-                    </div>
-
-                    <div className="space-y-3 pt-4 border-t border-stone-100 dark:border-stone-800">
-                      <button
-                        onClick={() => {
-                          setActiveModalProduct(null);
-                          openBookModal();
-                        }}
-                        className="w-full py-3 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 flex items-center justify-center gap-2"
-                      >
-                        <span>Request Free Estimate for this Product</span>
-                      </button>
-
-                      <a
-                        href={`https://wa.me/13068808404?text=${encodeURIComponent(
-                          `Hi HD Flooring, I am interested in getting a quote for product: "${activeModalProduct.title}" ($${activeModalProduct.price.toFixed(2)}/sq.ft).`
-                        )}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba5a] text-white text-xs font-extrabold uppercase tracking-wider shadow-md shadow-emerald-500/20 flex items-center justify-center gap-2 transition-all cursor-pointer"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-white stroke-none" />
-                        <span>Chat Directly on WhatsApp</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          )}
-        </AnimatePresence>
+        {/* LUXURY PRODUCT DETAIL MODAL */}
+        <ProductQuickViewModal
+          product={activeModalProduct}
+          isOpen={!!activeModalProduct}
+          onClose={() => setActiveModalProduct(null)}
+          onGetQuote={() => {
+            setActiveModalProduct(null);
+            openBookModal();
+          }}
+        />
       </main>
 
       <Footer />

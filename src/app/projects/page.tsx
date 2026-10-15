@@ -19,6 +19,7 @@ import {
   Building2,
   Home,
   Layers,
+  Play
 } from 'lucide-react';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
@@ -65,6 +66,7 @@ export default function ProjectsPage() {
             propertyType: item.propertyType || 'Residential',
             coverImage: item.coverImage,
             galleryImages: item.galleryImages || [],
+            videoUrl: item.videoUrl || '',
             challenge: item.challenge || '',
             solution: item.solution || '',
             result: item.result || '',
@@ -419,6 +421,7 @@ export default function ProjectsPage() {
                       src={proj.coverImage}
                       alt={proj.title}
                       fill
+                      priority={index < 2}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className="object-cover group-hover:scale-108 transition-transform duration-700"
                     />
@@ -431,8 +434,14 @@ export default function ProjectsPage() {
                       </span>
                     </div>
 
-                    {/* Photo Count Badge */}
-                    <div className="absolute top-3 right-3 flex items-center gap-2">
+                    {/* Photo Count & Video Badge */}
+                    <div className="absolute top-3 right-3 flex items-center gap-1.5">
+                      {proj.videoUrl && (
+                        <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-slate-950/80 text-white backdrop-blur-md border border-white/20 shadow-lg flex items-center gap-1">
+                          <Play className="w-3 h-3 fill-[#E85D04] text-[#E85D04]" />
+                          <span>Video</span>
+                        </span>
+                      )}
                       <span className="px-3 py-1 rounded-full text-xs font-extrabold bg-[#E85D04] text-white shadow-lg flex items-center gap-1.5">
                         <Images className="w-3.5 h-3.5 text-white" />
                         <span>{allPhotos.length} {allPhotos.length === 1 ? 'Photo' : 'Photos'}</span>

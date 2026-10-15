@@ -41,7 +41,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, image, description, isActive = true } = body;
+    const { name, image, description, videoUrl, isActive = true } = body;
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       return NextResponse.json(
@@ -72,11 +72,14 @@ export async function POST(request: Request) {
       );
     }
 
+    const cleanVideoUrl = typeof videoUrl === 'string' ? videoUrl.trim() : '';
+
     const now = new Date();
     const result = await categoriesCollection.insertOne({
       name: trimmedName,
       description: typeof description === 'string' ? description.trim() : '',
       image: typeof image === 'string' ? image.trim() : undefined,
+      videoUrl: cleanVideoUrl,
       isActive: Boolean(isActive),
       createdAt: now,
       updatedAt: now,
@@ -90,6 +93,7 @@ export async function POST(request: Request) {
           _id: result.insertedId,
           name: trimmedName,
           image: typeof image === 'string' ? image.trim() : undefined,
+          videoUrl: cleanVideoUrl,
           createdAt: now,
           updatedAt: now,
         },

@@ -17,7 +17,7 @@ export async function PUT(
     }
 
     const body = await request.json();
-    const { name, image, description, isActive } = body;
+    const { name, image, description, videoUrl, isActive } = body;
 
     if (!name || typeof name !== 'string' || !name.trim()) {
       return NextResponse.json(
@@ -72,6 +72,10 @@ export async function PUT(
       updateData.image = image.trim();
     }
 
+    if (videoUrl !== undefined) {
+      updateData.videoUrl = typeof videoUrl === 'string' ? videoUrl.trim() : '';
+    }
+
     if (typeof isActive === 'boolean') {
       updateData.isActive = isActive;
     }
@@ -90,6 +94,7 @@ export async function PUT(
         _id: id,
         name: trimmedName,
         image: updateData.image ?? currentCategory.image,
+        videoUrl: updateData.videoUrl !== undefined ? updateData.videoUrl : currentCategory.videoUrl,
         updatedAt: updateData.updatedAt,
       },
     });
