@@ -66,6 +66,19 @@ export interface PartnerDoc {
   updatedAt: Date;
 }
 
+export interface TeamMemberDoc {
+  _id?: ObjectId;
+  name: string;
+  role: string;
+  badge?: string;
+  bio?: string;
+  photo: string;
+  order?: number;
+  isActive?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 const uri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/hd-flooring';
 const dbName = process.env.MONGODB_DB_NAME || 'hdFlooring';
 
@@ -147,6 +160,11 @@ export async function getProjectGalleryCollection(): Promise<Collection<ProjectG
 export async function getPartnersCollection(): Promise<Collection<PartnerDoc>> {
   const database = await connectDB();
   return database.collection<PartnerDoc>('partners');
+}
+
+export async function getTeamMembersCollection(): Promise<Collection<TeamMemberDoc>> {
+  const database = await connectDB();
+  return database.collection<TeamMemberDoc>('team_members');
 }
 
 export function getMimeTypeFromExt(filename: string): string {

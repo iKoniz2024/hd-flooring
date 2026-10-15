@@ -35,7 +35,10 @@ import {
   ExternalLink,
   Globe,
   Award,
-  Video as VideoIcon
+  Video as VideoIcon,
+  Users,
+  UserCheck,
+  HardHat
 } from 'lucide-react';
 import { invalidateApiCache, updateApiCache } from '@/lib/utils/apiCache';
 import { compressImageFile, formatFileSize } from '@/lib/utils/imageCompression';
@@ -93,6 +96,19 @@ interface PartnerItem {
   updatedAt?: string;
 }
 
+interface TeamMemberItem {
+  _id: string;
+  name: string;
+  role: string;
+  badge?: string;
+  bio?: string;
+  photo: string;
+  order: number;
+  isActive: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export default function AdminPage() {
   // Auth state
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -103,7 +119,7 @@ export default function AdminPage() {
   const [loginError, setLoginError] = useState('');
   const [authenticating, setAuthenticating] = useState(false);
 
-  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'projects' | 'partners'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'categories' | 'projects' | 'partners' | 'team'>('products');
 
   // Categories state
   const [categories, setCategories] = useState<Category[]>([]);
@@ -127,6 +143,11 @@ export default function AdminPage() {
   const [loadingPartners, setLoadingPartners] = useState(true);
   const [partnerSearch, setPartnerSearch] = useState('');
   const [selectedPartnerTypeFilter, setSelectedPartnerTypeFilter] = useState<'all' | 'manufacturer' | 'membership' | 'certification'>('all');
+
+  // Team state
+  const [teamMembers, setTeamMembers] = useState<TeamMemberItem[]>([]);
+  const [loadingTeam, setLoadingTeam] = useState(true);
+  const [teamSearch, setTeamSearch] = useState('');
 
   // Feedback banner state
   const [feedback, setFeedback] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
@@ -193,10 +214,24 @@ export default function AdminPage() {
   const [partnerIsActiveInput, setPartnerIsActiveInput] = useState<boolean>(true);
   const [submittingPartner, setSubmittingPartner] = useState(false);
 
+  // Team Modal state
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
+  const [teamModalMode, setTeamModalMode] = useState<'add' | 'edit'>('add');
+  const [editingTeamMember, setEditingTeamMember] = useState<TeamMemberItem | null>(null);
+  const [teamNameInput, setTeamNameInput] = useState('');
+  const [teamRoleInput, setTeamRoleInput] = useState('');
+  const [teamBadgeInput, setTeamBadgeInput] = useState('');
+  const [teamBioInput, setTeamBioInput] = useState('');
+  const [teamPhotoFile, setTeamPhotoFile] = useState<File | null>(null);
+  const [teamPhotoPreview, setTeamPhotoPreview] = useState<string>('');
+  const [teamOrderInput, setTeamOrderInput] = useState<number>(0);
+  const [teamIsActiveInput, setTeamIsActiveInput] = useState<boolean>(true);
+  const [submittingTeam, setSubmittingTeam] = useState(false);
+
   // Delete confirmation modal state
   const [deleteModalState, setDeleteModalState] = useState<{
     isOpen: boolean;
-    type: 'product' | 'category' | 'project' | 'partner';
+    type: 'product' | 'category' | 'project' | 'partner' | 'team';
     id: string;
     title: string;
   }>({ isOpen: false, type: 'product', id: '', title: '' });
@@ -340,6 +375,36 @@ export default function AdminPage() {
     }
   }, []);
 
+  // Fetch Team Members without triggering loading skeleton if data already exists
+  const fetchTeam = useCallback(async (silent = false) => {
+    if (!silent) {
+      setTeamMembers((prev) => {
+        if (prev.length === 0) setLoadingTeam(true);
+        return prev;
+      });
+    }
+    try {
+      const res = await fetch(`/api/team?all=true&_t=${Date.now()}`, {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setTeamMembers(data.data || []);
+        updateApiCache('/api/team', data);
+      } else if (!silent) {
+        showFeedback(data.error || 'Failed to fetch team members', 'error');
+      }
+    } catch (error) {
+      console.error('Error fetching team members:', error);
+      if (!silent) {
+        showFeedback('Database connection or network error fetching team members', 'error');
+      }
+    } finally {
+      setLoadingTeam(false);
+    }
+  }, []);
+
   // Refresh all data silently
   const handleRefreshAll = useCallback(async () => {
     setIsRefreshing(true);
@@ -348,9 +413,10 @@ export default function AdminPage() {
       fetchProducts(true),
       fetchProjects(true),
       fetchPartners(true),
+      fetchTeam(true),
     ]);
     setIsRefreshing(false);
-  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners]);
+  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners, fetchTeam]);
 
   // Initial Auth Check
   useEffect(() => {
@@ -361,9 +427,10 @@ export default function AdminPage() {
       fetchProducts();
       fetchProjects();
       fetchPartners();
+      fetchTeam();
     }
     setCheckingAuth(false);
-  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners]);
+  }, [fetchCategories, fetchProducts, fetchProjects, fetchPartners, fetchTeam]);
 
   // Clean up ObjectURL preview memory leak
   useEffect(() => {
@@ -377,8 +444,11 @@ export default function AdminPage() {
       if (partnerLogoPreview && partnerLogoPreview.startsWith('blob:')) {
         URL.revokeObjectURL(partnerLogoPreview);
       }
+      if (teamPhotoPreview && teamPhotoPreview.startsWith('blob:')) {
+        URL.revokeObjectURL(teamPhotoPreview);
+      }
     };
-  }, [productImagePreview, projectImagePreview, partnerLogoPreview]);
+  }, [productImagePreview, projectImagePreview, partnerLogoPreview, teamPhotoPreview]);
 
   // Login Submit Handler
   const handleLoginSubmit = async (e: FormEvent) => {
@@ -408,6 +478,7 @@ export default function AdminPage() {
         fetchProducts();
         fetchProjects();
         fetchPartners();
+        fetchTeam();
       } else {
         setLoginError(data.error || 'Incorrect email or password.');
       }
@@ -1226,6 +1297,185 @@ export default function AdminPage() {
     }
   };
 
+  // Handle Team Modal Open
+  const openAddTeamModal = () => {
+    setTeamModalMode('add');
+    setEditingTeamMember(null);
+    setTeamNameInput('');
+    setTeamRoleInput('');
+    setTeamBadgeInput('');
+    setTeamBioInput('');
+    setTeamPhotoFile(null);
+    setTeamPhotoPreview('');
+    setTeamOrderInput(teamMembers.length);
+    setTeamIsActiveInput(true);
+    setIsTeamModalOpen(true);
+  };
+
+  const openEditTeamModal = (member: TeamMemberItem) => {
+    setTeamModalMode('edit');
+    setEditingTeamMember(member);
+    setTeamNameInput(member.name);
+    setTeamRoleInput(member.role);
+    setTeamBadgeInput(member.badge || '');
+    setTeamBioInput(member.bio || '');
+    setTeamPhotoFile(null);
+    setTeamPhotoPreview(member.photo || '');
+    setTeamOrderInput(member.order ?? 0);
+    setTeamIsActiveInput(member.isActive !== false);
+    setIsTeamModalOpen(true);
+  };
+
+  // Submit Team Member
+  const handleTeamSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!teamNameInput.trim()) {
+      showFeedback('Member full name is required.', 'error');
+      return;
+    }
+    if (!teamRoleInput.trim()) {
+      showFeedback('Member role / designation is required.', 'error');
+      return;
+    }
+
+    if (!teamPhotoFile && !teamPhotoPreview) {
+      showFeedback('Member portrait photo is required. Please upload a photo.', 'error');
+      return;
+    }
+
+    setSubmittingTeam(true);
+    const isEdit = teamModalMode === 'edit' && editingTeamMember;
+    const previousTeam = [...teamMembers];
+
+    try {
+      const finalPhotoUrl = await uploadImageIfNeeded(teamPhotoFile || teamPhotoPreview, 'photo');
+
+      if (!finalPhotoUrl) {
+        showFeedback('Photo upload failed. Please try again.', 'error');
+        setSubmittingTeam(false);
+        return;
+      }
+
+      const trimmedName = teamNameInput.trim();
+      const trimmedRole = teamRoleInput.trim();
+      const trimmedBadge = teamBadgeInput.trim();
+      const trimmedBio = teamBioInput.trim();
+      const numericOrder = Number(teamOrderInput) || 0;
+
+      const url = isEdit ? `/api/team/${editingTeamMember._id}` : '/api/team';
+      const method = isEdit ? 'PUT' : 'POST';
+
+      // Instant optimistic UI update
+      if (isEdit && editingTeamMember) {
+        setTeamMembers((prev) =>
+          prev.map((m) =>
+            m._id === editingTeamMember._id
+              ? {
+                  ...m,
+                  name: trimmedName,
+                  role: trimmedRole,
+                  badge: trimmedBadge,
+                  bio: trimmedBio,
+                  photo: finalPhotoUrl,
+                  order: numericOrder,
+                  isActive: teamIsActiveInput,
+                }
+              : m
+          )
+        );
+      }
+
+      const token = sessionStorage.getItem('admin_token') || '';
+      const res = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({
+          name: trimmedName,
+          role: trimmedRole,
+          badge: trimmedBadge,
+          bio: trimmedBio,
+          photo: finalPhotoUrl,
+          order: numericOrder,
+          isActive: teamIsActiveInput,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        showFeedback(
+          data.message || (isEdit ? 'Team member updated successfully.' : 'Team member added successfully.'),
+          'success'
+        );
+        setIsTeamModalOpen(false);
+        setTeamNameInput('');
+        setTeamRoleInput('');
+        setTeamBadgeInput('');
+        setTeamBioInput('');
+        setTeamPhotoFile(null);
+        setTeamPhotoPreview('');
+        setTeamOrderInput(0);
+
+        if (!isEdit && data.data) {
+          setTeamMembers((prev) => [...prev, data.data]);
+        } else if (isEdit && data.data) {
+          setTeamMembers((prev) =>
+            prev.map((m) => (m._id === data.data._id ? { ...m, ...data.data } : m))
+          );
+        }
+
+        invalidateApiCache('/api/team');
+        fetchTeam(true);
+      } else {
+        setTeamMembers(previousTeam);
+        showFeedback(data.error || 'Failed to save team member', 'error');
+      }
+    } catch (error: any) {
+      setTeamMembers(previousTeam);
+      console.error('Team member submit error:', error);
+      showFeedback(error?.message || 'An error occurred while saving team member', 'error');
+    } finally {
+      setSubmittingTeam(false);
+    }
+  };
+
+  // Quick Toggle Team Member Active
+  const handleToggleTeamActive = async (member: TeamMemberItem) => {
+    const previousTeam = [...teamMembers];
+    const newStatus = !member.isActive;
+
+    // Optimistic UI update
+    setTeamMembers((prev) =>
+      prev.map((m) => (m._id === member._id ? { ...m, isActive: newStatus } : m))
+    );
+
+    try {
+      const token = sessionStorage.getItem('admin_token') || '';
+      const res = await fetch(`/api/team/${member._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify({ isActive: newStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        invalidateApiCache('/api/team');
+        showFeedback(`${member.name} visibility updated.`, 'success');
+      } else {
+        setTeamMembers(previousTeam);
+        showFeedback(data.error || 'Failed to update team member visibility', 'error');
+      }
+    } catch (err) {
+      setTeamMembers(previousTeam);
+      showFeedback('Failed to update team member visibility', 'error');
+    }
+  };
+
   // Handle Delete Confirmation
   const confirmDelete = async () => {
     if (!deleteModalState.id) return;
@@ -1238,6 +1488,7 @@ export default function AdminPage() {
     const previousProducts = [...products];
     const previousProjects = [...projects];
     const previousPartners = [...partners];
+    const previousTeam = [...teamMembers];
 
     try {
       const endpoint = deleteType === 'category'
@@ -1246,6 +1497,8 @@ export default function AdminPage() {
         ? `/api/projects/${deleteId}`
         : deleteType === 'partner'
         ? `/api/partners/${deleteId}`
+        : deleteType === 'team'
+        ? `/api/team/${deleteId}`
         : `/api/products/${deleteId}`;
 
       // Optimistic UI update: Remove item instantly from UI
@@ -1258,6 +1511,8 @@ export default function AdminPage() {
         setProjects((prev) => prev.filter((p) => p._id !== deleteId));
       } else if (deleteType === 'partner') {
         setPartners((prev) => prev.filter((p) => p._id !== deleteId));
+      } else if (deleteType === 'team') {
+        setTeamMembers((prev) => prev.filter((m) => m._id !== deleteId));
       } else {
         setProducts((prev) => prev.filter((p) => p._id !== deleteId));
       }
@@ -1287,6 +1542,9 @@ export default function AdminPage() {
         } else if (deleteType === 'partner') {
           invalidateApiCache('/api/partners');
           fetchPartners(true);
+        } else if (deleteType === 'team') {
+          invalidateApiCache('/api/team');
+          fetchTeam(true);
         } else {
           invalidateApiCache('/api/products');
           fetchProducts(true);
@@ -1299,6 +1557,8 @@ export default function AdminPage() {
           setProjects(previousProjects);
         } else if (deleteType === 'partner') {
           setPartners(previousPartners);
+        } else if (deleteType === 'team') {
+          setTeamMembers(previousTeam);
         } else {
           setProducts(previousProducts);
         }
@@ -1308,6 +1568,7 @@ export default function AdminPage() {
       if (deleteType === 'category') setCategories(previousCategories);
       else if (deleteType === 'project') setProjects(previousProjects);
       else if (deleteType === 'partner') setPartners(previousPartners);
+      else if (deleteType === 'team') setTeamMembers(previousTeam);
       else setProducts(previousProducts);
       console.error('Delete error:', error);
       showFeedback('An error occurred while deleting item.', 'error');
@@ -1332,6 +1593,19 @@ export default function AdminPage() {
       })
       .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   }, [partners, selectedPartnerTypeFilter, partnerSearch]);
+
+  const filteredTeam = useMemo(() => {
+    const q = teamSearch.toLowerCase().trim();
+    return teamMembers
+      .filter(
+        (m) =>
+          !q ||
+          m.name.toLowerCase().includes(q) ||
+          m.role.toLowerCase().includes(q) ||
+          (m.badge && m.badge.toLowerCase().includes(q))
+      )
+      .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  }, [teamMembers, teamSearch]);
 
   const manufacturerCount = useMemo(
     () => partners.filter((p) => p.type === 'manufacturer').length,
@@ -1616,6 +1890,20 @@ export default function AdminPage() {
                 {partners.length}
               </span>
             </button>
+            <button
+              onClick={() => setActiveTab('team')}
+              className={`flex items-center gap-2 px-5 py-3 font-bold text-sm border-b-2 transition-all cursor-pointer ${
+                activeTab === 'team'
+                  ? 'border-[#E85D04] text-[#E85D04]'
+                  : 'border-transparent text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              <span>Our Team</span>
+              <span className="ml-1 px-2 py-0.5 text-xs rounded-full bg-stone-200 dark:bg-stone-800 font-semibold text-stone-700 dark:text-stone-300">
+                {teamMembers.length}
+              </span>
+            </button>
           </div>
 
           <div>
@@ -1643,13 +1931,21 @@ export default function AdminPage() {
                 <Plus className="w-4 h-4" />
                 <span>Add Project</span>
               </button>
-            ) : (
+            ) : activeTab === 'partners' ? (
               <button
                 onClick={openAddPartnerModal}
                 className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
                 <span>Add Partner / Brand</span>
+              </button>
+            ) : (
+              <button
+                onClick={openAddTeamModal}
+                className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs sm:text-sm font-extrabold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 transition-all cursor-pointer"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Add Team Member</span>
               </button>
             )}
           </div>
@@ -2287,6 +2583,178 @@ export default function AdminPage() {
                           <Trash2 className="w-3 h-3" />
                           <span>Delete</span>
                         </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* OUR TEAM TAB CONTENT */}
+        {activeTab === 'team' && (
+          <div className="space-y-6 min-h-[480px]">
+            {/* Filter & Search Bar */}
+            <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center bg-white dark:bg-stone-900 p-4 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xs">
+              <div className="relative flex-1 max-w-md">
+                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  type="text"
+                  placeholder="Search team members by name, role, or badge..."
+                  value={teamSearch}
+                  onChange={(e) => setTeamSearch(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] transition-all"
+                />
+              </div>
+
+              {/* Quick Status Stats */}
+              <div className="flex items-center gap-2 text-xs font-semibold text-stone-500">
+                <span className="px-3 py-1.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300">
+                  Total: <strong className="text-stone-900 dark:text-white">{teamMembers.length}</strong>
+                </span>
+                <span className="px-3 py-1.5 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                  Active: <strong>{teamMembers.filter((m) => m.isActive).length}</strong>
+                </span>
+              </div>
+            </div>
+
+            {/* Team Grid */}
+            {loadingTeam ? (
+              <div className="py-20 flex flex-col items-center justify-center space-y-3">
+                <Loader2 className="w-8 h-8 text-[#E85D04] animate-spin" />
+                <p className="text-sm text-stone-500">Loading team members from database...</p>
+              </div>
+            ) : filteredTeam.length === 0 ? (
+              <div className="py-16 text-center bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 p-8 space-y-4">
+                <div className="w-14 h-14 mx-auto rounded-2xl bg-orange-100 dark:bg-stone-800 flex items-center justify-center text-[#E85D04]">
+                  <Users className="w-7 h-7" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold">No Team Members Found</h3>
+                  <p className="text-sm text-stone-500 max-w-md mx-auto mt-1">
+                    {teamSearch
+                      ? 'No team members match your search criteria.'
+                      : 'Showcase the real craftsmen, installers, and leadership behind HD Flooring on your About Us page.'}
+                  </p>
+                </div>
+                <div>
+                  <button
+                    onClick={openAddTeamModal}
+                    className="px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white font-bold text-xs uppercase tracking-wider shadow-md cursor-pointer"
+                  >
+                    + Add Team Member Now
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredTeam.map((member: TeamMemberItem) => (
+                  <div
+                    key={member._id}
+                    className={`bg-white dark:bg-stone-900 border rounded-2xl overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between group ${
+                      member.isActive
+                        ? 'border-stone-200 dark:border-stone-800'
+                        : 'border-stone-200/50 dark:border-stone-800/50 opacity-75'
+                    }`}
+                  >
+                    {/* Portrait Photo Container */}
+                    <div className="relative aspect-[4/5] w-full bg-stone-100 dark:bg-stone-800 overflow-hidden">
+                      {member.photo ? (
+                        <Image
+                          src={member.photo}
+                          alt={member.name}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
+                          className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="h-full w-full flex flex-col items-center justify-center text-stone-400">
+                          <Users className="w-12 h-12" />
+                          <span className="text-[11px] mt-1">No Photo</span>
+                        </div>
+                      )}
+
+                      {/* Top Gradient Overlay */}
+                      <div className="absolute inset-x-0 top-0 h-16 bg-gradient-to-b from-black/60 to-transparent pointer-events-none" />
+
+                      {/* Highlight Badge */}
+                      {member.badge && (
+                        <div className="absolute top-3 left-3">
+                          <span className="px-2.5 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#E85D04] text-white shadow-md">
+                            {member.badge}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Active Status Quick Toggle */}
+                      <button
+                        type="button"
+                        onClick={() => handleToggleTeamActive(member)}
+                        title={member.isActive ? 'Active (Click to hide)' : 'Inactive (Click to show)'}
+                        className={`absolute top-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold transition-all backdrop-blur-md cursor-pointer ${
+                          member.isActive
+                            ? 'bg-emerald-500/90 text-white shadow-xs hover:bg-rose-600'
+                            : 'bg-stone-900/80 text-stone-300 border border-stone-700 hover:bg-emerald-600 hover:text-white'
+                        }`}
+                      >
+                        <span
+                          className={`w-1.5 h-1.5 rounded-full ${
+                            member.isActive ? 'bg-white' : 'bg-stone-400'
+                          }`}
+                        />
+                        <span>{member.isActive ? 'Active' : 'Hidden'}</span>
+                      </button>
+                    </div>
+
+                    {/* Member Details */}
+                    <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                      <div>
+                        <h4 className="font-extrabold text-base text-stone-900 dark:text-white line-clamp-1 font-outfit">
+                          {member.name}
+                        </h4>
+                        <div className="mt-1 flex items-center gap-1.5 text-xs font-semibold text-[#E85D04]">
+                          <HardHat className="w-3.5 h-3.5 shrink-0" />
+                          <span className="truncate">{member.role}</span>
+                        </div>
+                        {member.bio && (
+                          <p className="mt-2.5 text-xs text-stone-600 dark:text-stone-400 line-clamp-2 leading-relaxed">
+                            {member.bio}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* Card Footer */}
+                      <div className="pt-3 border-t border-stone-100 dark:border-stone-800 flex items-center justify-between text-xs">
+                        <span className="text-[11px] font-medium text-stone-400">
+                          Order: #{member.order ?? 0}
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => openEditTeamModal(member)}
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-stone-100 dark:bg-stone-800 hover:bg-[#E85D04] hover:text-white text-stone-700 dark:text-stone-300 text-xs font-semibold transition-all cursor-pointer"
+                          >
+                            <Pencil className="w-3 h-3" />
+                            <span>Edit</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setDeleteModalState({
+                                isOpen: true,
+                                type: 'team',
+                                id: member._id,
+                                title: member.name,
+                              })
+                            }
+                            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-600 hover:text-white text-rose-600 dark:text-rose-400 text-xs font-semibold transition-all cursor-pointer"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -3313,6 +3781,224 @@ export default function AdminPage() {
                       </>
                     ) : (
                       <span>{partnerModalMode === 'edit' ? 'Update Partner' : 'Save Partner'}</span>
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
+
+        {/* TEAM MEMBER ADD/EDIT MODAL */}
+        {isTeamModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+            <div className="bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-6 max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 rounded-xl bg-[#E85D04]/10 text-[#E85D04] flex items-center justify-center font-bold">
+                    <Users className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-lg font-bold text-stone-900 dark:text-white">
+                      {teamModalMode === 'edit' ? 'Edit Team Member' : 'Add New Team Member'}
+                    </h3>
+                    <p className="text-xs text-stone-500">
+                      Showcase your craftsmen & staff on the About page.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setIsTeamModalOpen(false)}
+                  className="p-1.5 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              <form onSubmit={handleTeamSubmit} className="space-y-4">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Full Name <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Habib, Alex Vance"
+                    value={teamNameInput}
+                    onChange={(e) => setTeamNameInput(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                  />
+                </div>
+
+                {/* Role / Designation */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Role / Designation <span className="text-rose-500">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Founder & Master Craftsman, Senior Hardwood Specialist"
+                    value={teamRoleInput}
+                    onChange={(e) => setTeamRoleInput(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                  />
+                </div>
+
+                {/* Highlight Badge (Optional) */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Highlight Badge (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. 15+ Yrs Exp, Lead Installer, NWFA Certified"
+                    value={teamBadgeInput}
+                    onChange={(e) => setTeamBadgeInput(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                  />
+                  <p className="text-[11px] text-stone-500 mt-1">
+                    Appears as a vibrant tag on top of the member portrait.
+                  </p>
+                </div>
+
+                {/* Portrait Photo Upload */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Portrait Photo <span className="text-rose-500">*</span>
+                  </label>
+                  <label className="flex flex-col items-center justify-center p-4 border-2 border-dashed border-stone-300 dark:border-stone-700 hover:border-[#E85D04] rounded-2xl cursor-pointer bg-stone-50 dark:bg-stone-800/50 hover:bg-stone-100 transition-all text-center">
+                    <Upload className="w-5 h-5 text-[#E85D04] mb-1" />
+                    <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
+                      Click to upload Member Photo
+                    </span>
+                    <span className="text-[11px] font-bold text-[#E85D04] bg-[#E85D04]/10 px-2.5 py-1 rounded-lg mt-1.5 border border-[#E85D04]/20">
+                      📐 Recommended: 3:4 or 4:5 Portrait (e.g. 600 × 800 px)
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={async (e) => {
+                        const file = e.target.files?.[0];
+                        if (file) {
+                          if (!file.type.startsWith('image/')) {
+                            showFeedback('Please select a valid image file', 'error');
+                            return;
+                          }
+                          try {
+                            const res = await compressImageFile(file, { maxWidth: 800, maxHeight: 1000, quality: 0.85 });
+                            setTeamPhotoFile(res.file);
+                            setTeamPhotoPreview(URL.createObjectURL(res.file));
+                            if (res.savingsPercent > 0) {
+                              showFeedback(`⚡ Photo optimized: ${formatFileSize(res.originalSize)} ➔ ${formatFileSize(res.compressedSize)} (${res.savingsPercent}% saved)`, 'success');
+                            }
+                          } catch {
+                            setTeamPhotoFile(file);
+                            setTeamPhotoPreview(URL.createObjectURL(file));
+                          }
+                        }
+                      }}
+                      className="hidden"
+                    />
+                  </label>
+
+                  {teamPhotoPreview && (
+                    <div className="relative mt-3 rounded-2xl overflow-hidden border border-stone-200 dark:border-stone-700 h-40 bg-stone-100 dark:bg-stone-800/60 p-2 flex items-center justify-center">
+                      <div className="relative w-full h-full max-h-36">
+                        <Image
+                          src={teamPhotoPreview}
+                          alt="Team member preview"
+                          fill
+                          sizes="300px"
+                          className="object-contain"
+                        />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setTeamPhotoFile(null);
+                          setTeamPhotoPreview('');
+                        }}
+                        className="absolute top-2 right-2 p-1.5 bg-rose-500 text-white rounded-xl shadow-md hover:bg-rose-600 transition-all cursor-pointer"
+                        title="Remove photo"
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bio / Description (Optional) */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                    Bio & Expertise (Optional)
+                  </label>
+                  <textarea
+                    rows={2}
+                    placeholder="Brief description of their craftsmanship, certifications, or focus area..."
+                    value={teamBioInput}
+                    onChange={(e) => setTeamBioInput(e.target.value)}
+                    className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all resize-none"
+                  />
+                </div>
+
+                {/* Display Order & Visibility */}
+                <div className="grid grid-cols-2 gap-3 pt-1">
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                      Display Order
+                    </label>
+                    <input
+                      type="number"
+                      min="0"
+                      value={teamOrderInput}
+                      onChange={(e) => setTeamOrderInput(Number(e.target.value))}
+                      className="w-full px-3.5 py-2.5 text-sm bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl focus:outline-none focus:border-[#E85D04] font-medium transition-all"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider mb-1.5">
+                      Visibility
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => setTeamIsActiveInput(!teamIsActiveInput)}
+                      className={`w-full py-2.5 px-3 rounded-xl border text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                        teamIsActiveInput
+                          ? 'border-emerald-500 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                          : 'border-stone-300 dark:border-stone-700 bg-stone-100 dark:bg-stone-800 text-stone-500'
+                      }`}
+                    >
+                      <span className={`w-2 h-2 rounded-full ${teamIsActiveInput ? 'bg-emerald-500' : 'bg-stone-400'}`} />
+                      <span>{teamIsActiveInput ? 'Active' : 'Hidden'}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Form Buttons */}
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-stone-100 dark:border-stone-800">
+                  <button
+                    type="button"
+                    onClick={() => setIsTeamModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-stone-200 dark:border-stone-700 text-stone-700 dark:text-stone-300 text-xs font-bold uppercase tracking-wider hover:bg-stone-100 dark:hover:bg-stone-800 cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submittingTeam}
+                    className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#E85D04] hover:bg-[#d95b16] text-white text-xs font-bold uppercase tracking-wider shadow-lg shadow-[#E85D04]/20 disabled:opacity-50 cursor-pointer"
+                  >
+                    {submittingTeam ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span>Saving Member...</span>
+                      </>
+                    ) : (
+                      <span>{teamModalMode === 'edit' ? 'Update Member' : 'Save Member'}</span>
                     )}
                   </button>
                 </div>

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import { Camera, Maximize2, X, Users, MapPin, HardHat, ShieldCheck, ChevronDown, ChevronUp } from 'lucide-react';
-import { fetchWithCache } from '@/lib/utils/apiCache';
+import { fetchWithCache, subscribeApiCache } from '@/lib/utils/apiCache';
 
 interface TeamPhoto {
   id: string;
@@ -14,95 +14,60 @@ interface TeamPhoto {
   badge: string;
 }
 
-const teamPhotos: TeamPhoto[] = [
-  {
-    id: 'team-01',
-    src: '/assets/images/team-company/team-company-01.jpg',
-    title: 'HD Flooring On-Site Crew',
-    subtitle: 'Expert installers preparing floor layout & moisture testing in Saskatoon',
-    badge: 'On-Site Field Crew',
-  },
-  {
-    id: 'team-02',
-    src: '/assets/images/team-company/team-company-02.jpg',
-    title: 'Precision Board Alignment',
-    subtitle: 'Master scribing and seam setting for high-traffic vinyl & wood',
-    badge: 'Precision Workmanship',
-  },
-  {
-    id: 'team-03',
-    src: '/assets/images/team-company/team-company-03.jpg',
-    title: 'Subfloor Prep & Joint Sealing',
-    subtitle: 'Ensuring zero squeaks and flat foundation prior to plank laying',
-    badge: 'Subfloor Specialists',
-  },
-  {
-    id: 'team-04',
-    src: '/assets/images/team-company/team-company-04.jpg',
-    title: 'Self-Leveling Compound Pour',
-    subtitle: 'Pouring high-flow cementitious leveler for laser-flat floor surface',
-    badge: 'Laser Leveling',
-  },
-  {
-    id: 'team-05',
-    src: '/assets/images/team-company/team-company-05.jpg',
-    title: 'Commercial Sheet Vinyl Coving',
-    subtitle: 'Heat welding watertight PVC seams for healthcare & retail',
-    badge: 'Hygienic Coving',
-  },
-  {
-    id: 'team-06',
-    src: '/assets/images/team-company/team-company-06.jpg',
-    title: 'Tile & Porcelain Setting',
-    subtitle: 'Laser leveling grid and zero-lip tile spacer setting',
-    badge: 'Master Tiling',
-  },
-  {
-    id: 'team-07',
-    src: '/assets/images/team-company/team-company-07.jpg',
-    title: 'Final Quality Inspection',
-    subtitle: 'Checking perimeter trims, baseboard transitions, and client walk-through',
-    badge: '100% Quality Assurance',
-  },
-  {
-    id: 'team-08',
-    src: '/assets/images/personal-photos/personal-photo-01.jpg',
-    title: 'Habibur Rahman (Habib)',
-    subtitle: 'Managing Director & Lead Flooring Specialist leading every project site',
-    badge: 'Managing Lead',
-  },
-];
-
 export function TeamPhotoGallery() {
   const [selectedPhoto, setSelectedPhoto] = useState<TeamPhoto | null>(null);
   const [showAll, setShowAll] = useState(false);
-  const [photos, setPhotos] = useState<TeamPhoto[]>(teamPhotos);
+  const [photos, setPhotos] = useState<TeamPhoto[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let isMounted = true;
-    const fetchDynamicProjects = async () => {
+    const fetchTeamMembers = async () => {
       try {
-        const data = await fetchWithCache('/api/projects');
-        if (isMounted && data.success && Array.isArray(data.data) && data.data.length > 0) {
-          const dynamicPhotos: TeamPhoto[] = data.data.map((item: any, idx: number) => ({
-            id: item._id || `proj-${idx}`,
-            src: item.coverImage || teamPhotos[idx % teamPhotos.length].src,
-            title: item.title,
-            subtitle: item.location ? `${item.location} • ${item.propertyType || 'On-Site Work'}` : (item.challenge || 'Expert installation by HD Flooring specialists'),
-            badge: item.category || 'On-Site Specialist',
-          }));
-          setPhotos(dynamicPhotos);
+        const data = await fetchWithCache<{ success: boolean; data: any[] }>('/api/team');
+        if (isMounted) {
+          if (data && data.success && Array.isArray(data.data) && data.data.length > 0) {
+            const dynamicTeam: TeamPhoto[] = data.data
+              .filter((item: any) => item && item.photo)
+              .map((item: any, idx: number) => ({
+                id: item._id || `team-${idx}`,
+                src: item.photo,
+                title: item.name,
+                subtitle: item.role ? `${item.role}${item.bio ? ` • ${item.bio}` : ''}` : (item.bio || ''),
+                badge: (typeof item.badge === 'string' && item.badge !== 'Installation Specialist') ? item.badge.trim() : '',
+              }));
+            setPhotos(dynamicTeam);
+          } else {
+            setPhotos([]);
+          }
         }
       } catch (err) {
-        console.error('Failed to fetch dynamic projects for team gallery:', err);
+        console.error('Failed to fetch dynamic team members for gallery:', err);
+        if (isMounted) setPhotos([]);
+      } finally {
+        if (isMounted) setLoading(false);
       }
     };
 
-    fetchDynamicProjects();
+    fetchTeamMembers();
+
+    // Subscribe to cache invalidation when admin updates team members
+    const unsubscribe = subscribeApiCache((url) => {
+      if (url === '/api/team' || url === '*') {
+        fetchTeamMembers();
+      }
+    });
+
     return () => {
       isMounted = false;
+      unsubscribe();
     };
   }, []);
+
+  // If loading or no team members in database, do not render any static or fallback cards
+  if (loading || photos.length === 0) {
+    return null;
+  }
 
   const displayedPhotos = showAll ? photos : photos.slice(0, 4);
 
@@ -144,16 +109,20 @@ export function TeamPhotoGallery() {
                 src={photo.src}
                 alt={photo.title}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                className="object-cover object-top group-hover:scale-105 transition-transform duration-700"
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
 
               <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-[#E85D04] uppercase tracking-wider backdrop-blur-md">
-                  {photo.badge}
-                </span>
+                {photo.badge ? (
+                  <span className="px-2.5 py-1 rounded-full bg-slate-900/90 border border-slate-700 text-[10px] font-bold text-[#E85D04] uppercase tracking-wider backdrop-blur-md">
+                    {photo.badge}
+                  </span>
+                ) : (
+                  <span />
+                )}
                 <div className="w-8 h-8 rounded-full bg-slate-900/90 border border-slate-700 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md">
                   <Maximize2 className="w-3.5 h-3.5" />
                 </div>
@@ -226,9 +195,11 @@ export function TeamPhotoGallery() {
 
               <div className="p-6 bg-slate-900 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-slate-800">
                 <div className="space-y-1">
-                  <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#E85D04]/20 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
-                    {selectedPhoto.badge}
-                  </span>
+                  {selectedPhoto.badge ? (
+                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#E85D04]/20 text-[#E85D04] text-[11px] font-bold uppercase tracking-wider">
+                      {selectedPhoto.badge}
+                    </span>
+                  ) : null}
                   <h3 className="font-playfair text-xl font-bold text-white">
                     {selectedPhoto.title}
                   </h3>
