@@ -31,7 +31,7 @@ export function IntroSection() {
 
       {/* Main Glass Studio Card Outer Container */}
       <div className="rounded-3xl bg-[#FAF6F0] dark:bg-stone-900/90 border border-stone-200/90 dark:border-stone-800 p-6 sm:p-8 lg:p-10 shadow-2xl relative overflow-hidden">
-        
+
         {/* Decorative Top Ambient Glow Line */}
         <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-transparent via-[#E85D04] to-transparent opacity-80" />
 
@@ -65,7 +65,7 @@ export function IntroSection() {
 
           {/* Right Side: High-Contrast Eye-Catching Features */}
           <div className="lg:col-span-7 space-y-5">
-            
+
             {/* Top Badge & Header */}
             <div className="space-y-1.5">
               <motion.div
@@ -100,6 +100,24 @@ export function IntroSection() {
                 Expert Hardwood, LVP, Tile & Laminate Services.
               </motion.p>
             </div>
+
+            {/* Action CTA Button */}
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="pt-1"
+            >
+              <Link
+                href="/about-us"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/30 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+              >
+                <span>Learn More</span>
+                <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
+              </Link>
+            </motion.div>
+
 
             {/* 3 Compact Feature Cards Grid */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 pt-1">
@@ -136,24 +154,6 @@ export function IntroSection() {
                 );
               })}
             </div>
-
-            {/* Action CTA Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="pt-1"
-            >
-              <Link
-                href="/about-us"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/30 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
-              >
-                <span>Learn More</span>
-                <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
-              </Link>
-            </motion.div>
-
           </div>
 
         </div>

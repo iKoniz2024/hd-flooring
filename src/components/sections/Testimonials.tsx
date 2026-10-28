@@ -1,58 +1,96 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Star, Quote, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Star, Quote } from 'lucide-react';
 
-const reviews = [
+interface Review {
+  name: string;
+  location: string;
+  rating: number;
+  image: string;
+  text: string;
+}
+
+const reviews: Review[] = [
   {
     name: 'Robert Henderson',
     location: 'Saskatoon, SK',
     rating: 5,
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80',
     text: 'HD Flooring replaced our old carpet with 7-inch wide engineered white oak. Their subfloor leveling was unbelievable — zero squeaks and flawless trim finishing.',
   },
   {
     name: 'Elena Rostova',
     location: 'Regina, SK',
     rating: 5,
+    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80',
     text: 'Installed 100% waterproof luxury vinyl in our basement and kitchen. Clean, polite, punctual team. We could not be happier with the quality!',
   },
   {
     name: 'Marcus Vance',
     location: 'Prince Albert, SK',
     rating: 5,
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80',
     text: 'Top notch commercial tile installation for our new corporate showroom. Precision laser layout and zero lippage on 24x48 porcelain tiles.',
+  },
+  {
+    name: 'Sarah Jenkins',
+    location: 'Calgary, AB',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
+    text: 'The craftsmanship on our herringbone hardwood installation is pure art. Visitors constantly ask who did our floors. Highly recommended!',
+  },
+  {
+    name: 'David Miller',
+    location: 'Edmonton, AB',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80',
+    text: 'From estimate to final cleanup, everything was done with supreme professionalism. Their acoustic underlayment made our condo dead quiet.',
+  },
+  {
+    name: 'Chloe Dubois',
+    location: 'Moose Jaw, SK',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80',
+    text: 'Our heated bathroom tile floors turned out spectacular! The transitions to our bedroom hardwood are completely seamless and flush.',
+  },
+  {
+    name: 'Lucas Van Der Berg',
+    location: 'North Battleford, SK',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=80',
+    text: 'Heavy-duty commercial epoxy flooring installed in our auto garage. Incredible durability against hot tires and oil spills. Stellar job!',
+  },
+  {
+    name: 'Jessica Morgan',
+    location: 'Swift Current, SK',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=200&q=80',
+    text: 'Replaced worn laminate with rigid core vinyl planks throughout our whole main floor. The crew was fast, respectful, and left the house spotless.',
+  },
+  {
+    name: 'Alexander Wright',
+    location: 'Yorkton, SK',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=200&q=80',
+    text: 'Remarkable attention to detail on baseboards and stair nosing. HD Flooring provided honest advice and transparent pricing without surprises.',
+  },
+  {
+    name: 'Sophia Martinez',
+    location: 'Weyburn, SK',
+    rating: 5,
+    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=200&q=80',
+    text: 'Gorgeous plush carpet for our second floor bedrooms. Soft underfoot, perfectly stretched, and completely transformed the warmth of our home.',
   },
 ];
 
-const getReviewVariant = (idx: number) => {
-  switch (idx) {
-    case 0:
-      return { initial: { opacity: 0, x: -50, scale: 0.85 }, animate: { opacity: 1, x: 0, scale: 1 } };
-    case 1:
-      return { initial: { opacity: 0, y: 60, scale: 0.85 }, animate: { opacity: 1, y: 0, scale: 1 } };
-    case 2:
-    default:
-      return { initial: { opacity: 0, x: 50, scale: 0.85 }, animate: { opacity: 1, x: 0, scale: 1 } };
-  }
-};
-
 export function Testimonials() {
-  const { scrollYProgress } = useScroll();
-
-  // Parallax translation for background image
-  const yParallaxImage = useTransform(scrollYProgress, [0, 1], ['-20%', '20%']);
-  const yParallaxFast = useTransform(scrollYProgress, [0, 1], ['-30%', '30%']);
-  const yParallaxSlow = useTransform(scrollYProgress, [0, 1], ['20%', '-20%']);
-
   return (
-    <section
-      className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300"
-    >
+    <section className="relative py-24 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-inter overflow-hidden transition-colors duration-300">
       {/* 1. Bright High-Contrast True Fixed Parallax Background Image */}
-      <div className="absolute inset-0 pointer-events-none z-0">
+      <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
         <div
-          className="w-full h-full bg-cover bg-center bg-no-repeat opacity-90 dark:opacity-40 transform-gpu"
+          className="w-full h-full bg-cover bg-center bg-no-repeat bg-fixed opacity-90 dark:opacity-40"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1920&q=80&fm=webp')`,
           }}
@@ -78,51 +116,63 @@ export function Testimonials() {
             What Our <span className="text-[#E85D04]">Customers Say</span>
           </h2>
         </motion.div>
+      </div>
 
-        {/* Testimonials Review Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {reviews.map((review, idx) => {
-            const v = getReviewVariant(idx);
-            return (
-              <motion.div
-                key={idx}
-                initial={v.initial}
-                whileInView={v.animate}
-                viewport={{ once: true, amount: 0.15 }}
-                transition={{ duration: 0.6, delay: idx * 0.1 }}
-                whileHover={{ y: -6, scale: 1.02 }}
-                className="p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#E85D04]/40 shadow-xl dark:shadow-2xl backdrop-blur-xl transition-all duration-300 space-y-6 relative flex flex-col justify-between group"
-              >
-                <Quote className="w-10 h-10 text-[#E85D04]/15 absolute top-6 right-6 group-hover:text-[#E85D04]/35 transition-colors" />
+      {/* Full-Width Marquee Container */}
+      <div className="relative z-10 mt-10 overflow-hidden w-full py-4">
+        {/* Soft edge gradient fades */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-r from-white/90 dark:from-slate-950/90 to-transparent z-20" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-32 bg-gradient-to-l from-white/90 dark:from-slate-950/90 to-transparent z-20" />
 
-                <div className="space-y-4 relative z-10">
-                  <div className="flex items-center gap-1.5 text-[#E85D04]">
+        {/* Marquee Track: Contains 2 identical sets of 10 reviews for seamless infinite looping */}
+        <div className="flex gap-6 animate-marquee py-2 px-4">
+          {[...reviews, ...reviews].map((review, idx) => (
+            <div
+              key={`${review.name}-${idx}`}
+              className="w-[340px] sm:w-[380px] shrink-0 p-6 sm:p-7 rounded-3xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800/90 hover:border-[#E85D04]/50 shadow-xl dark:shadow-2xl backdrop-blur-xl transition-all duration-300 flex flex-col justify-between group hover:-translate-y-1.5"
+            >
+              {/* Upper Section: Stars & Quote */}
+              <div className="space-y-3 relative">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-[#E85D04]">
                     {[...Array(review.rating)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-[#E85D04] text-[#E85D04]" />
                     ))}
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed font-inter">
-                    "{review.text}"
-                  </p>
+                  <Quote className="w-8 h-8 text-[#E85D04]/15 group-hover:text-[#E85D04]/30 transition-colors" />
                 </div>
 
-                <div className="pt-4 border-t border-slate-100 dark:border-slate-800 font-manrope flex items-center justify-between relative z-10">
+                {/* Review Text */}
+                <p className="text-xs sm:text-sm text-slate-700 dark:text-slate-200 italic leading-relaxed font-inter line-clamp-4">
+                  "{review.text}"
+                </p>
+              </div>
+
+              {/* Lower Section: User Profile & Verified Client Badge */}
+              <div className="pt-4 mt-4 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <img
+                    src={review.image}
+                    alt={review.name}
+                    className="w-11 h-11 rounded-full object-cover border-2 border-[#E85D04]/30 shadow-sm group-hover:border-[#E85D04] transition-colors"
+                    loading="lazy"
+                  />
                   <div>
-                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors">
+                    <h4 className="text-sm font-bold text-slate-900 dark:text-white group-hover:text-[#E85D04] transition-colors leading-tight">
                       {review.name}
                     </h4>
-                    <p className="text-xs text-slate-500 dark:text-slate-400">
+                    <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400">
                       {review.location}
                     </p>
                   </div>
-
-                  <span className="px-2.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider">
-                    Verified Client
-                  </span>
                 </div>
-              </motion.div>
-            );
-          })}
+
+                <span className="px-2.5 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-[10px] font-bold uppercase tracking-wider shrink-0">
+                  Verified Client
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

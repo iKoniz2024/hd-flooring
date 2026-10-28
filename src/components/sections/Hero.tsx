@@ -107,7 +107,7 @@ export function Hero() {
   return (
     <section className="relative pt-36 sm:pt-44 lg:pt-48 pb-0 px-4 sm:px-6 lg:px-8 bg-white dark:bg-stone-950 text-stone-900 dark:text-stone-100 font-inter">
       {/* Background Slideshow */}
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-95 transition-opacity">
+      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 overflow-hidden pointer-events-none z-0 opacity-100 transition-opacity">
         {activeSlides.map((slide, idx) => {
           const isActive = currentSlideIdx === idx;
           return (
@@ -142,9 +142,6 @@ export function Hero() {
           );
         })}
       </div>
-
-      {/* Premium Smoked Blackish Glass Overlay */}
-      <div className="absolute inset-x-0 top-0 bottom-24 sm:bottom-28 lg:bottom-32 backdrop-blur-[3px] bg-gradient-to-l from-black/75 via-black/45 to-black/15 pointer-events-none z-10" />
 
       {/* Left Slide Control Button */}
       {activeSlides.length > 1 && (
@@ -207,7 +204,7 @@ export function Hero() {
           </motion.h1>
 
           {/* Subtitle - Dynamically changes with active category slide */}
-          <div className="text-stone-200 text-sm sm:text-base font-semibold max-w-2xl min-h-[44px]">
+          <div className="text-white text-sm sm:text-base font-semibold max-w-2xl min-h-[44px] [text-shadow:_0_2px_10px_rgba(0,0,0,0.9)]">
             <AnimatePresence mode="wait">
               <motion.p
                 key={currentSlideIdx}
@@ -240,7 +237,7 @@ export function Hero() {
           transition={{ duration: 0.8, delay: 0.55 }}
           className="relative z-30 -mb-24 sm:-mb-28 lg:-mb-32"
         >
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 items-stretch">
             {activeServices.map((srv, idx) => {
               const Icon = srv.icon;
               const isActive = currentSlideIdx === idx;
@@ -249,13 +246,13 @@ export function Hero() {
                   key={idx}
                   href={srv.href}
                   onMouseEnter={() => setCurrentSlideIdx(idx)}
-                  className="block group"
+                  className="group h-full flex flex-col"
                 >
                   <motion.div
                     initial={{ opacity: 0, y: 30, scale: 0.9 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     transition={{ duration: 0.5, delay: 0.65 + idx * 0.08 }}
-                    className={`relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between min-h-[190px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
+                    className={`relative rounded-3xl transition-all duration-500 ease-out overflow-hidden flex flex-col justify-between h-full min-h-[200px] cursor-pointer p-6 pb-14 backdrop-blur-xl ${isActive
                       ? `bg-white/95 dark:bg-stone-900/90 border-2 ${srv.activeBorder} shadow-2xl ${srv.glowColor} -translate-y-2`
                       : 'bg-white/85 dark:bg-stone-900/85 hover:bg-white/95 dark:hover:bg-stone-900/95 border border-stone-200/90 dark:border-stone-800/90 hover:border-[#E85D04]/60 dark:hover:border-[#E85D04]/60 shadow-xl hover:shadow-2xl hover:-translate-y-2'
                       }`}
@@ -281,7 +278,7 @@ export function Hero() {
                         }`}
                     />
 
-                    <div className="space-y-3 relative z-10">
+                    <div className="space-y-3 relative z-10 flex-1 flex flex-col">
                       {/* Icon Box */}
                       <div
                         className={`w-13 h-13 sm:w-14 sm:h-14 rounded-2xl border flex items-center justify-center transition-all duration-500 shadow-lg ${isActive ? `${srv.activeIconBg} scale-110` : srv.iconBg
@@ -293,14 +290,16 @@ export function Hero() {
                       {/* Title & Subtitle */}
                       <div>
                         <h3
-                          className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-[#E85D04] dark:group-hover:text-[#E85D04]'
+                          className={`font-jakarta font-extrabold text-base sm:text-lg transition-colors duration-300 leading-snug line-clamp-1 ${isActive ? srv.activeText : 'text-stone-900 dark:text-stone-100 group-hover:text-[#E85D04] dark:group-hover:text-[#E85D04]'
                             }`}
+                          title={srv.title}
                         >
                           {srv.title}
                         </h3>
                         <p
-                          className={`text-xs font-semibold transition-colors duration-300 mt-1 ${isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'
+                          className={`text-xs font-semibold transition-colors duration-300 mt-1 line-clamp-3 leading-relaxed ${isActive ? 'text-stone-600 dark:text-stone-300' : 'text-stone-500 dark:text-stone-400'
                             }`}
+                          title={srv.subtitle}
                         >
                           {srv.subtitle}
                         </p>

@@ -225,6 +225,9 @@ export function AboutUsClient() {
         </motion.div>
       </div>
 
+      {/* Industry Memberships, Certifications & Manufacturer Partners (Bento Glass Cards) */}
+      <PartnersAndCertifications variant="bento" />
+
       {/* Mission & Vision Section */}
       <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
         <motion.div
@@ -284,16 +287,12 @@ export function AboutUsClient() {
         </motion.div>
       </div>
 
-      {/* On-Site Team & Workmanship Photo Gallery */}
-      <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <TeamPhotoGallery />
-      </div>
 
       {/* Core Values Section */}
       <section className="w-full relative py-14 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8 border-y border-stone-200 dark:border-stone-800 shadow-2xl overflow-hidden bg-stone-100 dark:bg-stone-950 text-slate-900 dark:text-white">
-        <div className="absolute inset-0 pointer-events-none z-0">
+        <div className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
           <div
-            className="w-full h-full bg-cover bg-center bg-no-repeat opacity-100"
+            className="w-full h-full bg-cover bg-center bg-no-repeat bg-fixed opacity-100"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1495195129352-aeb325a55b65?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')`,
             }}
@@ -406,8 +405,10 @@ export function AboutUsClient() {
         </div>
       </div>
 
-      {/* Manufacturer Partners & Accreditations */}
-      <PartnersAndCertifications />
+      {/* On-Site Team & Workmanship Photo Gallery */}
+      <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <TeamPhotoGallery />
+      </div>
 
       {/* Bottom CTA Banner */}
       <div className="px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">

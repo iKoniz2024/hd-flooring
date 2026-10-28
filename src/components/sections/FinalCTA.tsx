@@ -82,16 +82,16 @@ export function FinalCTA() {
 
           {/* Right Side: Showcase Photo Frame */}
           <div className="lg:col-span-5 relative group w-full mt-2 lg:mt-0">
-            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-stone-200/80 dark:border-stone-800 h-[200px] sm:h-[260px] lg:h-[320px] w-full">
+            <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-xl border border-stone-200/80 dark:border-stone-800 h-[220px] sm:h-[280px] lg:h-[340px] w-full">
               <img
-                src="https://images.unsplash.com/photo-1560185007-c5ca9d2c014d?auto=format&fit=crop&w=1000&q=90&fm=webp"
-                alt="HD Flooring Installation Showcase"
+                src="/assets/images/before-after/cta-flooring-transformation.jpg"
+                alt="HD Flooring Before and After Transformation"
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
               />
 
               {/* Floating Quality Badge */}
-              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-2.5 sm:p-3.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/20 text-white flex items-center justify-between text-xs shadow-lg">
-                <div className="flex items-center gap-1.5 sm:gap-2 font-bold text-[11px] sm:text-xs">
+              <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 p-2.5 sm:p-3 rounded-xl bg-slate-950/85 backdrop-blur-md border border-white/20 text-white flex items-center justify-between text-xs shadow-lg">
+                <div className="flex items-center gap-1.5 sm:gap-2 font-bold text-[10px] sm:text-xs">
                   <ShieldCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#E85D04] shrink-0" />
                   <span>Certified Workmanship</span>
                 </div>

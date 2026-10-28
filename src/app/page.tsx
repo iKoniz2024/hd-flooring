@@ -70,17 +70,17 @@ export default function Home() {
         {/* 2. Introduction Section */}
         <IntroSection />
 
-        {/* 3. Industry Memberships & Quality Certifications */}
-        <PartnersAndCertifications showMembershipsOnly className="pt-0 pb-12 sm:pb-16" />
+        {/* 3. Industry Memberships, Certifications & Manufacturer Partners */}
+        <PartnersAndCertifications className="pt-0 pb-12 sm:pb-16" />
 
-        {/* 4. Before / After Transformation */}
-        <BeforeAfterSlider />
-
-        {/* 5. Flooring Categories */}
+        {/* 4. Flooring Categories */}
         <ServicesGrid />
 
-        {/* 6. On-Site Real Project Photo Gallery */}
+        {/* 5. On-Site Real Project Photo Gallery */}
         <ProjectShowcaseTicker />
+
+        {/* 6. Before / After Transformation */}
+        <BeforeAfterSlider />
 
         {/* 7. Statistics Banner */}
         <StatsBanner />
@@ -91,16 +91,13 @@ export default function Home() {
         {/* 9. Residential & Commercial Solutions */}
         <ResidentialCommercial />
 
-        {/* 10. Manufacturer Partners */}
-        <PartnersAndCertifications showManufacturersOnly />
-
-        {/* 11. Installation Process */}
+        {/* 10. Installation Process */}
         <ProcessTimeline />
 
-        {/* 10. Customer Testimonials */}
+        {/* 11. Customer Testimonials */}
         <Testimonials />
 
-        {/* 11. Final CTA */}
+        {/* 12. Final CTA */}
         <FinalCTA />
       </main>
 
