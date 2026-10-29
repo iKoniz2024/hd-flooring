@@ -17,19 +17,19 @@ export default function AboutUsPage() {
       {/* Header */}
       <Header />
 
-      {/* Parallax Hero Section */}
+      {/* Parallax Hero Section with Floor-Focused Photography */}
       <PageHero
         badge="About HD Flooring"
-        title="About Our Flooring Company"
-        subtitle="Canadian installation specialists dedicated to hardwood, vinyl plank, laminate & tile craftsmanship."
-        backgroundImage="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1920&q=85"
+        title="About Our Company"
+        subtitle="Quality materials, expert installation, and lasting results for residential and commercial spaces across Saskatoon & GTA."
+        backgroundImage="/assets/images/before-after/corridor-after.png"
         breadcrumbs={[
           { label: 'Home', href: '/' },
           { label: 'About Us' },
         ]}
       />
 
-      <main className="flex-1 py-10 sm:py-16 w-full space-y-12 sm:space-y-20 relative z-10">
+      <main className="flex-1 py-12 sm:py-16 w-full space-y-16 sm:space-y-24 relative z-10">
         <AboutUsClient />
       </main>
 
@@ -39,4 +39,3 @@ export default function AboutUsPage() {
     </div>
   );
 }
-

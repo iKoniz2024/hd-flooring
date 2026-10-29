@@ -97,7 +97,7 @@ export function TeamPhotoGallery() {
               key={photo.id}
               layout
               initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
+              whileInView={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               viewport={{ once: true, amount: 0.15 }}
               transition={{ duration: 0.4, delay: idx * 0.05 }}

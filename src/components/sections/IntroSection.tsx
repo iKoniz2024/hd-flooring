@@ -45,7 +45,7 @@ export function IntroSection() {
             transition={{ duration: 0.8 }}
             className="lg:col-span-5 relative group transform-gpu"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[360px] sm:h-[400px] w-full">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl border-2 border-stone-200 dark:border-stone-800 h-[360px] sm:h-[400px] lg:h-[460px] w-full">
               <img
                 src="https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1200&q=90&fm=webp"
                 alt="Master Hardwood Flooring Installation Craftsman"
@@ -66,8 +66,8 @@ export function IntroSection() {
           {/* Right Side: High-Contrast Eye-Catching Features */}
           <div className="lg:col-span-7 space-y-5">
 
-            {/* Top Badge & Header */}
-            <div className="space-y-1.5">
+            {/* Top Badge & Header with About Us Summary */}
+            <div className="space-y-3">
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -76,7 +76,7 @@ export function IntroSection() {
               >
                 <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#E85D04]/10 border border-[#E85D04]/30 text-[#E85D04] text-xs font-extrabold uppercase tracking-wider">
                   <Sparkles className="w-3.5 h-3.5 text-[#E85D04]" />
-                  <span>Trusted Pros</span>
+                  <span>About HD Flooring</span>
                 </span>
               </motion.div>
 
@@ -95,9 +95,9 @@ export function IntroSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.15 }}
-                className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm font-medium"
+                className="text-stone-700 dark:text-stone-300 text-xs sm:text-sm leading-relaxed font-inter"
               >
-                Expert Hardwood, LVP, Tile & Laminate Services.
+                At HD Flooring, our mission is built on trust, precision, and lasting quality. We specialize in professional residential and commercial flooring installation across Saskatoon, SK and the Greater Toronto Area. From complete subfloor preparation and leveling to flawless hardwood, luxury vinyl, tile, and laminate finishing, we take pride in delivering results built to endure.
               </motion.p>
             </div>
 
@@ -106,14 +106,14 @@ export function IntroSection() {
               initial={{ opacity: 0, y: 10 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="pt-1"
+              transition={{ duration: 0.5, delay: 0.25 }}
+              className="pt-1 flex items-center gap-3 flex-wrap"
             >
               <Link
                 href="/about-us"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/30 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
+                className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-[#E85D04] hover:bg-[#d45203] text-white font-manrope font-extrabold text-xs uppercase tracking-wider shadow-lg shadow-[#E85D04]/30 hover:scale-105 active:scale-95 transition-all duration-300 group cursor-pointer"
               >
-                <span>Learn More</span>
+                <span>Read Full Story</span>
                 <ArrowRight className="w-4 h-4 text-white group-hover:translate-x-1 transition-transform" />
               </Link>
             </motion.div>

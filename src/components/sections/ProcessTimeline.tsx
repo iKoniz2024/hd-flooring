@@ -2,45 +2,45 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CheckCircle2, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useModal } from '@/lib/context/ModalContext';
 
 const steps = [
   {
     num: '01',
-    title: 'Site Measurement & Inspection',
-    desc: 'Room measurement & subfloor check.',
-    image: 'https://images.unsplash.com/photo-1590381105924-c72589b9ef3f?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    title: 'Consultation & Measurement',
+    desc: 'We discuss your requirements, measure the space, and assess the existing flooring or subfloor conditions.',
+    image: 'https://images.unsplash.com/photo-1567361808959-79e4a84c3f6c?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '02',
-    title: 'Floor Selection & Quote',
-    desc: 'Material pick & upfront pricing.',
-    image: 'https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    title: 'Material Selection & Quotation',
+    desc: 'We help identify suitable flooring options and provide a project estimate based on the agreed scope.',
+    image: 'https://images.unsplash.com/photo-1581415296450-d16971274f85?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '03',
-    title: 'Subfloor Prep & Removal',
-    desc: 'Old floor removal & subfloor prep.',
-    image: 'https://images.unsplash.com/photo-1517581177682-a085bb7ffb15?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    title: 'Surface Preparation',
+    desc: 'We prepare the installation area, including relevant removal, leveling, and subfloor preparation.',
+    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '04',
-    title: 'Master Floor Installation',
-    desc: 'Precision plank & tile laying.',
-    image: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    title: 'Professional Installation',
+    desc: 'We install the selected flooring with attention to precision, alignment, and manufacturer-recommended requirements.',
+    image: 'https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '05',
-    title: 'Baseboards & Transitions',
-    desc: 'Trim, baseboards & stair caps.',
-    image: 'https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    title: 'Finishing & Transitions',
+    desc: 'We complete relevant trim work, baseboards, stair details, and transitions for a coordinated finish.',
+    image: 'https://images.unsplash.com/photo-1646592491913-b2d617271b2d?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
   {
     num: '06',
     title: 'Cleanup & Final Walkthrough',
-    desc: 'Site cleanup & final walk-through.',
-    image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1000&q=90&fm=webp',
+    desc: 'We clean the work area and review the completed installation with the client.',
+    image: 'https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?auto=format&fit=crop&w=1000&q=90&fm=webp',
   },
 ];
 
@@ -64,8 +64,11 @@ export function ProcessTimeline() {
           <span>Proven Workflow</span>
         </div>
         <h2 className="font-playfair text-3xl sm:text-5xl font-extrabold text-stone-900 dark:text-stone-100">
-          Our 6-Step <span className="text-[#E85D04]">Process</span>
+          Our Installation <span className="text-[#E85D04]">Process</span>
         </h2>
+        <p className="text-stone-600 dark:text-stone-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+          We follow a structured process to help keep flooring projects organized and efficient.
+        </p>
       </motion.div>
 
       {/* Side-by-Side 2-Column Section Layout */}
@@ -176,6 +179,3 @@ export function ProcessTimeline() {
     </section>
   );
 }
-
-
-
